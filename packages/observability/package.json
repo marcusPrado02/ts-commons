@@ -1,0 +1,26 @@
+{
+  "name": "@acme/observability",
+  "version": "0.1.0",
+  "description": "Observability: Logging, Metrics, Tracing (OpenTelemetry primitives)",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*"
+  },
+  "keywords": ["observability", "logging", "tracing", "metrics", "opentelemetry"],
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@acme/testing",
+  "version": "0.1.0",
+  "description": "Testing utilities: Builders, Fakes, Test harnesses",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*",
+    "@acme/application": "workspace:*",
+    "@acme/outbox": "workspace:*"
+  },
+  "keywords": ["testing", "test-builders", "fakes", "test-harness"],
+  "author": "",
+  "license": "MIT"
+}

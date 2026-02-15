@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "incremental": false
+  },
+  "files": [],
+  "references": [
+    { "path": "./packages/kernel" },
+    { "path": "./packages/application" },
+    { "path": "./packages/errors" },
+    { "path": "./packages/config" },
+    { "path": "./packages/observability" },
+    { "path": "./packages/resilience" },
+    { "path": "./packages/security" },
+    { "path": "./packages/messaging" },
+    { "path": "./packages/outbox" },
+    { "path": "./packages/persistence" },
+    { "path": "./packages/contracts" },
+    { "path": "./packages/web" },
+    { "path": "./packages/testing" }
+  ]
+}

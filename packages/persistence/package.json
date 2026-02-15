@@ -1,0 +1,20 @@
+{
+  "name": "@acme/persistence",
+  "version": "0.1.0",
+  "description": "Repository abstractions, UnitOfWork, Pagination",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*"
+  },
+  "keywords": ["persistence", "repository", "unit-of-work", "pagination"],
+  "author": "",
+  "license": "MIT"
+}

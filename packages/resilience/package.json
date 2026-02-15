@@ -1,0 +1,20 @@
+{
+  "name": "@acme/resilience",
+  "version": "0.1.0",
+  "description": "Resilience patterns: Retry, Timeout, Circuit Breaker, Bulkhead, Rate Limit",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*"
+  },
+  "keywords": ["resilience", "retry", "circuit-breaker", "timeout", "rate-limit"],
+  "author": "",
+  "license": "MIT"
+}

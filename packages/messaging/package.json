@@ -1,0 +1,20 @@
+{
+  "name": "@acme/messaging",
+  "version": "0.1.0",
+  "description": "Messaging: Event envelopes, Publisher/Subscriber interfaces",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*"
+  },
+  "keywords": ["messaging", "events", "publisher", "subscriber"],
+  "author": "",
+  "license": "MIT"
+}

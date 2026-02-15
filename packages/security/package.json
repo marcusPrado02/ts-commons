@@ -1,0 +1,20 @@
+{
+  "name": "@acme/security",
+  "version": "0.1.0",
+  "description": "Security: AuthN/AuthZ, Crypto, PII, Audit",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*"
+  },
+  "keywords": ["security", "authentication", "authorization", "crypto"],
+  "author": "",
+  "license": "MIT"
+}

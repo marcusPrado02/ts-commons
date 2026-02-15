@@ -1,0 +1,20 @@
+{
+  "name": "@acme/contracts",
+  "version": "0.1.0",
+  "description": "API Contracts: OpenAPI/AsyncAPI helpers, versioning",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*"
+  },
+  "keywords": ["contracts", "openapi", "asyncapi", "versioning"],
+  "author": "",
+  "license": "MIT"
+}

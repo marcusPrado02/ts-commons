@@ -1,0 +1,24 @@
+{
+  "name": "@acme/kernel",
+  "version": "0.1.0",
+  "description": "DDD kernel: Entity, AggregateRoot, ValueObject, DomainEvent - Zero framework dependencies",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": ["ddd", "domain-driven-design", "entity", "value-object", "aggregate"],
+  "author": "",
+  "license": "MIT"
+}

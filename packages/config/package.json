@@ -1,0 +1,26 @@
+{
+  "name": "@acme/config",
+  "version": "0.1.0",
+  "description": "12-factor config loader with schema validation",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*"
+  },
+  "keywords": ["config", "12-factor", "environment"],
+  "author": "",
+  "license": "MIT"
+}

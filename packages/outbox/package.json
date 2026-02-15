@@ -1,0 +1,21 @@
+{
+  "name": "@acme/outbox",
+  "version": "0.1.0",
+  "description": "Transactional Outbox/Inbox + Idempotency",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*",
+    "@acme/messaging": "workspace:*"
+  },
+  "keywords": ["outbox", "inbox", "idempotency", "transactional"],
+  "author": "",
+  "license": "MIT"
+}

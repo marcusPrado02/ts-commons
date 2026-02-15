@@ -1,0 +1,42 @@
+{
+  "name": "@acme/ts-commons",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared TypeScript library for microservices with Clean Architecture, DDD, and Hexagonal principles",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.{ts,json,md}\"",
+    "clean": "pnpm -r run clean && rm -rf node_modules",
+    "typecheck": "pnpm -r run typecheck"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.4",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0"
+  },
+  "keywords": [
+    "typescript",
+    "clean-architecture",
+    "ddd",
+    "hexagonal",
+    "microservices",
+    "cqrs",
+    "outbox",
+    "monorepo"
+  ],
+  "author": "",
+  "license": "MIT"
+}
