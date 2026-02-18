@@ -3,6 +3,13 @@ import type { Command } from './Command';
 import type { CommandHandler } from './CommandHandler';
 
 /**
+ * Command constructor type that can be concrete or abstract
+ */
+export type CommandConstructor<TCommand extends Command = Command> =
+  | (new (...args: any[]) => TCommand)
+  | (abstract new (...args: any[]) => TCommand);
+
+/**
  * Command bus for dispatching commands to handlers.
  */
 export interface CommandBus {
@@ -11,7 +18,7 @@ export interface CommandBus {
   ): Promise<Result<TResult, TError>>;
 
   register<TCommand extends Command, TResult = void, TError = Error>(
-    commandType: abstract new (...args: unknown[]) => TCommand,
+    commandType: CommandConstructor<TCommand>,
     handler: CommandHandler<TCommand, TResult, TError>,
   ): void;
 }
@@ -23,7 +30,7 @@ export class InMemoryCommandBus implements CommandBus {
   private readonly handlers = new Map<string, CommandHandler<Command, unknown, Error>>();
 
   register<TCommand extends Command, TResult = void, TError = Error>(
-    commandType: abstract new (...args: unknown[]) => TCommand,
+    commandType: CommandConstructor<TCommand>,
     handler: CommandHandler<TCommand, TResult, TError>,
   ): void {
     this.handlers.set(commandType.name, handler as CommandHandler<Command, unknown, Error>);

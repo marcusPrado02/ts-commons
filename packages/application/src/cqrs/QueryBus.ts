@@ -3,6 +3,13 @@ import type { Query } from './Query';
 import type { QueryHandler } from './QueryHandler';
 
 /**
+ * Query constructor type that can be concrete or abstract
+ */
+export type QueryConstructor<TQuery extends Query<any> = Query<any>> =
+  | (new (...args: any[]) => TQuery)
+  | (abstract new (...args: any[]) => TQuery);
+
+/**
  * Query bus for dispatching queries to handlers.
  */
 export interface QueryBus {
@@ -11,7 +18,7 @@ export interface QueryBus {
   ): Promise<Result<TResult, TError>>;
 
   register<TQuery extends Query<TResult>, TResult = unknown, TError = Error>(
-    queryType: abstract new (...args: unknown[]) => TQuery,
+    queryType: QueryConstructor<TQuery>,
     handler: QueryHandler<TQuery, TResult, TError>,
   ): void;
 }
@@ -23,7 +30,7 @@ export class InMemoryQueryBus implements QueryBus {
   private readonly handlers = new Map<string, QueryHandler<Query<unknown>, unknown, Error>>();
 
   register<TQuery extends Query<TResult>, TResult = unknown, TError = Error>(
-    queryType: abstract new (...args: unknown[]) => TQuery,
+    queryType: QueryConstructor<TQuery>,
     handler: QueryHandler<TQuery, TResult, TError>,
   ): void {
     this.handlers.set(queryType.name, handler as QueryHandler<Query<unknown>, unknown, Error>);

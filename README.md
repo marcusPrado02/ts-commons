@@ -69,15 +69,24 @@ import { OutboxPublisher } from '@acme/outbox';
 ### 🚀 Começando
 - **[QUICKSTART.md](./QUICKSTART.md)** – ⚡ Comece aqui! Instalação e primeiros passos
 - **[COMMANDS.md](./COMMANDS.md)** – 🛠️ Todos os comandos úteis (build, test, publish)
+- **[docs/USAGE_GUIDE.md](./docs/USAGE_GUIDE.md)** – 📖 Guia completo de uso com exemplos
 
-### 🤝 Contribuindo
+### 🏗️ Arquitetura & Design
+- **[docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)** – 🏛️ Guia completo de arquitetura com diagramas C4
+- **[docs/ADR.md](./docs/ADR.md)** – 📋 Architecture Decision Records (ADRs)
+- **[docs/api/](./docs/api/)** – 🔍 Documentação completa da API (TypeDoc)
+
+### 📚 Architecture Decision Records  
+- **[docs/ADR-0006-module-resolution.md](./docs/ADR-0006-module-resolution.md)** – Estratégia de resolução de módulos
+- **[docs/ADR-0007-esm-vs-commonjs.md](./docs/ADR-0007-esm-vs-commonjs.md)** – ESM vs CommonJS: estratégia dual
+- **[docs/ADR-0008-dependency-injection.md](./docs/ADR-0008-dependency-injection.md)** – Injeção de dependência manual
+- **[docs/ADR-0009-testing-strategy.md](./docs/ADR-0009-testing-strategy.md)** – Estratégia de testes pyramid
+- **[docs/ADR-0010-error-handling.md](./docs/ADR-0010-error-handling.md)** – Railway-Oriented Programming
+
+### 🤝 Contribuindo  
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** – Guia de contribuição
 - **[PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)** – Visão geral do projeto
-
-### 📖 Documentação Técnica
-- **[docs/ADR.md](./docs/ADR.md)** – Architecture Decision Records
 - **[docs/MIGRATION_GUIDE.md](./docs/MIGRATION_GUIDE.md)** – Migrar microserviços existentes
-- **[examples/order-example.ts](./examples/order-example.ts)** – Exemplo completo funcional
 
 ### 📦 READMEs dos Pacotes
 - [packages/kernel/README.md](./packages/kernel/README.md) – Core de domínio

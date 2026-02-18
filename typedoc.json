@@ -1,0 +1,69 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "./packages/kernel/src/index.ts",
+    "./packages/application/src/index.ts",
+    "./packages/errors/src/index.ts",
+    "./packages/config/src/index.ts",
+    "./packages/security/src/index.ts",
+    "./packages/observability/src/index.ts",
+    "./packages/messaging/src/index.ts",
+    "./packages/resilience/src/index.ts",
+    "./packages/testing/src/index.ts",
+    "./packages/web/src/index.ts",
+    "./packages/contracts/src/index.ts",
+    "./packages/outbox/src/index.ts",
+    "./packages/persistence/src/index.ts"
+  ],
+  "out": "./docs/api",
+  "name": "TypeScript Commons API Documentation",
+  "readme": "./README.md",
+  "tsconfig": "./tsconfig.base.json",
+  "theme": "default",
+  "categorizeByGroup": true,
+  "categoryOrder": [
+    "Domain",
+    "Application",
+    "Infrastructure",
+    "Web",
+    "Testing",
+    "*"
+  ],
+  "groupOrder": [
+    "Classes",
+    "Interfaces",
+    "Type Aliases",
+    "Functions",
+    "Variables"
+  ],
+  "sort": ["source-order"],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/tests/**",
+    "**/dist/**",
+    "**/node_modules/**"
+  ],
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeExternals": true,
+  "includeVersion": true,
+  "searchInComments": true,
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "notDocumented": false
+  },
+  "treatWarningsAsErrors": false,
+  "cleanOutputDir": true,
+  "titleLink": "https://github.com/marcusPrado02/ts-commons",
+  "navigationLinks": {
+    "GitHub": "https://github.com/marcusPrado02/ts-commons",
+    "NPM": "https://www.npmjs.com/package/@acme/ts-commons"
+  },
+  "sidebarLinks": {
+    "Architecture Guide": "./docs/ARCHITECTURE.md",
+    "Getting Started": "./QUICKSTART.md",
+    "ADRs": "./docs/ADR.md"
+  }
+}

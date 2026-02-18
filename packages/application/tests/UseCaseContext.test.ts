@@ -311,7 +311,7 @@ describe('UseCaseContext', () => {
 
     it('should support authorization checks', () => {
       function isAuthorized(context: UseCaseContext, requiredRole: string): boolean {
-        const roles = context.metadata?.roles as string[] | undefined;
+        const roles = context.metadata?.['roles'] as string[] | undefined;
         return roles ? roles.includes(requiredRole) : false;
       }
 
@@ -370,7 +370,7 @@ describe('UseCaseContext', () => {
         resetAt: new Date(Date.now() + 3600000),
       });
 
-      const rateLimit = rateLimitedContext.metadata?.rateLimit as RateLimitInfo;
+      const rateLimit = rateLimitedContext.metadata?.['rateLimit'] as RateLimitInfo;
       expect(rateLimit.limit).toBe(100);
       expect(rateLimit.remaining).toBe(95);
     });

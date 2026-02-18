@@ -2,12 +2,12 @@
 export type { Command } from './cqrs/Command';
 export { BaseCommand } from './cqrs/Command';
 export type { CommandHandler } from './cqrs/CommandHandler';
-export type { CommandBus } from './cqrs/CommandBus';
+export type { CommandBus, CommandConstructor } from './cqrs/CommandBus';
 export { InMemoryCommandBus } from './cqrs/CommandBus';
 export type { Query } from './cqrs/Query';
 export { BaseQuery } from './cqrs/Query';
 export type { QueryHandler } from './cqrs/QueryHandler';
-export type { QueryBus } from './cqrs/QueryBus';
+export type { QueryBus, QueryConstructor } from './cqrs/QueryBus';
 export { InMemoryQueryBus } from './cqrs/QueryBus';
 
 // Use Cases
