@@ -16,7 +16,7 @@ export class ULID extends ValueObject<string> {
    */
   static generate(): ULID {
     const timestamp = Date.now();
-    const randomness = crypto.randomUUID().replace(/-/g, '').substring(0, 16);
+    const randomness = crypto.randomUUID().replaceAll('-', '').substring(0, 16);
     const ulid = timestamp.toString(36).toUpperCase() + randomness.toUpperCase();
     return new ULID(ulid);
   }

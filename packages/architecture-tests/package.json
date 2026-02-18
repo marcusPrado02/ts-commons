@@ -1,0 +1,57 @@
+{
+  "name": "@acme/architecture-tests",
+  "version": "0.1.0",
+  "description": "Architecture validation tests for TypeScript Commons library",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "rimraf dist",
+    "test": "cd ../.. && npx vitest run --config packages/architecture-tests/vitest.architecture.config.ts",
+    "test:watch": "vitest",
+    "test:architecture": "vitest run --config vitest.architecture.config.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "architecture",
+    "clean-architecture",
+    "ddd",
+    "cqrs",
+    "testing",
+    "validation"
+  ],
+  "author": "Marcus Prado",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.16",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3",
+    "vitest": "^2.1.8"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*",
+    "@acme/application": "workspace:*",
+    "@acme/errors": "workspace:*",
+    "@acme/config": "workspace:*",
+    "@acme/observability": "workspace:*",
+    "@acme/resilience": "workspace:*",
+    "@acme/security": "workspace:*",
+    "@acme/messaging": "workspace:*",
+    "@acme/outbox": "workspace:*",
+    "@acme/persistence": "workspace:*",
+    "@acme/contracts": "workspace:*",
+    "@acme/web": "workspace:*",
+    "@acme/testing": "workspace:*"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

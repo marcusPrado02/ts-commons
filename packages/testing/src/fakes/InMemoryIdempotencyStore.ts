@@ -8,26 +8,24 @@ export class InMemoryIdempotencyStore<T = unknown> implements IdempotencyStorePo
     const existing = this.locks.get(key.value);
 
     if (existing && existing.expiresAt > Date.now()) {
-      return Promise.resolve(false);
+      return false;
     }
 
     this.locks.set(key.value, { expiresAt: Date.now() + ttlMs });
-    return Promise.resolve(true);
+    return true;
   }
 
   async getResult(key: IdempotencyKey): Promise<T | null> {
     const entry = this.locks.get(key.value);
-    return Promise.resolve(entry?.result ?? null);
+    return entry?.result ?? null;
   }
 
   async storeResult(key: IdempotencyKey, result: T, ttlMs: number): Promise<void> {
     this.locks.set(key.value, { result, expiresAt: Date.now() + ttlMs });
-    return Promise.resolve();
   }
 
   async release(key: IdempotencyKey): Promise<void> {
     this.locks.delete(key.value);
-    return Promise.resolve();
   }
 
   clear(): void {

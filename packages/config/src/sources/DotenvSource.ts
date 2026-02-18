@@ -12,8 +12,9 @@ export class DotenvSource implements ConfigSource {
     try {
       const content = await readFile(this.path, 'utf-8');
       return this.parse(content);
-    } catch (error) {
-      // .env file is optional
+    } catch (error: unknown) {
+      // .env file is optional - this is expected behavior
+      // Error could be ENOENT (file not found) or permission issues
       return {};
     }
   }
@@ -33,7 +34,7 @@ export class DotenvSource implements ConfigSource {
       if (key !== undefined && key !== '' && valueParts.length > 0) {
         const value = valueParts.join('=').trim();
         // Remove quotes if present
-        result[key.trim()] = value.replace(/^["']|["']$/g, '');
+        result[key.trim()] = value.replaceAll(/^["']|["']$/g, '');
       }
     }
 

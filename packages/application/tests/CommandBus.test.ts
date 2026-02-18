@@ -212,7 +212,6 @@ describe('InMemoryCommandBus', () => {
     it('should handle empty command data', async () => {
       class EmptyCommand implements Command {
         readonly _brand?: 'Command';
-        constructor() {}
       }
 
       class EmptyHandler implements CommandHandler<EmptyCommand, void, Error> {

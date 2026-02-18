@@ -5,6 +5,6 @@ import type { ConfigSource } from './ConfigSource';
  */
 export class ProcessEnvSource implements ConfigSource {
   async load(): Promise<Record<string, string | undefined>> {
-    return Promise.resolve({ ...process.env });
+    return { ...process.env };
   }
 }

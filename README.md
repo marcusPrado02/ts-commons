@@ -83,7 +83,7 @@ import { OutboxPublisher } from '@acme/outbox';
 - **[docs/ADR-0009-testing-strategy.md](./docs/ADR-0009-testing-strategy.md)** – Estratégia de testes pyramid
 - **[docs/ADR-0010-error-handling.md](./docs/ADR-0010-error-handling.md)** – Railway-Oriented Programming
 
-### 🤝 Contribuindo  
+### 🤝 Contribuindo
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** – Guia de contribuição
 - **[PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)** – Visão geral do projeto
 - **[docs/MIGRATION_GUIDE.md](./docs/MIGRATION_GUIDE.md)** – Migrar microserviços existentes

@@ -245,7 +245,6 @@ describe('InMemoryQueryBus', () => {
       class GetStatsQuery implements Query<{ count: number }> {
         readonly _brand?: 'Query';
         readonly _result?: { count: number };
-        constructor() {}
       }
 
       class GetStatsHandler implements QueryHandler<GetStatsQuery, { count: number }, Error> {
@@ -276,7 +275,6 @@ describe('InMemoryQueryBus', () => {
       class GetComplexDataQuery implements Query<ComplexData> {
         readonly _brand?: 'Query';
         readonly _result?: ComplexData;
-        constructor() {}
       }
 
       class GetComplexDataHandler implements QueryHandler<GetComplexDataQuery, ComplexData, Error> {
@@ -304,7 +302,6 @@ describe('InMemoryQueryBus', () => {
       class CountQuery implements Query<number> {
         readonly _brand?: 'Query';
         readonly _result?: number;
-        constructor() {}
       }
 
       class CountHandler implements QueryHandler<CountQuery, number, Error> {

@@ -68,7 +68,7 @@ describe('Result', () => {
     });
 
     it('should return default for Err', () => {
-      const result = Result.err(new Error());
+      const result = Result.err(new Error('Test error'));
       expect(result.unwrapOr(999)).toBe(999);
     });
   });

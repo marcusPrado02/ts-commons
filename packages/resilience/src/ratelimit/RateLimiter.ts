@@ -15,10 +15,10 @@ export class RateLimiter {
 
     if (this.tokens >= tokensNeeded) {
       this.tokens -= tokensNeeded;
-      return Promise.resolve(true);
+      return true;
     }
 
-    return Promise.resolve(false);
+    return false;
   }
 
   private refill(): void {

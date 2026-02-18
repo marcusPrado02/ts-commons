@@ -1,0 +1,30 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "**/*.test.ts"
+  ],
+  "references": [
+    {"path": "../kernel"},
+    {"path": "../application"},
+    {"path": "../errors"},
+    {"path": "../config"},
+    {"path": "../observability"},
+    {"path": "../resilience"},
+    {"path": "../security"},
+    {"path": "../messaging"},
+    {"path": "../outbox"},
+    {"path": "../persistence"},
+    {"path": "../contracts"},
+    {"path": "../web"},
+    {"path": "../testing"}
+  ]
+}

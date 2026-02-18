@@ -9,10 +9,8 @@ updates:
       day: "monday"
       time: "09:00"
     open-pull-requests-limit: 10
-    reviewers:
-      - "team:maintainers"
     assignees:
-      - "team:maintainers"
+      - "marcusPrado02"
     commit-message:
       prefix: "deps"
       prefix-development: "deps-dev"
