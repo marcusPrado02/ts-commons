@@ -1,0 +1,33 @@
+{
+  "name": "@acme/cache-redis",
+  "version": "0.1.0",
+  "description": "Redis cache adapter for Clean Architecture — cache, distributed locks, and pub/sub",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*"
+  },
+  "peerDependencies": {
+    "ioredis": ">=5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "ioredis": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "vitest": "^2.1.9"
+  },
+  "keywords": ["redis", "cache", "distributed-lock", "pub-sub", "ioredis", "clean-architecture"],
+  "author": "",
+  "license": "MIT"
+}
