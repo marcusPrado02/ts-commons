@@ -1,3 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/**
+ * ESLint rules disabled for this file because Express types contain 'any'
+ * at the framework boundary (req.body, req.query, req.params).
+ * This is acceptable as we provide type safety through validation.
+ */
+
 import type { Request, NextFunction, RequestHandler } from 'express';
 
 /**

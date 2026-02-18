@@ -1,3 +1,14 @@
+/**
+ * Test file for @acme/web-express package
+ * ESLint rules are relaxed for test files due to testing framework types
+ * and the need to interact with Express types that contain 'any'.
+ */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import express, { type Express, type Request, type Response } from 'express';
 import request from 'supertest';

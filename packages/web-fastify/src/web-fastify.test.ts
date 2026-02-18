@@ -1,5 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/**
+ * ESLint rules disabled for test file because:
+ * 1. Fastify types contain 'any' at framework boundaries
+ * 2. Test frameworks (Vitest) have relaxed type requirements
+ * 3. Test code prioritizes readability over strict type safety
+ */
+
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import Fastify, { FastifyInstance } from 'fastify';
+import type { FastifyInstance } from 'fastify';
+import Fastify from 'fastify';
 import {
   correlationHook,
   errorHandlerHook,

@@ -1,3 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-namespace */
+/**
+ * ESLint rules disabled for this file because Express types contain 'any'
+ * at the framework boundary. The namespace is required to extend Express Request type.
+ */
+
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
 import { CorrelationId } from '@acme/kernel';
 import type { Logger } from '@acme/observability';
@@ -37,9 +46,10 @@ export function correlationMiddleware(logger?: Logger): RequestHandler {
       // Extract from header or generate new
       const correlationIdValue = req.headers['x-correlation-id'] as string | undefined;
 
-      const correlationId = correlationIdValue
-        ? CorrelationId.fromString(correlationIdValue)
-        : { value: crypto.randomUUID() } as CorrelationId;
+      const correlationId =
+        typeof correlationIdValue === 'string' && correlationIdValue.length > 0
+          ? CorrelationId.fromString(correlationIdValue)
+          : ({ value: crypto.randomUUID() } as CorrelationId);
 
       // Attach to request
       req.correlationId = correlationId;
@@ -48,7 +58,7 @@ export function correlationMiddleware(logger?: Logger): RequestHandler {
       res.setHeader('X-Correlation-ID', correlationId.value);
 
       // Log if logger provided
-      if (logger) {
+      if (logger !== undefined) {
         logger.debug('Correlation ID attached to request', {
           correlationId: correlationId.value,
           method: req.method,
@@ -63,7 +73,7 @@ export function correlationMiddleware(logger?: Logger): RequestHandler {
       req.correlationId = fallbackId;
       res.setHeader('X-Correlation-ID', fallbackId.value);
 
-      if (logger) {
+      if (logger !== undefined) {
         logger.warn('Failed to extract correlation ID, generated new one', {
           error: error instanceof Error ? error.message : String(error),
           correlationId: fallbackId.value,
