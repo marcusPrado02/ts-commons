@@ -1,4 +1,4 @@
-import { Result } from '@acme/kernel';
+import type { Result } from '@acme/kernel';
 
 /**
  * Schema for validating configuration.

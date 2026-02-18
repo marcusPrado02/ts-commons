@@ -2,7 +2,7 @@ import type { IdempotencyStorePort } from '@acme/application';
 import type { IdempotencyKey } from '@acme/application';
 
 export class InMemoryIdempotencyStore<T = unknown> implements IdempotencyStorePort<T> {
-  private locks = new Map<string, { result?: T; expiresAt: number }>();
+  private readonly locks = new Map<string, { result?: T; expiresAt: number }>();
 
   async tryAcquire(key: IdempotencyKey, ttlMs: number): Promise<boolean> {
     const existing = this.locks.get(key.value);

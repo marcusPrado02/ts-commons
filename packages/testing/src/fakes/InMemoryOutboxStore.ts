@@ -1,7 +1,7 @@
 import type { OutboxMessage, OutboxStorePort } from '@acme/outbox';
 
 export class InMemoryOutboxStore implements OutboxStorePort {
-  private messages = new Map<string, OutboxMessage>();
+  private readonly messages = new Map<string, OutboxMessage>();
 
   async save(message: OutboxMessage): Promise<void> {
     this.messages.set(message.id, message);

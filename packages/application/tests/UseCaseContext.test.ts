@@ -65,7 +65,7 @@ describe('UseCaseContext', () => {
       };
 
       expect(context.tenantId).toBeUndefined();
-      expect(context.metadata?.type).toBe('system-job');
+      expect(context.metadata?.['type']).toBe('system-job');
     });
   });
 
@@ -105,9 +105,9 @@ describe('UseCaseContext', () => {
         },
       };
 
-      expect(context.metadata?.userAgent).toBe('Mozilla/5.0');
-      expect(context.metadata?.language).toBe('pt-BR');
-      expect(context.metadata?.timezone).toBe('America/Sao_Paulo');
+      expect(context.metadata?.['userAgent']).toBe('Mozilla/5.0');
+      expect(context.metadata?.['language']).toBe('pt-BR');
+      expect(context.metadata?.['timezone']).toBe('America/Sao_Paulo');
     });
 
     it('should support nested metadata', () => {
@@ -129,8 +129,8 @@ describe('UseCaseContext', () => {
         },
       };
 
-      expect((context.metadata?.request as { method: string }).method).toBe('POST');
-      expect((context.metadata?.feature as { flags: string[] }).flags).toEqual(['new-ui', 'beta-feature']);
+      expect((context.metadata?.['request'] as { method: string }).method).toBe('POST');
+      expect((context.metadata?.['feature'] as { flags: string[] }).flags).toEqual(['new-ui', 'beta-feature']);
     });
 
     it('should support various metadata types', () => {
@@ -148,12 +148,12 @@ describe('UseCaseContext', () => {
         },
       };
 
-      expect(context.metadata?.string).toBe('value');
-      expect(context.metadata?.number).toBe(42);
-      expect(context.metadata?.boolean).toBe(true);
-      expect(context.metadata?.null).toBeNull();
-      expect(context.metadata?.array).toEqual([1, 2, 3]);
-      expect((context.metadata?.object as { nested: string }).nested).toBe('data');
+      expect(context.metadata?.['string']).toBe('value');
+      expect(context.metadata?.['number']).toBe(42);
+      expect(context.metadata?.['boolean']).toBe(true);
+      expect(context.metadata?.['null']).toBeNull();
+      expect(context.metadata?.['array']).toEqual([1, 2, 3]);
+      expect((context.metadata?.['object'] as { nested: string }).nested).toBe('data');
     });
   });
 
@@ -180,7 +180,7 @@ describe('UseCaseContext', () => {
 
       expect(context1.correlationId.value).toBe(context2.correlationId.value);
       expect(context1.requestId.value).not.toBe(context2.requestId.value);
-      expect(context2.metadata?.parentRequestId).toBe(requestId1.value);
+      expect(context2.metadata?.['parentRequestId']).toBe(requestId1.value);
     });
 
     it('should support causation tracking', () => {
@@ -194,8 +194,8 @@ describe('UseCaseContext', () => {
         },
       };
 
-      expect(context.metadata?.causationId).toBe('event-123');
-      expect(context.metadata?.causationType).toBe('OrderCreated');
+      expect(context.metadata?.['causationId']).toBe('event-123');
+      expect(context.metadata?.['causationType']).toBe('OrderCreated');
     });
   });
 
@@ -269,7 +269,7 @@ describe('UseCaseContext', () => {
 
       expect(enrichedContext.correlationId.value).toBe(baseContext.correlationId.value);
       expect(enrichedContext.userId).toBe('user-123');
-      expect(enrichedContext.metadata?.enrichedBy).toBe('auth-middleware');
+      expect(enrichedContext.metadata?.['enrichedBy']).toBe('auth-middleware');
     });
   });
 

@@ -6,7 +6,7 @@ export type Middleware = (
 ) => Promise<void>;
 
 export class MiddlewareChain {
-  private middlewares: Middleware[] = [];
+  private readonly middlewares: Middleware[] = [];
 
   use(middleware: Middleware): this {
     this.middlewares.push(middleware);

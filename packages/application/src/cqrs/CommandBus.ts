@@ -11,7 +11,7 @@ export interface CommandBus {
   ): Promise<Result<TResult, TError>>;
 
   register<TCommand extends Command, TResult = void, TError = Error>(
-    commandType: abstract new (...args: any[]) => TCommand,
+    commandType: abstract new (...args: unknown[]) => TCommand,
     handler: CommandHandler<TCommand, TResult, TError>,
   ): void;
 }
@@ -23,7 +23,7 @@ export class InMemoryCommandBus implements CommandBus {
   private readonly handlers = new Map<string, CommandHandler<Command, unknown, Error>>();
 
   register<TCommand extends Command, TResult = void, TError = Error>(
-    commandType: abstract new (...args: any[]) => TCommand,
+    commandType: abstract new (...args: unknown[]) => TCommand,
     handler: CommandHandler<TCommand, TResult, TError>,
   ): void {
     this.handlers.set(commandType.name, handler as CommandHandler<Command, unknown, Error>);

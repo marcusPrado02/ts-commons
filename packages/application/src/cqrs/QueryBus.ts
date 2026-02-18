@@ -11,7 +11,7 @@ export interface QueryBus {
   ): Promise<Result<TResult, TError>>;
 
   register<TQuery extends Query<TResult>, TResult = unknown, TError = Error>(
-    queryType: abstract new (...args: any[]) => TQuery,
+    queryType: abstract new (...args: unknown[]) => TQuery,
     handler: QueryHandler<TQuery, TResult, TError>,
   ): void;
 }
@@ -23,7 +23,7 @@ export class InMemoryQueryBus implements QueryBus {
   private readonly handlers = new Map<string, QueryHandler<Query<unknown>, unknown, Error>>();
 
   register<TQuery extends Query<TResult>, TResult = unknown, TError = Error>(
-    queryType: abstract new (...args: any[]) => TQuery,
+    queryType: abstract new (...args: unknown[]) => TQuery,
     handler: QueryHandler<TQuery, TResult, TError>,
   ): void {
     this.handlers.set(queryType.name, handler as QueryHandler<Query<unknown>, unknown, Error>);

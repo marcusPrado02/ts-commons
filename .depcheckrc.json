@@ -1,0 +1,24 @@
+{
+  "ignoreMatches": [
+    "@types/*",
+    "typescript",
+    "vitest",
+    "@vitest/*",
+    "eslint",
+    "@typescript-eslint/*",
+    "prettier",
+    "tsx"
+  ],
+  "ignoreDirs": [
+    "dist",
+    "build",
+    "coverage",
+    "node_modules",
+    ".git"
+  ],
+  "ignorePatterns": [
+    "*.test.ts",
+    "*.spec.ts",
+    "vitest.config.ts"
+  ]
+}

@@ -30,7 +30,7 @@ export class DotenvSource implements ConfigSource {
       }
 
       const [key, ...valueParts] = trimmed.split('=');
-      if (key && valueParts.length > 0) {
+      if (key !== undefined && key !== '' && valueParts.length > 0) {
         const value = valueParts.join('=').trim();
         // Remove quotes if present
         result[key.trim()] = value.replace(/^["']|["']$/g, '');

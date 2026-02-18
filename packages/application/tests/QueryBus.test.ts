@@ -35,7 +35,7 @@ class SearchUsersQuery implements Query<User[]> {
 
 // Test Query Handlers
 class GetUserByIdHandler implements QueryHandler<GetUserByIdQuery, User, Error> {
-  private users: User[] = [
+  private readonly users: User[] = [
     { id: '1', username: 'john', email: 'john@example.com' },
     { id: '2', username: 'jane', email: 'jane@example.com' },
   ];
@@ -50,7 +50,7 @@ class GetUserByIdHandler implements QueryHandler<GetUserByIdQuery, User, Error> 
 }
 
 class GetAllUsersHandler implements QueryHandler<GetAllUsersQuery, UserList, Error> {
-  private users: User[] = [
+  private readonly users: User[] = [
     { id: '1', username: 'john', email: 'john@example.com' },
     { id: '2', username: 'jane', email: 'jane@example.com' },
     { id: '3', username: 'bob', email: 'bob@example.com' },
@@ -66,7 +66,7 @@ class GetAllUsersHandler implements QueryHandler<GetAllUsersQuery, UserList, Err
 }
 
 class SearchUsersHandler implements QueryHandler<SearchUsersQuery, User[], Error> {
-  private users: User[] = [
+  private readonly users: User[] = [
     { id: '1', username: 'john', email: 'john@example.com' },
     { id: '2', username: 'jane', email: 'jane@example.com' },
     { id: '3', username: 'johnny', email: 'johnny@example.com' },
@@ -332,7 +332,7 @@ describe('InMemoryQueryBus', () => {
       }
 
       class PagedHandler implements QueryHandler<PagedQuery, UserList, Error> {
-        private allUsers = Array.from({ length: 25 }, (_, i) => ({
+        private readonly allUsers = Array.from({ length: 25 }, (_, i) => ({
           id: String(i + 1),
           username: `user${i + 1}`,
           email: `user${i + 1}@test.com`,

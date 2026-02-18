@@ -35,7 +35,7 @@ class Money extends ValueObject<{ amount: number; currency: string }> {
     return new Money({ amount, currency });
   }
 
-  protected compareTo(otherValue: { amount: number; currency: string }): boolean {
+  protected override compareTo(otherValue: { amount: number; currency: string }): boolean {
     return (
       this._value.amount === otherValue.amount &&
       this._value.currency === otherValue.currency

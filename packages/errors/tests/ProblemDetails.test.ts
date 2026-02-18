@@ -110,7 +110,7 @@ describe('ProblemDetails', () => {
 
       expect(problem.errors).toEqual(errors);
       expect(Object.keys(problem.errors!)).toHaveLength(3);
-      expect(problem.errors!.email).toHaveLength(2);
+      expect(problem.errors?.['email']).toHaveLength(2);
     });
 
     it('should include tracing information', () => {

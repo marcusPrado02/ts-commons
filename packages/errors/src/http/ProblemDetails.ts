@@ -14,9 +14,9 @@ export interface ProblemDetails {
 
 export class ProblemDetailsBuilder {
   private constructor(
-    private type: string,
-    private title: string,
-    private status: number,
+    private readonly type: string,
+    private readonly title: string,
+    private readonly status: number,
   ) {}
 
   static create(type: string, title: string, status: number): ProblemDetailsBuilder {

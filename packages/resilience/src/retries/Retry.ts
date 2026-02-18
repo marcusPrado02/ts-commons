@@ -19,10 +19,10 @@ export class Retry {
       } catch (error) {
         lastError = error as Error;
 
-        if (attempt < policy.maxAttempts) {
+        if (attempt > 0 && attempt < policy.maxAttempts) {
           await new Promise(resolve => setTimeout(resolve, delay));
 
-          if (policy.backoffMultiplier) {
+          if (policy.backoffMultiplier !== undefined && policy.backoffMultiplier > 0) {
             delay = Math.min(
               delay * policy.backoffMultiplier,
               policy.maxDelayMs ?? Infinity,
