@@ -17,20 +17,26 @@ export { CQRSAnalyzer } from './analyzers/CQRSAnalyzer';
 export type {
   CQRSComponent,
   CQRSViolation,
-  CQRSType
+  CQRSType,
+  CQRSViolationType
 } from './analyzers/CQRSAnalyzer';
 
-export { DDDAnalyzer, DDDType, ViolationSeverity } from './analyzers/DDDAnalyzer';
+export { DDDAnalyzer, DDDType } from './analyzers/DDDAnalyzer';
 export type {
   DDDComponent,
   DDDViolation,
-  DDDViolationType
+  DDDViolationType,
+  ViolationSeverity as DDDViolationSeverity
 } from './analyzers/DDDAnalyzer';
 
 /**
  * Convenience function to run all architecture analyses
  */
 export async function analyzeArchitecture(workspaceRoot: string = process.cwd()) {
+  const { DependencyAnalyzer } = await import('./analyzers/DependencyAnalyzer');
+  const { CQRSAnalyzer } = await import('./analyzers/CQRSAnalyzer');
+  const { DDDAnalyzer } = await import('./analyzers/DDDAnalyzer');
+
   const dependencyAnalyzer = new DependencyAnalyzer(workspaceRoot);
   const cqrsAnalyzer = new CQRSAnalyzer(workspaceRoot);
   const dddAnalyzer = new DDDAnalyzer(workspaceRoot);

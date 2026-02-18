@@ -1,0 +1,33 @@
+{
+  "name": "@acme/web-fastify",
+  "version": "0.1.0",
+  "description": "Fastify adapter for ts-commons platform",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*",
+    "@acme/application": "workspace:*",
+    "@acme/errors": "workspace:*",
+    "@acme/observability": "workspace:*",
+    "@acme/web": "workspace:*",
+    "fastify": "^4.26.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "vitest": "^2.1.9",
+    "typescript": "^5.3.3"
+  }
+}

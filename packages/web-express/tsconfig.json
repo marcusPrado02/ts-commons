@@ -15,15 +15,7 @@
     {"path": "../kernel"},
     {"path": "../application"},
     {"path": "../errors"},
-    {"path": "../config"},
     {"path": "../observability"},
-    {"path": "../resilience"},
-    {"path": "../security"},
-    {"path": "../messaging"},
-    {"path": "../outbox"},
-    {"path": "../persistence"},
-    {"path": "../contracts"},
-    {"path": "../web"},
-    {"path": "../testing"}
+    {"path": "../web"}
   ]
 }

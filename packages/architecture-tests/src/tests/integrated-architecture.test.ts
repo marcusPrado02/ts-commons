@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { DependencyAnalyzer } from '../analyzers/DependencyAnalyzer';
-import { CQRSAnalyzer } from '../analyzers/CQRSAnalyzer';
-import { DDDAnalyzer, ViolationSeverity } from '../analyzers/DDDAnalyzer';
+import { DependencyAnalyzer, type LayerViolation } from '../analyzers/DependencyAnalyzer';
+import { CQRSAnalyzer, type CQRSViolation } from '../analyzers/CQRSAnalyzer';
+import { DDDAnalyzer, ViolationSeverity, type DDDViolation } from '../analyzers/DDDAnalyzer';
 
 interface ArchitectureReport {
   cleanArchitecture: {
@@ -61,38 +61,38 @@ describe('Integrated Architecture Validation', () => {
     architectureReport = {
       cleanArchitecture: {
         violations: layerViolations.length,
-        criticalViolations: layerViolations.filter(v => v.severity === 'critical').length,
+        criticalViolations: layerViolations.filter((v: LayerViolation) => v.severity === 'critical').length,
         layers: layers.length,
         components: layers.reduce((total, layer) => total + layer.components.length, 0)
       },
       cqrs: {
         violations: cqrsViolations.length,
-        criticalViolations: cqrsViolations.filter(v => v.severity === 'critical').length,
+        criticalViolations: cqrsViolations.filter((v: CQRSViolation) => v.severity === 'critical').length,
         commands: commands.length,
         queries: queries.length,
         handlers: commandHandlers.length + queryHandlers.length
       },
       ddd: {
         violations: dddViolations.length,
-        criticalViolations: dddViolations.filter(v => v.severity === ViolationSeverity.Critical).length,
+        criticalViolations: dddViolations.filter((v: DDDViolation) => v.severity === ViolationSeverity.Critical).length,
         entities: dddComponents.filter(c => c.type === 'entity').length,
         valueObjects: dddComponents.filter(c => c.type === 'value-object').length,
         aggregateRoots: dddComponents.filter(c => c.type === 'aggregate-root').length
       },
       overall: {
         totalViolations: layerViolations.length + cqrsViolations.length + dddViolations.length,
-        totalCriticalViolations: layerViolations.filter(v => v.severity === 'critical').length +
-                                 cqrsViolations.filter(v => v.severity === 'critical').length +
-                                 dddViolations.filter(v => v.severity === ViolationSeverity.Critical).length,
+        totalCriticalViolations: layerViolations.filter((v: LayerViolation) => v.severity === 'critical').length +
+                                 cqrsViolations.filter((v: CQRSViolation) => v.severity === 'critical').length +
+                                 dddViolations.filter((v: DDDViolation) => v.severity === ViolationSeverity.Critical).length,
         complianceScore: 0 // Will be calculated
       }
     };
 
     // Calculate overall compliance score
     const totalCritical = architectureReport.overall.totalCriticalViolations;
-    const totalHigh = layerViolations.filter(v => v.severity === 'high').length +
-                     cqrsViolations.filter(v => v.severity === 'high').length +
-                     dddViolations.filter(v => v.severity === ViolationSeverity.High).length;
+    const totalHigh = layerViolations.filter((v: LayerViolation) => v.severity === 'high').length +
+                     cqrsViolations.filter((v: CQRSViolation) => v.severity === 'high').length +
+                     dddViolations.filter((v: DDDViolation) => v.severity === ViolationSeverity.High).length;
 
     architectureReport.overall.complianceScore = Math.max(0, 100 - (totalCritical * 25) - (totalHigh * 10));
   });

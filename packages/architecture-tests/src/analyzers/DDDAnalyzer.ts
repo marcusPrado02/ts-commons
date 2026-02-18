@@ -93,12 +93,12 @@ export class DDDAnalyzer {
     const packagesDir = path.resolve(this.workspaceRoot, '../../packages');
 
     if (!fs.existsSync(packagesDir)) {
-      console.warn(`Packages directory not found at: ${packagesDir}. Trying relative path...`);
+      // Packages directory not found, trying relative path from current working directory
 
       // Fallback to relative path from current working directory
       const fallbackPackagesDir = path.join(process.cwd(), 'packages');
       if (!fs.existsSync(fallbackPackagesDir)) {
-        console.warn(`No packages directory found. Skipping DDD analysis.`);
+        // No packages directory found. Skipping DDD analysis.
         return;
       }
 
@@ -164,9 +164,9 @@ export class DDDAnalyzer {
       for (const component of components) {
         this.components.set(component.name, component);
       }
-    } catch (error) {
+    } catch {
       // Skip files that can't be read or parsed
-      console.warn(`Could not analyze file ${filePath}: ${error}`);
+      // Error details: files may be binary, invalid syntax, or permission issues
     }
   }
 
@@ -183,13 +183,13 @@ export class DDDAnalyzer {
     while ((match = classRegex.exec(content)) !== null) {
       const className = match[1];
       const extendsClass = match[2];
-      const type = this.determineDDDType(className, extendsClass, content);
+      const type = this.determineDDDType(className!, extendsClass, content);
 
-      if (type) {
-        const violations = this.validateComponent(className, type, content, filePath);
+      if (type !== null) {
+        const violations = this.validateComponent(className!, type, content, filePath);
 
         components.push({
-          name: className,
+          name: className!,
           type,
           filePath,
           violations
@@ -203,11 +203,12 @@ export class DDDAnalyzer {
   /**
    * Determine DDD type based on naming conventions and inheritance
    */
+  // eslint-disable-next-line complexity
   private determineDDDType(name: string, extendsClass: string | undefined, content: string): DDDType | null {
     const nameUpper = name.toUpperCase();
 
     // Check inheritance patterns first
-    if (extendsClass) {
+    if (extendsClass !== undefined && extendsClass !== '') {
       switch (extendsClass) {
         case 'Entity':
           return DDDType.Entity;
@@ -316,8 +317,8 @@ export class DDDAnalyzer {
     }
 
     // Check for anemic domain model (only getters/setters, no business logic)
-    const methodCount = (content.match(/\s+(public|private|protected)?\s*\w+\s*\(/g) || []).length;
-    const getterSetterCount = (content.match(/\s+(get|set)\s+\w+/g) || []).length;
+    const methodCount = (content.match(/\s+(public|private|protected)?\s*\w+\s*\(/g) ?? []).length;
+    const getterSetterCount = (content.match(/\s+(get|set)\s+\w+/g) ?? []).length;
 
     if (methodCount > 0 && getterSetterCount / methodCount > 0.8) {
       violations.push({

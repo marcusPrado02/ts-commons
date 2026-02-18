@@ -21,7 +21,8 @@ export enum CQRSType {
   Query = 'query',
   QueryHandler = 'query-handler',
   CommandBus = 'command-bus',
-  QueryBus = 'query-bus'
+  QueryBus = 'query-bus',
+  Event = 'event'
 }
 
 /**
@@ -32,6 +33,7 @@ export interface CQRSViolation {
   readonly violationType: CQRSViolationType;
   readonly description: string;
   readonly suggestion: string;
+  readonly severity: 'low' | 'medium' | 'high' | 'critical';
 }
 
 /**
@@ -69,6 +71,41 @@ export class CQRSAnalyzer {
    */
   getComponents(): CQRSComponent[] {
     return Array.from(this.components.values());
+  }
+
+  /**
+   * Get all commands
+   */
+  getCommands(): CQRSComponent[] {
+    return this.getComponents().filter(c => c.type === CQRSType.Command);
+  }
+
+  /**
+   * Get all queries
+   */
+  getQueries(): CQRSComponent[] {
+    return this.getComponents().filter(c => c.type === CQRSType.Query);
+  }
+
+  /**
+   * Get all command handlers
+   */
+  getCommandHandlers(): CQRSComponent[] {
+    return this.getComponents().filter(c => c.type === CQRSType.CommandHandler);
+  }
+
+  /**
+   * Get all query handlers
+   */
+  getQueryHandlers(): CQRSComponent[] {
+    return this.getComponents().filter(c => c.type === CQRSType.QueryHandler);
+  }
+
+  /**
+   * Get all events
+   */
+  getEvents(): CQRSComponent[] {
+    return this.getComponents().filter(c => c.type === CQRSType.Event);
   }
 
   /**
@@ -262,7 +299,7 @@ export class CQRSAnalyzer {
     let match;
     while ((match = importRegex.exec(content)) !== null) {
       const importPath = match[1];
-      if (importPath !== undefined && importPath.startsWith('@acme/')) {
+      if (importPath?.startsWith('@acme/')) {
         dependencies.push(importPath);
       }
     }
@@ -316,7 +353,8 @@ export class CQRSAnalyzer {
         component: name,
         violationType: CQRSViolationType.CommandReturnsData,
         description: 'Command appears to return data instead of void/acknowledgment',
-        suggestion: 'Commands should return void or simple acknowledgment, not data'
+        suggestion: 'Commands should return void or simple acknowledgment, not data',
+        severity: 'high'
       });
     }
 
@@ -338,7 +376,8 @@ export class CQRSAnalyzer {
         component: name,
         violationType: CQRSViolationType.HandlerViolation,
         description: 'CommandHandler should implement CommandHandler interface',
-        suggestion: 'Implement CommandHandler<TCommand, TResult, TError> interface'
+        suggestion: 'Implement CommandHandler<TCommand, TResult, TError> interface',
+        severity: 'critical'
       });
     }
 
@@ -359,7 +398,8 @@ export class CQRSAnalyzer {
         component: name,
         violationType: CQRSViolationType.QueryModifiesState,
         description: 'Query appears to modify state',
-        suggestion: 'Queries should only read data, not modify state'
+        suggestion: 'Queries should only read data, not modify state',
+        severity: 'critical'
       });
     }
 
@@ -381,7 +421,8 @@ export class CQRSAnalyzer {
         component: name,
         violationType: CQRSViolationType.HandlerViolation,
         description: 'QueryHandler should implement QueryHandler interface',
-        suggestion: 'Implement QueryHandler<TQuery, TResult, TError> interface'
+        suggestion: 'Implement QueryHandler<TQuery, TResult, TError> interface',
+        severity: 'critical'
       });
     }
 
@@ -404,7 +445,8 @@ export class CQRSAnalyzer {
         component: name,
         violationType: CQRSViolationType.BusViolation,
         description: 'CommandBus should not handle queries',
-        suggestion: 'Separate command and query handling into different buses'
+        suggestion: 'Separate command and query handling into different buses',
+        severity: 'high'
       });
     }
 
@@ -427,7 +469,8 @@ export class CQRSAnalyzer {
         component: name,
         violationType: CQRSViolationType.BusViolation,
         description: 'QueryBus should not handle commands',
-        suggestion: 'Separate command and query handling into different buses'
+        suggestion: 'Separate command and query handling into different buses',
+        severity: 'high'
       });
     }
 
@@ -469,52 +512,12 @@ export class CQRSAnalyzer {
           component: component.name,
           violationType: CQRSViolationType.CommandQueryMixing,
           description: 'Component mixes command and query responsibilities',
-          suggestion: 'Split into separate command and query components'
+          suggestion: 'Split into separate command and query components',
+          severity: 'critical'
         });
       }
     }
 
     return violations;
   }
-
-  /**
-   * Get all commands identified in the codebase
-   */
-  getCommands(): CQRSComponent[] {
-    return Array.from(this.components.values())
-      .filter(component => component.type === CQRSType.Command);
-  }
-
-  /**
-   * Get all queries identified in the codebase
-   */
-  getQueries(): CQRSComponent[] {
-    return Array.from(this.components.values())
-      .filter(component => component.type === CQRSType.Query);
-  }
-
-  /**
-   * Get all command handlers identified in the codebase
-   */
-  getCommandHandlers(): CQRSComponent[] {
-    return Array.from(this.components.values())
-      .filter(component => component.type === CQRSType.CommandHandler);
-  }
-
-  /**
-   * Get all query handlers identified in the codebase
-   */
-  getQueryHandlers(): CQRSComponent[] {
-    return Array.from(this.components.values())
-      .filter(component => component.type === CQRSType.QueryHandler);
-  }
-
-  /**
-   * Get all events identified in the codebase
-   */
-  getEvents(): CQRSComponent[] {
-    return Array.from(this.components.values())
-      .filter(component => component.type === CQRSType.Event);
-  }
-
 }
