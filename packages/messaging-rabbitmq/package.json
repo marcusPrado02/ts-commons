@@ -1,0 +1,32 @@
+{
+  "name": "@acme/messaging-rabbitmq",
+  "version": "0.1.0",
+  "description": "RabbitMQ adapter with publisher/consumer, DLQ, retry mechanism, and connection pooling",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*",
+    "@acme/messaging": "workspace:*",
+    "@acme/observability": "workspace:*",
+    "amqplib": "^0.10.3"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.10.5",
+    "@types/node": "^20.11.0",
+    "vitest": "^2.1.9"
+  }
+}
