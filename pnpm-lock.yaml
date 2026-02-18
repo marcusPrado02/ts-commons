@@ -225,6 +225,25 @@ importers:
         specifier: workspace:*
         version: link:../kernel
 
+  packages/persistence-prisma:
+    dependencies:
+      '@acme/kernel':
+        specifier: workspace:*
+        version: link:../kernel
+      '@acme/persistence':
+        specifier: workspace:*
+        version: link:../persistence
+      '@prisma/client':
+        specifier: '>=5.0.0'
+        version: 7.4.0(typescript@5.9.3)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
   packages/persistence-typeorm:
     dependencies:
       '@acme/kernel':
@@ -1734,6 +1753,26 @@ packages:
   /@polka/url@1.0.0-next.29:
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
     dev: true
+
+  /@prisma/client-runtime-utils@7.4.0:
+    resolution: {integrity: sha512-jTmWAOBGBSCT8n7SMbpjCpHjELgcDW9GNP/CeK6CeqjUFlEL6dn8Cl81t/NBDjJdXDm85XDJmc+PEQqqQee3xw==}
+    dev: false
+
+  /@prisma/client@7.4.0(typescript@5.9.3):
+    resolution: {integrity: sha512-Sc+ncr7+ph1hMf1LQfn6UyEXDEamCd5pXMsx8Q3SBH0NGX+zjqs3eaABt9hXwbcK9l7f8UyK8ldxOWA2LyPynQ==}
+    engines: {node: ^20.19 || ^22.12 || >=24.0}
+    peerDependencies:
+      prisma: '*'
+      typescript: '>=5.4.0'
+    peerDependenciesMeta:
+      prisma:
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@prisma/client-runtime-utils': 7.4.0
+      typescript: 5.9.3
+    dev: false
 
   /@rollup/rollup-android-arm-eabi@4.57.1:
     resolution: {integrity: sha512-A6ehUVSiSaaliTxai040ZpZ2zTevHYbvu/lDoeAteHI8QnaosIzm4qwtezfRg1jOYaUmnzLX1AOD6Z+UJjtifg==}
@@ -5256,7 +5295,6 @@ packages:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
     engines: {node: '>=14.17'}
     hasBin: true
-    dev: true
 
   /uc.micro@2.1.0:
     resolution: {integrity: sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==}
