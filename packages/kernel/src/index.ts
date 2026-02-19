@@ -7,6 +7,11 @@ export type { DomainEventEnvelope } from './ddd/DomainEventEnvelope';
 export type { DomainEventPublisher } from './ddd/DomainEventPublisher';
 export { DomainEventRecorder } from './ddd/DomainEventRecorder';
 export { Specification } from './ddd/Specification';
+export { Factory } from './ddd/Factory';
+export type { Repository } from './ddd/Repository';
+export { AbstractRepository } from './ddd/Repository';
+export type { DomainService } from './ddd/DomainService';
+export { Policy } from './ddd/Policy';
 
 // Identity Types
 export { TenantId } from './identity/TenantId';
