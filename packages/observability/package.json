@@ -15,12 +15,16 @@
     "build": "tsc -b",
     "clean": "rm -rf dist *.tsbuildinfo",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts"
   },
   "dependencies": {
     "@acme/kernel": "workspace:*"
   },
-  "keywords": ["observability", "logging", "tracing", "metrics", "opentelemetry"],
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "vitest": "^2.1.9"
+  },
   "author": "",
   "license": "MIT"
 }
