@@ -10,15 +10,15 @@ export class RateLimiter {
     this.lastRefill = Date.now();
   }
 
-  async acquire(tokensNeeded = 1): Promise<boolean> {
+  acquire(tokensNeeded = 1): Promise<boolean> {
     this.refill();
 
     if (this.tokens >= tokensNeeded) {
       this.tokens -= tokensNeeded;
-      return true;
+      return Promise.resolve(true);
     }
 
-    return false;
+    return Promise.resolve(false);
   }
 
   private refill(): void {

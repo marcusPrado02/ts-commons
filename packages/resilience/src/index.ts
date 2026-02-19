@@ -10,3 +10,17 @@ export { CircuitBreaker, CircuitBreakerState, CircuitBreakerOpenError } from './
 
 // Rate Limiting
 export { RateLimiter } from './ratelimit/RateLimiter';
+
+// Bulkhead
+export { Bulkhead, BulkheadRejectedError } from './bulkhead/Bulkhead';
+
+// Fallback
+export { Fallback } from './fallback/Fallback';
+
+// Hedge
+export { Hedge } from './hedge/Hedge';
+export type { HedgeOptions } from './hedge/Hedge';
+
+// Health
+export { HealthCheck } from './health/HealthCheck';
+export type { HealthStatus, HealthIndicator, HealthReport } from './health/HealthCheck';
