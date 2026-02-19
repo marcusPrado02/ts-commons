@@ -17,6 +17,55 @@ export class Result<T, E = Error> {
     return new Result<T, E>(false, undefined, error);
   }
 
+  /**
+   * Collects an array of Results into a single Result of an array.
+   * Returns the first `Err` encountered, or `Ok<T[]>` if all succeed.
+   */
+  static all<T, E>(results: Result<T, E>[]): Result<T[], E> {
+    const values: T[] = [];
+    for (const r of results) {
+      if (!r._isOk) return Result.err(r._error as E);
+      values.push(r._value as T);
+    }
+    return Result.ok(values);
+  }
+
+  /**
+   * Returns the first `Ok` result, or the last `Err` if all fail.
+   * Throws if the array is empty.
+   */
+  static any<T, E>(results: Result<T, E>[]): Result<T, E> {
+    if (results.length === 0) throw new Error('Result.any called with an empty array');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    let last: Result<T, E> = results[0]!;
+    for (const r of results) {
+      if (r._isOk) return r;
+      last = r;
+    }
+    return last;
+  }
+
+  /**
+   * Maps each item through `fn` and collects all results, short-circuiting on
+   * the first `Err` (equivalent to `Result.all(items.map(fn))`).
+   */
+  static traverse<T, U, E>(items: T[], fn: (item: T) => Result<U, E>): Result<U[], E> {
+    return Result.all(items.map(fn));
+  }
+
+  /**
+   * Splits an array of Results into separate `oks` and `errs` arrays.
+   */
+  static partition<T, E>(results: Result<T, E>[]): { oks: T[]; errs: E[] } {
+    const oks: T[] = [];
+    const errs: E[] = [];
+    for (const r of results) {
+      if (r._isOk) oks.push(r._value as T);
+      else errs.push(r._error as E);
+    }
+    return { oks, errs };
+  }
+
   isOk(): this is { unwrap(): T } {
     return this._isOk;
   }
@@ -128,5 +177,24 @@ export class Result<T, E = Error> {
       }
     }
     return fallback(this);
+  }
+
+  /**
+   * Async variant of {@link flatMap}. If `Ok`, passes the value to `fn` which
+   * may return a `Result` or a `Promise<Result>`. If `Err`, propagates the
+   * error without calling `fn`.
+   */
+  andThen<U>(fn: (value: T) => Promise<Result<U, E>> | Result<U, E>): Promise<Result<U, E>> {
+    if (!this._isOk) return Promise.resolve(Result.err(this._error as E));
+    return Promise.resolve(fn(this._value as T));
+  }
+
+  /**
+   * Attempts to recover from an `Err` by passing the error to `fn`. If `Ok`,
+   * the result is returned unchanged.
+   */
+  orElse(fn: (error: E) => Result<T, E>): Result<T, E> {
+    if (this._isOk) return this;
+    return fn(this._error as E);
   }
 }
