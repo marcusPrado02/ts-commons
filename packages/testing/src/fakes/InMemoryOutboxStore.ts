@@ -3,26 +3,33 @@ import type { OutboxMessage, OutboxStorePort } from '@acme/outbox';
 export class InMemoryOutboxStore implements OutboxStorePort {
   private readonly messages = new Map<string, OutboxMessage>();
 
-  async save(message: OutboxMessage): Promise<void> {
+  save(message: OutboxMessage): Promise<void> {
     this.messages.set(message.id, message);
+    return Promise.resolve();
   }
 
-  async getUnpublished(limit: number): Promise<OutboxMessage[]> {
-    return Array.from(this.messages.values())
-      .filter((m) => !m.publishedAt)
-      .slice(0, limit);
+  getUnpublished(limit: number): Promise<OutboxMessage[]> {
+    return Promise.resolve(
+      Array.from(this.messages.values())
+        .filter((m) => m.publishedAt === undefined)
+        .slice(0, limit),
+    );
   }
 
-  async markAsPublished(id: string): Promise<void> {
+  markAsPublished(id: string): Promise<void> {
     const message = this.messages.get(id);
-    if (message) {
-      this.messages.set(id, { ...message, publishedAt: new Date() });
+    if (message !== undefined) {
+      // Destructure out `error` to avoid exactOptionalPropertyTypes violation
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { error: _e, ...base } = message;
+      this.messages.set(id, { ...base, publishedAt: new Date(), attempts: message.attempts + 1 });
     }
+    return Promise.resolve();
   }
 
-  async markAsFailed(id: string, error: string): Promise<void> {
+  markAsFailed(id: string, error: string): Promise<void> {
     const message = this.messages.get(id);
-    if (message) {
+    if (message !== undefined) {
       this.messages.set(id, {
         ...message,
         attempts: message.attempts + 1,
@@ -30,6 +37,7 @@ export class InMemoryOutboxStore implements OutboxStorePort {
         error,
       });
     }
+    return Promise.resolve();
   }
 
   clear(): void {

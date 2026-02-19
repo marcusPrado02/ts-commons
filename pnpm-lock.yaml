@@ -379,9 +379,19 @@ importers:
       '@acme/kernel':
         specifier: workspace:*
         version: link:../kernel
+      '@acme/messaging':
+        specifier: workspace:*
+        version: link:../messaging
       '@acme/outbox':
         specifier: workspace:*
         version: link:../outbox
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
   packages/web:
     dependencies:
