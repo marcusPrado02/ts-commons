@@ -9,10 +9,15 @@
     "build": "tsc -b",
     "clean": "rm -rf dist *.tsbuildinfo",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts"
   },
   "dependencies": {
     "@acme/kernel": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "vitest": "^2.1.9"
   },
   "keywords": ["security", "authentication", "authorization", "crypto"],
   "author": "",
