@@ -1,0 +1,27 @@
+{
+  "name": "@acme/validation",
+  "version": "0.1.0",
+  "description": "Request validation: Zod integration, composite validators, custom validators",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "vitest": "^3.2.4"
+  },
+  "keywords": ["validation", "zod", "request-validation", "schema"],
+  "author": "",
+  "license": "MIT"
+}

@@ -400,6 +400,22 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
+  packages/validation:
+    dependencies:
+      '@acme/kernel':
+        specifier: workspace:*
+        version: link:../kernel
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.19.11
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.4(@types/node@22.19.11)(@vitest/ui@4.0.18)(tsx@4.21.0)
+
   packages/web:
     dependencies:
       '@acme/contracts':
@@ -6193,3 +6209,7 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  /zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+    dev: false
