@@ -42,3 +42,12 @@ export { ConflictError } from './errors/ConflictError';
 export type { LoggerPort } from './ports/LoggerPort';
 export type { TracerPort, SpanPort } from './ports/TracerPort';
 export type { MetricsPort } from './ports/MetricsPort';
+
+// Multi-tenancy
+export { TenantContext } from './multitenancy/TenantContext';
+export { TenantIsolationStrategy } from './multitenancy/TenantIsolation';
+export type { TenantIsolationDescriptor } from './multitenancy/TenantIsolation';
+export type { TenantAwareRepository } from './multitenancy/TenantAwareRepository';
+export { AbstractTenantAwareRepository } from './multitenancy/TenantAwareRepository';
+export type { TenantLogEntry, TenantMetricSample, TenantLogger, TenantMetrics } from './multitenancy/TenantObservability';
+export { InMemoryTenantLogger, InMemoryTenantMetrics } from './multitenancy/TenantObservability';
