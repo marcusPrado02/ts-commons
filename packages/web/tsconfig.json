@@ -1,10 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "composite": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "vitest.config.ts"],
   "references": [
     { "path": "../kernel" },
     { "path": "../errors" },

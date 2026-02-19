@@ -5,3 +5,16 @@ export { MiddlewareChain } from './http/Middleware';
 
 // Middlewares
 export { correlationMiddleware } from './middlewares/CorrelationMiddleware';
+
+// HATEOAS
+export type { Link } from './hateoas/Link';
+export { LinkBuilder } from './hateoas/LinkBuilder';
+export type { HalDocument } from './hateoas/HalResource';
+export { HalResource } from './hateoas/HalResource';
+export type {
+  JsonApiRelationship,
+  JsonApiIdentifier,
+  JsonApiResourceObject,
+  JsonApiDocument,
+} from './hateoas/JsonApiResource';
+export { JsonApiBuilder } from './hateoas/JsonApiResource';
