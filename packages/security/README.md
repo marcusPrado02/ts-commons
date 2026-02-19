@@ -88,6 +88,75 @@ if (decision === PolicyDecision.ALLOW) { /* proceed */ }
 
 ---
 
+### Cryptography (`crypto/`)
+
+All adapters use Node.js built-in `node:crypto` — no third-party runtime dependencies.
+
+#### `AesGcmCipher`
+
+AES-256-GCM authenticated encryption.  A fresh random IV is generated per `encrypt` call.  The key string is normalised to 256 bits via SHA-256, so any string length is accepted.
+
+```ts
+import { AesGcmCipher } from '@acme/security';
+
+const cipher = new AesGcmCipher();
+const result = cipher.encrypt('my secret', process.env.ENCRYPTION_KEY!);
+// result → { ciphertext: '…hex…', iv: '…hex…', tag: '…hex…' }
+
+const plain = cipher.decrypt(result, process.env.ENCRYPTION_KEY!);
+// plain → 'my secret'
+```
+
+`decrypt` throws if the key or auth tag is wrong — ensuring authenticated decryption.
+
+#### `Sha256Hasher`
+
+Deterministic SHA-256 hex digest. Suitable for checksums and fingerprinting; for passwords use a slow KDF instead.
+
+```ts
+import { Sha256Hasher } from '@acme/security';
+
+const hasher = new Sha256Hasher();
+hasher.hash('hello');
+// → '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824'
+```
+
+#### `HmacSha256Signer`
+
+HMAC-SHA256 signing / verification.  Uses `timingSafeEqual` in `verify` to prevent timing-based side-channel attacks.
+
+```ts
+import { HmacSha256Signer } from '@acme/security';
+
+const signer = new HmacSha256Signer();
+const sig = signer.sign('payload', process.env.HMAC_KEY!);
+signer.verify('payload', process.env.HMAC_KEY!, sig); // true
+```
+
+#### `PiiMasker`
+
+General-purpose PII masker.  Replaces the middle of a string with `*` (or a custom character), leaving an optional visible prefix and/or suffix.
+
+```ts
+import { PiiMasker } from '@acme/security';
+
+const masker = new PiiMasker();
+
+masker.mask('user@example.com', { visibleSuffix: 11 });
+// → '****@example.com'
+
+masker.mask('4111111111111111', { visibleSuffix: 4 });
+// → '************1111'
+
+masker.mask('+1-800-555-0100', { visiblePrefix: 3, visibleSuffix: 4 });
+// → '+1-********0100'
+
+masker.mask('sensitive', { maskChar: '#' });
+// → '#########'
+```
+
+---
+
 ## Extending
 
 Implement `AuthenticatorPort` or `PolicyEnginePort` to add new adapters (OIDC, OPA, Cedar, etc.) without changing any consumer code.
@@ -120,6 +189,17 @@ ApiKeyAuthenticator         — implements AuthenticatorPort via key registry
 RbacPolicyEngine            — implements PolicyEnginePort via role map
 Permission                  — ValueObject<string>
 PolicyDecision              — enum ALLOW | DENY
+
+CipherResult                — { ciphertext, iv, tag } — all hex-encoded
+CipherPort                  — interface encrypt/decrypt
+HasherPort                  — interface hash(data): string
+HmacPort                    — interface sign/verify
+MaskOptions                 — { visiblePrefix?, visibleSuffix?, maskChar? }
+MaskerPort                  — interface mask(value, options?): string
+AesGcmCipher                — implements CipherPort via AES-256-GCM
+Sha256Hasher                — implements HasherPort via SHA-256
+HmacSha256Signer            — implements HmacPort via HMAC-SHA256
+PiiMasker                   — implements MaskerPort
 ```
 
 ---

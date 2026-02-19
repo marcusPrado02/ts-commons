@@ -19,3 +19,15 @@ export type { PolicyEnginePort } from './authz/PolicyEnginePort';
 
 // AuthZ — engines
 export { RbacPolicyEngine } from './authz/RbacPolicyEngine';
+
+// Crypto — interfaces
+export type { CipherResult, CipherPort } from './crypto/CipherPort';
+export type { HasherPort } from './crypto/HasherPort';
+export type { HmacPort } from './crypto/HmacPort';
+export type { MaskOptions, MaskerPort } from './crypto/MaskerPort';
+
+// Crypto — adapters
+export { AesGcmCipher } from './crypto/AesGcmCipher';
+export { Sha256Hasher } from './crypto/Sha256Hasher';
+export { HmacSha256Signer } from './crypto/HmacSha256Signer';
+export { PiiMasker } from './crypto/PiiMasker';
