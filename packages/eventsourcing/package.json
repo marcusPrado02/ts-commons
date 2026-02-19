@@ -1,0 +1,32 @@
+{
+  "name": "@acme/eventsourcing",
+  "version": "0.1.0",
+  "description": "Event Sourcing support: EventStore, EventSourcedAggregate, Snapshots, Projections",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "dependencies": {
+    "@acme/kernel": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "vitest": "^3.2.4"
+  },
+  "keywords": ["event-sourcing", "event-store", "cqrs", "aggregate", "projection", "snapshot"],
+  "author": "",
+  "license": "MIT"
+}
