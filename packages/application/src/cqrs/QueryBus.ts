@@ -5,8 +5,10 @@ import type { QueryHandler } from './QueryHandler';
 /**
  * Query constructor type that can be concrete or abstract
  */
-export type QueryConstructor<TQuery extends Query<any> = Query<any>> =
+export type QueryConstructor<TQuery extends Query<unknown> = Query<unknown>> =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   | (new (...args: any[]) => TQuery)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   | (abstract new (...args: any[]) => TQuery);
 
 /**

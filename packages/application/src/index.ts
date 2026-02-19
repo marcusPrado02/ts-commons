@@ -23,6 +23,11 @@ export type { ValidationFieldError } from './validation/ValidationError';
 export { IdempotencyKey } from './idempotency/IdempotencyKey';
 export type { IdempotencyStorePort } from './idempotency/IdempotencyStorePort';
 export type { IdempotentCommand } from './idempotency/IdempotentCommand';
+export { IdempotencyConflictError } from './idempotency/IdempotencyConflictError';
+export { IdempotencyMetrics } from './idempotency/IdempotencyMetrics';
+export { InMemoryIdempotencyStore } from './idempotency/InMemoryIdempotencyStore';
+export { IdempotentUseCase } from './idempotency/IdempotentUseCase';
+export type { WithIdempotencyKey } from './idempotency/IdempotentUseCase';
 
 // Transactions
 export type { UnitOfWork } from './transactions/UnitOfWork';

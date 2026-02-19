@@ -6,7 +6,9 @@ import type { CommandHandler } from './CommandHandler';
  * Command constructor type that can be concrete or abstract
  */
 export type CommandConstructor<TCommand extends Command = Command> =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   | (new (...args: any[]) => TCommand)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   | (abstract new (...args: any[]) => TCommand);
 
 /**
