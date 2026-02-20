@@ -18,6 +18,7 @@
     { "path": "./packages/persistence" },
     { "path": "./packages/contracts" },
     { "path": "./packages/web" },
-    { "path": "./packages/testing" }
+    { "path": "./packages/testing" },
+    { "path": "./packages/storage" }
   ]
 }
