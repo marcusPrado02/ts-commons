@@ -19,7 +19,7 @@
     "@acme/contracts": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
+    "@types/node": "^25.3.0",
     "vitest": "^3.2.4"
   },
   "keywords": [
