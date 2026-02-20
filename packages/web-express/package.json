@@ -48,5 +48,15 @@
   },
   "peerDependencies": {
     "express": "^4.18.0"
-  }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marcusPrado02/ts-commons.git"
+  },
+  "bugs": "https://github.com/marcusPrado02/ts-commons/issues",
+  "homepage": "https://github.com/marcusPrado02/ts-commons/tree/main/packages/web-express#readme"
 }

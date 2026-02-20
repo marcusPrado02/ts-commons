@@ -28,14 +28,14 @@ export class Hedge {
       const tryReject = (): void => {
         if (pending === 0 && timersPending === 0 && !settled) {
           settled = true;
-          reject(lastError);
+          reject(lastError instanceof Error ? lastError : new Error(String(lastError)));
         }
       };
 
       const launch = (): void => {
         pending++;
         fn().then(
-          value => {
+          (value) => {
             if (!settled) {
               settled = true;
               resolve(value);

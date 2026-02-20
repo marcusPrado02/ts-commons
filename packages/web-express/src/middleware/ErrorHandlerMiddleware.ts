@@ -42,19 +42,40 @@ const ERROR_STATUS_MAP: Record<string, number> = {
  * app.use(errorHandlerMiddleware(logger));
  * ```
  */
+/** Log an error at the appropriate severity based on status code */
+function logError(
+  logger: Logger,
+  error: Error,
+  status: number,
+  req: Request,
+  correlationId: string | undefined,
+): void {
+  const data = {
+    errorName: error.name,
+    message: error.message,
+    status,
+    httpMethod: req.method,
+    path: req.path,
+    correlationId,
+  };
+  if (status >= 500) {
+    (logger.error as (message: string, data?: unknown) => void)('Request failed with error', {
+      ...data,
+      stack: error.stack,
+    });
+  } else {
+    (logger.warn as (message: string, data?: unknown) => void)('Request failed with error', data);
+  }
+}
+
 export function errorHandlerMiddleware(logger?: Logger): ErrorRequestHandler {
   return (error: Error, req: Request, res: Response, next: NextFunction): void => {
-    // Skip if response already sent
     if (res.headersSent === true) {
       next(error);
       return;
     }
-
-    // Determine status code
     const status = determineStatusCode(error);
     const correlationId = req.correlationId?.value;
-
-    // Create Problem Details
     const problemDetails = {
       type: `https://api.acme.com/errors/${error.name}`,
       title: error.name,
@@ -62,38 +83,13 @@ export function errorHandlerMiddleware(logger?: Logger): ErrorRequestHandler {
       detail: error.message,
       instance: req.url,
     };
-
-    // Add correlation ID if available
     const response =
       typeof correlationId === 'string' && correlationId.length > 0
         ? { ...problemDetails, correlationId }
         : problemDetails;
-
-    // Log error
     if (logger !== undefined) {
-      if (status >= 500) {
-        (logger.error as (message: string, data?: unknown) => void)('Request failed with error', {
-          errorName: error.name,
-          message: error.message,
-          status,
-          httpMethod: req.method,
-          path: req.path,
-          correlationId,
-          stack: error.stack,
-        });
-      } else {
-        (logger.warn as (message: string, data?: unknown) => void)('Request failed with error', {
-          errorName: error.name,
-          message: error.message,
-          status,
-          httpMethod: req.method,
-          path: req.path,
-          correlationId,
-        });
-      }
+      logError(logger, error, status, req, correlationId);
     }
-
-    // Send response
     res.status(status).json(response);
   };
 }
@@ -137,7 +133,7 @@ function determineStatusCode(error: Error): number {
  */
 export function registerErrorHandler(
   app: { use: (handler: ErrorRequestHandler) => void },
-  logger?: Logger
+  logger?: Logger,
 ): void {
   app.use(errorHandlerMiddleware(logger));
 }

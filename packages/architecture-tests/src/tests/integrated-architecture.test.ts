@@ -1,7 +1,12 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { DependencyAnalyzer, type LayerViolation } from '../analyzers/DependencyAnalyzer';
 import { CQRSAnalyzer, type CQRSViolation } from '../analyzers/CQRSAnalyzer';
-import { DDDAnalyzer, ViolationSeverity, type DDDViolation } from '../analyzers/DDDAnalyzer';
+import {
+  DDDAnalyzer,
+  DDDType,
+  ViolationSeverity,
+  type DDDViolation,
+} from '../analyzers/DDDAnalyzer';
 
 interface ArchitectureReport {
   cleanArchitecture: {
@@ -44,11 +49,9 @@ describe('Integrated Architecture Validation', () => {
     dddAnalyzer = new DDDAnalyzer(process.cwd());
 
     // Run all analyses
-    const [layerViolations, cqrsViolations, dddViolations] = await Promise.all([
-      dependencyAnalyzer.analyzeDependencies(),
-      cqrsAnalyzer.analyzeImplementation(),
-      Promise.resolve(dddAnalyzer.analyzeImplementation())
-    ]);
+    const layerViolations = dependencyAnalyzer.analyzeDependencies();
+    const cqrsViolations = await cqrsAnalyzer.analyzeImplementation();
+    const dddViolations = dddAnalyzer.analyzeImplementation();
 
     // Generate comprehensive report
     const layers = dependencyAnalyzer.getLayers();
@@ -61,40 +64,50 @@ describe('Integrated Architecture Validation', () => {
     architectureReport = {
       cleanArchitecture: {
         violations: layerViolations.length,
-        criticalViolations: layerViolations.filter((v: LayerViolation) => v.severity === 'critical').length,
+        criticalViolations: layerViolations.filter((v: LayerViolation) => v.severity === 'critical')
+          .length,
         layers: layers.length,
-        components: layers.reduce((total, layer) => total + layer.components.length, 0)
+        components: layers.reduce((total, layer) => total + layer.components.length, 0),
       },
       cqrs: {
         violations: cqrsViolations.length,
-        criticalViolations: cqrsViolations.filter((v: CQRSViolation) => v.severity === 'critical').length,
+        criticalViolations: cqrsViolations.filter((v: CQRSViolation) => v.severity === 'critical')
+          .length,
         commands: commands.length,
         queries: queries.length,
-        handlers: commandHandlers.length + queryHandlers.length
+        handlers: commandHandlers.length + queryHandlers.length,
       },
       ddd: {
         violations: dddViolations.length,
-        criticalViolations: dddViolations.filter((v: DDDViolation) => v.severity === ViolationSeverity.Critical).length,
-        entities: dddComponents.filter(c => c.type === 'entity').length,
-        valueObjects: dddComponents.filter(c => c.type === 'value-object').length,
-        aggregateRoots: dddComponents.filter(c => c.type === 'aggregate-root').length
+        criticalViolations: dddViolations.filter(
+          (v: DDDViolation) => v.severity === ViolationSeverity.Critical,
+        ).length,
+        entities: dddComponents.filter((c) => c.type === DDDType.Entity).length,
+        valueObjects: dddComponents.filter((c) => c.type === DDDType.ValueObject).length,
+        aggregateRoots: dddComponents.filter((c) => c.type === DDDType.AggregateRoot).length,
       },
       overall: {
         totalViolations: layerViolations.length + cqrsViolations.length + dddViolations.length,
-        totalCriticalViolations: layerViolations.filter((v: LayerViolation) => v.severity === 'critical').length +
-                                 cqrsViolations.filter((v: CQRSViolation) => v.severity === 'critical').length +
-                                 dddViolations.filter((v: DDDViolation) => v.severity === ViolationSeverity.Critical).length,
-        complianceScore: 0 // Will be calculated
-      }
+        totalCriticalViolations:
+          layerViolations.filter((v: LayerViolation) => v.severity === 'critical').length +
+          cqrsViolations.filter((v: CQRSViolation) => v.severity === 'critical').length +
+          dddViolations.filter((v: DDDViolation) => v.severity === ViolationSeverity.Critical)
+            .length,
+        complianceScore: 0, // Will be calculated
+      },
     };
 
     // Calculate overall compliance score
     const totalCritical = architectureReport.overall.totalCriticalViolations;
-    const totalHigh = layerViolations.filter((v: LayerViolation) => v.severity === 'high').length +
-                     cqrsViolations.filter((v: CQRSViolation) => v.severity === 'high').length +
-                     dddViolations.filter((v: DDDViolation) => v.severity === ViolationSeverity.High).length;
+    const totalHigh =
+      layerViolations.filter((v: LayerViolation) => v.severity === 'high').length +
+      cqrsViolations.filter((v: CQRSViolation) => v.severity === 'high').length +
+      dddViolations.filter((v: DDDViolation) => v.severity === ViolationSeverity.High).length;
 
-    architectureReport.overall.complianceScore = Math.max(0, 100 - (totalCritical * 25) - (totalHigh * 10));
+    architectureReport.overall.complianceScore = Math.max(
+      0,
+      100 - totalCritical * 25 - totalHigh * 10,
+    );
   });
 
   it('should have zero critical violations across all patterns', () => {
@@ -102,7 +115,9 @@ describe('Integrated Architecture Validation', () => {
 
     if (criticalViolations > 0) {
       console.error(`Found ${criticalViolations} critical architecture violations:`);
-      console.error(`- Clean Architecture: ${architectureReport.cleanArchitecture.criticalViolations}`);
+      console.error(
+        `- Clean Architecture: ${architectureReport.cleanArchitecture.criticalViolations}`,
+      );
       console.error(`- CQRS: ${architectureReport.cqrs.criticalViolations}`);
       console.error(`- DDD: ${architectureReport.ddd.criticalViolations}`);
     }
@@ -115,7 +130,9 @@ describe('Integrated Architecture Validation', () => {
     const actualScore = architectureReport.overall.complianceScore;
 
     if (actualScore < minimumScore) {
-      console.error(`Architecture compliance score too low: ${actualScore}% (minimum: ${minimumScore}%)`);
+      console.error(
+        `Architecture compliance score too low: ${actualScore}% (minimum: ${minimumScore}%)`,
+      );
     }
 
     expect(actualScore).toBeGreaterThanOrEqual(minimumScore);
@@ -151,7 +168,9 @@ describe('Integrated Architecture Validation', () => {
   it('should have rich domain model', () => {
     const { entities, valueObjects, aggregateRoots } = architectureReport.ddd;
 
-    console.info(`DDD components: ${entities} entities, ${valueObjects} value objects, ${aggregateRoots} aggregate roots`);
+    console.info(
+      `DDD components: ${entities} entities, ${valueObjects} value objects, ${aggregateRoots} aggregate roots`,
+    );
 
     if (entities > 0 || valueObjects > 0) {
       // If we have DDD components, validate their quality
@@ -189,11 +208,17 @@ describe('Integrated Architecture Validation', () => {
 
       // Domain layer should not be the largest (would indicate anemic model)
       const layerDetails = dependencyAnalyzer.getLayers();
-      const domainLayer = layerDetails.find(l => l.name === 'Domain');
-      const applicationLayer = layerDetails.find(l => l.name === 'Application');
+      const domainLayer = layerDetails.find((l) => l.name === 'Domain');
+      const applicationLayer = layerDetails.find((l) => l.name === 'Application');
 
-      if (domainLayer && applicationLayer && domainLayer.components.length > applicationLayer.components.length * 2) {
-        console.warn('Domain layer is significantly larger than application layer - check for proper separation');
+      if (
+        domainLayer &&
+        applicationLayer &&
+        domainLayer.components.length > applicationLayer.components.length * 2
+      ) {
+        console.warn(
+          'Domain layer is significantly larger than application layer - check for proper separation',
+        );
       }
     } else {
       // No components found - this is common for minimal/library projects
@@ -247,7 +272,9 @@ describe('Integrated Architecture Validation', () => {
     if (architectureReport.overall.totalCriticalViolations === 0) {
       indicators.push('✅ No critical violations');
     } else {
-      indicators.push(`❌ ${architectureReport.overall.totalCriticalViolations} critical violation(s)`);
+      indicators.push(
+        `❌ ${architectureReport.overall.totalCriticalViolations} critical violation(s)`,
+      );
     }
 
     if (architectureReport.cqrs.commands > 0 && architectureReport.cqrs.queries > 0) {
@@ -258,7 +285,7 @@ describe('Integrated Architecture Validation', () => {
       indicators.push('✅ Rich domain model');
     }
 
-    indicators.forEach(indicator => console.info(`├─ ${indicator}`));
+    indicators.forEach((indicator) => console.info(`├─ ${indicator}`));
 
     console.info('\n' + '='.repeat(50));
 
@@ -272,10 +299,10 @@ describe('Integrated Architecture Validation', () => {
       hasEvents: architectureReport.cqrs.commands > 0 && architectureReport.cqrs.queries > 0,
       hasDomainModel: architectureReport.ddd.entities > 0,
       hasLayeredDesign: architectureReport.cleanArchitecture.layers >= 3,
-      lowCoupling: architectureReport.overall.totalCriticalViolations === 0
+      lowCoupling: architectureReport.overall.totalCriticalViolations === 0,
     };
 
-    const evolutionScore = Object.values(evolutionIndicators).filter(Boolean).length / 4 * 100;
+    const evolutionScore = (Object.values(evolutionIndicators).filter(Boolean).length / 4) * 100;
 
     console.info(`\n🔮 Evolution Readiness Score: ${evolutionScore.toFixed(1)}%`);
 

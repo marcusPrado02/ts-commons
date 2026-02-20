@@ -26,7 +26,28 @@
     "@types/node": "^20.11.0",
     "vitest": "^2.1.9"
   },
-  "keywords": ["cqrs", "use-cases", "application-layer", "command", "query"],
+  "keywords": [
+    "cqrs",
+    "use-cases",
+    "application-layer",
+    "command",
+    "query"
+  ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marcusPrado02/ts-commons.git"
+  },
+  "bugs": "https://github.com/marcusPrado02/ts-commons/issues",
+  "homepage": "https://github.com/marcusPrado02/ts-commons/tree/main/packages/application#readme",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ]
 }

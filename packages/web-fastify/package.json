@@ -29,5 +29,20 @@
     "@types/node": "^20.11.0",
     "vitest": "^2.1.9",
     "typescript": "^5.3.3"
-  }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marcusPrado02/ts-commons.git"
+  },
+  "bugs": "https://github.com/marcusPrado02/ts-commons/issues",
+  "homepage": "https://github.com/marcusPrado02/ts-commons/tree/main/packages/web-fastify#readme",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ]
 }

@@ -1,5 +1,10 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { DDDAnalyzer, DDDType, ViolationSeverity } from '../analyzers/DDDAnalyzer';
+import {
+  DDDAnalyzer,
+  DDDType,
+  ViolationSeverity,
+  DDDViolationType,
+} from '../analyzers/DDDAnalyzer';
 import type { DDDComponent, DDDViolation } from '../analyzers/DDDAnalyzer';
 
 describe('Domain-Driven Design Compliance', () => {
@@ -7,19 +12,19 @@ describe('Domain-Driven Design Compliance', () => {
   let violations: DDDViolation[];
   let components: DDDComponent[];
 
-  beforeAll(async () => {
+  beforeAll(() => {
     analyzer = new DDDAnalyzer(process.cwd());
     violations = analyzer.analyzeImplementation();
     components = analyzer.getComponents();
   });
 
   it('should have no critical DDD violations', () => {
-    const criticalViolations = violations.filter(v => v.severity === ViolationSeverity.Critical);
+    const criticalViolations = violations.filter((v) => v.severity === ViolationSeverity.Critical);
 
     if (criticalViolations.length > 0) {
-      const violationDetails = criticalViolations.map(v =>
-        `${v.component}: ${v.description}`
-      ).join('\n');
+      const violationDetails = criticalViolations
+        .map((v) => `${v.component}: ${v.description}`)
+        .join('\n');
 
       console.error('Critical DDD violations found:', violationDetails);
     }
@@ -28,14 +33,14 @@ describe('Domain-Driven Design Compliance', () => {
   });
 
   it('should ensure entities have identity', () => {
-    const entitiesWithoutId = violations.filter(v =>
-      v.violationType === 'entity-without-identity'
+    const entitiesWithoutId = violations.filter(
+      (v) => v.violationType === DDDViolationType.EntityWithoutIdentity,
     );
 
     if (entitiesWithoutId.length > 0) {
-      const violationDetails = entitiesWithoutId.map(v =>
-        `${v.component}: ${v.description}`
-      ).join('\n');
+      const violationDetails = entitiesWithoutId
+        .map((v) => `${v.component}: ${v.description}`)
+        .join('\n');
 
       console.error('Entities without identity:', violationDetails);
     }
@@ -44,14 +49,14 @@ describe('Domain-Driven Design Compliance', () => {
   });
 
   it('should ensure value objects are immutable', () => {
-    const mutableValueObjects = violations.filter(v =>
-      v.violationType === 'value-object-mutable'
+    const mutableValueObjects = violations.filter(
+      (v) => v.violationType === DDDViolationType.ValueObjectMutable,
     );
 
     if (mutableValueObjects.length > 0) {
-      const violationDetails = mutableValueObjects.map(v =>
-        `${v.component}: ${v.description}`
-      ).join('\n');
+      const violationDetails = mutableValueObjects
+        .map((v) => `${v.component}: ${v.description}`)
+        .join('\n');
 
       console.error('Mutable value objects found:', violationDetails);
     }
@@ -60,18 +65,20 @@ describe('Domain-Driven Design Compliance', () => {
   });
 
   it('should prevent anemic domain model', () => {
-    const anemicModelViolations = violations.filter(v =>
-      v.violationType === 'anemic-domain-model'
+    const anemicModelViolations = violations.filter(
+      (v) => v.violationType === DDDViolationType.AnthropicModelPattern,
     );
 
     const maxAllowedAnemicViolations = 3; // Some DTOs might be anemic by design
 
     if (anemicModelViolations.length > 0) {
-      const violationDetails = anemicModelViolations.map(v =>
-        `${v.component}: ${v.description}`
-      ).join('\n');
+      const violationDetails = anemicModelViolations
+        .map((v) => `${v.component}: ${v.description}`)
+        .join('\n');
 
-      console.warn(`Anemic model violations (${anemicModelViolations.length}/${maxAllowedAnemicViolations}):`);
+      console.warn(
+        `Anemic model violations (${anemicModelViolations.length}/${maxAllowedAnemicViolations}):`,
+      );
       console.warn(violationDetails);
     }
 
@@ -79,14 +86,14 @@ describe('Domain-Driven Design Compliance', () => {
   });
 
   it('should keep domain logic in domain layer', () => {
-    const domainLogicInInfra = violations.filter(v =>
-      v.violationType === 'domain-logic-in-infrastructure'
+    const domainLogicInInfra = violations.filter(
+      (v) => v.violationType === DDDViolationType.DomainLogicInInfrastructure,
     );
 
     if (domainLogicInInfra.length > 0) {
-      const violationDetails = domainLogicInInfra.map(v =>
-        `${v.component}: ${v.description}`
-      ).join('\n');
+      const violationDetails = domainLogicInInfra
+        .map((v) => `${v.component}: ${v.description}`)
+        .join('\n');
 
       console.error('Domain logic in infrastructure:', violationDetails);
     }
@@ -95,14 +102,14 @@ describe('Domain-Driven Design Compliance', () => {
   });
 
   it('should prevent infrastructure dependencies in domain', () => {
-    const infraDependencies = violations.filter(v =>
-      v.violationType === 'infrastructure-dependency'
+    const infraDependencies = violations.filter(
+      (v) => v.violationType === DDDViolationType.InfrastructureDependency,
     );
 
     if (infraDependencies.length > 0) {
-      const violationDetails = infraDependencies.map(v =>
-        `${v.component}: ${v.description}`
-      ).join('\n');
+      const violationDetails = infraDependencies
+        .map((v) => `${v.component}: ${v.description}`)
+        .join('\n');
 
       console.error('Infrastructure dependencies in domain:', violationDetails);
     }
@@ -111,18 +118,20 @@ describe('Domain-Driven Design Compliance', () => {
   });
 
   it('should validate aggregate root responsibilities', () => {
-    const aggregateRootViolations = violations.filter(v =>
-      v.violationType === 'aggregate-root-violation'
+    const aggregateRootViolations = violations.filter(
+      (v) => v.violationType === DDDViolationType.AggregateRootViolation,
     );
 
     const maxAllowedAggregateViolations = 2; // Configurable threshold
 
     if (aggregateRootViolations.length > 0) {
-      const violationDetails = aggregateRootViolations.map(v =>
-        `${v.component}: ${v.description}`
-      ).join('\n');
+      const violationDetails = aggregateRootViolations
+        .map((v) => `${v.component}: ${v.description}`)
+        .join('\n');
 
-      console.warn(`Aggregate root violations (${aggregateRootViolations.length}/${maxAllowedAggregateViolations}):`);
+      console.warn(
+        `Aggregate root violations (${aggregateRootViolations.length}/${maxAllowedAggregateViolations}):`,
+      );
       console.warn(violationDetails);
     }
 
@@ -130,14 +139,14 @@ describe('Domain-Driven Design Compliance', () => {
   });
 
   it('should have proper repository placement', () => {
-    const repositoryViolations = violations.filter(v =>
-      v.violationType === 'repository-in-domain'
+    const repositoryViolations = violations.filter(
+      (v) => v.violationType === DDDViolationType.RepositoryInDomain,
     );
 
     if (repositoryViolations.length > 0) {
-      const violationDetails = repositoryViolations.map(v =>
-        `${v.component}: ${v.description}`
-      ).join('\n');
+      const violationDetails = repositoryViolations
+        .map((v) => `${v.component}: ${v.description}`)
+        .join('\n');
 
       console.error('Repository placement violations:', violationDetails);
     }
@@ -146,10 +155,13 @@ describe('Domain-Driven Design Compliance', () => {
   });
 
   it('should validate DDD building block distribution', () => {
-    const componentsByType = components.reduce((acc, comp) => {
-      acc[comp.type] = (acc[comp.type] || 0) + 1;
-      return acc;
-    }, {} as Record<DDDType, number>);
+    const componentsByType = components.reduce(
+      (acc, comp) => {
+        acc[comp.type] = (acc[comp.type] ?? 0) + 1;
+        return acc;
+      },
+      {} as Partial<Record<DDDType, number>>,
+    );
 
     console.info('\n=== DDD Building Blocks ===');
 
@@ -170,10 +182,13 @@ describe('Domain-Driven Design Compliance', () => {
 
   it('should report DDD metrics', () => {
     const totalComponents = components.length;
-    const violationsBySeverity = violations.reduce((acc, v) => {
-      acc[v.severity] = (acc[v.severity] || 0) + 1;
-      return acc;
-    }, {} as Record<ViolationSeverity, number>);
+    const violationsBySeverity = violations.reduce(
+      (acc, v) => {
+        acc[v.severity] = (acc[v.severity] ?? 0) + 1;
+        return acc;
+      },
+      {} as Partial<Record<ViolationSeverity, number>>,
+    );
 
     console.info('\n=== DDD Compliance Metrics ===');
     console.info(`Total DDD Components: ${totalComponents}`);
@@ -183,18 +198,21 @@ describe('Domain-Driven Design Compliance', () => {
       console.info('Violations by severity:', violationsBySeverity);
 
       // Calculate compliance score (simple metric)
-      const criticalCount = violationsBySeverity[ViolationSeverity.Critical] || 0;
-      const highCount = violationsBySeverity[ViolationSeverity.High] || 0;
-      const complianceScore = Math.max(0, 100 - (criticalCount * 20) - (highCount * 10));
+      const criticalCount = violationsBySeverity[ViolationSeverity.Critical] ?? 0;
+      const highCount = violationsBySeverity[ViolationSeverity.High] ?? 0;
+      const complianceScore = Math.max(0, 100 - criticalCount * 20 - highCount * 10);
 
       console.info(`DDD Compliance Score: ${complianceScore}%`);
     }
 
     // Component distribution by type
-    const componentsByType = components.reduce((acc, comp) => {
-      acc[comp.type] = (acc[comp.type] || 0) + 1;
-      return acc;
-    }, {} as Record<DDDType, number>);
+    const componentsByType = components.reduce(
+      (acc, comp) => {
+        acc[comp.type] = (acc[comp.type] ?? 0) + 1;
+        return acc;
+      },
+      {} as Partial<Record<DDDType, number>>,
+    );
 
     console.info('Component distribution:', componentsByType);
 
@@ -203,11 +221,13 @@ describe('Domain-Driven Design Compliance', () => {
   });
 
   it('should validate domain event handling', () => {
-    const domainEvents = components.filter(c => c.type === DDDType.DomainEvent);
-    const aggregateRoots = components.filter(c => c.type === DDDType.AggregateRoot);
+    const domainEvents = components.filter((c) => c.type === DDDType.DomainEvent);
+    const aggregateRoots = components.filter((c) => c.type === DDDType.AggregateRoot);
 
     if (domainEvents.length > 0 && aggregateRoots.length > 0) {
-      console.info(`Found ${domainEvents.length} domain events and ${aggregateRoots.length} aggregate roots`);
+      console.info(
+        `Found ${domainEvents.length} domain events and ${aggregateRoots.length} aggregate roots`,
+      );
 
       // This suggests event-driven architecture is in use
       expect(domainEvents.length).toBeGreaterThan(0);

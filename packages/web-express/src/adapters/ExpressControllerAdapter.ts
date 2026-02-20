@@ -64,7 +64,7 @@ export class ExpressControllerAdapter {
    */
   static adapt<TInput, TOutput, TError extends Error>(
     useCase: UseCase<TInput, TOutput, TError>,
-    options: ControllerAdapterOptions = {}
+    options: ControllerAdapterOptions = {},
   ): RequestHandler {
     const {
       successStatus = 200,
@@ -72,30 +72,32 @@ export class ExpressControllerAdapter {
       transformOutput = (output: unknown): unknown => output,
     } = options;
 
-    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-      try {
-        // Extract input from request
-        const input = extractInput(req) as TInput;
+    return (req: Request, res: Response, next: NextFunction): void => {
+      void (async (): Promise<void> => {
+        try {
+          // Extract input from request
+          const input = extractInput(req) as TInput;
 
-        // Execute use case
-        const result: Result<TOutput, TError> = await useCase.execute(input);
+          // Execute use case
+          const result: Result<TOutput, TError> = await useCase.execute(input);
 
-        // Handle result
-        if (result.isOk() === true) {
-          const output: TOutput = result.unwrap();
-          const transformed: unknown = transformOutput(output);
-          void res.status(successStatus).json(transformed);
-        }
+          // Handle result
+          if (result.isOk() === true) {
+            const output: TOutput = result.unwrap();
+            const transformed: unknown = transformOutput(output);
+            void res.status(successStatus).json(transformed);
+          }
 
-        if (result.isErr() === true) {
-          // Pass error to error handler middleware
-          const error: TError = result.unwrapErr();
+          if (result.isErr() === true) {
+            // Pass error to error handler middleware
+            const error: TError = result.unwrapErr();
+            next(error);
+          }
+        } catch (error: unknown) {
+          // Catch unexpected errors
           next(error);
         }
-      } catch (error: unknown) {
-        // Catch unexpected errors
-        next(error);
-      }
+      })();
     };
   }
 
@@ -104,7 +106,7 @@ export class ExpressControllerAdapter {
    */
   static adaptCommand<TInput, TError extends Error>(
     useCase: UseCase<TInput, void, TError>,
-    options: Omit<ControllerAdapterOptions, 'transformOutput'> = {}
+    options: Omit<ControllerAdapterOptions, 'transformOutput'> = {},
   ): RequestHandler {
     return ExpressControllerAdapter.adapt(useCase, {
       ...options,
@@ -118,14 +120,16 @@ export class ExpressControllerAdapter {
    */
   static adaptQuery<TInput, TOutput, TError extends Error>(
     useCase: UseCase<TInput, TOutput, TError>,
-    options: ControllerAdapterOptions = {}
+    options: ControllerAdapterOptions = {},
   ): RequestHandler {
     return ExpressControllerAdapter.adapt(useCase, {
       ...options,
-      extractInput: options.extractInput ?? ((req: Request): unknown => ({
-        ...req.params,
-        ...req.query,
-      })),
+      extractInput:
+        options.extractInput ??
+        ((req: Request): unknown => ({
+          ...req.params,
+          ...req.query,
+        })),
     });
   }
 
@@ -134,7 +138,7 @@ export class ExpressControllerAdapter {
    */
   static adaptCreate<TInput, TOutput, TError extends Error>(
     useCase: UseCase<TInput, TOutput, TError>,
-    options: ControllerAdapterOptions = {}
+    options: ControllerAdapterOptions = {},
   ): RequestHandler {
     return ExpressControllerAdapter.adapt(useCase, {
       ...options,
@@ -147,7 +151,7 @@ export class ExpressControllerAdapter {
    */
   static adaptDelete<TInput, TError extends Error>(
     useCase: UseCase<TInput, void, TError>,
-    options: Omit<ControllerAdapterOptions, 'transformOutput'> = {}
+    options: Omit<ControllerAdapterOptions, 'transformOutput'> = {},
   ): RequestHandler {
     return ExpressControllerAdapter.adaptCommand(useCase, {
       ...options,
@@ -167,7 +171,7 @@ export class ExpressControllerAdapter {
  */
 export function adaptUseCase<TInput, TOutput, TError extends Error>(
   useCase: UseCase<TInput, TOutput, TError>,
-  options?: ControllerAdapterOptions
+  options?: ControllerAdapterOptions,
 ): RequestHandler {
   return ExpressControllerAdapter.adapt(useCase, options);
 }

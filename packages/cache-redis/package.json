@@ -27,7 +27,29 @@
     "@types/node": "^20.11.0",
     "vitest": "^2.1.9"
   },
-  "keywords": ["redis", "cache", "distributed-lock", "pub-sub", "ioredis", "clean-architecture"],
+  "keywords": [
+    "redis",
+    "cache",
+    "distributed-lock",
+    "pub-sub",
+    "ioredis",
+    "clean-architecture"
+  ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marcusPrado02/ts-commons.git"
+  },
+  "bugs": "https://github.com/marcusPrado02/ts-commons/issues",
+  "homepage": "https://github.com/marcusPrado02/ts-commons/tree/main/packages/cache-redis#readme",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ]
 }

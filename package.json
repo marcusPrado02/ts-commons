@@ -30,23 +30,195 @@
     "prerelease": "npm run quality:check && npm run test:coverage",
     "release": "semantic-release",
     "release:dry": "semantic-release --dry-run",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "changeset:publish": "pnpm build && changeset publish",
     "update:deps": "npx npm-check-updates -u && pnpm install",
     "workspace:info": "pnpm list --depth=0",
-    "workspace:graph": "npx madge --image dependency-graph.png ./packages"
+    "workspace:graph": "npx madge --image dependency-graph.png ./packages",
+    "prepare": "husky",
+    "commit": "czg"
   },
   "devDependencies": {
+    "czg": "^1.9.4",
+    "@changesets/cli": "^2.27.1",
+    "@commitlint/cli": "^19.2.0",
+    "@commitlint/config-conventional": "^19.1.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^10.0.3",
+    "@semantic-release/npm": "^12.0.1",
     "@types/node": "^20.11.0",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@typescript-eslint/eslint-plugin": "^8.56.0",
+    "@typescript-eslint/parser": "^8.56.0",
     "@vitest/coverage-v8": "^4.0.18",
     "@vitest/ui": "^4.0.18",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "^3.2.4",
+    "semantic-release": "^24.0.0",
     "tsx": "^4.7.0",
     "typedoc": "^0.28.17",
     "typescript": "^5.3.3",
     "vitest": "^4.0.18"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "czg": {
+    "emoji": false,
+    "scopeOverrides": {
+      "feat": [
+        {
+          "value": "kernel"
+        },
+        {
+          "value": "config"
+        },
+        {
+          "value": "application"
+        },
+        {
+          "value": "errors"
+        },
+        {
+          "value": "observability"
+        },
+        {
+          "value": "resilience"
+        },
+        {
+          "value": "security"
+        },
+        {
+          "value": "messaging"
+        },
+        {
+          "value": "persistence"
+        },
+        {
+          "value": "outbox"
+        },
+        {
+          "value": "eventsourcing"
+        },
+        {
+          "value": "contracts"
+        },
+        {
+          "value": "testing"
+        },
+        {
+          "value": "web"
+        },
+        {
+          "value": "ci"
+        },
+        {
+          "value": "docs"
+        },
+        {
+          "value": "deps"
+        }
+      ]
+    },
+    "scopes": [
+      "kernel",
+      "config",
+      "application",
+      "errors",
+      "observability",
+      "observability-otel",
+      "resilience",
+      "security",
+      "secrets",
+      "messaging",
+      "messaging-kafka",
+      "messaging-rabbitmq",
+      "messaging-eventbridge",
+      "persistence",
+      "persistence-typeorm",
+      "persistence-prisma",
+      "persistence-mongodb",
+      "cache-redis",
+      "outbox",
+      "eventsourcing",
+      "contracts",
+      "validation",
+      "testing",
+      "web",
+      "web-express",
+      "web-fastify",
+      "web-nestjs",
+      "architecture-tests",
+      "ci",
+      "docs",
+      "deps",
+      "release"
+    ],
+    "messages": {
+      "type": "Select the type of change you are committing:",
+      "scope": "What package is affected? (optional, press enter to skip):",
+      "subject": "Write a SHORT, IMPERATIVE description (lowercase, no period):",
+      "body": "Provide a LONGER description (optional, press enter to skip):",
+      "breaking": "List any BREAKING CHANGES (optional, press enter to skip):",
+      "footer": "List any issues CLOSED by this change (e.g., #31, #42):",
+      "confirmCommit": "Are you sure you want to proceed with the commit above?"
+    },
+    "types": [
+      {
+        "value": "feat",
+        "name": "feat:     ✨  New feature"
+      },
+      {
+        "value": "fix",
+        "name": "fix:      🐛  Bug fix"
+      },
+      {
+        "value": "docs",
+        "name": "docs:     📝  Documentation only"
+      },
+      {
+        "value": "style",
+        "name": "style:    💄  Formatting (no logic change)"
+      },
+      {
+        "value": "refactor",
+        "name": "refactor: ♻️   Code refactoring"
+      },
+      {
+        "value": "perf",
+        "name": "perf:     ⚡️  Performance improvement"
+      },
+      {
+        "value": "test",
+        "name": "test:     ✅  Tests"
+      },
+      {
+        "value": "ci",
+        "name": "ci:       🔧  CI/CD changes"
+      },
+      {
+        "value": "build",
+        "name": "build:    📦  Build system"
+      },
+      {
+        "value": "chore",
+        "name": "chore:    🔨  Maintenance (no changelog)"
+      },
+      {
+        "value": "revert",
+        "name": "revert:   ⏪  Revert a previous commit"
+      }
+    ]
   },
   "keywords": [
     "typescript",

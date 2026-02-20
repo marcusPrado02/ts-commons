@@ -4,23 +4,19 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2022,
     sourceType: 'module',
-    project: [
-      './tsconfig.json',
-      './packages/*/tsconfig.json',
-    ],
-    tsconfigRootDir: __dirname,
+    project: true,
   },
   plugins: ['@typescript-eslint'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:@typescript-eslint/recommended-type-checked',
     'prettier',
   ],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'error',
     '@typescript-eslint/no-explicit-any': 'error',
-    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }],
     '@typescript-eslint/no-floating-promises': 'error',
     '@typescript-eslint/await-thenable': 'error',
     '@typescript-eslint/strict-boolean-expressions': 'error',
@@ -48,9 +44,11 @@ module.exports = {
     {
       files: ['**/*.test.ts', '**/*.spec.ts'],
       rules: {
-        'max-lines-per-function': ['warn', { max: 100 }],
+        'max-lines-per-function': 'off',
         '@typescript-eslint/no-unsafe-member-access': 'off',
-        'complexity': ['warn', { max: 15 }]
+        '@typescript-eslint/unbound-method': 'off',
+        'complexity': ['warn', { max: 15 }],
+        'no-console': 'off'
       }
     },
     {
@@ -60,5 +58,5 @@ module.exports = {
       }
     }
   ],
-  ignorePatterns: ['dist', 'build', 'node_modules', '*.cjs', 'vitest.config.ts'],
+  ignorePatterns: ['dist', 'build', 'node_modules', '*.cjs', 'vitest.config.ts', 'vitest.*.config.ts', '*.js'],
 };

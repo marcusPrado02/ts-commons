@@ -37,10 +37,10 @@ export interface CommonsOutboxModuleOptions {
 export class CommonsOutboxModule {
   static forRoot(options: CommonsOutboxModuleOptions = {}): DynamicModule {
     const store = options.store ?? {
-      save: async () => Promise.resolve(),
-      findPending: async () => Promise.resolve([]),
-      markAsProcessed: async () => Promise.resolve(),
-      markAsFailed: async () => Promise.resolve(),
+      save: (): Promise<void> => Promise.resolve(),
+      findPending: (): Promise<never[]> => Promise.resolve([]),
+      markAsProcessed: (): Promise<void> => Promise.resolve(),
+      markAsFailed: (): Promise<void> => Promise.resolve(),
     };
 
     return {

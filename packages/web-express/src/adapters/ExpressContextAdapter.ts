@@ -1,5 +1,5 @@
 import type { Request, NextFunction } from 'express';
-import { CorrelationId, type TenantId } from '@acme/kernel';
+import type { CorrelationId, TenantId } from '@acme/kernel';
 import type { UseCaseContext } from '@acme/application';
 
 /**
@@ -16,6 +16,7 @@ export interface ExpressUserContext {
  * Express request extension for user context
  */
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
       user?: ExpressUserContext;
@@ -45,9 +46,11 @@ export class ExpressContextAdapter {
   /**
    * Create use case context from Express request
    */
-  static fromRequest(req: Request): Omit<UseCaseContext, 'tenantId' | 'userId'> & { tenantId?: TenantId; userId?: string } {
+  static fromRequest(
+    req: Request,
+  ): Omit<UseCaseContext, 'tenantId' | 'userId'> & { tenantId?: TenantId; userId?: string } {
     // Extract correlation ID (should be set by correlationMiddleware)
-    const correlationId = req.correlationId ?? { value: crypto.randomUUID() } as CorrelationId;
+    const correlationId = req.correlationId ?? ({ value: crypto.randomUUID() } as CorrelationId);
 
     // Extract tenant ID if present
     const tenantId = req.tenantId;
@@ -80,7 +83,10 @@ export class ExpressContextAdapter {
     return {
       correlationId,
       metadata,
-    } as unknown as Omit<UseCaseContext, 'tenantId' | 'userId'> & { tenantId?: TenantId; userId?: string };
+    } as unknown as Omit<UseCaseContext, 'tenantId' | 'userId'> & {
+      tenantId?: TenantId;
+      userId?: string;
+    };
   }
 
   /**
@@ -90,12 +96,9 @@ export class ExpressContextAdapter {
    * @param headerName - Name of header containing tenant ID (default: 'X-Tenant-ID')
    * @returns Tenant ID if present
    */
-  static extractTenantId(
-    req: Request,
-    headerName: string = 'X-Tenant-ID'
-  ): TenantId | undefined {
+  static extractTenantId(req: Request, headerName: string = 'X-Tenant-ID'): TenantId | undefined {
     const tenantIdValue = req.get(headerName);
-    if (!tenantIdValue) {
+    if (tenantIdValue === undefined || tenantIdValue === '') {
       return undefined;
     }
 
@@ -125,6 +128,12 @@ export class ExpressContextAdapter {
   }
 }
 
+/** Extract a string field from a JWT payload by key */
+function extractStringField(payload: Record<string, unknown>, key: string): string | undefined {
+  const val = payload[key];
+  return key in payload && typeof val === 'string' ? val : undefined;
+}
+
 /**
  * Helper to extract user context from JWT or session
  *
@@ -140,21 +149,23 @@ export class ExpressContextAdapter {
  * ```
  */
 export function extractUserFromJWT(jwt: unknown): ExpressUserContext {
-  // Type guard for JWT payload
   if (typeof jwt !== 'object' || jwt === null) {
     return {};
   }
 
   const payload = jwt as Record<string, unknown>;
-
   const result: Partial<ExpressUserContext> = {};
 
-  if ('sub' in payload && typeof payload['sub'] === 'string') {
-    result.userId = payload['sub'];
+  const userId = extractStringField(payload, 'sub');
+  if (userId !== undefined) {
+    result.userId = userId;
   }
-  if ('email' in payload && typeof payload['email'] === 'string') {
-    result.email = payload['email'];
+
+  const email = extractStringField(payload, 'email');
+  if (email !== undefined) {
+    result.email = email;
   }
+
   if ('roles' in payload && Array.isArray(payload['roles'])) {
     result.roles = payload['roles'] as string[];
   }

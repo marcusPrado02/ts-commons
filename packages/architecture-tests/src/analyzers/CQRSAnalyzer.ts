@@ -22,7 +22,7 @@ export enum CQRSType {
   QueryHandler = 'query-handler',
   CommandBus = 'command-bus',
   QueryBus = 'query-bus',
-  Event = 'event'
+  Event = 'event',
 }
 
 /**
@@ -44,7 +44,7 @@ export enum CQRSViolationType {
   QueryModifiesState = 'query-modifies-state',
   CommandQueryMixing = 'command-query-mixing',
   HandlerViolation = 'handler-violation',
-  BusViolation = 'bus-violation'
+  BusViolation = 'bus-violation',
 }
 
 /**
@@ -77,35 +77,35 @@ export class CQRSAnalyzer {
    * Get all commands
    */
   getCommands(): CQRSComponent[] {
-    return this.getComponents().filter(c => c.type === CQRSType.Command);
+    return this.getComponents().filter((c) => c.type === CQRSType.Command);
   }
 
   /**
    * Get all queries
    */
   getQueries(): CQRSComponent[] {
-    return this.getComponents().filter(c => c.type === CQRSType.Query);
+    return this.getComponents().filter((c) => c.type === CQRSType.Query);
   }
 
   /**
    * Get all command handlers
    */
   getCommandHandlers(): CQRSComponent[] {
-    return this.getComponents().filter(c => c.type === CQRSType.CommandHandler);
+    return this.getComponents().filter((c) => c.type === CQRSType.CommandHandler);
   }
 
   /**
    * Get all query handlers
    */
   getQueryHandlers(): CQRSComponent[] {
-    return this.getComponents().filter(c => c.type === CQRSType.QueryHandler);
+    return this.getComponents().filter((c) => c.type === CQRSType.QueryHandler);
   }
 
   /**
    * Get all events
    */
   getEvents(): CQRSComponent[] {
-    return this.getComponents().filter(c => c.type === CQRSType.Event);
+    return this.getComponents().filter((c) => c.type === CQRSType.Event);
   }
 
   /**
@@ -136,9 +136,10 @@ export class CQRSAnalyzer {
    * Load packages from specified directory
    */
   private async loadPackagesFromDirectory(packagesDir: string): Promise<void> {
-    const packageDirs = fs.readdirSync(packagesDir, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory())
-      .map(dirent => dirent.name);
+    const packageDirs = fs
+      .readdirSync(packagesDir, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => dirent.name);
 
     for (const packageDir of packageDirs) {
       const packagePath = path.join(packagesDir, packageDir);
@@ -187,9 +188,9 @@ export class CQRSAnalyzer {
       for (const component of components) {
         this.components.set(component.name, component);
       }
-    } catch (error) {
+    } catch {
       // Skip files that can't be read or parsed - this is expected for some files
-      // Error details: files may be binary, invalid syntax, or permission issues
+      // Files may be binary, have invalid syntax, or have permission issues
     }
   }
 
@@ -197,52 +198,37 @@ export class CQRSAnalyzer {
    * Extract CQRS components from source code content
    */
   private extractCQRSComponents(filePath: string, content: string): CQRSComponent[] {
-    const components: CQRSComponent[] = [];
-
-    // Extract class and interface declarations
-    const classRegex = /(?:export\s+)?(?:abstract\s+)?class\s+(\w+)(?:\s+extends\s+\w+)?(?:\s+implements\s+[\w\s,<>]+)?\s*{/g;
+    const classRegex =
+      /(?:export\s+)?(?:abstract\s+)?class\s+(\w+)(?:\s+extends\s+\w+)?(?:\s+implements\s+[\w\s,<>]+)?\s*{/g;
     const interfaceRegex = /(?:export\s+)?interface\s+(\w+)(?:\s+extends\s+[\w\s,<>]+)?\s*{/g;
 
+    return [
+      ...this.extractMatchingComponents(classRegex, filePath, content),
+      ...this.extractMatchingComponents(interfaceRegex, filePath, content),
+    ];
+  }
+
+  /** Extract CQRS components from all regex matches in content */
+  private extractMatchingComponents(
+    regex: RegExp,
+    filePath: string,
+    content: string,
+  ): CQRSComponent[] {
+    const components: CQRSComponent[] = [];
     let match;
 
-    // Analyze classes
-    while ((match = classRegex.exec(content)) !== null) {
-      const className = match[1];
-      if (!className) continue;
+    while ((match = regex.exec(content)) !== null) {
+      const name = match[1];
+      if (name === undefined || name === '') continue;
 
-      const type = this.determineCQRSType(className, content);
-
+      const type = this.determineCQRSType(name, content);
       if (type !== null) {
-        const dependencies = this.extractDependencies(content);
-        const violations = this.validateComponent(className, type, content);
-
         components.push({
-          name: className,
+          name,
           type,
           filePath,
-          dependencies,
-          violations
-        });
-      }
-    }
-
-    // Analyze interfaces
-    while ((match = interfaceRegex.exec(content)) !== null) {
-      const interfaceName = match[1];
-      if (!interfaceName) continue;
-
-      const type = this.determineCQRSType(interfaceName, content);
-
-      if (type !== null) {
-        const dependencies = this.extractDependencies(content);
-        const violations = this.validateComponent(interfaceName, type, content);
-
-        components.push({
-          name: interfaceName,
-          type,
-          filePath,
-          dependencies,
-          violations
+          dependencies: this.extractDependencies(content),
+          violations: this.validateComponent(name, type, content),
         });
       }
     }
@@ -256,36 +242,45 @@ export class CQRSAnalyzer {
   private determineCQRSType(name: string, content: string): CQRSType | null {
     const nameUpper = name.toUpperCase();
 
+    const handlerType = this.determineHandlerType(nameUpper);
+    if (handlerType !== null) return handlerType;
+
+    const busType = this.determineBusType(nameUpper);
+    if (busType !== null) return busType;
+
+    return this.determineCommandOrQueryType(nameUpper, content);
+  }
+
+  /** Determine if name is a Handler type */
+  private determineHandlerType(nameUpper: string): CQRSType | null {
     if (nameUpper.includes('COMMAND') && nameUpper.includes('HANDLER')) {
       return CQRSType.CommandHandler;
     }
-
     if (nameUpper.includes('QUERY') && nameUpper.includes('HANDLER')) {
       return CQRSType.QueryHandler;
     }
+    return null;
+  }
 
-    if (nameUpper.includes('COMMANDBUS')) {
-      return CQRSType.CommandBus;
-    }
+  /** Determine if name is a Bus type */
+  private determineBusType(nameUpper: string): CQRSType | null {
+    if (nameUpper.includes('COMMANDBUS')) return CQRSType.CommandBus;
+    if (nameUpper.includes('QUERYBUS')) return CQRSType.QueryBus;
+    return null;
+  }
 
-    if (nameUpper.includes('QUERYBUS')) {
-      return CQRSType.QueryBus;
-    }
-
+  /** Determine if name is a Command or Query type based on content */
+  private determineCommandOrQueryType(nameUpper: string, content: string): CQRSType | null {
     if (nameUpper.includes('COMMAND')) {
-      // Check if it implements Command interface
-      const implementsCommand = content.includes('implements Command') ||
-                               content.includes('extends BaseCommand');
+      const implementsCommand =
+        content.includes('implements Command') || content.includes('extends BaseCommand');
       return implementsCommand ? CQRSType.Command : null;
     }
-
     if (nameUpper.includes('QUERY')) {
-      // Check if it implements Query interface
-      const implementsQuery = content.includes('implements Query') ||
-                             content.includes('extends BaseQuery');
+      const implementsQuery =
+        content.includes('implements Query') || content.includes('extends BaseQuery');
       return implementsQuery ? CQRSType.Query : null;
     }
-
     return null;
   }
 
@@ -299,7 +294,7 @@ export class CQRSAnalyzer {
     let match;
     while ((match = importRegex.exec(content)) !== null) {
       const importPath = match[1];
-      if (importPath?.startsWith('@acme/')) {
+      if (importPath?.startsWith('@acme/') === true) {
         dependencies.push(importPath);
       }
     }
@@ -332,6 +327,9 @@ export class CQRSAnalyzer {
       case CQRSType.QueryBus:
         violations.push(...this.validateQueryBus(name, content));
         break;
+      case CQRSType.Event:
+        // Events have no specific validation rules
+        break;
     }
 
     return violations;
@@ -344,9 +342,10 @@ export class CQRSAnalyzer {
     const violations: CQRSViolation[] = [];
 
     // Commands should not return data (void or simple acknowledgment)
-    const hasDataReturn = content.includes('Promise<') &&
-                         !content.includes('Promise<void>') &&
-                         !content.includes('Promise<Result<void');
+    const hasDataReturn =
+      content.includes('Promise<') &&
+      !content.includes('Promise<void>') &&
+      !content.includes('Promise<Result<void');
 
     if (hasDataReturn) {
       violations.push({
@@ -354,7 +353,7 @@ export class CQRSAnalyzer {
         violationType: CQRSViolationType.CommandReturnsData,
         description: 'Command appears to return data instead of void/acknowledgment',
         suggestion: 'Commands should return void or simple acknowledgment, not data',
-        severity: 'high'
+        severity: 'high',
       });
     }
 
@@ -368,8 +367,8 @@ export class CQRSAnalyzer {
     const violations: CQRSViolation[] = [];
 
     // Command handlers should implement CommandHandler interface
-    const implementsInterface = content.includes('implements CommandHandler') ||
-                               content.includes(': CommandHandler');
+    const implementsInterface =
+      content.includes('implements CommandHandler') || content.includes(': CommandHandler');
 
     if (!implementsInterface) {
       violations.push({
@@ -377,7 +376,7 @@ export class CQRSAnalyzer {
         violationType: CQRSViolationType.HandlerViolation,
         description: 'CommandHandler should implement CommandHandler interface',
         suggestion: 'Implement CommandHandler<TCommand, TResult, TError> interface',
-        severity: 'critical'
+        severity: 'critical',
       });
     }
 
@@ -399,7 +398,7 @@ export class CQRSAnalyzer {
         violationType: CQRSViolationType.QueryModifiesState,
         description: 'Query appears to modify state',
         suggestion: 'Queries should only read data, not modify state',
-        severity: 'critical'
+        severity: 'critical',
       });
     }
 
@@ -413,8 +412,8 @@ export class CQRSAnalyzer {
     const violations: CQRSViolation[] = [];
 
     // Query handlers should implement QueryHandler interface
-    const implementsInterface = content.includes('implements QueryHandler') ||
-                               content.includes(': QueryHandler');
+    const implementsInterface =
+      content.includes('implements QueryHandler') || content.includes(': QueryHandler');
 
     if (!implementsInterface) {
       violations.push({
@@ -422,7 +421,7 @@ export class CQRSAnalyzer {
         violationType: CQRSViolationType.HandlerViolation,
         description: 'QueryHandler should implement QueryHandler interface',
         suggestion: 'Implement QueryHandler<TQuery, TResult, TError> interface',
-        severity: 'critical'
+        severity: 'critical',
       });
     }
 
@@ -436,9 +435,8 @@ export class CQRSAnalyzer {
     const violations: CQRSViolation[] = [];
 
     // Command bus should only handle commands
-    const hasQueryHandling = content.includes('QueryHandler') ||
-                            content.includes('query') ||
-                            content.includes('Query');
+    const hasQueryHandling =
+      content.includes('QueryHandler') || content.includes('query') || content.includes('Query');
 
     if (hasQueryHandling) {
       violations.push({
@@ -446,7 +444,7 @@ export class CQRSAnalyzer {
         violationType: CQRSViolationType.BusViolation,
         description: 'CommandBus should not handle queries',
         suggestion: 'Separate command and query handling into different buses',
-        severity: 'high'
+        severity: 'high',
       });
     }
 
@@ -460,9 +458,10 @@ export class CQRSAnalyzer {
     const violations: CQRSViolation[] = [];
 
     // Query bus should only handle queries
-    const hasCommandHandling = content.includes('CommandHandler') ||
-                              content.includes('command') ||
-                              content.includes('Command');
+    const hasCommandHandling =
+      content.includes('CommandHandler') ||
+      content.includes('command') ||
+      content.includes('Command');
 
     if (hasCommandHandling) {
       violations.push({
@@ -470,7 +469,7 @@ export class CQRSAnalyzer {
         violationType: CQRSViolationType.BusViolation,
         description: 'QueryBus should not handle commands',
         suggestion: 'Separate command and query handling into different buses',
-        severity: 'high'
+        severity: 'high',
       });
     }
 
@@ -502,10 +501,9 @@ export class CQRSAnalyzer {
 
     // Check for components that mix command and query responsibilities
     for (const component of this.components.values()) {
-      const isCommand = component.type === CQRSType.Command ||
-                       component.type === CQRSType.CommandHandler;
-      const isQuery = component.type === CQRSType.Query ||
-                     component.type === CQRSType.QueryHandler;
+      const isCommand =
+        component.type === CQRSType.Command || component.type === CQRSType.CommandHandler;
+      const isQuery = component.type === CQRSType.Query || component.type === CQRSType.QueryHandler;
 
       if (isCommand && isQuery) {
         violations.push({
@@ -513,7 +511,7 @@ export class CQRSAnalyzer {
           violationType: CQRSViolationType.CommandQueryMixing,
           description: 'Component mixes command and query responsibilities',
           suggestion: 'Split into separate command and query components',
-          severity: 'critical'
+          severity: 'critical',
         });
       }
     }

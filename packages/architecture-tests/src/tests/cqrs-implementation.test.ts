@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { CQRSAnalyzer } from '../analyzers/CQRSAnalyzer';
-import type { CQRSViolation, CQRSViolationType } from '../analyzers/CQRSAnalyzer';
+import { CQRSAnalyzer, CQRSViolationType } from '../analyzers/CQRSAnalyzer';
+import type { CQRSViolation } from '../analyzers/CQRSAnalyzer';
 
 describe('CQRS Implementation Compliance', () => {
   let analyzer: CQRSAnalyzer;
@@ -12,12 +12,12 @@ describe('CQRS Implementation Compliance', () => {
   });
 
   it('should have no critical CQRS violations', () => {
-    const criticalViolations = violations.filter(v => v.severity === 'critical');
+    const criticalViolations = violations.filter((v) => v.severity === 'critical');
 
     if (criticalViolations.length > 0) {
-      const violationDetails = criticalViolations.map(v =>
-        `${v.component}: ${v.description}`
-      ).join('\n');
+      const violationDetails = criticalViolations
+        .map((v) => `${v.component}: ${v.description}`)
+        .join('\n');
 
       console.error('Critical CQRS violations found:', violationDetails);
     }
@@ -26,14 +26,14 @@ describe('CQRS Implementation Compliance', () => {
   });
 
   it('should enforce command-query separation', () => {
-    const commandQueryMixViolations = violations.filter(v =>
-      v.violationType === ('command-query-mixing' as CQRSViolationType)
+    const commandQueryMixViolations = violations.filter(
+      (v) => v.violationType === CQRSViolationType.CommandQueryMixing,
     );
 
     if (commandQueryMixViolations.length > 0) {
-      const violationDetails = commandQueryMixViolations.map(v =>
-        `${v.component}: ${v.description}`
-      ).join('\n');
+      const violationDetails = commandQueryMixViolations
+        .map((v) => `${v.component}: ${v.description}`)
+        .join('\n');
 
       console.error('Command-Query separation violations:', violationDetails);
     }
@@ -45,26 +45,33 @@ describe('CQRS Implementation Compliance', () => {
     const commands = analyzer.getCommands();
     const commandHandlers = analyzer.getCommandHandlers();
 
-    console.info(`Found ${commands.length} commands and ${commandHandlers.length} command handlers`);
+    console.info(
+      `Found ${commands.length} commands and ${commandHandlers.length} command handlers`,
+    );
 
     // For a library project, CQRS might not be implemented
     // We validate that IF we have commands, they have handlers
     if (commands.length > 0) {
       for (const command of commands) {
-        const handlerExists = commandHandlers.some(h =>
-          h.name.includes(command.name.replace('Command', '')) ||
-          h.name.includes('Base') || // BaseCommand might not need specific handler
-          command.name.includes('Base') // Base classes are abstract
+        const handlerExists = commandHandlers.some(
+          (h) =>
+            h.name.includes(command.name.replace('Command', '')) ||
+            h.name.includes('Base') || // BaseCommand might not need specific handler
+            command.name.includes('Base'), // Base classes are abstract
         );
 
         // Skip validation for base/abstract commands
         if (!handlerExists && !command.name.includes('Base')) {
-          console.warn(`Missing handler for command: ${command.name} - this may be intentional for library components`);
+          console.warn(
+            `Missing handler for command: ${command.name} - this may be intentional for library components`,
+          );
         }
       }
 
       // For libraries, it's OK to have command definitions without handlers
-      console.info('Command validation completed - libraries may define command interfaces without implementations');
+      console.info(
+        'Command validation completed - libraries may define command interfaces without implementations',
+      );
     } else {
       // No commands found - this is OK for a utility library
       expect(commands.length).toBeGreaterThanOrEqual(0);
@@ -81,8 +88,8 @@ describe('CQRS Implementation Compliance', () => {
     // We validate that IF we have queries, they have handlers
     if (queries.length > 0) {
       for (const query of queries) {
-        const handlerExists = queryHandlers.some(h =>
-          h.name.includes(query.name.replace('Query', ''))
+        const handlerExists = queryHandlers.some((h) =>
+          h.name.includes(query.name.replace('Query', '')),
         );
 
         if (!handlerExists) {
@@ -98,14 +105,14 @@ describe('CQRS Implementation Compliance', () => {
   });
 
   it('should ensure commands return void or Result', () => {
-    const invalidCommandReturns = violations.filter(v =>
-      v.violationType === 'command-returns-data'
+    const invalidCommandReturns = violations.filter(
+      (v) => v.violationType === CQRSViolationType.CommandReturnsData,
     );
 
     if (invalidCommandReturns.length > 0) {
-      const violationDetails = invalidCommandReturns.map(v =>
-        `${v.component}: ${v.description}`
-      ).join('\n');
+      const violationDetails = invalidCommandReturns
+        .map((v) => `${v.component}: ${v.description}`)
+        .join('\n');
 
       console.error('Commands returning data violations:', violationDetails);
     }
@@ -114,14 +121,14 @@ describe('CQRS Implementation Compliance', () => {
   });
 
   it('should ensure queries are read-only', () => {
-    const sideEffectViolations = violations.filter(v =>
-      v.violationType === ('query-modifies-state' as CQRSViolationType)
+    const sideEffectViolations = violations.filter(
+      (v) => v.violationType === CQRSViolationType.QueryModifiesState,
     );
 
     if (sideEffectViolations.length > 0) {
-      const violationDetails = sideEffectViolations.map(v =>
-        `${v.component}: ${v.description}`
-      ).join('\n');
+      const violationDetails = sideEffectViolations
+        .map((v) => `${v.component}: ${v.description}`)
+        .join('\n');
 
       console.error('Query side-effects violations:', violationDetails);
     }
@@ -131,18 +138,20 @@ describe('CQRS Implementation Compliance', () => {
 
   it('should validate event sourcing implementation', () => {
     // Event sourcing is not a CQRS violation type, so we skip type checking
-    const eventSourcingViolations = violations.filter(v =>
-      (v.violationType as string) === 'event-sourcing-violation'
+    const eventSourcingViolations = violations.filter(
+      (v) => (v.violationType as string) === 'event-sourcing-violation',
     );
 
     const maxAllowedEventSourcingViolations = 3; // Configurable threshold
 
     if (eventSourcingViolations.length > 0) {
-      const violationDetails = eventSourcingViolations.map(v =>
-        `${v.component}: ${v.description}`
-      ).join('\n');
+      const violationDetails = eventSourcingViolations
+        .map((v) => `${v.component}: ${v.description}`)
+        .join('\n');
 
-      console.warn(`Event sourcing violations (${eventSourcingViolations.length}/${maxAllowedEventSourcingViolations}):`);
+      console.warn(
+        `Event sourcing violations (${eventSourcingViolations.length}/${maxAllowedEventSourcingViolations}):`,
+      );
       console.warn(violationDetails);
     }
 
@@ -165,10 +174,13 @@ describe('CQRS Implementation Compliance', () => {
     console.info(`Total Violations: ${violations.length}`);
 
     if (violations.length > 0) {
-      const violationsBySeverity = violations.reduce((acc, v) => {
-        acc[v.severity] = (acc[v.severity] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>);
+      const violationsBySeverity = violations.reduce(
+        (acc, v) => {
+          acc[v.severity] = (acc[v.severity] ?? 0) + 1;
+          return acc;
+        },
+        {} as Partial<Record<string, number>>,
+      );
 
       console.info('Violations by severity:', violationsBySeverity);
     }
@@ -182,7 +194,7 @@ describe('CQRS Implementation Compliance', () => {
     const queries = analyzer.getQueries();
 
     // In a well-designed CQRS system, queries often outnumber commands
-    const commandQueryRatio = commands.length / (queries.length || 1);
+    const commandQueryRatio = commands.length / (queries.length === 0 ? 1 : queries.length);
 
     console.info(`Command-Query Ratio: ${commandQueryRatio.toFixed(2)}`);
 

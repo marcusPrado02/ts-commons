@@ -1,0 +1,7 @@
+dist/
+build/
+node_modules/
+*.cjs
+*.js
+vitest.config.ts
+vitest.*.config.ts

@@ -30,5 +30,20 @@
   "devDependencies": {
     "@types/node": "^20.11.5",
     "vitest": "^2.1.9"
-  }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marcusPrado02/ts-commons.git"
+  },
+  "bugs": "https://github.com/marcusPrado02/ts-commons/issues",
+  "homepage": "https://github.com/marcusPrado02/ts-commons/tree/main/packages/messaging-kafka#readme",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ]
 }

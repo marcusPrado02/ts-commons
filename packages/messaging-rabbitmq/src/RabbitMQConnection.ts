@@ -21,7 +21,7 @@ export class RabbitMQConnection {
 
   constructor(
     config: RabbitMQConfig,
-    private readonly logger: Logger
+    private readonly logger: Logger,
   ) {
     this.config = { ...DEFAULT_RABBITMQ_CONFIG, ...config } as Required<RabbitMQConfig>;
   }
@@ -96,11 +96,7 @@ export class RabbitMQConnection {
    */
   private async assertExchange(): Promise<void> {
     const channel = this.getChannel();
-    await channel.assertExchange(
-      this.config.exchange,
-      this.config.exchangeType,
-      { durable: true }
-    );
+    await channel.assertExchange(this.config.exchange, this.config.exchangeType, { durable: true });
 
     // Assert DLQ exchange if enabled
     if (this.config.enableDLQ === true) {
@@ -119,14 +115,12 @@ export class RabbitMQConnection {
     this.channels = [];
 
     // Attempt reconnect after delay
-    if (this.reconnectTimer === null) {
-      this.reconnectTimer = setTimeout(() => {
-        this.reconnectTimer = null;
-        this.connect().catch((err: Error) => {
-          this.logger.error('Reconnection failed', err);
-        });
-      }, this.config.retryDelay);
-    }
+    this.reconnectTimer ??= setTimeout(() => {
+      this.reconnectTimer = null;
+      this.connect().catch((err: Error) => {
+        this.logger.error('Reconnection failed', err);
+      });
+    }, this.config.retryDelay);
   }
 
   /**

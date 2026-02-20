@@ -12,7 +12,7 @@ export class DotenvSource implements ConfigSource {
     try {
       const content = await readFile(this.path, 'utf-8');
       return this.parse(content);
-    } catch (error: unknown) {
+    } catch {
       // .env file is optional - this is expected behavior
       // Error could be ENOENT (file not found) or permission issues
       return {};

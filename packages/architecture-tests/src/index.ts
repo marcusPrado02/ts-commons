@@ -5,12 +5,16 @@
  * in TypeScript codebases using automated static analysis.
  */
 
+import type { Layer, LayerViolation } from './analyzers/DependencyAnalyzer';
+import type { CQRSComponent, CQRSViolation } from './analyzers/CQRSAnalyzer';
+import type { DDDComponent, DDDViolation } from './analyzers/DDDAnalyzer';
+
 export { DependencyAnalyzer } from './analyzers/DependencyAnalyzer';
 export type {
   Layer,
   LayerComponent,
   LayerViolation,
-  ViolationSeverity
+  ViolationSeverity,
 } from './analyzers/DependencyAnalyzer';
 
 export { CQRSAnalyzer } from './analyzers/CQRSAnalyzer';
@@ -18,7 +22,7 @@ export type {
   CQRSComponent,
   CQRSViolation,
   CQRSType,
-  CQRSViolationType
+  CQRSViolationType,
 } from './analyzers/CQRSAnalyzer';
 
 export { DDDAnalyzer, DDDType } from './analyzers/DDDAnalyzer';
@@ -26,13 +30,36 @@ export type {
   DDDComponent,
   DDDViolation,
   DDDViolationType,
-  ViolationSeverity as DDDViolationSeverity
+  ViolationSeverity as DDDViolationSeverity,
 } from './analyzers/DDDAnalyzer';
+
+/** Result of a full architecture analysis */
+export interface ArchitectureAnalysisResult {
+  cleanArchitecture: {
+    violations: LayerViolation[];
+    layers: Layer[];
+    circularDependencies: string[][];
+  };
+  cqrs: {
+    violations: CQRSViolation[];
+    commands: CQRSComponent[];
+    queries: CQRSComponent[];
+    commandHandlers: CQRSComponent[];
+    queryHandlers: CQRSComponent[];
+    events: CQRSComponent[];
+  };
+  ddd: {
+    violations: DDDViolation[];
+    components: DDDComponent[];
+  };
+}
 
 /**
  * Convenience function to run all architecture analyses
  */
-export async function analyzeArchitecture(workspaceRoot: string = process.cwd()) {
+export async function analyzeArchitecture(
+  workspaceRoot: string = process.cwd(),
+): Promise<ArchitectureAnalysisResult> {
   const { DependencyAnalyzer } = await import('./analyzers/DependencyAnalyzer');
   const { CQRSAnalyzer } = await import('./analyzers/CQRSAnalyzer');
   const { DDDAnalyzer } = await import('./analyzers/DDDAnalyzer');
@@ -41,17 +68,15 @@ export async function analyzeArchitecture(workspaceRoot: string = process.cwd())
   const cqrsAnalyzer = new CQRSAnalyzer(workspaceRoot);
   const dddAnalyzer = new DDDAnalyzer(workspaceRoot);
 
-  const [layerViolations, cqrsViolations, dddViolations] = await Promise.all([
-    dependencyAnalyzer.analyzeDependencies(),
-    cqrsAnalyzer.analyzeImplementation(),
-    Promise.resolve(dddAnalyzer.analyzeImplementation())
-  ]);
+  const layerViolations = dependencyAnalyzer.analyzeDependencies();
+  const cqrsViolations = await cqrsAnalyzer.analyzeImplementation();
+  const dddViolations = dddAnalyzer.analyzeImplementation();
 
   return {
     cleanArchitecture: {
       violations: layerViolations,
       layers: dependencyAnalyzer.getLayers(),
-      circularDependencies: dependencyAnalyzer.detectCircularDependencies()
+      circularDependencies: dependencyAnalyzer.detectCircularDependencies(),
     },
     cqrs: {
       violations: cqrsViolations,
@@ -59,11 +84,11 @@ export async function analyzeArchitecture(workspaceRoot: string = process.cwd())
       queries: cqrsAnalyzer.getQueries(),
       commandHandlers: cqrsAnalyzer.getCommandHandlers(),
       queryHandlers: cqrsAnalyzer.getQueryHandlers(),
-      events: cqrsAnalyzer.getEvents()
+      events: cqrsAnalyzer.getEvents(),
     },
     ddd: {
       violations: dddViolations,
-      components: dddAnalyzer.getComponents()
-    }
+      components: dddAnalyzer.getComponents(),
+    },
   };
 }

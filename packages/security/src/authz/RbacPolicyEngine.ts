@@ -34,16 +34,14 @@ import type { Permission } from './Permission';
  * ```
  */
 export class RbacPolicyEngine implements PolicyEnginePort {
-  constructor(
-    private readonly rolePermissions: Readonly<Record<string, readonly string[]>>,
-  ) {}
+  constructor(private readonly rolePermissions: Readonly<Record<string, readonly string[]>>) {}
 
   evaluate(principal: AuthenticatedPrincipal, permission: Permission): Promise<PolicyDecision> {
     const required = permission.value;
 
     const hasPermission = principal.roles.some((role) => {
       const perms = this.rolePermissions[role];
-      return perms !== undefined && perms.includes(required);
+      return perms?.includes(required) === true;
     });
 
     return Promise.resolve(hasPermission ? PolicyDecision.ALLOW : PolicyDecision.DENY);
