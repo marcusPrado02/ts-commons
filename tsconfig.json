@@ -19,6 +19,7 @@
     { "path": "./packages/contracts" },
     { "path": "./packages/web" },
     { "path": "./packages/testing" },
-    { "path": "./packages/storage" }
+    { "path": "./packages/storage" },
+    { "path": "./packages/search" }
   ]
 }

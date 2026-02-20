@@ -430,6 +430,15 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
+  packages/search:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
   packages/secrets:
     dependencies:
       '@acme/kernel':
