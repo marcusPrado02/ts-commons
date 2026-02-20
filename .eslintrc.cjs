@@ -46,6 +46,7 @@ module.exports = {
       rules: {
         'max-lines-per-function': 'off',
         '@typescript-eslint/no-unsafe-member-access': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
         '@typescript-eslint/unbound-method': 'off',
         'complexity': ['warn', { max: 15 }],
         'no-console': 'off'
