@@ -33,6 +33,8 @@
     "changeset": "changeset",
     "changeset:version": "changeset version",
     "changeset:publish": "pnpm build && changeset publish",
+    "changelog:generate": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 0",
+    "changelog:preview": "conventional-changelog -p conventionalcommits",
     "update:deps": "npx npm-check-updates -u && pnpm install",
     "workspace:info": "pnpm list --depth=0",
     "workspace:graph": "npx madge --image dependency-graph.png ./packages",
@@ -40,7 +42,7 @@
     "commit": "czg"
   },
   "devDependencies": {
-    "czg": "^1.9.4",
+    "@changesets/changelog-github": "^0.5.2",
     "@changesets/cli": "^2.27.1",
     "@commitlint/cli": "^19.2.0",
     "@commitlint/config-conventional": "^19.1.0",
@@ -53,6 +55,9 @@
     "@typescript-eslint/parser": "^8.56.0",
     "@vitest/coverage-v8": "^4.0.18",
     "@vitest/ui": "^4.0.18",
+    "conventional-changelog-cli": "^4.1.0",
+    "conventional-changelog-conventionalcommits": "^7.0.2",
+    "czg": "^1.9.4",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "husky": "^9.0.11",
