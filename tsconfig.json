@@ -20,6 +20,7 @@
     { "path": "./packages/web" },
     { "path": "./packages/testing" },
     { "path": "./packages/storage" },
-    { "path": "./packages/search" }
+    { "path": "./packages/search" },
+    { "path": "./packages/notifications" }
   ]
 }
