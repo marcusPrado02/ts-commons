@@ -21,6 +21,7 @@
     { "path": "./packages/testing" },
     { "path": "./packages/storage" },
     { "path": "./packages/search" },
-    { "path": "./packages/notifications" }
+    { "path": "./packages/notifications" },
+    { "path": "./packages/scheduler" }
   ]
 }
