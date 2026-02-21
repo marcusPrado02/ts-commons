@@ -47,3 +47,19 @@ export { RequestTimingCollector } from './performance/RequestTimingCollector';
 export type { RequestTimingRecord } from './performance/RequestTimingCollector';
 export { QueryProfiler } from './performance/QueryProfiler';
 export type { QueryProfile } from './performance/QueryProfiler';
+
+// Memory profiling (Item 52)
+export type {
+  HeapSnapshot,
+  HeapDiff,
+  LeakRecord,
+  GcEvent,
+  GcStats,
+  MemoryAlertRule,
+  MemoryAlert,
+} from './memory/MemoryTypes';
+export { HeapSnapshotCollector } from './memory/HeapSnapshotCollector';
+export { MemoryLeakDetector } from './memory/MemoryLeakDetector';
+export { GcMetricsCollector } from './memory/GcMetricsCollector';
+export { MemoryAlertManager } from './memory/MemoryAlertManager';
+export type { AlertSnapshot } from './memory/MemoryAlertManager';
