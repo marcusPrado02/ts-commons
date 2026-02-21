@@ -24,6 +24,7 @@
     { "path": "./packages/notifications" },
     { "path": "./packages/scheduler" },
     { "path": "./packages/web-graphql" },
-    { "path": "./packages/features" }
+    { "path": "./packages/features" },
+    { "path": "./packages/audit" }
   ]
 }
