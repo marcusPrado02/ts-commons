@@ -30,3 +30,20 @@ export { LogLevel } from './logging/LogLevel';
 export { LevelFilterLogger } from './logging/LevelFilterLogger';
 export { SamplingLogger } from './logging/SamplingLogger';
 export { PerformanceLogger } from './logging/PerformanceLogger';
+
+// Performance monitoring (Item 47)
+export { Duration } from './performance/PerformanceTypes';
+export type {
+  TimingSample,
+  SlowQueryRecord,
+  MemorySnapshot,
+  PerformanceBudget,
+  BudgetViolation,
+  PerformanceReport,
+} from './performance/PerformanceTypes';
+export { PerformanceMonitor } from './performance/PerformanceMonitor';
+export type { PerformanceMonitorOptions } from './performance/PerformanceMonitor';
+export { RequestTimingCollector } from './performance/RequestTimingCollector';
+export type { RequestTimingRecord } from './performance/RequestTimingCollector';
+export { QueryProfiler } from './performance/QueryProfiler';
+export type { QueryProfile } from './performance/QueryProfiler';
