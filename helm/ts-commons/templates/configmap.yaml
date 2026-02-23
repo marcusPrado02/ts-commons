@@ -1,11 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  # trunk-ignore(prettier/SyntaxError)
   name: {{ include "ts-commons.fullname" . }}-config
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "ts-commons.labels" . | nindent 4 }}
 data:
-  {{- range $key, $value := .Values.config }}
-  {{ $key }}: {{ $value | quote }}
-  {{- end }}
+  {{- toYaml .Values.config | nindent 2 }}
