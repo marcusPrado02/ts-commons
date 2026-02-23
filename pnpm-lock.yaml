@@ -218,6 +218,15 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@22.19.11)(@vitest/ui@4.0.18)(tsx@4.21.0)
 
+  packages/docs:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
   packages/email:
     dependencies:
       '@acme/kernel':
@@ -548,6 +557,15 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
+  packages/tutorials:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
   packages/validation:
     dependencies:
       '@acme/kernel':
@@ -563,6 +581,15 @@ importers:
       vitest:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@22.19.11)(@vitest/ui@4.0.18)(tsx@4.21.0)
+
+  packages/vscode-extension:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
   packages/web:
     dependencies:

@@ -1,0 +1,50 @@
+{
+  "name": "@acme/vscode-extension",
+  "version": "0.1.0",
+  "description": "VSCode extension utilities — snippets, DDD pattern detection, architecture validation and quick fixes for @acme/ts-commons",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts --max-warnings 0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "vitest": "^2.1.9"
+  },
+  "keywords": [
+    "vscode",
+    "extension",
+    "snippets",
+    "ddd",
+    "refactoring",
+    "architecture"
+  ],
+  "author": "",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marcusPrado02/ts-commons.git"
+  },
+  "bugs": "https://github.com/marcusPrado02/ts-commons/issues",
+  "homepage": "https://github.com/marcusPrado02/ts-commons/tree/main/packages/vscode-extension#readme",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ]
+}
