@@ -1,0 +1,21 @@
+apiVersion: v2
+name: ts-commons
+description: TypeScript Commons Platform — modular, testable microservice library
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+home: https://github.com/marcusPrado02/ts-commons
+sources:
+  - https://github.com/marcusPrado02/ts-commons
+maintainers:
+  - name: Marcus Prado
+    email: maintainer@example.com
+keywords:
+  - typescript
+  - nodejs
+  - microservices
+  - clean-architecture
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial Helm chart release

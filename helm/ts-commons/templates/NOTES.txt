@@ -1,0 +1,36 @@
+Thank you for installing {{ .Chart.Name }} v{{ .Chart.AppVersion }}!
+
+Release name : {{ .Release.Name }}
+Namespace    : {{ .Release.Namespace }}
+
+── Service ──────────────────────────────────────────────────────────────────────
+{{- if eq .Values.service.type "ClusterIP" }}
+  Access the service inside the cluster:
+    kubectl port-forward svc/{{ include "ts-commons.fullname" . }} 3000:{{ .Values.service.port }} -n {{ .Release.Namespace }}
+    curl http://localhost:3000/healthz
+{{- else if eq .Values.service.type "LoadBalancer" }}
+  Get the external IP:
+    kubectl get svc {{ include "ts-commons.fullname" . }} -n {{ .Release.Namespace }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+{{- end }}
+
+── Ingress ───────────────────────────────────────────────────────────────────────
+{{- if .Values.ingress.enabled }}
+  URL: https://{{ .Values.ingress.host }}
+{{- else }}
+  Ingress is disabled. Enable with:
+    --set ingress.enabled=true --set ingress.host=<your-domain>
+{{- end }}
+
+── Autoscaling ───────────────────────────────────────────────────────────────────
+{{- if .Values.autoscaling.enabled }}
+  HPA enabled: {{ .Values.autoscaling.minReplicas }}–{{ .Values.autoscaling.maxReplicas }} replicas
+{{- else }}
+  Static replicas: {{ .Values.replicaCount }}
+{{- end }}
+
+── Health checks ─────────────────────────────────────────────────────────────────
+  Liveness  : GET /healthz
+  Readiness : GET /readyz
+
+── Upgrade ───────────────────────────────────────────────────────────────────────
+  helm upgrade {{ .Release.Name }} ./helm/ts-commons -n {{ .Release.Namespace }}
