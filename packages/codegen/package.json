@@ -1,0 +1,35 @@
+{
+  "name": "@acme/codegen",
+  "version": "0.1.0",
+  "description": "Code generators — CRUD, API endpoints, test suites and migrations for @acme/ts-commons",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts --max-warnings 0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "vitest": "^2.1.9"
+  },
+  "keywords": [
+    "codegen",
+    "generators",
+    "crud",
+    "scaffolding",
+    "templates",
+    "ddd",
+    "cli"
+  ],
+  "license": "MIT"
+}
