@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-commons
+  namespace: default
+  labels:
+    app: ts-commons
+    managed-by: kubectl
+spec:
+  type: ClusterIP
+  selector:
+    app: ts-commons
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-commons-headless
+  namespace: default
+  labels:
+    app: ts-commons
+    managed-by: kubectl
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    app: ts-commons
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP

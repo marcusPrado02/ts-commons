@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ts-commons-ingress
+  namespace: default
+  labels:
+    app: ts-commons
+    managed-by: kubectl
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "10"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ts-commons.example.com
+      secretName: ts-commons-tls
+  rules:
+    - host: ts-commons.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ts-commons
+                port:
+                  name: http

@@ -1,0 +1,13 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: ts-commons-pdb
+  namespace: default
+  labels:
+    app: ts-commons
+    managed-by: kubectl
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: ts-commons

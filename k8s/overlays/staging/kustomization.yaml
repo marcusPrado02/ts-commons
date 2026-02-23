@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: staging
+
+resources:
+  - ../../base
+
+patches:
+  - path: deployment-patch.yaml
+  - path: hpa-patch.yaml
+
+images:
+  - name: ts-commons
+    newTag: staging
+
+configMapGenerator:
+  - name: ts-commons-config
+    behavior: merge
+    literals:
+      - LOG_LEVEL=debug
+      - TRACING_ENABLED=true
