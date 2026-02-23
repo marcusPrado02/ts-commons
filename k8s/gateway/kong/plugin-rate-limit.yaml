@@ -1,0 +1,16 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: ts-commons-rate-limit
+  namespace: default
+plugin: rate-limiting
+config:
+  second: null
+  minute: 100
+  hour: null
+  day: null
+  policy: local
+  fault_tolerant: true
+  hide_client_headers: false
+  redis_ssl: false
+  redis_ssl_verify: false

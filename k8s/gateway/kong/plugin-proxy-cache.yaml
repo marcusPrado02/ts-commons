@@ -1,0 +1,18 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: ts-commons-proxy-cache
+  namespace: default
+plugin: proxy-cache
+config:
+  response_code:
+    - 200
+    - 301
+    - 404
+  request_method:
+    - GET
+    - HEAD
+  content_type:
+    - application/json
+  cache_ttl: 300
+  strategy: memory

@@ -1,0 +1,33 @@
+{
+  "name": "@acme/gateway",
+  "version": "0.1.0",
+  "description": "API Gateway config builders and validators for Kong, AWS API Gateway and Azure APIM in @acme/ts-commons",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts --max-warnings 0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "vitest": "^2.1.9"
+  },
+  "keywords": [
+    "api-gateway",
+    "kong",
+    "aws-api-gateway",
+    "azure-apim",
+    "rate-limiting",
+    "api-key"
+  ]
+}

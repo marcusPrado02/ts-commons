@@ -1,0 +1,14 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: ts-commons-request-transform
+  namespace: default
+plugin: request-transformer
+config:
+  add:
+    headers:
+      - X-Service-Id:ts-commons
+      - X-Request-Source:api-gateway
+  remove:
+    headers:
+      - X-Internal-Token
