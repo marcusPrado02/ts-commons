@@ -1,0 +1,54 @@
+# ── Source control ────────────────────────────────────────────────────────────
+.git
+.github
+.gitignore
+.gitattributes
+
+# ── Node modules (reinstalled during build) ───────────────────────────────────
+node_modules
+**/node_modules
+.pnpm-store
+
+# ── Build outputs (rebuilt during Docker build) ───────────────────────────────
+dist
+**/dist
+build
+**/build
+*.tsbuildinfo
+
+# ── Test artefacts ────────────────────────────────────────────────────────────
+**/*.test.ts
+**/*.spec.ts
+**/coverage
+**/__tests__
+
+# ── Development tooling ───────────────────────────────────────────────────────
+.vscode
+.idea
+.trunk
+.husky
+.editorconfig
+.eslintignore
+.eslintrc.cjs
+.prettierrc
+.releaserc.json
+*.swp
+*.swo
+
+# ── CI / CD ───────────────────────────────────────────────────────────────────
+.changeset
+.depcheckrc.json
+commitlint.config.js
+sonar-project.properties
+
+# ── Documentation (not needed at runtime) ────────────────────────────────────
+docs
+*.md
+!README.md
+
+# ── Logs & temporaries ───────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+pnpm-debug.log*
+.DS_Store
+Thumbs.db

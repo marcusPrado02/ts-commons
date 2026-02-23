@@ -1,0 +1,80 @@
+version: '3.9'
+
+# ── Shared configuration ──────────────────────────────────────────────────────
+x-healthcheck: &default-healthcheck
+  test:
+    - CMD
+    - node
+    - -e
+    - "require('http').get('http://localhost:3000/healthz',(r)=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
+  interval: 30s
+  timeout: 5s
+  retries: 3
+  start_period: 10s
+
+services:
+  # ── Production build ─────────────────────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+      args:
+        - BUILD_DATE=${BUILD_DATE:-unknown}
+        - GIT_COMMIT=${GIT_COMMIT:-unknown}
+        - IMAGE_TAG=${IMAGE_TAG:-latest}
+    image: ts-commons:${IMAGE_TAG:-latest}
+    container_name: ts-commons
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=production
+      - DOCKER_CONTAINER=true
+      - IMAGE_TAG=${IMAGE_TAG:-latest}
+      - BUILD_DATE=${BUILD_DATE:-unknown}
+      - GIT_COMMIT=${GIT_COMMIT:-unknown}
+    healthcheck: *default-healthcheck
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ── Development with live reload (profile: dev) ───────────────────────────────
+  app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    image: ts-commons:dev
+    container_name: ts-commons-dev
+    ports:
+      - "${DEV_PORT:-3001}:3000"
+    environment:
+      - NODE_ENV=development
+      - DOCKER_CONTAINER=true
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: ["pnpm", "dev"]
+    profiles:
+      - dev
+
+  # ── Distroless variant ────────────────────────────────────────────────────────
+  app-distroless:
+    build:
+      context: .
+      dockerfile: Dockerfile.distroless
+      target: runner
+    image: ts-commons:distroless
+    container_name: ts-commons-distroless
+    ports:
+      - "${DISTROLESS_PORT:-3002}:3000"
+    environment:
+      - NODE_ENV=production
+      - DOCKER_CONTAINER=true
+    healthcheck: *default-healthcheck
+    restart: unless-stopped
+    profiles:
+      - distroless

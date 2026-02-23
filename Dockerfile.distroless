@@ -1,0 +1,40 @@
+# syntax=docker/dockerfile:1
+# Distroless variant — minimal attack surface, no shell, no package manager
+# ── Builder stage ─────────────────────────────────────────────────────────────
+FROM node:20-alpine AS builder
+LABEL stage="builder"
+
+WORKDIR /app
+
+RUN corepack enable && corepack prepare pnpm@8.15.0 --activate
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile --prod=false
+
+COPY . .
+RUN pnpm build
+
+# Prune to production-only dependencies
+RUN pnpm install --frozen-lockfile --prod
+
+# ── Distroless runner stage ───────────────────────────────────────────────────
+FROM gcr.io/distroless/nodejs20-debian12 AS runner
+LABEL org.opencontainers.image.source="https://github.com/marcusPrado02/ts-commons"
+LABEL org.opencontainers.image.description="TypeScript Commons Platform (distroless)"
+LABEL org.opencontainers.image.licenses="MIT"
+
+WORKDIR /app
+
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
+
+ENV NODE_ENV=production
+ENV DOCKER_CONTAINER=true
+ENV PORT=3000
+
+EXPOSE 3000
+
+# distroless nodejs image runs node directly — pass script as first argument
+CMD ["dist/main.js"]

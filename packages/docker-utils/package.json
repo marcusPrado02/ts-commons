@@ -1,0 +1,34 @@
+{
+  "name": "@acme/docker-utils",
+  "version": "0.1.0",
+  "description": "Docker utilities for containerised Node.js services — graceful shutdown, health checks and container context",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts --max-warnings 0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "vitest": "^2.1.9"
+  },
+  "keywords": [
+    "docker",
+    "health-check",
+    "graceful-shutdown",
+    "container",
+    "kubernetes",
+    "typescript"
+  ],
+  "license": "MIT"
+}
