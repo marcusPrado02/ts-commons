@@ -1,0 +1,33 @@
+{
+  "name": "@acme/service-mesh",
+  "version": "0.1.0",
+  "description": "Service mesh config builders and validators for Istio and Linkerd in @acme/ts-commons",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts --max-warnings 0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "vitest": "^2.1.9"
+  },
+  "keywords": [
+    "istio",
+    "linkerd",
+    "service-mesh",
+    "mtls",
+    "traffic-management",
+    "circuit-breaking"
+  ]
+}

@@ -1,0 +1,26 @@
+apiVersion: policy.linkerd.io/v1beta3
+kind: ServerAuthorization
+metadata:
+  name: ts-commons-allow-internal
+  namespace: default
+spec:
+  server:
+    name: ts-commons-http
+  client:
+    meshTLS:
+      serviceAccounts:
+        - name: api-gateway
+          namespace: default
+        - name: worker
+          namespace: default
+---
+apiVersion: policy.linkerd.io/v1beta3
+kind: ServerAuthorization
+metadata:
+  name: ts-commons-allow-probe
+  namespace: default
+spec:
+  server:
+    name: ts-commons-http
+  client:
+    unauthenticated: true

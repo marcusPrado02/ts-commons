@@ -1,0 +1,23 @@
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: ts-commons-http
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: ts-commons
+  port: 3000
+  proxyProtocol: HTTP/1
+---
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: ts-commons-grpc
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: ts-commons
+  port: 50051
+  proxyProtocol: gRPC
