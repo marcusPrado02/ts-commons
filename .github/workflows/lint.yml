@@ -75,7 +75,7 @@ jobs:
         run: pnpm format
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: 'fix: auto-fix ESLint and Prettier issues'
           file_pattern: '*.ts *.js *.json *.md'
