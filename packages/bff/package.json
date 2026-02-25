@@ -1,0 +1,34 @@
+{
+  "name": "@acme/bff",
+  "version": "0.1.0",
+  "description": "Backend for Frontend (BFF) pattern: aggregation strategies, response shaping, REST and GraphQL BFF implementations for @acme/ts-commons",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts --max-warnings 0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "vitest": "^2.1.9"
+  },
+  "keywords": [
+    "bff",
+    "backend-for-frontend",
+    "aggregation",
+    "response-shaping",
+    "graphql",
+    "rest",
+    "api-gateway"
+  ]
+}
