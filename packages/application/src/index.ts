@@ -1,3 +1,21 @@
+// CQRS – Read model projections (CQRS avançado)
+export type {
+  ProjectedEvent,
+  ReadModel,
+  ReadModelStore,
+  Snapshot,
+  SnapshotStore,
+  RebuildResult,
+  ProjectionConsistencyStats,
+  ConsistencyReport,
+} from './cqrs/readmodel/index.js';
+export type { Projection } from './cqrs/readmodel/index.js';
+export { BaseProjection } from './cqrs/readmodel/index.js';
+export { InMemoryReadModelStore } from './cqrs/readmodel/index.js';
+export { ProjectionRebuildManager } from './cqrs/readmodel/index.js';
+export { ConsistencyMonitor } from './cqrs/readmodel/index.js';
+export { InMemorySnapshotStore, shouldTakeSnapshot } from './cqrs/readmodel/index.js';
+
 // CQRS
 export type { Command } from './cqrs/Command';
 export { BaseCommand } from './cqrs/Command';
