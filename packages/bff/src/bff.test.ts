@@ -71,10 +71,10 @@ describe('ServiceAggregator', () => {
   });
 
   it('aggregate() wraps non-Error throws into Error', async () => {
-    // eslint-disable-next-line @typescript-eslint/only-throw-error
     const call: ServiceCall<number> = {
       name: 'x',
       fetch: async () => {
+        // eslint-disable-next-line @typescript-eslint/only-throw-error
         throw 'string error';
       },
     };
@@ -278,7 +278,10 @@ describe('RestBff', () => {
 
   it('registerShaper() is fluent — returns this', () => {
     const bff = new RestBff();
-    const shaper = new FunctionResponseShaper('web', (d) => d);
+    const shaper = new FunctionResponseShaper<
+      Record<string, AggregationResult<unknown>>,
+      Record<string, unknown>
+    >('web', (d) => d);
     expect(bff.registerShaper(shaper)).toBe(bff);
   });
 });
