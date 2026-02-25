@@ -1,3 +1,18 @@
+// Mediator pattern avançado
+export type {
+  MediatorRequest,
+  RequestHandler,
+  PipelineBehavior,
+  PreProcessor,
+  PostProcessor,
+  MediatorLogEntry,
+  CacheEntry,
+} from './mediator/index.js';
+export { Mediator } from './mediator/index.js';
+export { LoggingBehavior } from './mediator/index.js';
+export { ValidationBehavior, MediatorValidationError } from './mediator/index.js';
+export { CachingBehavior } from './mediator/index.js';
+
 // CQRS – Read model projections (CQRS avançado)
 export type {
   ProjectedEvent,
