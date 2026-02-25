@@ -245,6 +245,24 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@22.19.11)(@vitest/ui@4.0.18)(tsx@4.21.0)
 
+  packages/data-pipeline:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  packages/data-quality:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
   packages/docker-utils:
     devDependencies:
       '@types/node':

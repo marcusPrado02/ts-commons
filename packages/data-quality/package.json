@@ -1,0 +1,32 @@
+{
+  "name": "@acme/data-quality",
+  "version": "0.1.0",
+  "description": "Data quality framework: validation rules, profiling, anomaly detection, metrics and reports for @acme/ts-commons",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts --max-warnings 0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "vitest": "^2.1.9"
+  },
+  "keywords": [
+    "data-quality",
+    "validation",
+    "profiling",
+    "anomaly-detection",
+    "metrics"
+  ]
+}
