@@ -54,3 +54,19 @@ export type {
   OidcClientLike,
   OAuthResult,
 } from './oauth/index';
+
+// mTLS
+export {
+  CertificateValidator,
+  ClientCertAuthenticator,
+  CertRotationManager,
+  CertRevocationChecker,
+} from './mtls/index';
+export type {
+  X509CertInfo,
+  CertValidationOptions,
+  CertValidationResult,
+  CertRotationPolicy,
+  CertRevocationEntry,
+  MtlsConnectionInfo,
+} from './mtls/index';

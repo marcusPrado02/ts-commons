@@ -1,7 +1,7 @@
 # Backlog de Implementação - TypeScript Commons Platform
 
-![Progress](https://img.shields.io/badge/Progress-83%25-green)
-![Tasks](https://img.shields.io/badge/Tasks-83%2F100-blue)
+![Progress](https://img.shields.io/badge/Progress-84%25-green)
+![Tasks](https://img.shields.io/badge/Tasks-84%2F100-blue)
 ![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
 ![Priority](https://img.shields.io/badge/High%20Priority-0%20remaining-brightgreen)
 
@@ -183,7 +183,8 @@
 81. ~~Event replay~~ ✅
 82. ~~Pub/Sub patterns~~ ✅
 83. ~~OAuth2 & OIDC~~ ✅
-84. **→ mTLS support** (Próximo)
+84. ~~mTLS support~~ ✅
+85. **→ Single Sign-On (SSO)** (Próximo)
 
 ### Áreas de Expansão (54 novas tasks adicionadas)
 - **Performance**: Monitoring, caching multi-level, query optimization, load testing
@@ -3482,17 +3483,17 @@ _Tarefas originais (concluídas):_
 
 ---
 
-### 84. 🔐 mTLS support
+### 84. ✅ mTLS support
 **Prioridade**: Média  
 **Pacotes afetados**: `@acme/security`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
-- [ ] **Certificate validation**
-- [ ] **Client certificate auth**
-- [ ] **Certificate rotation**
-- [ ] **Certificate pinning**
-- [ ] **CRL/OCSP checking**
+- [x] **Certificate validation**
+- [x] **Client certificate auth**
+- [x] **Certificate rotation**
+- [x] **Certificate pinning**
+- [x] **CRL/OCSP checking**
 
 ---
 
@@ -3894,7 +3895,7 @@ _Tarefas originais (concluídas):_
 78. [x] Server-Sent Events (Item 79)
 79. [x] Event replay (Item 81)
 80. [x] Pub/Sub patterns (Item 82)
-81. [ ] mTLS support (Item 84)
+81. [x] mTLS support (Item 84)
 82. [ ] Single Sign-On (Item 85)
 83. [ ] API key management (Item 86)
 84. [ ] Content Security Policy (Item 87)
