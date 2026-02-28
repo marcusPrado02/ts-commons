@@ -40,7 +40,7 @@
     "@acme/resilience": "workspace:*",
     "@acme/outbox": "workspace:*",
     "@nestjs/common": "^10.3.3",
-    "@nestjs/core": "^10.3.3",
+    "@nestjs/core": "^11.1.14",
     "reflect-metadata": "^0.2.1",
     "rxjs": "^7.8.2"
   },
