@@ -63,3 +63,14 @@ export { MemoryLeakDetector } from './memory/MemoryLeakDetector';
 export { GcMetricsCollector } from './memory/GcMetricsCollector';
 export { MemoryAlertManager } from './memory/MemoryAlertManager';
 export type { AlertSnapshot } from './memory/MemoryAlertManager';
+
+// SLO/SLI (Item 89)
+export { AvailabilitySli, LatencySli, ErrorRateSli, SliTracker, SloTracker } from './slo/index';
+export type {
+  SliResult,
+  SloConfig,
+  ErrorBudget,
+  BurnRateAlert,
+  SloStatus,
+  SliProvider,
+} from './slo/index';
