@@ -89,7 +89,7 @@ describe('BlueGreenDeployment', () => {
     const bg = new BlueGreenDeployment(cfg, makeHttp(true));
     const result = await bg.runSmokeTests('blue');
     expect(result.passed).toBe(true);
-    expect(result.checks[0].name).toBe('healthcheck');
+    expect(result.checks[0]!.name).toBe('healthcheck');
   });
 
   it('runSmokeTests fails when health check fails', async () => {
@@ -103,7 +103,7 @@ describe('BlueGreenDeployment', () => {
     bg.addSmokeCheck(async () => ({ name: 'custom', passed: true }));
     const result = await bg.runSmokeTests('blue');
     expect(result.checks.length).toBe(2);
-    expect(result.checks[1].name).toBe('custom');
+    expect(result.checks[1]!.name).toBe('custom');
   });
 
   it('runSmokeTests fails if custom check fails', async () => {

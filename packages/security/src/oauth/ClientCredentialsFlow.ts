@@ -35,11 +35,17 @@ export class ClientCredentialsFlow {
     }
 
     const data = (await response.json()) as Record<string, unknown>;
+    return this.parseTokenResponse(data);
+  }
+
+  private parseTokenResponse(data: Record<string, unknown>): TokenResponse {
+    const expiresIn = typeof data['expires_in'] === 'number' ? data['expires_in'] : undefined;
+    const scope = typeof data['scope'] === 'string' ? data['scope'] : undefined;
     return {
       accessToken: typeof data['access_token'] === 'string' ? data['access_token'] : '',
       tokenType: typeof data['token_type'] === 'string' ? data['token_type'] : 'Bearer',
-      expiresIn: typeof data['expires_in'] === 'number' ? data['expires_in'] : undefined,
-      scope: typeof data['scope'] === 'string' ? data['scope'] : undefined,
+      ...(expiresIn === undefined ? {} : { expiresIn }),
+      ...(scope === undefined ? {} : { scope }),
     };
   }
 }

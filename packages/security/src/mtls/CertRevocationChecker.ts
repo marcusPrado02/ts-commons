@@ -19,7 +19,11 @@ export class CertRevocationChecker {
    * Add a revocation entry directly (for in-memory / test use).
    */
   revoke(serial: string, reason?: string): void {
-    this.revoked.set(serial, { serialNumber: serial, revokedAt: new Date(), reason });
+    this.revoked.set(serial, {
+      serialNumber: serial,
+      revokedAt: new Date(),
+      ...(reason === undefined ? {} : { reason }),
+    });
   }
 
   /**

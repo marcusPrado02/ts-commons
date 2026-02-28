@@ -31,7 +31,7 @@ export class EnvelopeEncryption {
     return {
       encryptedDataKey,
       encryptedPayload,
-      ...(keyId != null ? { masterKeyId: keyId } : {}),
+      ...(keyId == null ? {} : { masterKeyId: keyId }),
     };
   }
 

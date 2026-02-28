@@ -62,7 +62,7 @@ export class ServiceFailureExperiment implements ChaosExperiment {
 
   constructor(
     name: string,
-    private readonly failureRate: number = 1.0,
+    private readonly failureRate: number = 1,
     private readonly errorMessage = 'Service unavailable',
   ) {
     this.id = randomUUID();
@@ -78,7 +78,7 @@ export class ServiceFailureExperiment implements ChaosExperiment {
       experimentId: this.id,
       success: !failed,
       durationMs: Date.now() - start,
-      error: failed ? this.errorMessage : undefined,
+      ...(failed ? { error: this.errorMessage } : {}),
       details: { failureRate: this.failureRate, failed },
     };
   }

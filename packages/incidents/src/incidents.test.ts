@@ -103,18 +103,18 @@ describe('IncidentManager', () => {
 // PostMortemBuilder
 // ──────────────────────────────────────────────────────────────────────────────
 
-describe('PostMortemBuilder', () => {
-  function makeIncident() {
-    const mgr = new IncidentManager();
-    return mgr.open({
-      title: 'DB outage',
-      description: 'Primary DB went down',
-      severity: 'critical',
-    });
-  }
+function makePostMortemIncident() {
+  const mgr = new IncidentManager();
+  return mgr.open({
+    title: 'DB outage',
+    description: 'Primary DB went down',
+    severity: 'critical',
+  });
+}
 
+describe('PostMortemBuilder', () => {
   it('builds a post-mortem', () => {
-    const inc = makeIncident();
+    const inc = makePostMortemIncident();
     const pm = new PostMortemBuilder(inc)
       .summary('Database primary failed due to disk I/O saturation')
       .addEvent(new Date('2024-01-01T12:00:00Z'), 'Alert fired')
@@ -128,7 +128,7 @@ describe('PostMortemBuilder', () => {
   });
 
   it('toMarkdown includes all sections', () => {
-    const inc = makeIncident();
+    const inc = makePostMortemIncident();
     const md = new PostMortemBuilder(inc)
       .summary('Summary text')
       .addRootCause('Root cause 1')
@@ -141,18 +141,18 @@ describe('PostMortemBuilder', () => {
   });
 
   it('toMarkdown contains summary', () => {
-    const inc = makeIncident();
+    const inc = makePostMortemIncident();
     const md = new PostMortemBuilder(inc).summary('Summary text').toMarkdown();
     expect(md).toContain('Summary text');
   });
 
   it('timeline is sorted chronologically', () => {
-    const inc = makeIncident();
+    const inc = makePostMortemIncident();
     const pm = new PostMortemBuilder(inc)
       .addEvent(new Date('2024-01-01T13:00:00Z'), 'Later event')
       .addEvent(new Date('2024-01-01T12:00:00Z'), 'Earlier event')
       .build();
-    expect(pm.timeline[0].description).toBe('Earlier event');
+    expect(pm.timeline[0]!.description).toBe('Earlier event');
   });
 });
 
@@ -218,13 +218,13 @@ describe('OpsgenieAdapter', () => {
     const fetch = makeFetch({});
     const adapter = new OpsgenieAdapter('apikey', fetch);
     await adapter.resolve('alias1');
-    expect(fetch.mock.calls[0][0] as string).toContain('close');
+    expect(fetch.mock.calls[0]![0] as string).toContain('close');
   });
 
   it('acknowledge calls opsgenie acknowledge endpoint', async () => {
     const fetch = makeFetch({});
     const adapter = new OpsgenieAdapter('apikey', fetch);
     await adapter.acknowledge('alias1');
-    expect(fetch.mock.calls[0][0] as string).toContain('acknowledge');
+    expect(fetch.mock.calls[0]![0] as string).toContain('acknowledge');
   });
 });

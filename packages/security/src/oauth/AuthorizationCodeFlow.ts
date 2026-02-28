@@ -74,13 +74,27 @@ export class AuthorizationCodeFlow {
     }
 
     const data = (await response.json()) as Record<string, unknown>;
+    return this.parseTokenResponse(data);
+  }
+
+  private parseTokenResponse(data: Record<string, unknown>): TokenResponse {
     return {
       accessToken: extractString(data, 'access_token') ?? '',
       tokenType: extractString(data, 'token_type') ?? 'Bearer',
-      expiresIn: typeof data['expires_in'] === 'number' ? data['expires_in'] : undefined,
-      refreshToken: extractString(data, 'refresh_token'),
-      scope: extractString(data, 'scope'),
-      idToken: extractString(data, 'id_token'),
+      ...this.parseTokenOptionals(data),
+    };
+  }
+
+  private parseTokenOptionals(data: Record<string, unknown>): Partial<TokenResponse> {
+    const expiresIn = typeof data['expires_in'] === 'number' ? data['expires_in'] : undefined;
+    const refreshToken = extractString(data, 'refresh_token');
+    const scope = extractString(data, 'scope');
+    const idToken = extractString(data, 'id_token');
+    return {
+      ...(expiresIn === undefined ? {} : { expiresIn }),
+      ...(refreshToken === undefined ? {} : { refreshToken }),
+      ...(scope === undefined ? {} : { scope }),
+      ...(idToken === undefined ? {} : { idToken }),
     };
   }
 }

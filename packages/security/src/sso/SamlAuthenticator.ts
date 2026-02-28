@@ -35,21 +35,14 @@ export class SamlAuthenticator {
     }
 
     const roles = this.extractRoles(assertion);
-    const email =
-      this.extractString(assertion.attributes, 'email') ??
-      this.extractString(
-        assertion.attributes,
-        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
-      );
+    const tenantId = this.extractString(assertion.attributes, 'tenantId');
 
     return Result.ok<AuthenticatedPrincipal, AuthError>({
       id: assertion.nameId,
-      tenantId: this.extractString(assertion.attributes, 'tenantId'),
+      ...(tenantId === undefined ? {} : { tenantId }),
       roles,
       permissions: [],
     });
-
-    void email; // email extracted but not in AuthenticatedPrincipal interface
   }
 
   /**

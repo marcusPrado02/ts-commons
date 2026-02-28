@@ -63,7 +63,7 @@ describe('FieldEncryption', () => {
     const encrypted = enc.encrypt('hello');
     // Flip a byte in the middle of the base64 payload
     const buf = Buffer.from(encrypted.ciphertext, 'base64');
-    buf[15] ^= 0xff; // flip auth tag byte
+    buf[15] = (buf[15] ?? 0) ^ 0xff; // flip auth tag byte
     const tampered = { ...encrypted, ciphertext: buf.toString('base64') };
     expect(() => enc.decrypt(tampered)).toThrow();
   });
@@ -154,32 +154,32 @@ describe('KeyRotationManager', () => {
 // KmsClient
 // ──────────────────────────────────────────────────────────────────────────────
 
-describe('KmsClient', () => {
-  function makeClient() {
-    const encryptFn = vi.fn(async (plaintext: string) => `enc:${plaintext}`);
-    const decryptFn = vi.fn(async (ciphertext: string) => ciphertext.replace('enc:', ''));
-    const client = KmsClient.fromFunctions(
-      { provider: 'aws', keyId: 'arn:aws:kms:us-east-1:123:key/abc' },
-      encryptFn,
-      decryptFn,
-    );
-    return { client, encryptFn, decryptFn };
-  }
+function makeKmsClient() {
+  const encryptFn = vi.fn(async (plaintext: string) => `enc:${plaintext}`);
+  const decryptFn = vi.fn(async (ciphertext: string) => ciphertext.replace('enc:', ''));
+  const client = KmsClient.fromFunctions(
+    { provider: 'aws', keyId: 'arn:aws:kms:us-east-1:123:key/abc' },
+    encryptFn,
+    decryptFn,
+  );
+  return { client, encryptFn, decryptFn };
+}
 
+describe('KmsClient', () => {
   it('encrypts via adapter', async () => {
-    const { client } = makeClient();
+    const { client } = makeKmsClient();
     const result = await client.encrypt('secret');
     expect(result).toBe('enc:secret');
   });
 
   it('decrypts via adapter', async () => {
-    const { client } = makeClient();
+    const { client } = makeKmsClient();
     const result = await client.decrypt('enc:secret');
     expect(result).toBe('secret');
   });
 
   it('exposes provider and keyId', () => {
-    const { client } = makeClient();
+    const { client } = makeKmsClient();
     expect(client.provider).toBe('aws');
     expect(client.keyId).toContain('abc');
   });

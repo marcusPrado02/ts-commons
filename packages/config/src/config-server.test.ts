@@ -84,10 +84,10 @@ describe('ConfigServer', () => {
     server.set('a', 1);
     server.registerProfile('dev', { b: 2 });
     const result = server.springCloudEndpoint('my-app', 'dev');
-    expect(result.application).toBe('my-app');
-    expect(result.profile).toBe('dev');
-    expect((result.source as Record<string, unknown>)['a']).toBe(1);
-    expect((result.source as Record<string, unknown>)['b']).toBe(2);
+    expect(result['application']).toBe('my-app');
+    expect(result['profile']).toBe('dev');
+    expect((result['source'] as Record<string, unknown>)['a']).toBe(1);
+    expect((result['source'] as Record<string, unknown>)['b']).toBe(2);
   });
 
   it('keyCount tracks stored keys', () => {

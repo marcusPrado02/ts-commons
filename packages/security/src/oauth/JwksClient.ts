@@ -15,7 +15,7 @@ export class JwksClient {
     private readonly fetch: FetchFn,
     options?: { cacheTtlMs?: number },
   ) {
-    this.cacheTtlMs = options?.cacheTtlMs ?? 3600_000; // 1 hour default
+    this.cacheTtlMs = options?.cacheTtlMs ?? 3_600_000; // 1 hour default
   }
 
   /**

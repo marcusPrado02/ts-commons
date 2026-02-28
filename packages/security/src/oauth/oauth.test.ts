@@ -67,7 +67,7 @@ describe('AuthorizationCodeFlow', () => {
 
   it('throws when authorizationEndpoint missing', () => {
     const flow = new AuthorizationCodeFlow(
-      makeConfig({ authorizationEndpoint: undefined }),
+      makeConfig({ authorizationEndpoint: undefined } as any),
       makeFetch({}),
     );
     expect(() => flow.buildAuthorizationUrl('s')).toThrow('authorizationEndpoint');
@@ -217,7 +217,7 @@ describe('TokenIntrospector', () => {
 
   it('throws when introspectionEndpoint missing', async () => {
     const introspector = new TokenIntrospector(
-      makeConfig({ introspectionEndpoint: undefined }),
+      makeConfig({ introspectionEndpoint: undefined } as any),
       makeFetch({}),
     );
     await expect(introspector.introspect('t')).rejects.toThrow('introspectionEndpoint');
@@ -233,7 +233,7 @@ describe('TokenIntrospector', () => {
 
   it('throws revoke when revocationEndpoint missing', async () => {
     const introspector = new TokenIntrospector(
-      makeConfig({ revocationEndpoint: undefined }),
+      makeConfig({ revocationEndpoint: undefined } as any),
       makeFetch({}),
     );
     await expect(introspector.revoke('token')).rejects.toThrow('revocationEndpoint');

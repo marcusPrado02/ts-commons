@@ -20,12 +20,12 @@ export class PkceGenerator {
    */
   static generateVerifier(length = 64): string {
     const bytes = new Uint8Array(length);
-    if (typeof crypto !== 'undefined') {
-      crypto.getRandomValues(bytes);
-    } else {
+    if (typeof crypto === 'undefined') {
       for (let i = 0; i < length; i++) {
         bytes[i] = Math.floor(Math.random() * 256);
       }
+    } else {
+      crypto.getRandomValues(bytes);
     }
     return PkceGenerator.base64UrlEncode(bytes);
   }
@@ -46,10 +46,10 @@ export class PkceGenerator {
 
   static base64UrlEncode(data: Uint8Array): string {
     let binary = '';
-    for (let i = 0; i < data.length; i++) {
-      binary += String.fromCharCode(data[i]);
+    for (const byte of data) {
+      binary += String.fromCodePoint(byte);
     }
-    return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+    return btoa(binary).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
   }
 
   /**

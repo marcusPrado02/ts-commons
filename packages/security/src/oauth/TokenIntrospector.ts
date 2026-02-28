@@ -2,6 +2,14 @@ import type { OAuthClientConfig, TokenIntrospectionResult } from './types';
 
 type FetchFn = (url: string, init?: RequestInit) => Promise<Response>;
 
+function parseString(value: unknown): string | undefined {
+  return typeof value === 'string' ? value : undefined;
+}
+
+function parseNumber(value: unknown): number | undefined {
+  return typeof value === 'number' ? value : undefined;
+}
+
 /**
  * OAuth2 Token Introspection — RFC 7662.
  * Also provides token revocation per RFC 7009.
@@ -35,14 +43,32 @@ export class TokenIntrospector {
     }
 
     const data = (await response.json()) as Record<string, unknown>;
+    return this.parseIntrospectionData(data);
+  }
+
+  private parseIntrospectionData(data: Record<string, unknown>): TokenIntrospectionResult {
     return {
       active: data['active'] === true,
-      sub: typeof data['sub'] === 'string' ? data['sub'] : undefined,
-      clientId: typeof data['client_id'] === 'string' ? data['client_id'] : undefined,
-      scope: typeof data['scope'] === 'string' ? data['scope'] : undefined,
-      exp: typeof data['exp'] === 'number' ? data['exp'] : undefined,
-      username: typeof data['username'] === 'string' ? data['username'] : undefined,
-      tokenType: typeof data['token_type'] === 'string' ? data['token_type'] : undefined,
+      ...this.parseIntrospectionOptionals(data),
+    };
+  }
+
+  private parseIntrospectionOptionals(
+    data: Record<string, unknown>,
+  ): Partial<TokenIntrospectionResult> {
+    const sub = parseString(data['sub']);
+    const clientId = parseString(data['client_id']);
+    const scope = parseString(data['scope']);
+    const exp = parseNumber(data['exp']);
+    const username = parseString(data['username']);
+    const tokenType = parseString(data['token_type']);
+    return {
+      ...(sub === undefined ? {} : { sub }),
+      ...(clientId === undefined ? {} : { clientId }),
+      ...(scope === undefined ? {} : { scope }),
+      ...(exp === undefined ? {} : { exp }),
+      ...(username === undefined ? {} : { username }),
+      ...(tokenType === undefined ? {} : { tokenType }),
     };
   }
 

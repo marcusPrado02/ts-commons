@@ -48,8 +48,8 @@ export class EventStream<T> {
     const id = this.nextId++;
     this.subscribers.set(id, {
       next: observer.next,
-      error: observer.error,
-      complete: observer.complete,
+      ...(observer.error === undefined ? {} : { error: observer.error }),
+      ...(observer.complete === undefined ? {} : { complete: observer.complete }),
     });
     return {
       unsubscribe: (): void => {

@@ -8,6 +8,8 @@ import type {
   TraceContext,
 } from './types';
 
+const DEFAULT_SAMPLING_CONFIG: SamplingConfig = { strategy: 'always' };
+
 /**
  * Advanced distributed tracing manager.
  *
@@ -25,7 +27,7 @@ export class AdvancedTracer {
   private rateLimitCounter = 0;
   private rateLimitWindowStart = Date.now();
 
-  constructor(samplingConfig: SamplingConfig = { strategy: 'always' }) {
+  constructor(samplingConfig: SamplingConfig = DEFAULT_SAMPLING_CONFIG) {
     this.samplingConfig = samplingConfig;
   }
 
@@ -50,14 +52,14 @@ export class AdvancedTracer {
       spanId: randomUUID(),
       parentSpanId: parent.spanId,
       sampled: parent.sampled,
-      baggage: parent.baggage != null ? { ...parent.baggage } : undefined,
+      ...(parent.baggage == null ? {} : { baggage: { ...parent.baggage } }),
     };
   }
 
   /** Inject trace context into carrier headers (W3C Trace Context). */
   inject(ctx: TraceContext, headers: Record<string, string>): void {
     headers['traceparent'] =
-      `00-${ctx.traceId.replace(/-/g, '')}-${ctx.spanId.replace(/-/g, '')}-${ctx.sampled ? '01' : '00'}`;
+      `00-${ctx.traceId.replaceAll('-', '')}-${ctx.spanId.replaceAll('-', '')}-${ctx.sampled ? '01' : '00'}`;
     if (ctx.baggage != null && Object.keys(ctx.baggage).length > 0) {
       headers['baggage'] = Object.entries(ctx.baggage)
         .map(([k, v]) => `${k}=${v}`)
@@ -72,6 +74,7 @@ export class AdvancedTracer {
     const parts = tp.split('-');
     if (parts.length < 4) return null;
     const [, rawTraceId, rawSpanId, flags] = parts;
+    if (rawTraceId == null || rawSpanId == null) return null;
     return {
       traceId: formatUuid(rawTraceId),
       spanId: formatUuid(rawSpanId),
@@ -97,37 +100,40 @@ export class AdvancedTracer {
     const depMap = new Map<string, ServiceDependency>();
     for (const spans of this.spans.values()) {
       for (const span of spans) {
-        const fromService = span.attributes['service.name'];
-        const toService = span.attributes['peer.service'];
-        if (typeof fromService !== 'string' || typeof toService !== 'string') continue;
-        const key = `${fromService}→${toService}`;
-        const existing = depMap.get(key);
-        if (existing != null) {
-          existing.callCount++;
-          if (span.status === 'error') existing.errorCount++;
-          existing.avgDurationMs =
-            (existing.avgDurationMs * (existing.callCount - 1) + span.durationMs) /
-            existing.callCount;
-        } else {
-          depMap.set(key, {
-            from: fromService,
-            to: toService,
-            callCount: 1,
-            errorCount: span.status === 'error' ? 1 : 0,
-            avgDurationMs: span.durationMs,
-          });
-        }
+        this.processSpanDependency(depMap, span);
       }
     }
     return Array.from(depMap.values());
   }
 
+  private processSpanDependency(depMap: Map<string, ServiceDependency>, span: SpanData): void {
+    const fromService = span.attributes['service.name'];
+    const toService = span.attributes['peer.service'];
+    if (typeof fromService !== 'string' || typeof toService !== 'string') return;
+    const key = `${fromService}→${toService}`;
+    const existing = depMap.get(key);
+    if (existing == null) {
+      depMap.set(key, {
+        from: fromService,
+        to: toService,
+        callCount: 1,
+        errorCount: span.status === 'error' ? 1 : 0,
+        avgDurationMs: span.durationMs,
+      });
+      return;
+    }
+    existing.callCount++;
+    if (span.status === 'error') existing.errorCount++;
+    existing.avgDurationMs =
+      (existing.avgDurationMs * (existing.callCount - 1) + span.durationMs) / existing.callCount;
+  }
+
   /** Identify the critical path (slowest chain) in a trace. */
   getCriticalPath(traceId: string): CriticalPathSegment[] {
-    const spans = this.spans.get(traceId) ?? [];
+    const spans: SpanData[] = this.spans.get(traceId) ?? [];
     if (spans.length === 0) return [];
     const totalDuration = spans.reduce((sum, s) => sum + s.durationMs, 0);
-    return spans
+    return [...spans]
       .sort((a, b) => b.durationMs - a.durationMs)
       .map((s) => ({
         spanId: s.spanId,

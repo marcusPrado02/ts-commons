@@ -58,8 +58,8 @@ export class Auth0Authenticator extends OidcSsoBase {
   protected mapClaims(data: Record<string, unknown>): SsoTokenPayload {
     return {
       sub: typeof data['sub'] === 'string' ? data['sub'] : '',
-      email: typeof data['email'] === 'string' ? data['email'] : undefined,
-      name: typeof data['name'] === 'string' ? data['name'] : undefined,
+      ...(typeof data['email'] === 'string' ? { email: data['email'] } : {}),
+      ...(typeof data['name'] === 'string' ? { name: data['name'] } : {}),
       roles: Array.isArray(data['https://example.com/roles'])
         ? (data['https://example.com/roles'] as string[])
         : [],
@@ -86,8 +86,8 @@ export class OktaAuthenticator extends OidcSsoBase {
     const groups = Array.isArray(data['groups']) ? (data['groups'] as string[]) : [];
     return {
       sub: typeof data['sub'] === 'string' ? data['sub'] : '',
-      email: typeof data['email'] === 'string' ? data['email'] : undefined,
-      name: typeof data['name'] === 'string' ? data['name'] : undefined,
+      ...(typeof data['email'] === 'string' ? { email: data['email'] } : {}),
+      ...(typeof data['name'] === 'string' ? { name: data['name'] } : {}),
       roles: groups,
       provider: 'okta',
       raw: data,
@@ -112,8 +112,8 @@ export class AzureAdAuthenticator extends OidcSsoBase {
     const roles = Array.isArray(data['roles']) ? (data['roles'] as string[]) : [];
     return {
       sub: typeof data['sub'] === 'string' ? data['sub'] : '',
-      email: typeof data['email'] === 'string' ? data['email'] : undefined,
-      name: typeof data['name'] === 'string' ? data['name'] : undefined,
+      ...(typeof data['email'] === 'string' ? { email: data['email'] } : {}),
+      ...(typeof data['name'] === 'string' ? { name: data['name'] } : {}),
       roles,
       provider: 'azure_ad',
       raw: data,
@@ -137,8 +137,8 @@ export class GoogleAuthenticator extends OidcSsoBase {
   protected mapClaims(data: Record<string, unknown>): SsoTokenPayload {
     return {
       sub: typeof data['sub'] === 'string' ? data['sub'] : '',
-      email: typeof data['email'] === 'string' ? data['email'] : undefined,
-      name: typeof data['name'] === 'string' ? data['name'] : undefined,
+      ...(typeof data['email'] === 'string' ? { email: data['email'] } : {}),
+      ...(typeof data['name'] === 'string' ? { name: data['name'] } : {}),
       roles: [],
       provider: 'google',
       raw: data,

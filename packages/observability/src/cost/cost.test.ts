@@ -46,7 +46,7 @@ describe('CostTracker', () => {
     tracker.record(makeRecord({ cpuUtilization: 0.01, memoryUtilization: 0.02 }));
     const idle = tracker.detectIdleResources();
     expect(idle.length).toBe(1);
-    expect(idle[0].resourceId).toBe('res-001');
+    expect(idle[0]!.resourceId).toBe('res-001');
   });
 
   it('does not flag healthy resources as idle', () => {
@@ -69,7 +69,7 @@ describe('CostTracker', () => {
     tracker.record(makeRecord({ cpuUtilization: 0.1, memoryUtilization: 0.1 }));
     const recs = tracker.getRightSizingRecommendations();
     expect(recs.length).toBeGreaterThan(0);
-    expect(recs[0].recommendedSize).toBe('small');
+    expect(recs[0]!.recommendedSize).toBe('small');
   });
 
   it('tag and getTags work', () => {
@@ -87,6 +87,6 @@ describe('CostTracker', () => {
     tracker.tag('res-001', 'env', 'prod');
     const tags = tracker.getTags('res-001');
     expect(tags.filter((t) => t.key === 'env').length).toBe(1);
-    expect(tags[0].value).toBe('prod');
+    expect(tags[0]!.value).toBe('prod');
   });
 });

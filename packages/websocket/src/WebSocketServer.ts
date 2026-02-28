@@ -43,7 +43,11 @@ export class WebSocketServer {
    * {@link WebSocketConnection} wrapper.
    */
   register(adapter: SocketAdapter): WebSocketConnection {
-    const conn = new WebSocketConnection(adapter, { authenticator: this.options.authenticator });
+    const conn = new WebSocketConnection(adapter, {
+      ...(this.options.authenticator === undefined
+        ? {}
+        : { authenticator: this.options.authenticator }),
+    });
     this.connections.set(conn.id, conn);
     return conn;
   }
@@ -76,13 +80,13 @@ export class WebSocketServer {
    */
   broadcast(message: WebSocketMessage, target: BroadcastTarget = {}): void {
     const recipients =
-      target.roomId !== undefined
-        ? buildRoomRecipients(
+      target.roomId === undefined
+        ? buildAllRecipients(this.connections, target.excludeConnectionId)
+        : buildRoomRecipients(
             this.rooms.getRoomMembers(target.roomId),
             this.connections,
             target.excludeConnectionId,
-          )
-        : buildAllRecipients(this.connections, target.excludeConnectionId);
+          );
 
     for (const conn of recipients) conn.send(message);
   }
