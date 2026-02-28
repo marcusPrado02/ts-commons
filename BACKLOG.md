@@ -1,7 +1,7 @@
 # Backlog de Implementação - TypeScript Commons Platform
 
-![Progress](https://img.shields.io/badge/Progress-93%25-green)
-![Tasks](https://img.shields.io/badge/Tasks-93%2F100-blue)
+![Progress](https://img.shields.io/badge/Progress-95%25-green)
+![Tasks](https://img.shields.io/badge/Tasks-95%2F100-blue)
 ![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
 ![Priority](https://img.shields.io/badge/High%20Priority-0%20remaining-brightgreen)
 
@@ -193,7 +193,9 @@
 91. ~~Blue-Green deployment~~ ✅
 92. ~~Canary releases~~ ✅
 93. ~~Chaos engineering~~ ✅
-94. **→ Cost optimization** (Próximo)
+94. ~~Cost optimization~~ ✅
+95. ~~Green computing~~ ✅
+96. **→ Distributed tracing avançado** (Próximo)
 
 ### Áreas de Expansão (54 novas tasks adicionadas)
 - **Performance**: Monitoring, caching multi-level, query optimization, load testing
@@ -3661,30 +3663,30 @@ _Tarefas originais (concluídas):_
 
 ---
 
-### 94. 📉 Cost optimization
+### 94. ✅ Cost optimization
 **Prioridade**: Baixa  
 **Pacotes afetados**: `@acme/observability`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
-- [ ] **Resource usage tracking**
-- [ ] **Cost allocation tags**
-- [ ] **Idle resource detection**
-- [ ] **Right-sizing recommendations**
-- [ ] **Reserved instance advisor**
+- [x] **Resource usage tracking**
+- [x] **Cost allocation tags**
+- [x] **Idle resource detection**
+- [x] **Right-sizing recommendations**
+- [x] **Reserved instance advisor**
 
 ---
 
-### 95. ♻️ Green computing
+### 95. ✅ Green computing
 **Prioridade**: Baixa  
 **Pacotes afetados**: `@acme/observability`  
 **Estimativa**: 3 dias
 
 **Tarefas**:
-- [ ] **Carbon footprint tracking**
-- [ ] **Energy efficiency metrics**
-- [ ] **Sustainable region selection**
-- [ ] **Off-peak scheduling**
+- [x] **Carbon footprint tracking**
+- [x] **Energy efficiency metrics**
+- [x] **Sustainable region selection**
+- [x] **Off-peak scheduling**
 
 ---
 
@@ -3894,8 +3896,8 @@ _Tarefas originais (concluídas):_
 85. [x] **Blue-Green deployment** (Item 91)
 86. [x] **Canary releases** (Item 92)
 87. [x] **Chaos engineering** (Item 93)
-88. [ ] Cost optimization (Item 94)
-89. [ ] Green computing (Item 95)
+88. [x] **Cost optimization** (Item 94)
+89. [x] **Green computing** (Item 95)
 90. [ ] Configuration server (Item 99)
 91. [ ] Schema registry (Item 100)
 92. [ ] Result combinators (Item 33)

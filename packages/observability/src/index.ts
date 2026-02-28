@@ -74,3 +74,21 @@ export type {
   SloStatus,
   SliProvider,
 } from './slo/index';
+// Cost optimization (item 94)
+export { CostTracker } from './cost/CostTracker';
+export type {
+  ResourceUsageRecord,
+  CostAllocationTag,
+  IdleResourceReport,
+  RightSizingRecommendation,
+  CostSummary,
+} from './cost/types';
+
+// Green computing (item 95)
+export { GreenComputingTracker } from './green/GreenComputingTracker';
+export type {
+  CarbonUsageRecord,
+  RegionCarbonIntensity,
+  CarbonSummary,
+  OffPeakScheduleResult,
+} from './green/types';
