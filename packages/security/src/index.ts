@@ -31,3 +31,26 @@ export { AesGcmCipher } from './crypto/AesGcmCipher';
 export { Sha256Hasher } from './crypto/Sha256Hasher';
 export { HmacSha256Signer } from './crypto/HmacSha256Signer';
 export { PiiMasker } from './crypto/PiiMasker';
+
+// OAuth2 / OIDC
+export {
+  AuthorizationCodeFlow,
+  ClientCredentialsFlow,
+  PkceGenerator,
+  TokenIntrospector,
+  JwksClient,
+  OidcAuthenticator,
+} from './oauth/index';
+export type {
+  OAuthClientConfig,
+  TokenResponse,
+  TokenIntrospectionResult,
+  OidcUserInfo,
+  JwksKey,
+  JwksDocument,
+  PkceChallenge,
+  AuthorizationCodeParams,
+  OAuthTokenStore,
+  OidcClientLike,
+  OAuthResult,
+} from './oauth/index';

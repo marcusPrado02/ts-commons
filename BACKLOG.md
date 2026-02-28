@@ -1,7 +1,7 @@
 # Backlog de Implementação - TypeScript Commons Platform
 
-![Progress](https://img.shields.io/badge/Progress-82%25-green)
-![Tasks](https://img.shields.io/badge/Tasks-82%2F100-blue)
+![Progress](https://img.shields.io/badge/Progress-83%25-green)
+![Tasks](https://img.shields.io/badge/Tasks-83%2F100-blue)
 ![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
 ![Priority](https://img.shields.io/badge/High%20Priority-0%20remaining-brightgreen)
 
@@ -182,7 +182,8 @@
 80. ~~Change Data Capture~~ ✅
 81. ~~Event replay~~ ✅
 82. ~~Pub/Sub patterns~~ ✅
-83. **→ OAuth2 & OIDC** (Próximo)
+83. ~~OAuth2 & OIDC~~ ✅
+84. **→ mTLS support** (Próximo)
 
 ### Áreas de Expansão (54 novas tasks adicionadas)
 - **Performance**: Monitoring, caching multi-level, query optimization, load testing
@@ -3444,19 +3445,19 @@ _Tarefas originais (concluídas):_
 
 ## 🔒 Advanced Security
 
-### 83. 🛡️ OAuth2 & OIDC
+### 83. ✅ OAuth2 & OIDC
 **Prioridade**: Alta  
 **Pacotes afetados**: `@acme/security`  
 **Estimativa**: 2 semanas
 
 **Tarefas**:
-- [ ] **OAuth2 flows**:
+- [x] **OAuth2 flows**:
   - Authorization Code
   - Client Credentials
   - Refresh Token
   - PKCE
   
-- [ ] **OIDC integration**:
+- [x] **OIDC integration**:
   ```typescript
   export class OidcAuthenticator implements AuthenticatorPort {
     async authenticate(
@@ -3475,9 +3476,9 @@ _Tarefas originais (concluídas):_
   }
   ```
 
-- [ ] **Token introspection**
-- [ ] **Token revocation**
-- [ ] **JWKS client**
+- [x] **Token introspection**
+- [x] **Token revocation**
+- [x] **JWKS client**
 
 ---
 
@@ -3823,7 +3824,7 @@ _Tarefas originais (concluídas):_
 18. [ ] **Kafka Adapter** (Item 11)
 19. ~~**Secrets Management** (Item 17)~~ ✅
 20. ~~**JWT Authentication** (Item 18)~~ ✅
-21. [ ] **OAuth2 & OIDC** (Item 83)
+21. [x] **OAuth2 & OIDC** (Item 83)
 22. [ ] **Expandir Resilience** (Item 22)
 23. [ ] **Testcontainers** (Item 26)
 24. [ ] **OpenAPI/Swagger** (Item 28)
