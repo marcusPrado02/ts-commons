@@ -21,3 +21,13 @@ export { JsonApiBuilder } from './hateoas/JsonApiResource';
 // SSE
 export { SseFormatter, SseEmitter, SseEventTracker } from './sse/index';
 export type { SseEventId, SseEvent, SseConnectionState, SseWriteFn } from './sse/index';
+
+// CSP
+export { CspBuilder, NonceGenerator, CspViolationMonitor } from './csp/index';
+export type {
+  CspDirective,
+  CspSource,
+  CspPolicy,
+  CspOptions,
+  CspViolationReport,
+} from './csp/index';

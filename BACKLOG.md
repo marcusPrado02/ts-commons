@@ -1,7 +1,7 @@
 # Backlog de Implementação - TypeScript Commons Platform
 
-![Progress](https://img.shields.io/badge/Progress-86%25-green)
-![Tasks](https://img.shields.io/badge/Tasks-86%2F100-blue)
+![Progress](https://img.shields.io/badge/Progress-87%25-green)
+![Tasks](https://img.shields.io/badge/Tasks-87%2F100-blue)
 ![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
 ![Priority](https://img.shields.io/badge/High%20Priority-0%20remaining-brightgreen)
 
@@ -186,7 +186,8 @@
 84. ~~mTLS support~~ ✅
 85. ~~Single Sign-On (SSO)~~ ✅
 86. ~~API key management~~ ✅
-87. **→ Content Security Policy** (Próximo)
+87. ~~Content Security Policy~~ ✅
+88. **→ Data encryption** (Próximo)
 
 ### Áreas de Expansão (54 novas tasks adicionadas)
 - **Performance**: Monitoring, caching multi-level, query optimization, load testing
@@ -3528,16 +3529,16 @@ _Tarefas originais (concluídas):_
 
 ---
 
-### 87. 🚫 Content Security Policy
+### 87. ✅ Content Security Policy
 **Prioridade**: Baixa  
 **Pacotes afetados**: `@acme/web`  
 **Estimativa**: 2 dias
 
 **Tarefas**:
-- [ ] **CSP headers**
-- [ ] **Nonce generation**
-- [ ] **Report-URI configuration**
-- [ ] **Policy violation monitoring**
+- [x] **CSP headers**
+- [x] **Nonce generation**
+- [x] **Report-URI configuration**
+- [x] **Policy violation monitoring**
 
 ---
 
@@ -3900,7 +3901,7 @@ _Tarefas originais (concluídas):_
 81. [x] mTLS support (Item 84)
 82. [x] Single Sign-On (Item 85)
 83. [x] API key management (Item 86)
-84. [ ] Content Security Policy (Item 87)
+84. [x] Content Security Policy (Item 87)
 85. [ ] Blue-Green deployment (Item 91)
 86. [ ] Canary releases (Item 92)
 87. [ ] Chaos engineering (Item 93)
