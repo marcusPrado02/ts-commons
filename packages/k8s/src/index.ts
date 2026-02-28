@@ -49,3 +49,12 @@ export type {
   SmokeTestResult,
   SmokeTestCheck,
 } from './bluegreen/types';
+export { CanaryRelease } from './canary/CanaryRelease';
+export type {
+  CanaryConfig,
+  CanaryMetrics,
+  CanaryStatus,
+  CanaryPhase,
+  CanaryAnalysisResult,
+  MetricsProvider,
+} from './canary/types';
