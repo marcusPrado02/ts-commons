@@ -5,6 +5,9 @@ export type { ConfigSchema } from './core/ConfigSchema';
 export { ConfigError } from './core/ConfigError';
 export { ZodConfigSchema } from './core/ZodConfigSchema';
 export { HotReloadConfigLoader } from './core/HotReloadConfigLoader';
+export { ConfigServer } from './core/ConfigServer';
+export type { ProfileConfig, CompatibilityMode } from './core/ConfigServer';
+export { ProfileManager } from './core/ProfileManager';
 
 // Sources
 export type { ConfigSource } from './sources/ConfigSource';
