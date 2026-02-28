@@ -1,7 +1,7 @@
 # Backlog de Implementação - TypeScript Commons Platform
 
-![Progress](https://img.shields.io/badge/Progress-95%25-green)
-![Tasks](https://img.shields.io/badge/Tasks-95%2F100-blue)
+![Progress](https://img.shields.io/badge/Progress-96%25-green)
+![Tasks](https://img.shields.io/badge/Tasks-96%2F100-blue)
 ![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
 ![Priority](https://img.shields.io/badge/High%20Priority-0%20remaining-brightgreen)
 
@@ -195,7 +195,8 @@
 93. ~~Chaos engineering~~ ✅
 94. ~~Cost optimization~~ ✅
 95. ~~Green computing~~ ✅
-96. **→ Distributed tracing avançado** (Próximo)
+96. ~~Distributed tracing avançado~~ ✅
+97. **→ Synthetic monitoring** (Próximo)
 
 ### Áreas de Expansão (54 novas tasks adicionadas)
 - **Performance**: Monitoring, caching multi-level, query optimization, load testing
@@ -3690,17 +3691,17 @@ _Tarefas originais (concluídas):_
 
 ---
 
-### 96. 🔍 Distributed tracing avançado
+### 96. ✅ Distributed tracing avançado
 **Prioridade**: Alta  
 **Pacotes afetados**: `@acme/observability-otel`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
-- [ ] **Trace sampling strategies**
-- [ ] **Trace context propagation (gRPC, messaging)**
-- [ ] **Service dependency mapping**
-- [ ] **Critical path analysis**
-- [ ] **Trace-based alerting**
+- [x] **Trace sampling strategies**
+- [x] **Trace context propagation (gRPC, messaging)**
+- [x] **Service dependency mapping**
+- [x] **Critical path analysis**
+- [x] **Trace-based alerting**
 
 ---
 
@@ -3848,7 +3849,7 @@ _Tarefas originais (concluídas):_
 41. [ ] **Helm charts** (Item 61)
 42. [ ] **Terraform modules** (Item 62)
 43. [ ] **SLO/SLI monitoring** (Item 89)
-44. [ ] **Distributed tracing avançado** (Item 96)
+44. [x] **Distributed tracing avançado** (Item 96)
 45. [ ] **Synthetic monitoring** (Item 97)
 46. [ ] **Service discovery** (Item 98)
 47. [x] **Incident management** (Item 90)
