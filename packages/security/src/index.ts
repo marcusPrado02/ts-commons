@@ -70,3 +70,19 @@ export type {
   CertRevocationEntry,
   MtlsConnectionInfo,
 } from './mtls/index';
+
+// SSO
+export {
+  SamlAuthenticator,
+  Auth0Authenticator,
+  OktaAuthenticator,
+  AzureAdAuthenticator,
+  GoogleAuthenticator,
+} from './sso/index';
+export type {
+  SsoProviderConfig,
+  SamlConfig,
+  SamlAssertion,
+  SsoTokenPayload,
+  SsoAuthenticator,
+} from './sso/index';

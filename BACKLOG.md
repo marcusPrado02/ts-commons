@@ -1,7 +1,7 @@
 # Backlog de Implementação - TypeScript Commons Platform
 
-![Progress](https://img.shields.io/badge/Progress-84%25-green)
-![Tasks](https://img.shields.io/badge/Tasks-84%2F100-blue)
+![Progress](https://img.shields.io/badge/Progress-85%25-green)
+![Tasks](https://img.shields.io/badge/Tasks-85%2F100-blue)
 ![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
 ![Priority](https://img.shields.io/badge/High%20Priority-0%20remaining-brightgreen)
 
@@ -184,7 +184,8 @@
 82. ~~Pub/Sub patterns~~ ✅
 83. ~~OAuth2 & OIDC~~ ✅
 84. ~~mTLS support~~ ✅
-85. **→ Single Sign-On (SSO)** (Próximo)
+85. ~~Single Sign-On (SSO)~~ ✅
+86. **→ API key management** (Próximo)
 
 ### Áreas de Expansão (54 novas tasks adicionadas)
 - **Performance**: Monitoring, caching multi-level, query optimization, load testing
@@ -3497,17 +3498,17 @@ _Tarefas originais (concluídas):_
 
 ---
 
-### 85. 🎫 Single Sign-On (SSO)
+### 85. ✅ Single Sign-On (SSO)
 **Prioridade**: Média  
 **Pacotes afetados**: `@acme/security`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
-- [ ] **SAML 2.0 integration**
-- [ ] **Auth0 integration**
-- [ ] **Okta integration**
-- [ ] **Azure AD integration**
-- [ ] **Google Workspace integration**
+- [x] **SAML 2.0 integration**
+- [x] **Auth0 integration**
+- [x] **Okta integration**
+- [x] **Azure AD integration**
+- [x] **Google Workspace integration**
 
 ---
 
@@ -3896,7 +3897,7 @@ _Tarefas originais (concluídas):_
 79. [x] Event replay (Item 81)
 80. [x] Pub/Sub patterns (Item 82)
 81. [x] mTLS support (Item 84)
-82. [ ] Single Sign-On (Item 85)
+82. [x] Single Sign-On (Item 85)
 83. [ ] API key management (Item 86)
 84. [ ] Content Security Policy (Item 87)
 85. [ ] Blue-Green deployment (Item 91)
