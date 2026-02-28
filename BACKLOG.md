@@ -1,7 +1,7 @@
 # Backlog de Implementação - TypeScript Commons Platform
 
-![Progress](https://img.shields.io/badge/Progress-80%25-green)
-![Tasks](https://img.shields.io/badge/Tasks-80%2F100-blue)
+![Progress](https://img.shields.io/badge/Progress-81%25-green)
+![Tasks](https://img.shields.io/badge/Tasks-81%2F100-blue)
 ![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
 ![Priority](https://img.shields.io/badge/High%20Priority-0%20remaining-brightgreen)
 
@@ -180,7 +180,8 @@
 78. ~~WebSocket support~~ ✅
 79. ~~Server-Sent Events~~ ✅
 80. ~~Change Data Capture~~ ✅
-81. **→ Event replay** (Próximo)
+81. ~~Event replay~~ ✅
+82. **→ Pub/Sub patterns** (Próximo)
 
 ### Áreas de Expansão (54 novas tasks adicionadas)
 - **Performance**: Monitoring, caching multi-level, query optimization, load testing
@@ -3412,17 +3413,17 @@ _Tarefas originais (concluídas):_
 
 ---
 
-### 81. 🔄 Event replay
+### 81. ✅ Event replay
 **Prioridade**: Baixa  
 **Pacotes afetados**: `@acme/eventsourcing`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
-- [ ] **Replay mechanism**
-- [ ] **Point-in-time replay**
-- [ ] **Selective replay**
-- [ ] **Replay monitoring**
-- [ ] **Fast-forward optimization**
+- [x] **Replay mechanism**
+- [x] **Point-in-time replay**
+- [x] **Selective replay**
+- [x] **Replay monitoring**
+- [x] **Fast-forward optimization**
 
 ---
 
@@ -3889,7 +3890,7 @@ _Tarefas originais (concluídas):_
 76. [x] Data warehouse integration (Item 74)
 77. [x] Geospatial data (Item 76)
 78. [x] Server-Sent Events (Item 79)
-79. [ ] Event replay (Item 81)
+79. [x] Event replay (Item 81)
 80. [ ] Pub/Sub patterns (Item 82)
 81. [ ] mTLS support (Item 84)
 82. [ ] Single Sign-On (Item 85)
