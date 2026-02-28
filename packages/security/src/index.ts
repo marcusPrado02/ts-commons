@@ -96,3 +96,20 @@ export type {
   RateLimitConfig,
   ApiKeyStats,
 } from './apikeys/index';
+
+// Encryption
+export {
+  FieldEncryption,
+  EnvelopeEncryption,
+  KeyRotationManager,
+  KmsClient,
+} from './encryption/index';
+export type {
+  EncryptedValue,
+  EnvelopedData,
+  EnvelopeOptions,
+  KmsKeyConfig,
+  KmsProvider,
+  RotationRecord,
+  KmsAdapter,
+} from './encryption/index';
