@@ -1,7 +1,7 @@
 # Backlog de Implementação - TypeScript Commons Platform
 
-![Progress](https://img.shields.io/badge/Progress-85%25-green)
-![Tasks](https://img.shields.io/badge/Tasks-85%2F100-blue)
+![Progress](https://img.shields.io/badge/Progress-86%25-green)
+![Tasks](https://img.shields.io/badge/Tasks-86%2F100-blue)
 ![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
 ![Priority](https://img.shields.io/badge/High%20Priority-0%20remaining-brightgreen)
 
@@ -185,7 +185,8 @@
 83. ~~OAuth2 & OIDC~~ ✅
 84. ~~mTLS support~~ ✅
 85. ~~Single Sign-On (SSO)~~ ✅
-86. **→ API key management** (Próximo)
+86. ~~API key management~~ ✅
+87. **→ Content Security Policy** (Próximo)
 
 ### Áreas de Expansão (54 novas tasks adicionadas)
 - **Performance**: Monitoring, caching multi-level, query optimization, load testing
@@ -3512,18 +3513,18 @@ _Tarefas originais (concluídas):_
 
 ---
 
-### 86. 🔑 API key management
+### 86. ✅ API key management
 **Prioridade**: Média  
 **Pacotes afetados**: `@acme/security`  
 **Estimativa**: 3 dias
 
 **Tarefas**:
-- [ ] **API key generation**
-- [ ] **Key rotation**
-- [ ] **Key scoping (permissions)**
-- [ ] **Usage tracking**
-- [ ] **Rate limiting per key**
-- [ ] **Key expiration**
+- [x] **API key generation**
+- [x] **Key rotation**
+- [x] **Key scoping (permissions)**
+- [x] **Usage tracking**
+- [x] **Rate limiting per key**
+- [x] **Key expiration**
 
 ---
 
@@ -3898,7 +3899,7 @@ _Tarefas originais (concluídas):_
 80. [x] Pub/Sub patterns (Item 82)
 81. [x] mTLS support (Item 84)
 82. [x] Single Sign-On (Item 85)
-83. [ ] API key management (Item 86)
+83. [x] API key management (Item 86)
 84. [ ] Content Security Policy (Item 87)
 85. [ ] Blue-Green deployment (Item 91)
 86. [ ] Canary releases (Item 92)

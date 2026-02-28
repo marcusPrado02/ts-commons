@@ -86,3 +86,13 @@ export type {
   SsoTokenPayload,
   SsoAuthenticator,
 } from './sso/index';
+
+// API Keys
+export { ApiKeyManager, ApiKeyUsageTracker } from './apikeys/index';
+export type {
+  ApiKeyConfig,
+  ApiKeyRecord,
+  ApiKeyUsageRecord,
+  RateLimitConfig,
+  ApiKeyStats,
+} from './apikeys/index';
