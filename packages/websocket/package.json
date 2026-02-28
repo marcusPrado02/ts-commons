@@ -1,0 +1,16 @@
+{
+  "name": "@acme/websocket",
+  "version": "0.1.0",
+  "description": "WebSocket server, rooms, broadcast, authentication and reconnection",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts --max-warnings 0"
+  },
+  "devDependencies": {
+    "@acme/tsconfig": "workspace:*",
+    "vitest": "2.1.9",
+    "eslint": "^8.57.0"
+  }
+}
