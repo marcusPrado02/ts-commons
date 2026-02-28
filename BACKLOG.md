@@ -1,7 +1,7 @@
 # Backlog de Implementação - TypeScript Commons Platform
 
-![Progress](https://img.shields.io/badge/Progress-79%25-green)
-![Tasks](https://img.shields.io/badge/Tasks-79%2F100-blue)
+![Progress](https://img.shields.io/badge/Progress-80%25-green)
+![Tasks](https://img.shields.io/badge/Tasks-80%2F100-blue)
 ![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
 ![Priority](https://img.shields.io/badge/High%20Priority-0%20remaining-brightgreen)
 
@@ -179,7 +179,8 @@
 77. ~~Stream processing~~ ✅
 78. ~~WebSocket support~~ ✅
 79. ~~Server-Sent Events~~ ✅
-80. **→ Change Data Capture** (Próximo)
+80. ~~Change Data Capture~~ ✅
+81. **→ Event replay** (Próximo)
 
 ### Áreas de Expansão (54 novas tasks adicionadas)
 - **Performance**: Monitoring, caching multi-level, query optimization, load testing
@@ -3396,18 +3397,18 @@ _Tarefas originais (concluídas):_
 
 ---
 
-### 80. 🎬 Change Data Capture (CDC)
+### 80. ✅ Change Data Capture (CDC)
 **Prioridade**: Média  
 **Pacotes afetados**: Novo pacote `@acme/cdc`  
 **Estimativa**: 2 semanas
 
 **Tarefas**:
-- [ ] **Debezium integration**
-- [ ] **PostgreSQL logical replication**
-- [ ] **MySQL binlog**
-- [ ] **MongoDB change streams**
-- [ ] **Event transformation**
-- [ ] **Filtering strategies**
+- [x] **Debezium integration**
+- [x] **PostgreSQL logical replication**
+- [x] **MySQL binlog**
+- [x] **MongoDB change streams**
+- [x] **Event transformation**
+- [x] **Filtering strategies**
 
 ---
 
@@ -3857,7 +3858,7 @@ _Tarefas originais (concluídas):_
 ### Sprint 7 - Data & Streaming (Prioridade Baixa - 2 semanas)
 48. [x] **Stream processing** (Item 77)
 49. [x] **WebSocket support** (Item 78)
-50. [ ] **CDC (Change Data Capture)** (Item 80)
+50. [x] **CDC (Change Data Capture)** (Item 80)
 51. [x] **Data pipeline** (Item 71)
 52. [x] **Analytics events** (Item 73)
 53. [x] **Time series data** (Item 75)
