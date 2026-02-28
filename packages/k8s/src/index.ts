@@ -38,3 +38,14 @@ export {
   validateNetworkPolicy,
   validateIngress,
 } from './ManifestValidator';
+export { BlueGreenDeployment } from './bluegreen/BlueGreenDeployment';
+export type {
+  BlueGreenConfig,
+  BlueGreenStrategy,
+  DeploymentColor,
+  DeploymentSlot,
+  TrafficSwitchResult,
+  RollbackResult,
+  SmokeTestResult,
+  SmokeTestCheck,
+} from './bluegreen/types';
