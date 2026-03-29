@@ -104,6 +104,42 @@ describe('InMemoryServiceRegistry', () => {
     registry.updateHealth('svc-1', 'unhealthy');
     expect(registry.getHealthy('my-service')).toHaveLength(0);
   });
+
+  it('updateHealth returns false for unknown instance', () => {
+    expect(registry.updateHealth('ghost', 'unhealthy')).toBe(false);
+  });
+
+  it('updateHealth notifies watchers', () => {
+    registry.register(makeInstance({ health: 'healthy' }));
+    const handler = vi.fn();
+    registry.watch('my-service', handler);
+    registry.updateHealth('svc-1', 'unhealthy');
+    expect(handler).toHaveBeenCalledOnce();
+  });
+
+  it('filters by multiple tags (all must match)', () => {
+    registry.register(makeInstance({ id: 'a', tags: ['v1', 'prod', 'eu'] }));
+    registry.register(makeInstance({ id: 'b', tags: ['v1', 'prod'] }));
+    const found = registry.discover('my-service', { tags: ['v1', 'eu'] });
+    expect(found).toHaveLength(1);
+    expect(found[0]!.id).toBe('a');
+  });
+
+  it('stores and returns metadata on registered instance', () => {
+    const inst = registry.register(makeInstance({ metadata: { region: 'us-east-1' } }));
+    expect(inst.metadata?.['region']).toBe('us-east-1');
+  });
+
+  it('discover returns empty array when no instances match', () => {
+    expect(registry.discover('unknown-service')).toHaveLength(0);
+  });
+
+  it('register overwrites existing instance with same id', () => {
+    registry.register(makeInstance({ host: 'host-a' }));
+    registry.register(makeInstance({ host: 'host-b' }));
+    expect(registry.instanceCount).toBe(1);
+    expect(registry.discover('my-service')[0]!.host).toBe('host-b');
+  });
 });
 
 describe('RoundRobinBalancer', () => {
@@ -240,5 +276,135 @@ describe('HealthChecker', () => {
     checker.register('a', 'svc', async () => true);
     checker.register('b', 'svc', async () => true);
     expect(checker.registeredCount).toBe(2);
+  });
+
+  it('getStatus returns current status without running check', () => {
+    const checker = new HealthChecker();
+    checker.register('svc-1', 'my-service', async () => true);
+    expect(checker.getStatus('svc-1')).toBe('unknown');
+  });
+
+  it('getStatus returns unknown for unregistered instance', () => {
+    expect(new HealthChecker().getStatus('ghost')).toBe('unknown');
+  });
+
+  it('getStatus reflects status after check', async () => {
+    const checker = new HealthChecker();
+    checker.register('svc-1', 'my-service', async () => true);
+    await checker.check('svc-1');
+    expect(checker.getStatus('svc-1')).toBe('healthy');
+  });
+
+  it('consecutiveFailures increments on repeated failures', async () => {
+    const checker = new HealthChecker();
+    checker.register('svc-1', 'svc', async () => false);
+    await checker.check('svc-1');
+    await checker.check('svc-1');
+    const entry = (
+      checker as unknown as { checks: Map<string, { consecutiveFailures: number }> }
+    ).checks.get('svc-1');
+    expect(entry?.consecutiveFailures).toBe(2);
+  });
+
+  it('consecutiveFailures resets on recovery', async () => {
+    const checker = new HealthChecker();
+    let healthy = false;
+    checker.register('svc-1', 'svc', async () => healthy);
+    await checker.check('svc-1');
+    await checker.check('svc-1');
+    healthy = true;
+    await checker.check('svc-1');
+    const entry = (
+      checker as unknown as { checks: Map<string, { consecutiveFailures: number }> }
+    ).checks.get('svc-1');
+    expect(entry?.consecutiveFailures).toBe(0);
+  });
+
+  it('startPolling invokes check on interval', async () => {
+    vi.useFakeTimers();
+    const checker = new HealthChecker();
+    let calls = 0;
+    checker.register(
+      'svc-1',
+      'svc',
+      async () => {
+        calls++;
+        return true;
+      },
+      100,
+    );
+    checker.startPolling('svc-1');
+    await vi.advanceTimersByTimeAsync(350);
+    checker.stopPolling('svc-1');
+    vi.useRealTimers();
+    expect(calls).toBeGreaterThanOrEqual(3);
+  });
+
+  it('startPolling is idempotent — does not create duplicate timers', () => {
+    vi.useFakeTimers();
+    const checker = new HealthChecker();
+    checker.register('svc-1', 'svc', async () => true);
+    checker.startPolling('svc-1');
+    checker.startPolling('svc-1'); // second call should be a no-op
+    const timers = (checker as unknown as { timers: Map<string, unknown> }).timers;
+    expect(timers.size).toBe(1);
+    checker.stopAll();
+    vi.useRealTimers();
+  });
+
+  it('stopPolling halts interval for a single instance', async () => {
+    vi.useFakeTimers();
+    const checker = new HealthChecker();
+    let calls = 0;
+    checker.register(
+      'svc-1',
+      'svc',
+      async () => {
+        calls++;
+        return true;
+      },
+      100,
+    );
+    checker.startPolling('svc-1');
+    await vi.advanceTimersByTimeAsync(150);
+    checker.stopPolling('svc-1');
+    const callsAfterStop = calls;
+    await vi.advanceTimersByTimeAsync(300);
+    vi.useRealTimers();
+    expect(calls).toBe(callsAfterStop);
+  });
+
+  it('stopAll halts all running polls', async () => {
+    vi.useFakeTimers();
+    const checker = new HealthChecker();
+    let callsA = 0,
+      callsB = 0;
+    checker.register(
+      'a',
+      'svc',
+      async () => {
+        callsA++;
+        return true;
+      },
+      100,
+    );
+    checker.register(
+      'b',
+      'svc',
+      async () => {
+        callsB++;
+        return true;
+      },
+      100,
+    );
+    checker.startPolling('a');
+    checker.startPolling('b');
+    await vi.advanceTimersByTimeAsync(150);
+    checker.stopAll();
+    const [snapA, snapB] = [callsA, callsB];
+    await vi.advanceTimersByTimeAsync(300);
+    vi.useRealTimers();
+    expect(callsA).toBe(snapA);
+    expect(callsB).toBe(snapB);
   });
 });
