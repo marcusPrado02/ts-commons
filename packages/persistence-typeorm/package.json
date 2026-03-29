@@ -50,5 +50,8 @@
     "dist",
     "src",
     "README.md"
-  ]
+  ],
+  "peerDependencies": {
+    "typeorm": "^0.3.0"
+  }
 }

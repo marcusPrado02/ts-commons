@@ -44,5 +44,8 @@
     "dist",
     "src",
     "README.md"
-  ]
+  ],
+  "peerDependencies": {
+    "fastify": "^4.0.0"
+  }
 }

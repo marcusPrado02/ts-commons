@@ -48,5 +48,8 @@
     "dist",
     "src",
     "README.md"
-  ]
+  ],
+  "peerDependencies": {
+    "zod": "^3.0.0"
+  }
 }

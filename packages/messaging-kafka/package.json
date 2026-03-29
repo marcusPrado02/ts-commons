@@ -45,5 +45,8 @@
     "dist",
     "src",
     "README.md"
-  ]
+  ],
+  "peerDependencies": {
+    "kafkajs": "^2.0.0"
+  }
 }
