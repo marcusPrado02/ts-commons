@@ -183,4 +183,46 @@ describe('SchemaRegistry', () => {
       expect(id).toBeGreaterThan(0);
     });
   });
+
+  it('getVersion returns full SchemaVersion with subject and createdAt', async () => {
+    await registry.register('ev', jsonSchema);
+    const sv = await registry.getVersion('ev', 1);
+    expect(sv.subject).toBe('ev');
+    expect(sv.createdAt).toBeInstanceOf(Date);
+    expect(sv.schema).toEqual(jsonSchema);
+  });
+
+  it('getVersion throws SchemaVersionNotFoundError for unknown subject', async () => {
+    await expect(registry.getVersion('ghost', 1)).rejects.toThrow(SchemaVersionNotFoundError);
+  });
+
+  it('listVersions returns empty array for unknown subject', () => {
+    expect(registry.listVersions('ghost')).toEqual([]);
+  });
+
+  it('schema ids are globally unique across subjects', async () => {
+    const id1 = await registry.register('a', jsonSchema);
+    const id2 = await registry.register('b', avroSchema);
+    expect(id1).not.toBe(id2);
+  });
+
+  it('checkCompatibility FULL allows adding optional field', () => {
+    const r = new SchemaRegistry('FULL');
+    const withOpt: Schema = {
+      type: 'JSON',
+      fields: [...jsonSchema.fields, { name: 'extra', type: 'string', optional: true }],
+    };
+    expect(r.checkCompatibility(jsonSchema, withOpt, 'FULL')).toBe(true);
+  });
+
+  it('BACKWARD allows adding a required field to the new schema', async () => {
+    const r = new SchemaRegistry('BACKWARD');
+    await r.register('ev', jsonSchema);
+    const withRequired: Schema = {
+      type: 'JSON',
+      fields: [...jsonSchema.fields, { name: 'extra', type: 'string' }],
+    };
+    // BACKWARD: old consumers can still read new data (new required field is fine for old readers)
+    await expect(r.register('ev', withRequired)).resolves.toBeGreaterThan(0);
+  });
 });
