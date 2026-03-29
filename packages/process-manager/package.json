@@ -30,5 +30,9 @@
     "ddd",
     "cqrs",
     "distributed-systems"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

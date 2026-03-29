@@ -29,5 +29,9 @@
     "azure-apim",
     "rate-limiting",
     "api-key"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

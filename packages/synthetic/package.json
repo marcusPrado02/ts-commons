@@ -17,5 +17,9 @@
   },
   "devDependencies": {
     "vitest": "2.1.9"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

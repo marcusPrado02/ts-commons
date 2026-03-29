@@ -29,5 +29,9 @@
     "chart",
     "values",
     "release"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

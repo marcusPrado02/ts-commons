@@ -29,5 +29,9 @@
     "redshift",
     "schema-evolution",
     "data-sync"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

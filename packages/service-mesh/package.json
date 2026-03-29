@@ -29,5 +29,9 @@
     "mtls",
     "traffic-management",
     "circuit-breaking"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

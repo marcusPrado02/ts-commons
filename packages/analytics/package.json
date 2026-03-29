@@ -29,5 +29,9 @@
     "mixpanel",
     "ga4",
     "funnel"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }
