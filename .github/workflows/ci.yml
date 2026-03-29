@@ -41,7 +41,11 @@ jobs:
         run: pnpm typecheck
 
       - name: Run tests with coverage
+        # Fails if any package falls below the thresholds in vitest.config.ts
+        # (lines/functions/statements >= 60%, branches >= 50%)
         run: pnpm test:coverage
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Upload coverage reports
         uses: actions/upload-artifact@v4

@@ -8,12 +8,12 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       exclude: ['node_modules/**', 'dist/**', '**/*.config.ts', '**/*.d.ts', '**/index.ts'],
-      // Enforced in CI. Increase gradually as test coverage grows.
+      // Enforced in CI. Target: 80% — raised from 40/30 as coverage was added.
       thresholds: {
-        lines: 40,
-        functions: 40,
-        branches: 30,
-        statements: 40,
+        lines: 60,
+        functions: 60,
+        branches: 50,
+        statements: 60,
       },
     },
   },
