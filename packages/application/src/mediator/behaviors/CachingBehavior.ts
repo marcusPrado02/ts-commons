@@ -29,7 +29,12 @@ export class CachingBehavior<TRequest = unknown, TResponse = unknown> implements
     }
 
     const value = await next();
-    this.cache.set(key, { value, cachedAt: new Date(), ttlMs: this.ttlMs });
+    const newEntry: CacheEntry<TResponse> = {
+      value,
+      cachedAt: new Date(),
+      ...(this.ttlMs !== undefined ? { ttlMs: this.ttlMs } : {}),
+    };
+    this.cache.set(key, newEntry);
     return value;
   }
 

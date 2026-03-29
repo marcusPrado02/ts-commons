@@ -59,8 +59,8 @@ export class ApiKeyUsageTracker {
     return {
       keyId,
       requestCount: records.length,
-      lastUsedAt: sorted.length > 0 ? sorted[0].timestamp : undefined,
       rateLimited: this.isRateLimited(keyId),
+      ...(sorted.length > 0 ? { lastUsedAt: sorted[0]!.timestamp } : {}),
     };
   }
 

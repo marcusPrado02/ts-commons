@@ -13,20 +13,25 @@ import {
   ValidationBehavior,
   MediatorValidationError,
   CachingBehavior,
+  MediatorRequest,
 } from '../src';
-import type { MediatorRequest, RequestHandler, PipelineBehavior } from '../src';
+import type { RequestHandler, PipelineBehavior } from '../src';
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
 
-class GetUserQuery implements MediatorRequest<string> {
-  constructor(public readonly userId: string) {}
+class GetUserQuery extends MediatorRequest<string> {
+  constructor(public readonly userId: string) {
+    super();
+  }
 }
 
-class CreateUserCommand implements MediatorRequest<void> {
+class CreateUserCommand extends MediatorRequest<void> {
   constructor(
     public readonly name: string,
     public readonly email: string,
-  ) {}
+  ) {
+    super();
+  }
 }
 
 class GetUserHandler implements RequestHandler<GetUserQuery, string> {

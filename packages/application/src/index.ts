@@ -1,6 +1,5 @@
 // Mediator pattern avançado
 export type {
-  MediatorRequest,
   RequestHandler,
   PipelineBehavior,
   PreProcessor,
@@ -8,6 +7,7 @@ export type {
   MediatorLogEntry,
   CacheEntry,
 } from './mediator/index.js';
+export { MediatorRequest } from './mediator/index.js';
 export { Mediator } from './mediator/index.js';
 export { LoggingBehavior } from './mediator/index.js';
 export { ValidationBehavior, MediatorValidationError } from './mediator/index.js';

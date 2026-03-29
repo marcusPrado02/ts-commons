@@ -3,7 +3,7 @@ export class MetricsExportError extends Error {
   override readonly name = 'MetricsExportError';
   constructor(
     message: string,
-    readonly cause?: unknown,
+    override readonly cause?: unknown,
   ) {
     super(message);
   }
@@ -12,7 +12,7 @@ export class MetricsExportError extends Error {
 /** Thrown when the metrics backend cannot be reached at all. */
 export class MetricsUnavailableError extends Error {
   override readonly name = 'MetricsUnavailableError';
-  constructor(readonly cause?: unknown) {
+  constructor(override readonly cause?: unknown) {
     super('Metrics backend is unavailable');
   }
 }

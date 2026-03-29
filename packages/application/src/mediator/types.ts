@@ -1,10 +1,24 @@
 /**
- * Marker interface for mediator requests.
+ * Abstract base class that encodes the expected response type for a request.
+ * Extend this class in every command/query so that {@link Mediator.send}
+ * can infer the return type without explicit generics.
+ *
+ * The `_responseType` property is a phantom brand: it exists only at the
+ * type level (`declare`) and has zero runtime cost.
+ *
  * @typeParam TResponse  The expected response type for this request.
+ *
+ * @example
+ * ```ts
+ * class GetUserQuery extends MediatorRequest<User> {
+ *   constructor(public readonly userId: string) { super(); }
+ * }
+ * const user = await mediator.send(new GetUserQuery('123')); // user: User
+ * ```
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export interface MediatorRequest<TResponse = void> {
-  readonly _requestBrand?: string;
+export abstract class MediatorRequest<TResponse = void> {
+  /** @internal Phantom brand — never set at runtime. Carries the response type. */
+  declare readonly _responseType: TResponse;
 }
 
 /**

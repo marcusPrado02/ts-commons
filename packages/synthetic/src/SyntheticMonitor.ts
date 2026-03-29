@@ -70,13 +70,17 @@ export class SyntheticMonitor {
       }
     }
 
-    return {
+    const result: JourneyResult = {
       journeyName: name,
       passed: failedStep == null,
       totalDurationMs: Date.now() - start,
       steps: stepResults,
-      ...(failedStep != null ? { failedStep, error } : {}),
     };
+    if (failedStep != null) {
+      result.failedStep = failedStep;
+      if (error != null) result.error = error;
+    }
+    return result;
   }
 
   /** Configure failure alerting. */
@@ -107,7 +111,7 @@ export class SyntheticMonitor {
       try {
         response = await this.fetch(check.url, {
           method: check.method ?? 'GET',
-          headers: check.headers,
+          ...(check.headers != null ? { headers: check.headers } : {}),
           signal: controller.signal,
         });
       } finally {

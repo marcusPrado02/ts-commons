@@ -1,5 +1,4 @@
 export type {
-  MediatorRequest,
   RequestHandler,
   PipelineBehavior,
   PreProcessor,
@@ -7,6 +6,7 @@ export type {
   MediatorLogEntry,
   CacheEntry,
 } from './types.js';
+export { MediatorRequest } from './types.js';
 export { Mediator } from './Mediator.js';
 export { LoggingBehavior } from './behaviors/LoggingBehavior.js';
 export { ValidationBehavior, MediatorValidationError } from './behaviors/ValidationBehavior.js';

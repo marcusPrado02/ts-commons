@@ -133,7 +133,7 @@ describe('CspViolationMonitor', () => {
     monitor.onViolation(handler);
     monitor.report(validReport);
     expect(handler).toHaveBeenCalledOnce();
-    expect(handler.mock.calls[0][0].violatedDirective).toBe('script-src');
+    expect(handler.mock.calls[0]?.[0].violatedDirective).toBe('script-src');
   });
 
   it('unsubscribing stops handler calls', () => {
