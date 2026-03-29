@@ -25,7 +25,7 @@ export class CanaryRelease {
   private readonly phaseHandlers: Array<(phase: CanaryPhase) => void> = [];
 
   constructor(
-    private readonly config: CanaryConfig,
+    config: CanaryConfig,
     private readonly metrics: MetricsProvider,
   ) {
     this.canaryWeight = config.initialWeight ?? 5;
