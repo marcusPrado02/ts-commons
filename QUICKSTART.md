@@ -1,255 +1,221 @@
-# 🚀 Quick Start Guide - ts-commons
+# Quick Start Guide — ts-commons
 
-## ✅ Biblioteca Criada Com Sucesso!
-
-Você tem agora uma **biblioteca TypeScript enterprise-grade** com **100 arquivos TypeScript** organizados em **13 pacotes** seguindo os princípios de **Clean Architecture**, **DDD**, **Hexagonal Architecture**, e **CQRS**.
+A TypeScript enterprise monorepo with **66 packages** following Clean Architecture, DDD, Hexagonal Architecture, and CQRS.
 
 ---
 
-## 📦 Pacotes Criados
+## Prerequisites
 
-| Pacote | Descrição | Dependencies |
-|--------|-----------|--------------|
-| `@acme/kernel` | DDD core (Entity, ValueObject, DomainEvent) | **ZERO** ✅ |
-| `@acme/application` | Use Cases, CQRS, Validation | kernel |
-| `@acme/errors` | Problem Details, HTTP errors | kernel |
-| `@acme/config` | 12-factor config loader | kernel |
-| `@acme/observability` | Logging, Metrics, Tracing | kernel |
-| `@acme/resilience` | Retry, Timeout, Circuit Breaker | kernel |
-| `@acme/security` | AuthN/AuthZ, Crypto, PII | kernel |
-| `@acme/messaging` | Event envelopes, Pub/Sub | kernel |
-| `@acme/outbox` | Transactional outbox/inbox | kernel, messaging |
-| `@acme/persistence` | Repository, Pagination | kernel |
-| `@acme/contracts` | API contracts, Versioning | kernel |
-| `@acme/web` | HTTP adapters, Middlewares | kernel, errors, contracts |
-| `@acme/testing` | Test fakes, Builders | kernel, application, outbox |
+- Node.js 20+
+- pnpm 8.15+
 
----
-
-## 🎯 Próximos Passos
-
-### 1️⃣ Instalar Dependências
+## 1. Install dependencies
 
 ```bash
-cd /home/maps/2026/ts-commons
 pnpm install
 ```
 
-### 2️⃣ Build Todos os Pacotes
+## 2. Build all packages
 
 ```bash
-# Opção 1: Usando pnpm
 pnpm build
-
-# Opção 2: Usando script customizado
+# or, for fine-grained build order:
 ./scripts/build-all.sh
 ```
 
-### 3️⃣ Rodar Testes (quando implementados)
+## 3. Run tests
 
 ```bash
 pnpm test
+# or single package:
+pnpm --filter @acme/kernel exec vitest run
 ```
 
-### 4️⃣ Publicar Pacotes (quando pronto)
+## 4. Lint + format
 
 ```bash
-# 1. Login no npm registry
-npm login
+pnpm lint          # ESLint (type-checked)
+pnpm format        # Prettier
+pnpm format --check  # CI mode
+```
 
-# 2. Build tudo
-pnpm build
+## 5. Full validation (build + test + lint)
 
-# 3. Publicar todos os pacotes
-pnpm -r publish --access public
+```bash
+./scripts/validate-all.sh
+# Skip phases:
+./scripts/validate-all.sh --no-build
+./scripts/validate-all.sh --no-lint
 ```
 
 ---
 
-## 💡 Como Usar em um Microserviço
+## Core packages
 
-### Setup Inicial
+| Package               | Purpose                                                                  | External deps       |
+| --------------------- | ------------------------------------------------------------------------ | ------------------- |
+| `@acme/kernel`        | DDD primitives (Entity, ValueObject, AggregateRoot, DomainEvent, Result) | **none**            |
+| `@acme/application`   | Mediator, CQRS (MediatorRequest, RequestHandler, Pipeline behaviors)     | kernel              |
+| `@acme/errors`        | ProblemDetails, HttpErrorMapper, AppError taxonomy                       | kernel              |
+| `@acme/persistence`   | RepositoryPort, Page, UnitOfWork                                         | kernel              |
+| `@acme/messaging`     | EventEnvelope, EventPublisherPort, FanOutBroker, TopicRouter             | kernel              |
+| `@acme/observability` | Logger, InMemoryMetrics, LoggerFactory, PiiRedactor                      | kernel              |
+| `@acme/resilience`    | CircuitBreaker, Retry, Timeout, Bulkhead                                 | kernel              |
+| `@acme/security`      | JWT auth, API keys, RBAC, crypto utils                                   | kernel              |
+| `@acme/eventsourcing` | EventSourcedAggregate, InMemoryEventStore, ProjectionRunner              | kernel              |
+| `@acme/saga`          | Saga orchestration, SagaTransaction, compensation                        | kernel              |
+| `@acme/outbox`        | Transactional outbox/inbox pattern                                       | kernel, messaging   |
+| `@acme/testing`       | Test fakes, builders, test doubles                                       | kernel, application |
+
+---
+
+## Examples
+
+Real, runnable examples live in `examples/` (excluded from TypeScript compilation; use `tsx` to run after `pnpm build`):
+
+### DDD end-to-end
 
 ```bash
-# No seu microserviço
-pnpm add @acme/kernel @acme/application @acme/errors @acme/observability
+npx tsx examples/order-example.ts
 ```
 
-### Exemplo: Order Service
+Demonstrates: `Money` ValueObject → `Order` AggregateRoot → `ConfirmOrderCommand extends MediatorRequest<T>` → `Mediator` dispatch → `InMemoryOrderRepository` + `ConsoleEventPublisher`.
+
+### Microservice wiring
+
+```bash
+npx tsx examples/microservice-example.ts
+```
+
+Demonstrates: `AggregateRoot`, `Mediator`, `Logger`, `InMemoryMetrics`, `HttpErrorMapper`, `AppError`.
+
+### Event Sourcing
+
+```bash
+npx tsx examples/event-sourcing-example.ts
+```
+
+Demonstrates: `EventSourcedAggregate`, `InMemoryEventStore`, `loadFromHistory`, `ProjectionRunner`, and optimistic concurrency with `ConcurrencyError`.
+
+---
+
+## Minimal usage
+
+### Domain aggregate
 
 ```typescript
-// domain/Order.ts
-import { AggregateRoot, DomainEvent, ValueObject, Result } from '@acme/kernel';
+import { AggregateRoot, Result } from '@acme/kernel';
+import type { DomainEvent } from '@acme/kernel';
+import { randomUUID } from 'node:crypto';
 
-class OrderId extends ValueObject<string> {
-  static create(): OrderId {
-    return new OrderId(crypto.randomUUID());
-  }
+class OrderCreated implements DomainEvent {
+  readonly occurredAt = new Date();
+  constructor(readonly orderId: string) {}
 }
 
-class OrderCreated extends DomainEvent {
-  constructor(public readonly orderId: string) {
+class Order extends AggregateRoot<string> {
+  private _status: 'PENDING' | 'CONFIRMED' = 'PENDING';
+
+  private constructor(id: string) {
+    super(id);
+  }
+
+  static create(): Order {
+    const order = new Order(randomUUID());
+    order.record(new OrderCreated(order.id));
+    return order;
+  }
+
+  confirm(): Result<void, string> {
+    if (this._status !== 'PENDING') return Result.fail('Already confirmed');
+    this._status = 'CONFIRMED';
+    return Result.ok(undefined);
+  }
+}
+```
+
+### CQRS with Mediator
+
+```typescript
+import { MediatorRequest, Mediator } from '@acme/application';
+import type { RequestHandler } from '@acme/application';
+
+class ConfirmOrderCommand extends MediatorRequest<{ orderId: string }> {
+  constructor(readonly orderId: string) {
     super();
   }
 }
 
-class Order extends AggregateRoot<OrderId> {
-  private constructor(
-    id: OrderId,
-    private customerId: string,
-  ) {
-    super(id);
-  }
-
-  static create(customerId: string): Result<Order, Error> {
-    if (!customerId) {
-      return Result.err(new Error('Customer ID required'));
-    }
-
-    const order = new Order(OrderId.create(), customerId);
-    order.record(new OrderCreated(order.id.value));
-    return Result.ok(order);
+class ConfirmOrderHandler implements RequestHandler<ConfirmOrderCommand, { orderId: string }> {
+  async handle(cmd: ConfirmOrderCommand) {
+    // ... load, mutate, save
+    return { orderId: cmd.orderId };
   }
 }
+
+const mediator = new Mediator();
+mediator.register(ConfirmOrderCommand, new ConfirmOrderHandler());
+const result = await mediator.send(new ConfirmOrderCommand('ord-1'));
 ```
 
-```typescript
-// application/CreateOrderHandler.ts
-import { Command, CommandHandler } from '@acme/application';
-import { Logger } from '@acme/observability';
-
-class CreateOrderCommand implements Command {
-  constructor(public readonly customerId: string) {}
-}
-
-class CreateOrderHandler implements CommandHandler<CreateOrderCommand, string> {
-  constructor(private logger: Logger) {}
-
-  async handle(cmd: CreateOrderCommand) {
-    this.logger.info('Creating order', { customerId: cmd.customerId });
-
-    const orderResult = Order.create(cmd.customerId);
-    if (orderResult.isErr()) {
-      return orderResult;
-    }
-
-    const order = orderResult.unwrap();
-    
-    // Save to DB, publish events, etc.
-    
-    return Result.ok(order.id.value);
-  }
-}
-```
+### Error mapping to HTTP Problem Details
 
 ```typescript
-// infrastructure/http/server.ts
-import { correlationMiddleware } from '@acme/web';
 import { HttpErrorMapper } from '@acme/errors';
+import { AppError, AppErrorCode } from '@acme/errors';
 
-app.post('/orders', async (req, res) => {
-  try {
-    const handler = new CreateOrderHandler(logger);
-    const result = await handler.handle(
-      new CreateOrderCommand(req.body.customerId)
-    );
+try {
+  throw new AppError('Validation failed', AppErrorCode.VALIDATION_ERROR);
+} catch (err) {
+  const problem = HttpErrorMapper.toProblemDetails(err as Error);
+  // { type, title, status: 422, detail: 'Validation failed' }
+}
+```
 
-    if (result.isErr()) {
-      const problem = HttpErrorMapper.toProblemDetails(result.unwrapErr());
-      return res.status(problem.status).json(problem);
-    }
+### Observability
 
-    res.status(201).json({ orderId: result.unwrap() });
-  } catch (error) {
-    const problem = HttpErrorMapper.toProblemDetails(error);
-    res.status(problem.status).json(problem);
-  }
-});
+```typescript
+import { Logger, InMemoryMetrics } from '@acme/observability';
+
+const logger = new Logger({ name: 'order-service' });
+const metrics = new InMemoryMetrics();
+
+logger.info('Order confirmed', { orderId: 'ord-1' });
+metrics.incrementCounter('orders.confirmed');
+
+const snapshot = metrics.getSnapshot();
+// snapshot.counters → [{ name: 'orders.confirmed', value: 1, ... }]
 ```
 
 ---
 
-## 📚 Documentação
-
-- **[README.md](./README.md)** - Overview da biblioteca
-- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - Guia de contribuição
-- **[PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)** - Resumo completo do projeto
-- **[docs/ADR.md](./docs/ADR.md)** - Architecture Decision Records
-- **[docs/MIGRATION_GUIDE.md](./docs/MIGRATION_GUIDE.md)** - Como migrar apps existentes
-- **[examples/order-example.ts](./examples/order-example.ts)** - Exemplo completo
-
-### READMEs dos Pacotes
-
-- [packages/kernel/README.md](./packages/kernel/README.md)
-- [packages/application/README.md](./packages/application/README.md)
-- [packages/errors/README.md](./packages/errors/README.md)
-- [packages/config/README.md](./packages/config/README.md)
-- [packages/resilience/README.md](./packages/resilience/README.md)
-
----
-
-## 🏗️ Arquitetura
+## Architecture overview
 
 ```
-┌─────────────────────────────────────────┐
-│         Presentation Layer              │
-│    (HTTP/gRPC/GraphQL endpoints)        │
-│         [@acme/web]                     │
-└────────────────┬────────────────────────┘
-                 │
-┌────────────────▼────────────────────────┐
-│       Application Layer                 │
-│  (Use Cases, Commands, Queries)         │
-│   [@acme/application]                   │
-└────────────────┬────────────────────────┘
-                 │
-┌────────────────▼────────────────────────┐
-│         Domain Layer                    │
-│  (Entities, Aggregates, Events)         │
-│        [@acme/kernel]                   │
-│     ZERO framework dependencies         │
-└────────────────┬────────────────────────┘
-                 │
-┌────────────────▼────────────────────────┐
-│     Infrastructure Layer                │
-│  (DB, Message Broker, External APIs)    │
-│  [@acme/persistence, @acme/messaging]   │
-└─────────────────────────────────────────┘
+Presentation  [@acme/web, @acme/web-graphql, @acme/bff]
+      │
+Application   [@acme/application]  ← commands, queries, mediator, pipeline
+      │
+Domain        [@acme/kernel]       ← zero external dependencies
+      │
+Infrastructure[@acme/persistence, @acme/messaging, @acme/eventsourcing, ...]
+Cross-cutting [@acme/observability, @acme/errors, @acme/resilience, @acme/security]
 ```
 
 ---
 
-## ✨ Próximas Melhorias Sugeridas
+## All 66 packages
 
-### Curto Prazo
-- [ ] Adicionar testes unitários para cada pacote
-- [ ] Configurar GitHub Actions para CI/CD
-- [ ] Adicionar exemplos de integração (Fastify, Prisma, etc.)
-- [ ] Criar CLI tool para scaffolding (`create-acme-service`)
+Run `ls packages/` or see the [packages](./packages/) directory.
 
-### Médio Prazo
-- [ ] Implementar adapters concretos (Prisma, TypeORM, etc.)
-- [ ] Adicionar OpenTelemetry integration
-- [ ] Criar Docker examples
-- [ ] Adicionar metrics exporters (Prometheus)
-
-### Longo Prazo
-- [ ] Monorepo template completo
-- [ ] Event Sourcing support
-- [ ] SAGA orchestration
-- [ ] Kubernetes deployment examples
+Each package has its own `README.md` with installation, API reference, and examples.
 
 ---
 
-## 🎉 Parabéns!
+## Documentation
 
-Você criou uma biblioteca TypeScript de nível enterprise que pode ser usada em **múltiplos microserviços**, promovendo:
-
-✅ **Reuso de código**  
-✅ **Padrões consistentes**  
-✅ **Arquitetura limpa**  
-✅ **Type safety**  
-✅ **Testabilidade**  
-✅ **Manutenibilidade**  
-
-**Happy coding! 🚀**
+- [README.md](./README.md) — project overview
+- [CHANGELOG.md](./CHANGELOG.md) — version history
+- [docs/ADR.md](./docs/ADR.md) — Architecture Decision Records
+- [docs/MIGRATION_GUIDE.md](./docs/MIGRATION_GUIDE.md) — migrating from monolith
+- [examples/](./examples/) — runnable end-to-end examples
