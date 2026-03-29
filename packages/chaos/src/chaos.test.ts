@@ -69,6 +69,26 @@ describe('ChaosMonkey', () => {
     expect(result).toBe('result');
     expect(fn).toHaveBeenCalledOnce();
   });
+
+  it('wrap with errorRate=1 throws and increments faultCount', async () => {
+    // probability=1 means injectLatency fires (+1) AND injectError fires (+1) → faultCount=2
+    const monkey = new ChaosMonkey({ probability: 1, enabled: true });
+    await expect(monkey.wrap(() => Promise.resolve('x'), [0, 0], 1.0)).rejects.toThrow(ChaosError);
+    expect(monkey.faultCount).toBeGreaterThanOrEqual(1);
+  });
+
+  it('faultCount stays 0 when injectError rate is 0', () => {
+    const monkey = new ChaosMonkey({ probability: 1, enabled: true });
+    monkey.injectError(0); // rate=0 → never throws
+    expect(monkey.faultCount).toBe(0);
+  });
+
+  it('setEnabled re-enables chaos after being disabled', () => {
+    const monkey = new ChaosMonkey({ probability: 1, enabled: false });
+    monkey.setEnabled(true);
+    expect(monkey.isEnabled).toBe(true);
+    expect(() => monkey.injectError(1.0)).toThrow(ChaosError);
+  });
 });
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -96,6 +116,13 @@ describe('NetworkChaosExperiment', () => {
       expect(result.success).toBe(true);
     }
   });
+
+  it('details include jitterMs field', async () => {
+    const exp = new NetworkChaosExperiment('jitter', { latencyMs: 0, jitterMs: 5 });
+    const result = await exp.run();
+    const details = result.details as Record<string, unknown>;
+    expect(typeof details['jitterMs']).toBe('number');
+  });
 });
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -114,6 +141,12 @@ describe('ServiceFailureExperiment', () => {
     const exp = new ServiceFailureExperiment('svc-up', 0);
     const result = await exp.run();
     expect(result.success).toBe(true);
+  });
+
+  it('includes custom error message on failure', async () => {
+    const exp = new ServiceFailureExperiment('msg-test', 1.0, 'custom-error');
+    const result = await exp.run();
+    expect(result.error).toBe('custom-error');
   });
 });
 
@@ -182,5 +215,49 @@ describe('ChaosExperimentFramework', () => {
     fw.register(new ServiceFailureExperiment('b', 0));
     const results = await fw.runAll();
     expect(results.length).toBe(2);
+  });
+
+  it('register returns this for fluent chaining', () => {
+    const fw = new ChaosExperimentFramework();
+    const result = fw
+      .register(new ServiceFailureExperiment('a', 0))
+      .register(new ServiceFailureExperiment('b', 0));
+    expect(result).toBe(fw);
+    expect(fw.experimentCount).toBe(2);
+  });
+
+  it('isEnabled reflects current state', () => {
+    const fw = new ChaosExperimentFramework();
+    expect(fw.isEnabled).toBe(true);
+    fw.setEnabled(false);
+    expect(fw.isEnabled).toBe(false);
+  });
+
+  it('getSummary returns zero successRate and avgDuration when no runs yet', () => {
+    const fw = new ChaosExperimentFramework();
+    const exp = new ServiceFailureExperiment('fresh', 0);
+    fw.register(exp);
+    const summary = fw.getSummary(exp.id);
+    expect(summary.successRate).toBe(0);
+    expect(summary.avgDurationMs).toBe(0);
+    expect(summary.totalRuns).toBe(0);
+  });
+
+  it('getSummary throws for unknown experiment', () => {
+    const fw = new ChaosExperimentFramework();
+    expect(() => fw.getSummary('ghost')).toThrow();
+  });
+
+  it('accumulates multiple run results in summary', async () => {
+    const fw = new ChaosExperimentFramework();
+    fw.register(new ServiceFailureExperiment('test', 0));
+    const exp = [
+      ...(fw as unknown as { experiments: Map<string, { id: string }> }).experiments.values(),
+    ][0]!;
+    await fw.run(exp.id);
+    await fw.run(exp.id);
+    const summary = fw.getSummary(exp.id);
+    expect(summary.totalRuns).toBe(2);
+    expect(summary.successRate).toBe(1);
   });
 });
