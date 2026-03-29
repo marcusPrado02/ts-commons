@@ -22,7 +22,7 @@ export enum DDDType {
   DomainService = 'domain-service',
   Repository = 'repository',
   Factory = 'factory',
-  Specification = 'specification'
+  Specification = 'specification',
 }
 
 /**
@@ -46,7 +46,7 @@ export enum DDDViolationType {
   DomainLogicInInfrastructure = 'domain-logic-in-infrastructure',
   AnthropicModelPattern = 'anemic-domain-model',
   RepositoryInDomain = 'repository-in-domain',
-  InfrastructureDependency = 'infrastructure-dependency'
+  InfrastructureDependency = 'infrastructure-dependency',
 }
 
 /**
@@ -56,7 +56,7 @@ export enum ViolationSeverity {
   Low = 'low',
   Medium = 'medium',
   High = 'high',
-  Critical = 'critical'
+  Critical = 'critical',
 }
 
 /**
@@ -113,9 +113,10 @@ export class DDDAnalyzer {
    * Load packages from specified directory
    */
   private loadPackagesFromDirectory(packagesDir: string): void {
-    const packageDirs = fs.readdirSync(packagesDir, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory())
-      .map(dirent => dirent.name);
+    const packageDirs = fs
+      .readdirSync(packagesDir, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => dirent.name);
 
     for (const packageDir of packageDirs) {
       const packagePath = path.join(packagesDir, packageDir);
@@ -177,7 +178,8 @@ export class DDDAnalyzer {
     const components: DDDComponent[] = [];
 
     // Extract class declarations
-    const classRegex = /(?:export\s+)?(?:abstract\s+)?class\s+(\w+)(?:\s+extends\s+(\w+))?(?:\s+implements\s+[\w\s,<>]+)?\s*{/g;
+    const classRegex =
+      /(?:export\s+)?(?:abstract\s+)?class\s+(\w+)(?:\s+extends\s+(\w+))?(?:\s+implements\s+[\w\s,<>]+)?\s*{/g;
 
     let match;
     while ((match = classRegex.exec(content)) !== null) {
@@ -186,13 +188,22 @@ export class DDDAnalyzer {
       const type = this.determineDDDType(className!, extendsClass, content);
 
       if (type !== null) {
-        const violations = this.validateComponent(className!, type, content, filePath);
+        // Use the isolated class body so that sibling classes or test harness
+        // properties in the same file do not trigger false-positive violations.
+        const classBody = this.extractClassBody(content, match.index + match[0].length - 1);
+        const violations = this.validateComponent(
+          className!,
+          type,
+          classBody,
+          filePath,
+          extendsClass,
+        );
 
         components.push({
           name: className!,
           type,
           filePath,
-          violations
+          violations,
         });
       }
     }
@@ -201,10 +212,31 @@ export class DDDAnalyzer {
   }
 
   /**
+   * Extract the class body between the opening brace and its matching closing brace.
+   */
+  private extractClassBody(content: string, openBracePos: number): string {
+    let depth = 0;
+    let i = openBracePos;
+    while (i < content.length) {
+      if (content[i] === '{') depth++;
+      else if (content[i] === '}') {
+        depth--;
+        if (depth === 0) return content.slice(openBracePos, i + 1);
+      }
+      i++;
+    }
+    return content.slice(openBracePos);
+  }
+
+  /**
    * Determine DDD type based on naming conventions and inheritance
    */
   // eslint-disable-next-line complexity
-  private determineDDDType(name: string, extendsClass: string | undefined, content: string): DDDType | null {
+  private determineDDDType(
+    name: string,
+    extendsClass: string | undefined,
+    content: string,
+  ): DDDType | null {
     const nameUpper = name.toUpperCase();
 
     // Check inheritance patterns first
@@ -252,15 +284,23 @@ export class DDDAnalyzer {
    * Check if code belongs to domain layer
    */
   private isDomainLayer(content: string): boolean {
-    return content.includes('@acme/kernel') ||
-           content.includes('from \'../kernel\'') ||
-           content.includes('from \'./kernel\'');
+    return (
+      content.includes('@acme/kernel') ||
+      content.includes("from '../kernel'") ||
+      content.includes("from './kernel'")
+    );
   }
 
   /**
    * Validate DDD component against rules
    */
-  private validateComponent(name: string, type: DDDType, content: string, filePath: string): DDDViolation[] {
+  private validateComponent(
+    name: string,
+    type: DDDType,
+    content: string,
+    filePath: string,
+    extendsClass?: string,
+  ): DDDViolation[] {
     const violations: DDDViolation[] = [];
 
     switch (type) {
@@ -274,7 +314,9 @@ export class DDDAnalyzer {
         violations.push(...this.validateAggregateRoot(name, content));
         break;
       case DDDType.DomainEvent:
-        violations.push(...this.validateDomainEvent(name, content));
+        // When a class directly extends the DomainEvent base class, occurredAt is
+        // inherited — skip the timestamp check to avoid false positives.
+        violations.push(...this.validateDomainEvent(name, content, extendsClass === 'DomainEvent'));
         break;
       case DDDType.DomainService:
         violations.push(...this.validateDomainService(name, content));
@@ -303,8 +345,8 @@ export class DDDAnalyzer {
     const violations: DDDViolation[] = [];
 
     // Entities must have identity (id property)
-    const hasIdentity = /(?:readonly\s+)?id\s*[:=]/i.test(content) ||
-                       /getId\s*\(\s*\)/i.test(content);
+    const hasIdentity =
+      /(?:readonly\s+)?id\s*[:=]/i.test(content) || /getId\s*\(\s*\)/i.test(content);
 
     if (!hasIdentity) {
       violations.push({
@@ -312,7 +354,7 @@ export class DDDAnalyzer {
         violationType: DDDViolationType.EntityWithoutIdentity,
         description: 'Entity must have identity (id property)',
         suggestion: 'Add readonly id property with appropriate Identifier type',
-        severity: ViolationSeverity.High
+        severity: ViolationSeverity.High,
       });
     }
 
@@ -326,7 +368,7 @@ export class DDDAnalyzer {
         violationType: DDDViolationType.AnthropicModelPattern,
         description: 'Entity appears to be anemic (mostly getters/setters)',
         suggestion: 'Add business logic methods to make entity rich',
-        severity: ViolationSeverity.Medium
+        severity: ViolationSeverity.Medium,
       });
     }
 
@@ -349,7 +391,7 @@ export class DDDAnalyzer {
         violationType: DDDViolationType.ValueObjectMutable,
         description: 'ValueObject should be immutable',
         suggestion: 'Make all properties readonly and remove setters',
-        severity: ViolationSeverity.High
+        severity: ViolationSeverity.High,
       });
     }
 
@@ -363,9 +405,10 @@ export class DDDAnalyzer {
     const violations: DDDViolation[] = [];
 
     // Aggregate roots should handle domain events
-    const handlesDomainEvents = content.includes('DomainEvent') ||
-                               content.includes('recordEvent') ||
-                               content.includes('getUncommittedEvents');
+    const handlesDomainEvents =
+      content.includes('DomainEvent') ||
+      content.includes('recordEvent') ||
+      content.includes('getUncommittedEvents');
 
     if (!handlesDomainEvents) {
       violations.push({
@@ -373,7 +416,7 @@ export class DDDAnalyzer {
         violationType: DDDViolationType.AggregateRootViolation,
         description: 'AggregateRoot should handle domain events',
         suggestion: 'Add domain event recording and retrieval capabilities',
-        severity: ViolationSeverity.Medium
+        severity: ViolationSeverity.Medium,
       });
     }
 
@@ -383,11 +426,16 @@ export class DDDAnalyzer {
   /**
    * Validate DomainEvent implementation
    */
-  private validateDomainEvent(name: string, content: string): DDDViolation[] {
+  private validateDomainEvent(
+    name: string,
+    content: string,
+    inheritsTimestamp = false,
+  ): DDDViolation[] {
     const violations: DDDViolation[] = [];
 
-    // Domain events should be immutable and have timestamp
-    const hasTimestamp = /(?:occurredAt|timestamp|when)\s*[:=]/i.test(content);
+    // Domain events should have a timestamp. Skip when the base class already
+    // provides it (e.g. extending @acme/kernel's DomainEvent which has occurredAt).
+    const hasTimestamp = inheritsTimestamp || /(?:occurredAt|timestamp|when)\s*[:=]/i.test(content);
 
     if (!hasTimestamp) {
       violations.push({
@@ -395,7 +443,7 @@ export class DDDAnalyzer {
         violationType: DDDViolationType.DomainLogicInInfrastructure,
         description: 'DomainEvent should have occurrence timestamp',
         suggestion: 'Add occurredAt or timestamp property',
-        severity: ViolationSeverity.Low
+        severity: ViolationSeverity.Low,
       });
     }
 
@@ -409,9 +457,10 @@ export class DDDAnalyzer {
     const violations: DDDViolation[] = [];
 
     // Domain services should contain domain logic, not infrastructure concerns
-    const hasInfrastructureConcerns = /\.(http|database|file|email)/i.test(content) ||
-                                     content.includes('fetch(') ||
-                                     content.includes('axios');
+    const hasInfrastructureConcerns =
+      /\.(http|database|file|email)/i.test(content) ||
+      content.includes('fetch(') ||
+      content.includes('axios');
 
     if (hasInfrastructureConcerns) {
       violations.push({
@@ -419,7 +468,7 @@ export class DDDAnalyzer {
         violationType: DDDViolationType.DomainLogicInInfrastructure,
         description: 'DomainService should not contain infrastructure concerns',
         suggestion: 'Move infrastructure logic to application or infrastructure layer',
-        severity: ViolationSeverity.High
+        severity: ViolationSeverity.High,
       });
     }
 
@@ -443,7 +492,7 @@ export class DDDAnalyzer {
         violationType: DDDViolationType.RepositoryInDomain,
         description: 'Repository implementation should not be in domain layer',
         suggestion: 'Move concrete repository to infrastructure layer',
-        severity: ViolationSeverity.High
+        severity: ViolationSeverity.High,
       });
     }
 
@@ -453,7 +502,7 @@ export class DDDAnalyzer {
         violationType: DDDViolationType.RepositoryInDomain,
         description: 'Repository interface should be in domain layer',
         suggestion: 'Move repository interface to domain layer',
-        severity: ViolationSeverity.Medium
+        severity: ViolationSeverity.Medium,
       });
     }
 
@@ -467,8 +516,8 @@ export class DDDAnalyzer {
     const violations: DDDViolation[] = [];
 
     // Factories should create domain objects
-    const createsObjects = content.includes('new ') &&
-                          (content.includes('return ') || content.includes('Result.ok'));
+    const createsObjects =
+      content.includes('new ') && (content.includes('return ') || content.includes('Result.ok'));
 
     if (!createsObjects) {
       violations.push({
@@ -476,7 +525,7 @@ export class DDDAnalyzer {
         violationType: DDDViolationType.AnthropicModelPattern,
         description: 'Factory should create and return domain objects',
         suggestion: 'Add object creation logic with proper validation',
-        severity: ViolationSeverity.Low
+        severity: ViolationSeverity.Low,
       });
     }
 
@@ -490,10 +539,11 @@ export class DDDAnalyzer {
     const violations: DDDViolation[] = [];
 
     // Specifications should implement business rules
-    const hasBusinessLogic = content.includes('isSatisfiedBy') ||
-                            content.includes('and(') ||
-                            content.includes('or(') ||
-                            content.includes('not(');
+    const hasBusinessLogic =
+      content.includes('isSatisfiedBy') ||
+      content.includes('and(') ||
+      content.includes('or(') ||
+      content.includes('not(');
 
     if (!hasBusinessLogic) {
       violations.push({
@@ -501,7 +551,7 @@ export class DDDAnalyzer {
         violationType: DDDViolationType.AnthropicModelPattern,
         description: 'Specification should implement business rule evaluation',
         suggestion: 'Add isSatisfiedBy method and composition operators',
-        severity: ViolationSeverity.Medium
+        severity: ViolationSeverity.Medium,
       });
     }
 
@@ -511,19 +561,24 @@ export class DDDAnalyzer {
   /**
    * Validate infrastructure dependencies
    */
-  private validateInfrastructureDependencies(name: string, content: string, filePath: string): DDDViolation[] {
+  private validateInfrastructureDependencies(
+    name: string,
+    content: string,
+    filePath: string,
+  ): DDDViolation[] {
     const violations: DDDViolation[] = [];
 
     // Domain layer should not depend on infrastructure
     const isDomainLayer = filePath.includes('kernel') || filePath.includes('domain');
 
     if (isDomainLayer) {
-      const hasInfraDependencies = content.includes('axios') ||
-                                  content.includes('express') ||
-                                  content.includes('mongoose') ||
-                                  content.includes('typeorm') ||
-                                  content.includes('prisma') ||
-                                  /import.*from\s+['"](?!@acme\/kernel)/g.test(content);
+      const hasInfraDependencies =
+        content.includes('axios') ||
+        content.includes('express') ||
+        content.includes('mongoose') ||
+        content.includes('typeorm') ||
+        content.includes('prisma') ||
+        /import.*from\s+['"](?!@acme\/kernel)/g.test(content);
 
       if (hasInfraDependencies) {
         violations.push({
@@ -531,7 +586,7 @@ export class DDDAnalyzer {
           violationType: DDDViolationType.InfrastructureDependency,
           description: 'Domain layer component has infrastructure dependencies',
           suggestion: 'Remove infrastructure dependencies or move to appropriate layer',
-          severity: ViolationSeverity.Critical
+          severity: ViolationSeverity.Critical,
         });
       }
     }

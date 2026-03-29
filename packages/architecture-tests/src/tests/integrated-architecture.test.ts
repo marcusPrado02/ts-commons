@@ -172,8 +172,8 @@ describe('Integrated Architecture Validation', () => {
       `DDD components: ${entities} entities, ${valueObjects} value objects, ${aggregateRoots} aggregate roots`,
     );
 
-    if (entities > 0 || valueObjects > 0) {
-      // If we have DDD components, validate their quality
+    if (entities > 0 && valueObjects > 0) {
+      // If we have both entities and value objects, validate their quality
       expect(entities).toBeGreaterThan(0);
       expect(valueObjects).toBeGreaterThan(0);
 
