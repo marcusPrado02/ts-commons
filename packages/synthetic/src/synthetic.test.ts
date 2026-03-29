@@ -79,6 +79,70 @@ describe('SyntheticMonitor — health checks', () => {
     await monitor.runCheck('hc-001');
     expect(alertHandler).toHaveBeenCalledOnce();
   });
+
+  it('alert count resets after firing — does not re-alert immediately', async () => {
+    const monitor = new SyntheticMonitor(makeFetch(503));
+    monitor.addCheck(check);
+    const alertHandler = vi.fn();
+    monitor.setAlertConfig({ failureThreshold: 2, onAlert: alertHandler });
+    await monitor.runCheck('hc-001');
+    await monitor.runCheck('hc-001'); // fires alert, resets count
+    await monitor.runCheck('hc-001'); // only 1 failure after reset → no second alert
+    expect(alertHandler).toHaveBeenCalledOnce();
+  });
+
+  it('success resets failure count, preventing premature alert', async () => {
+    const fetch = vi
+      .fn()
+      .mockResolvedValueOnce({ ok: false, status: 503 })
+      .mockResolvedValueOnce({ ok: true, status: 200 })
+      .mockResolvedValueOnce({ ok: false, status: 503 });
+    const monitor = new SyntheticMonitor(fetch);
+    monitor.addCheck(check);
+    const alertHandler = vi.fn();
+    monitor.setAlertConfig({ failureThreshold: 2, onAlert: alertHandler });
+    await monitor.runCheck('hc-001'); // failure 1
+    await monitor.runCheck('hc-001'); // success → resets
+    await monitor.runCheck('hc-001'); // failure 1 again → no alert
+    expect(alertHandler).not.toHaveBeenCalled();
+  });
+
+  it('addCheck returns this for fluent chaining', () => {
+    const monitor = new SyntheticMonitor(makeFetch());
+    const result = monitor.addCheck(check).addCheck({ ...check, id: 'hc-002', name: 'DB' });
+    expect(result).toBe(monitor);
+  });
+
+  it('getResults with no filter returns all results', async () => {
+    const monitor = new SyntheticMonitor(makeFetch(200));
+    monitor.addCheck(check);
+    monitor.addCheck({ ...check, id: 'hc-002', name: 'DB health' });
+    await monitor.runAll();
+    expect(monitor.getResults().length).toBe(2);
+  });
+
+  it('getFailureRate returns 0 when no results recorded', () => {
+    const monitor = new SyntheticMonitor(makeFetch());
+    monitor.addCheck(check);
+    expect(monitor.getFailureRate('hc-001')).toBe(0);
+  });
+
+  it('runCheck records error when fetch throws', async () => {
+    const fetch = vi.fn().mockRejectedValue(new Error('network error'));
+    const monitor = new SyntheticMonitor(fetch);
+    monitor.addCheck(check);
+    const result = await monitor.runCheck('hc-001');
+    expect(result.ok).toBe(false);
+    expect(result.error).toContain('network error');
+    expect(result.statusCode).toBe(0);
+  });
+
+  it('runCheck passes region to result', async () => {
+    const monitor = new SyntheticMonitor(makeFetch(200));
+    monitor.addCheck(check);
+    const result = await monitor.runCheck('hc-001', 'eu-west');
+    expect(result.region).toBe('eu-west');
+  });
 });
 
 describe('SyntheticMonitor — user journeys', () => {
