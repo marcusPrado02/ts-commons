@@ -12,11 +12,32 @@ and [semantic-release](https://github.com/semantic-release/semantic-release).
 
 ### Added
 
+- **Examples**: `order-example.ts` — end-to-end DDD walkthrough (ValueObject → AggregateRoot → Mediator → Repository → EventPublisher)
+- **Examples**: `microservice-example.ts` — CQRS + observability wiring (Mediator, Logger, InMemoryMetrics, HttpErrorMapper)
+- **Examples**: `event-sourcing-example.ts` — EventSourcedAggregate, InMemoryEventStore, ProjectionRunner, and optimistic concurrency
+- **Scripts**: `scripts/validate-all.sh` — full monorepo validation (build + test + lint) with per-package status table
+- **READMEs**: Package documentation for 36 packages including `@acme/chaos`, `@acme/discovery`, `@acme/gateway`, `@acme/saga`, `@acme/scheduler`, `@acme/schema-registry`, `@acme/synthetic`, and more
+- **Tests**: Expanded test coverage for `@acme/discovery` (41 tests), `@acme/chaos` (30 tests), `@acme/synthetic` (17 tests), `@acme/schema-registry` (26 tests)
+- **Tests**: Integration tests for Kafka→EventHandler→Repository pipeline using `FanOutBroker` in `@acme/messaging`
+- `@acme/schema-registry` — Confluent-compatible in-memory schema registry with BACKWARD/FORWARD/FULL/NONE compatibility modes (Item 100)
+- `@acme/discovery` — Service discovery with `InMemoryServiceRegistry`, load balancers, and `HealthChecker` (Item 98)
 - Multi-tenancy support (`TenantContext`, `TenantIsolationStrategy`, `TenantAwareRepository`, `TenantLogger`, `TenantMetrics`) in `@acme/kernel` (Item 35)
 - Configuration validation with Zod, hot-reload, remote and encrypted config sources in `@acme/config` (Item 34)
 - `Result` combinators: `all`, `any`, `traverse`, `partition`, `andThen`, `orElse` in `@acme/kernel` (Item 33)
 - `Result` pattern matching: `matchAsync`, `tap`, `tapErr`, `filter`, `matchGuard` in `@acme/kernel` (Item 32)
 - Event Sourcing support: `EventSourcedAggregate`, `EventStore`, `InMemoryEventStore` in `@acme/eventsourcing` (Item 31)
+
+### Fixed
+
+- Resolved all TypeScript strict-mode errors (TS6133, TS6138, TS2379, TS4115, TS2532, TS2540) across packages
+- `@acme/application`: changed `MediatorRequest<T>` from interface to abstract class with `declare readonly _responseType` to fix TS6133 + TS2559 in TypeScript 5.x strict mode
+- `@acme/architecture-tests`: fixed DDDAnalyzer false positives by scoping class-body extraction via brace-depth counter
+- ESLint heap exhaustion during full-monorepo lint resolved by adding `NODE_OPTIONS=--max-old-space-size=4096` to `lint` script and CI workflow
+
+### Infrastructure
+
+- CI lint workflow now enforces `analyze:circular` as a hard failure (removed `continue-on-error: true`)
+- Vitest coverage thresholds enforced: lines/functions/statements ≥ 40%, branches ≥ 30%
 
 ---
 
