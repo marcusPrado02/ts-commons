@@ -9,7 +9,6 @@
     "lint": "eslint src --ext .ts --max-warnings 0"
   },
   "devDependencies": {
-    "@acme/tsconfig": "workspace:*",
     "vitest": "2.1.9",
     "eslint": "^8.57.0"
   },

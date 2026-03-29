@@ -1,39 +1,36 @@
 /**
  * Microservice example: HTTP handler + CQRS + Metrics + Logging + Error mapping
  *
- * Demonstrates how to wire @acme/* packages together in a realistic microservice:
+ * Demonstrates:
  *  - @acme/application  — Mediator, MediatorRequest, RequestHandler
- *  - @acme/persistence  — RepositoryPort, Page
+ *  - @acme/persistence  — RepositoryPort<T, TId>
  *  - @acme/observability — Logger, InMemoryMetrics
  *  - @acme/errors       — HttpErrorMapper, AppError
- *  - @acme/kernel       — Result, AggregateRoot
+ *  - @acme/kernel       — AggregateRoot<TId>, DomainEvent (abstract class), Result
  *
- * Run (after build):
- *   npx tsx examples/microservice-example.ts
+ * Run (after pnpm build):
+ *   npx tsx --tsconfig examples/tsconfig.json examples/microservice-example.ts
  */
 
 import { randomUUID } from 'node:crypto';
 
-import { AggregateRoot, Result } from '@acme/kernel';
-import type { DomainEvent } from '@acme/kernel';
-
+import { AggregateRoot, DomainEvent, Result } from '@acme/kernel';
 import { MediatorRequest, Mediator } from '@acme/application';
 import type { RequestHandler } from '@acme/application';
-
-import type { RepositoryPort, Page } from '@acme/persistence';
-
+import type { RepositoryPort } from '@acme/persistence';
 import { Logger, InMemoryMetrics } from '@acme/observability';
-
 import { AppError, AppErrorCode, HttpErrorMapper } from '@acme/errors';
 
 // ─── Domain ──────────────────────────────────────────────────────────────────
 
-class ProductCreated implements DomainEvent {
-  readonly occurredAt = new Date();
+// DomainEvent is an abstract class — extend it (do not implement as interface)
+class ProductCreated extends DomainEvent {
   constructor(
     readonly productId: string,
     readonly name: string,
-  ) {}
+  ) {
+    super();
+  }
 }
 
 class Product extends AggregateRoot<string> {
@@ -47,8 +44,8 @@ class Product extends AggregateRoot<string> {
   }
 
   static create(name: string, stock: number): Result<Product, string> {
-    if (!name.trim()) return Result.fail('Name is required');
-    if (stock < 0) return Result.fail('Stock cannot be negative');
+    if (!name.trim()) return Result.err('Name is required');
+    if (stock < 0) return Result.err('Stock cannot be negative');
     const product = new Product(randomUUID(), name, stock);
     product.record(new ProductCreated(product.id, name));
     return Result.ok(product);
@@ -62,7 +59,7 @@ class Product extends AggregateRoot<string> {
   }
 
   destock(qty: number): Result<void, string> {
-    if (qty > this._stock) return Result.fail('Insufficient stock');
+    if (qty > this._stock) return Result.err('Insufficient stock');
     this._stock -= qty;
     return Result.ok(undefined);
   }
@@ -87,11 +84,19 @@ class GetProductQuery extends MediatorRequest<Product | null> {
 
 // ─── Infrastructure (in-memory) ───────────────────────────────────────────────
 
-class InMemoryProductRepository implements RepositoryPort<Product> {
+class InMemoryProductRepository implements RepositoryPort<Product, string> {
   private readonly store = new Map<string, Product>();
 
   async findById(id: string): Promise<Product | null> {
     return this.store.get(id) ?? null;
+  }
+
+  async findAll(): Promise<Product[]> {
+    return [...this.store.values()];
+  }
+
+  async exists(id: string): Promise<boolean> {
+    return this.store.has(id);
   }
 
   async save(entity: Product): Promise<void> {
@@ -100,12 +105,6 @@ class InMemoryProductRepository implements RepositoryPort<Product> {
 
   async delete(id: string): Promise<void> {
     this.store.delete(id);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async findAll(_options?: unknown): Promise<Page<Product>> {
-    const items = [...this.store.values()];
-    return { items, total: items.length, page: 1, pageSize: items.length };
   }
 }
 
@@ -116,7 +115,7 @@ class CreateProductHandler implements RequestHandler<
   { id: string; name: string }
 > {
   constructor(
-    private readonly products: RepositoryPort<Product>,
+    private readonly products: RepositoryPort<Product, string>,
     private readonly logger: Logger,
     private readonly metrics: InMemoryMetrics,
   ) {}
@@ -124,9 +123,9 @@ class CreateProductHandler implements RequestHandler<
   async handle(cmd: CreateProductCommand): Promise<{ id: string; name: string }> {
     const result = Product.create(cmd.name, cmd.initialStock);
     if (!result.isOk()) {
-      throw new AppError(result.error, AppErrorCode.VALIDATION_ERROR);
+      throw new AppError(result.unwrapErr(), AppErrorCode.VALIDATION_ERROR);
     }
-    const product = result.value;
+    const product = result.unwrap();
     await this.products.save(product);
     this.metrics.incrementCounter('products.created');
     this.logger.info('Product created', { productId: product.id, name: product.name });
@@ -136,7 +135,7 @@ class CreateProductHandler implements RequestHandler<
 
 class GetProductHandler implements RequestHandler<GetProductQuery, Product | null> {
   constructor(
-    private readonly products: RepositoryPort<Product>,
+    private readonly products: RepositoryPort<Product, string>,
     private readonly metrics: InMemoryMetrics,
   ) {}
 

@@ -71,20 +71,20 @@ pnpm format --check  # CI mode
 
 ## Examples
 
-Real, runnable examples live in `examples/` (excluded from TypeScript compilation; use `tsx` to run after `pnpm build`):
+Real, runnable examples live in `examples/`. They use tsx with path aliases pointing to source files (no compile step needed):
 
 ### DDD end-to-end
 
 ```bash
-npx tsx examples/order-example.ts
+npx tsx --tsconfig examples/tsconfig.json examples/order-example.ts
 ```
 
-Demonstrates: `Money` ValueObject → `Order` AggregateRoot → `ConfirmOrderCommand extends MediatorRequest<T>` → `Mediator` dispatch → `InMemoryOrderRepository` + `ConsoleEventPublisher`.
+Demonstrates: `Money` ValueObject → `Order extends AggregateRoot<string>` → `ConfirmOrderCommand extends MediatorRequest<T>` → `Mediator` dispatch → `InMemoryOrderRepository`.
 
 ### Microservice wiring
 
 ```bash
-npx tsx examples/microservice-example.ts
+npx tsx --tsconfig examples/tsconfig.json examples/microservice-example.ts
 ```
 
 Demonstrates: `AggregateRoot`, `Mediator`, `Logger`, `InMemoryMetrics`, `HttpErrorMapper`, `AppError`.
@@ -92,7 +92,7 @@ Demonstrates: `AggregateRoot`, `Mediator`, `Logger`, `InMemoryMetrics`, `HttpErr
 ### Event Sourcing
 
 ```bash
-npx tsx examples/event-sourcing-example.ts
+npx tsx --tsconfig examples/tsconfig.json examples/event-sourcing-example.ts
 ```
 
 Demonstrates: `EventSourcedAggregate`, `InMemoryEventStore`, `loadFromHistory`, `ProjectionRunner`, and optimistic concurrency with `ConcurrencyError`.

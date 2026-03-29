@@ -3,7 +3,7 @@
  *
  * Demonstrates:
  *  - @acme/eventsourcing — EventSourcedAggregate, InMemoryEventStore, ProjectionRunner
- *  - @acme/kernel        — DomainEvent
+ *  - @acme/kernel        — DomainEvent (abstract class)
  *
  * Pattern:
  *  1. Domain events are the source of truth (append-only log)
@@ -11,12 +11,11 @@
  *  3. Projections build read-model views from the same event stream
  *  4. The event store detects concurrent write conflicts (optimistic locking)
  *
- * Run (after build):
- *   npx tsx examples/event-sourcing-example.ts
+ * Run (after pnpm build):
+ *   npx tsx --tsconfig examples/tsconfig.json examples/event-sourcing-example.ts
  */
 
-import type { DomainEvent } from '@acme/kernel';
-
+import { DomainEvent } from '@acme/kernel';
 import {
   EventSourcedAggregate,
   InMemoryEventStore,
@@ -26,35 +25,41 @@ import {
 import type { Projection } from '@acme/eventsourcing';
 
 // ─── Domain events ────────────────────────────────────────────────────────────
+// DomainEvent is an abstract class — extend it (do not implement as interface).
+// The base constructor auto-generates eventId (UUID) and eventType (class name).
 
-class AccountOpened implements DomainEvent {
-  readonly occurredAt = new Date();
+class AccountOpened extends DomainEvent {
   constructor(
     readonly accountId: string,
     readonly owner: string,
     readonly initialBalance: number,
-  ) {}
+  ) {
+    super();
+  }
 }
 
-class MoneyDeposited implements DomainEvent {
-  readonly occurredAt = new Date();
+class MoneyDeposited extends DomainEvent {
   constructor(
     readonly accountId: string,
     readonly amount: number,
-  ) {}
+  ) {
+    super();
+  }
 }
 
-class MoneyWithdrawn implements DomainEvent {
-  readonly occurredAt = new Date();
+class MoneyWithdrawn extends DomainEvent {
   constructor(
     readonly accountId: string,
     readonly amount: number,
-  ) {}
+  ) {
+    super();
+  }
 }
 
-class AccountFrozen implements DomainEvent {
-  readonly occurredAt = new Date();
-  constructor(readonly accountId: string) {}
+class AccountFrozen extends DomainEvent {
+  constructor(readonly accountId: string) {
+    super();
+  }
 }
 
 // ─── Aggregate ────────────────────────────────────────────────────────────────

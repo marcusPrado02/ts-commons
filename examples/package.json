@@ -1,0 +1,24 @@
+{
+  "name": "@acme/examples",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Runnable end-to-end examples for ts-commons (not published)",
+  "type": "module",
+  "scripts": {
+    "order": "tsx order-example.ts",
+    "microservice": "tsx microservice-example.ts",
+    "event-sourcing": "tsx event-sourcing-example.ts"
+  },
+  "dependencies": {
+    "@acme/application": "workspace:*",
+    "@acme/errors": "workspace:*",
+    "@acme/eventsourcing": "workspace:*",
+    "@acme/kernel": "workspace:*",
+    "@acme/messaging": "workspace:*",
+    "@acme/observability": "workspace:*",
+    "@acme/persistence": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "*"
+  }
+}
