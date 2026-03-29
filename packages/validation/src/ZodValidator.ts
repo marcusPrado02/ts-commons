@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { Result } from '@acme/kernel';
+import { Result } from '@marcusprado02/kernel';
 import type { ZodSchema } from 'zod';
 import type { ValidationResult, Validator } from './Validator';
 import { ValidationError } from './ValidationError';

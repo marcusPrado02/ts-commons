@@ -1,17 +1,17 @@
-# @acme/geospatial
+# @marcusprado02/geospatial
 
 Geospatial utilities: coordinate system conversions, distance calculations, geofencing, PostGIS query building, and GeoJSON I/O.
 
 ## Installation
 
 ```bash
-pnpm add @acme/geospatial
+pnpm add @marcusprado02/geospatial
 ```
 
 ## Quick Start
 
 ```typescript
-import { DistanceCalculator, Geofence, PostGISQueryBuilder } from '@acme/geospatial';
+import { DistanceCalculator, Geofence, PostGISQueryBuilder } from '@marcusprado02/geospatial';
 
 // Haversine distance between two points
 const calc = new DistanceCalculator();
@@ -33,7 +33,7 @@ const inside = fence.contains({ lat: -23.55, lon: -46.63 }); // true
 ## PostGIS Queries
 
 ```typescript
-import { PostGISQueryBuilder } from '@acme/geospatial';
+import { PostGISQueryBuilder } from '@marcusprado02/geospatial';
 
 const builder = new PostGISQueryBuilder('locations');
 const query = builder
@@ -48,7 +48,7 @@ const query = builder
 ## GeoJSON I/O
 
 ```typescript
-import { GeoJSONIO } from '@acme/geospatial';
+import { GeoJSONIO } from '@marcusprado02/geospatial';
 
 const io = new GeoJSONIO();
 const geojson = io.toFeatureCollection(records);
@@ -57,5 +57,5 @@ const back = io.fromFeatureCollection(geojson);
 
 ## See Also
 
-- [`@acme/persistence`](../persistence) — repository pattern
-- [`@acme/timeseries`](../timeseries) — time-series data
+- [`@marcusprado02/persistence`](../persistence) — repository pattern
+- [`@marcusprado02/timeseries`](../timeseries) — time-series data

@@ -1,5 +1,5 @@
 {
-  "name": "@acme/resilience",
+  "name": "@marcusprado02/resilience",
   "version": "0.1.0",
   "description": "Resilience patterns: Retry, Timeout, Circuit Breaker, Bulkhead, Rate Limit",
   "type": "module",
@@ -23,7 +23,7 @@
     "vitest": "^2.1.9"
   },
   "dependencies": {
-    "@acme/kernel": "workspace:*"
+    "@marcusprado02/kernel": "workspace:*"
   },
   "keywords": [
     "resilience",
@@ -36,7 +36,7 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

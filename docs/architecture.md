@@ -23,8 +23,8 @@ Application  (use cases, CQRS, behaviors)
 Domain / Kernel  (aggregates, value objects, domain events, results)
 ```
 
-- `@acme/kernel` has zero runtime dependencies.
-- `@acme/application` depends only on `@acme/kernel`.
+- `@marcusprado02/kernel` has zero runtime dependencies.
+- `@marcusprado02/application` depends only on `@marcusprado02/kernel`.
 - Infrastructure packages (`persistence-*`, `messaging-*`, etc.) depend on `kernel` and `application` — never the other way round.
 - Transport packages (`web-fastify`, `web-nestjs`, etc.) sit at the outermost ring.
 
@@ -32,12 +32,12 @@ Domain / Kernel  (aggregates, value objects, domain events, results)
 
 Every infrastructure concern is expressed as a **Port** (interface) defined in the inner layer, and an **Adapter** (concrete class) in the outer layer.
 
-| Port                 | Where defined         | Example adapters                                |
-| -------------------- | --------------------- | ----------------------------------------------- |
-| `RepositoryPort<T>`  | `@acme/persistence`   | `PrismaRepository`, `MongoRepository`           |
-| `EventPublisherPort` | `@acme/messaging`     | `KafkaEventPublisher`, `RabbitMQEventPublisher` |
-| `SecretsPort`        | `@acme/secrets`       | `AwsSsmSecretsAdapter`, `EnvSecretsAdapter`     |
-| `MetricsPort`        | `@acme/observability` | `DataDogMetrics`, `InMemoryMetrics`             |
+| Port                 | Where defined                  | Example adapters                                |
+| -------------------- | ------------------------------ | ----------------------------------------------- |
+| `RepositoryPort<T>`  | `@marcusprado02/persistence`   | `PrismaRepository`, `MongoRepository`           |
+| `EventPublisherPort` | `@marcusprado02/messaging`     | `KafkaEventPublisher`, `RabbitMQEventPublisher` |
+| `SecretsPort`        | `@marcusprado02/secrets`       | `AwsSsmSecretsAdapter`, `EnvSecretsAdapter`     |
+| `MetricsPort`        | `@marcusprado02/observability` | `DataDogMetrics`, `InMemoryMetrics`             |
 
 You can swap any adapter without changing domain or application code.
 
@@ -68,18 +68,18 @@ This makes error paths explicit, composable, and testable.
 
 ### 6. 12-Factor App
 
-| Factor                | Package                                    |
-| --------------------- | ------------------------------------------ |
-| III — Config          | `@acme/config`                             |
-| IV — Backing services | `@acme/persistence-*`, `@acme/messaging-*` |
-| VII — Port binding    | `@acme/web-fastify`, `@acme/web-nestjs`    |
-| VIII — Concurrency    | `@acme/scheduler`, `@acme/saga`            |
-| IX — Disposability    | `@acme/docker-utils` (`GracefulShutdown`)  |
-| XI — Logs             | `@acme/observability`                      |
+| Factor                | Package                                                      |
+| --------------------- | ------------------------------------------------------------ |
+| III — Config          | `@marcusprado02/config`                                      |
+| IV — Backing services | `@marcusprado02/persistence-*`, `@marcusprado02/messaging-*` |
+| VII — Port binding    | `@marcusprado02/web-fastify`, `@marcusprado02/web-nestjs`    |
+| VIII — Concurrency    | `@marcusprado02/scheduler`, `@marcusprado02/saga`            |
+| IX — Disposability    | `@marcusprado02/docker-utils` (`GracefulShutdown`)           |
+| XI — Logs             | `@marcusprado02/observability`                               |
 
 ---
 
-## Layer Rules (enforced by `@acme/architecture-tests`)
+## Layer Rules (enforced by `@marcusprado02/architecture-tests`)
 
 ```
 ✅ kernel      → nothing (no deps allowed)
@@ -91,7 +91,7 @@ This makes error paths explicit, composable, and testable.
 ❌ application → infrastructure  (forbidden)
 ```
 
-Violations are caught at test time via fitness functions in `@acme/architecture-tests`.
+Violations are caught at test time via fitness functions in `@marcusprado02/architecture-tests`.
 
 ---
 
@@ -117,7 +117,7 @@ This pattern guarantees **at-least-once delivery** with no dual-write problems.
 
 ## Multi-Tenancy
 
-`TenantContext` (in `@acme/kernel`) uses `AsyncLocalStorage` to propagate the current tenant ID transparently through the call stack.
+`TenantContext` (in `@marcusprado02/kernel`) uses `AsyncLocalStorage` to propagate the current tenant ID transparently through the call stack.
 
 ```typescript
 TenantContext.run(TenantId.from('tenant-abc'), async () => {
@@ -130,7 +130,7 @@ TenantContext.run(TenantId.from('tenant-abc'), async () => {
 
 ## Event Sourcing (optional)
 
-`@acme/eventsourcing` provides an event-sourced aggregate base on top of `@acme/kernel`.
+`@marcusprado02/eventsourcing` provides an event-sourced aggregate base on top of `@marcusprado02/kernel`.
 Aggregates are reconstituted by replaying their event stream from the event store.
 Snapshots are supported to avoid replaying the entire history on every load.
 

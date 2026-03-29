@@ -1,5 +1,5 @@
 /**
- * @acme/web-nestjs - NestJS adapter for TypeScript Commons Platform
+ * @marcusprado02/web-nestjs - NestJS adapter for TypeScript Commons Platform
  *
  * Deep integration with NestJS providing modules, decorators, interceptors,
  * guards and pipes for Clean Architecture and CQRS patterns.

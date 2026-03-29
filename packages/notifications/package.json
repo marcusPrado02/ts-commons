@@ -1,5 +1,5 @@
 {
-  "name": "@acme/notifications",
+  "name": "@marcusprado02/notifications",
   "version": "0.1.0",
   "description": "Multi-channel notification system — port + adapters (InMemory, Webhook) with templates, delivery tracking, user preferences, rate limiting, and retry strategies",
   "type": "module",
@@ -24,7 +24,7 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

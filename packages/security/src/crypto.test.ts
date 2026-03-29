@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type -- test helper functions */
 /* eslint-disable max-lines-per-function -- test files naturally have longer functions */
 /**
- * Tests for @acme/security — Crypto utilities (Item 19)
+ * Tests for @marcusprado02/security — Crypto utilities (Item 19)
  *
  * AesGcmCipher · Sha256Hasher · HmacSha256Signer · PiiMasker
  */
@@ -16,16 +16,16 @@ import { PiiMasker } from './crypto/PiiMasker';
 // ---------------------------------------------------------------------------
 
 describe('AesGcmCipher', () => {
-  const cipher  = new AesGcmCipher();
-  const KEY     = 'test-encryption-key';
+  const cipher = new AesGcmCipher();
+  const KEY = 'test-encryption-key';
   const MESSAGE = 'Hello, secret world!';
 
   it('encrypt returns a CipherResult with non-empty hex ciphertext, iv, and tag', () => {
     const result = cipher.encrypt(MESSAGE, KEY);
 
     expect(result.ciphertext).toMatch(/^[0-9a-f]+$/u);
-    expect(result.iv).toMatch(/^[0-9a-f]{24}$/u);  // 12 bytes → 24 hex chars
-    expect(result.tag).toMatch(/^[0-9a-f]{32}$/u);  // 16 bytes → 32 hex chars
+    expect(result.iv).toMatch(/^[0-9a-f]{24}$/u); // 12 bytes → 24 hex chars
+    expect(result.tag).toMatch(/^[0-9a-f]{32}$/u); // 16 bytes → 32 hex chars
     expect(result.ciphertext.length).toBeGreaterThan(0);
   });
 
@@ -54,7 +54,7 @@ describe('AesGcmCipher', () => {
     const result = cipher.encrypt(MESSAGE, KEY);
     // Flip the first byte of the tag (XOR with 0xff → different hex)
     const tamperedTag = 'ff' + result.tag.slice(2);
-    const tampered    = { ...result, tag: tamperedTag };
+    const tampered = { ...result, tag: tamperedTag };
 
     expect(() => cipher.decrypt(tampered, KEY)).toThrow();
   });
@@ -94,9 +94,9 @@ describe('Sha256Hasher', () => {
 // ---------------------------------------------------------------------------
 
 describe('HmacSha256Signer', () => {
-  const signer  = new HmacSha256Signer();
-  const DATA    = 'payload data';
-  const KEY     = 'hmac-secret-key';
+  const signer = new HmacSha256Signer();
+  const DATA = 'payload data';
+  const KEY = 'hmac-secret-key';
 
   it('sign returns a 64-character lowercase hex string', () => {
     expect(signer.sign(DATA, KEY)).toMatch(/^[0-9a-f]{64}$/u);

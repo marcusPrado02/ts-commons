@@ -1,17 +1,17 @@
-# @acme/k8s
+# @marcusprado02/k8s
 
 Kubernetes manifest builders and client helpers. Generates typed Deployment, Service, ConfigMap, HPA, PDB, and Ingress specs; watches ConfigMaps at runtime; and manages blue-green/canary deployments.
 
 ## Installation
 
 ```bash
-pnpm add @acme/k8s
+pnpm add @marcusprado02/k8s
 ```
 
 ## Quick Start
 
 ```typescript
-import { buildDeployment, buildService } from '@acme/k8s';
+import { buildDeployment, buildService } from '@marcusprado02/k8s';
 
 const deployment = buildDeployment({
   name: 'order-service',
@@ -46,7 +46,7 @@ const service = buildService({
 ## Canary Deployments
 
 ```typescript
-import { CanaryRelease } from '@acme/k8s';
+import { CanaryRelease } from '@marcusprado02/k8s';
 
 const canary = new CanaryRelease(metricsProvider);
 await canary.promote(); // Increases traffic weight by stepSize
@@ -55,5 +55,5 @@ await canary.rollback(); // Cuts traffic back to 0%
 
 ## See Also
 
-- [`@acme/docker-utils`](../docker-utils) — graceful shutdown and health aggregation
-- [`@acme/helm`](../helm) — Helm chart templates
+- [`@marcusprado02/docker-utils`](../docker-utils) — graceful shutdown and health aggregation
+- [`@marcusprado02/helm`](../helm) — Helm chart templates

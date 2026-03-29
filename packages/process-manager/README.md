@@ -1,17 +1,17 @@
-# @acme/process-manager
+# @marcusprado02/process-manager
 
 Long-running process coordination using state machines. Models multi-step workflows (orders, onboarding, approvals) as processes with typed state transitions, timeouts, and correlation.
 
 ## Installation
 
 ```bash
-pnpm add @acme/process-manager
+pnpm add @marcusprado02/process-manager
 ```
 
 ## Quick Start
 
 ```typescript
-import { ProcessManager, StateMachine, InMemoryProcessStore } from '@acme/process-manager';
+import { ProcessManager, StateMachine, InMemoryProcessStore } from '@marcusprado02/process-manager';
 
 // Define state machine transitions
 const machine = new StateMachine<'pending' | 'processing' | 'shipped' | 'cancelled'>({
@@ -38,7 +38,7 @@ await manager.transition(process.id, 'SHIP');
 ## Timeouts
 
 ```typescript
-import { ProcessTimeoutScheduler } from '@acme/process-manager';
+import { ProcessTimeoutScheduler } from '@marcusprado02/process-manager';
 
 const scheduler = new ProcessTimeoutScheduler(manager, {
   onTimeout: async (process) => manager.transition(process.id, 'CANCEL'),
@@ -50,7 +50,7 @@ scheduler.start();
 ## Correlation
 
 ```typescript
-import { ProcessCorrelator } from '@acme/process-manager';
+import { ProcessCorrelator } from '@marcusprado02/process-manager';
 
 const correlator = new ProcessCorrelator(store);
 const processes = await correlator.findByCorrelationId('order-123');
@@ -58,5 +58,5 @@ const processes = await correlator.findByCorrelationId('order-123');
 
 ## See Also
 
-- [`@acme/saga`](../saga) — distributed saga orchestration
-- [`@acme/application`](../application) — use-case and command bus
+- [`@marcusprado02/saga`](../saga) — distributed saga orchestration
+- [`@marcusprado02/application`](../application) — use-case and command bus

@@ -1,17 +1,21 @@
-# @acme/gateway
+# @marcusprado02/gateway
 
 API gateway configuration builders for Kong, AWS API Gateway, and Azure API Management (APIM). Generates validated provider-specific configuration objects from a unified `GatewayRouteConfig`.
 
 ## Installation
 
 ```bash
-pnpm add @acme/gateway
+pnpm add @marcusprado02/gateway
 ```
 
 ## Quick Start
 
 ```typescript
-import { buildKongService, buildKongRateLimitPlugin, validateRateLimit } from '@acme/gateway';
+import {
+  buildKongService,
+  buildKongRateLimitPlugin,
+  validateRateLimit,
+} from '@marcusprado02/gateway';
 
 const service = buildKongService({
   name: 'order-service',
@@ -35,5 +39,5 @@ const validation = validateRateLimit({ requestsPerMinute: 0 }); // { valid: fals
 
 ## See Also
 
-- [`@acme/bff`](../bff) — Backend-for-Frontend aggregation
-- [`@acme/web`](../web) — HTTP adapter base types
+- [`@marcusprado02/bff`](../bff) — Backend-for-Frontend aggregation
+- [`@marcusprado02/web`](../web) — HTTP adapter base types

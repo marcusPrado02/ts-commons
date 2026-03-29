@@ -1,4 +1,4 @@
-import type { OutboxMessage, OutboxStorePort } from '@acme/outbox';
+import type { OutboxMessage, OutboxStorePort } from '@marcusprado02/outbox';
 
 export class InMemoryOutboxStore implements OutboxStorePort {
   private readonly messages = new Map<string, OutboxMessage>();

@@ -22,13 +22,16 @@ import {
   FastifyControllerAdapter,
   FastifyContextAdapter,
 } from './index';
-import { Result } from '@acme/kernel';
-import type { UseCase } from '@acme/application';
-import type { Logger } from '@acme/observability';
+import { Result } from '@marcusprado02/kernel';
+import type { UseCase } from '@marcusprado02/application';
+import type { Logger } from '@marcusprado02/observability';
 
 // Local error types matching the ones in ErrorHandlerHook
 class ValidationError extends Error {
-  constructor(message: string, public errors?: Array<{ field: string; message: string }>) {
+  constructor(
+    message: string,
+    public errors?: Array<{ field: string; message: string }>,
+  ) {
     super(message);
     this.name = 'ValidationError';
   }
@@ -72,7 +75,7 @@ describe('Fastify Adapter - Correlation Hook', () => {
     const body = JSON.parse(response.body);
     expect(body.correlationId).toBeDefined();
     expect(body.correlationId).toMatch(
-      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
     );
   });
 
@@ -160,7 +163,9 @@ describe('Fastify Adapter - Logging Hook', () => {
     },
     warn: () => {},
     error: () => {},
-    withContext: function() { return this; },
+    withContext: function () {
+      return this;
+    },
   } as unknown as Logger;
 
   beforeAll(async () => {
@@ -190,7 +195,7 @@ describe('Fastify Adapter - Logging Hook', () => {
     expect(response.statusCode).toBe(200);
     expect(logs.length).toBeGreaterThanOrEqual(1);
 
-    const requestLog = logs.find(log => log.message === 'HTTP Request');
+    const requestLog = logs.find((log) => log.message === 'HTTP Request');
     expect(requestLog).toBeDefined();
     expect((requestLog?.data as { httpMethod: string })?.httpMethod).toBe('GET');
     expect((requestLog?.data as { path: string })?.path).toBe('/test');
@@ -300,9 +305,11 @@ describe('Fastify Adapter - Full Integration', () => {
   const testUseCase: UseCase<{ name: string }, { id: string; name: string }, ValidationError> = {
     execute: async (input: { name: string }) => {
       if (!input.name) {
-        return Result.err(new ValidationError('Name is required', [
-          { field: 'name', message: 'Name cannot be empty' },
-        ]));
+        return Result.err(
+          new ValidationError('Name is required', [
+            { field: 'name', message: 'Name cannot be empty' },
+          ]),
+        );
       }
       return Result.ok({ id: '123', name: input.name });
     },

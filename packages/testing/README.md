@@ -1,11 +1,11 @@
-# @acme/testing
+# @marcusprado02/testing
 
 **Testing Utilities** - Test fakes, builders, fixtures, custom Vitest matchers, performance helpers, Testcontainers integration, and bundle analysis tools.
 
 ## Installation
 
 ```
-pnpm add -D @acme/testing
+pnpm add -D @marcusprado02/testing
 ```
 
 ## Key Exports
@@ -33,7 +33,7 @@ pnpm add -D @acme/testing
 ### Controlling time with FakeClock
 
 ```typescript
-import { FakeClock } from '@acme/testing';
+import { FakeClock } from '@marcusprado02/testing';
 import { describe, it, expect } from 'vitest';
 
 describe('subscription expiry', () => {
@@ -51,7 +51,7 @@ describe('subscription expiry', () => {
 ### Building test objects with Builder and EventEnvelopeFixture
 
 ```typescript
-import { Builder, EventEnvelopeFixture } from '@acme/testing';
+import { Builder, EventEnvelopeFixture } from '@marcusprado02/testing';
 
 interface OrderPayload {
   orderId: string;
@@ -73,7 +73,7 @@ const envelope = EventEnvelopeFixture.create('order.created', order);
 ### Integration tests with ContainerTestHarness
 
 ```typescript
-import { ContainerTestHarness, FakeTestContainer, Seeder } from '@acme/testing';
+import { ContainerTestHarness, FakeTestContainer, Seeder } from '@marcusprado02/testing';
 import { describe, it, beforeAll, afterAll } from 'vitest';
 
 const harness = new ContainerTestHarness([new FakeTestContainer('postgres')]);
@@ -97,7 +97,7 @@ describe('UserRepository', () => {
 
 ## Dependencies
 
-- `@acme/kernel` - domain primitives and identity types
-- `@acme/application` - application-layer interfaces
-- `@acme/messaging` - event envelope types
-- `@acme/outbox` - outbox store interfaces
+- `@marcusprado02/kernel` - domain primitives and identity types
+- `@marcusprado02/application` - application-layer interfaces
+- `@marcusprado02/messaging` - event envelope types
+- `@marcusprado02/outbox` - outbox store interfaces

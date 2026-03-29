@@ -1,17 +1,21 @@
-# @acme/discovery
+# @marcusprado02/discovery
 
 Service discovery abstraction. Registers, deregisters, and resolves service instances with configurable load balancing strategies. Ships with an in-memory implementation for testing and adapters for Consul/Eureka.
 
 ## Installation
 
 ```bash
-pnpm add @acme/discovery
+pnpm add @marcusprado02/discovery
 ```
 
 ## Quick Start
 
 ```typescript
-import { InMemoryServiceRegistry, RoundRobinBalancer, HealthChecker } from '@acme/discovery';
+import {
+  InMemoryServiceRegistry,
+  RoundRobinBalancer,
+  HealthChecker,
+} from '@marcusprado02/discovery';
 
 const registry = new InMemoryServiceRegistry();
 
@@ -54,7 +58,7 @@ checker.start();
 ## Implementing a Custom Backend
 
 ```typescript
-import type { ServiceRegistry } from '@acme/discovery';
+import type { ServiceRegistry } from '@marcusprado02/discovery';
 
 class ConsulRegistry implements ServiceRegistry {
   async register(instance: ServiceInstance): Promise<void> {
@@ -71,5 +75,5 @@ class ConsulRegistry implements ServiceRegistry {
 
 ## See Also
 
-- [`@acme/resilience`](../resilience) — circuit breakers and retries
-- [`@acme/docker-utils`](../docker-utils) — health endpoints for K8s
+- [`@marcusprado02/resilience`](../resilience) — circuit breakers and retries
+- [`@marcusprado02/docker-utils`](../docker-utils) — health endpoints for K8s

@@ -294,7 +294,7 @@ export class CQRSAnalyzer {
     let match;
     while ((match = importRegex.exec(content)) !== null) {
       const importPath = match[1];
-      if (importPath?.startsWith('@acme/') === true) {
+      if (importPath?.startsWith('@marcusprado02/') === true) {
         dependencies.push(importPath);
       }
     }

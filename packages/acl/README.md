@@ -1,17 +1,17 @@
-# @acme/acl
+# @marcusprado02/acl
 
 Anti-Corruption Layer (ACL) helpers for integrating with legacy systems and external APIs. Provides translators, data format registries, and protocol adapters to keep your domain model clean at the boundaries.
 
 ## Installation
 
 ```bash
-pnpm add @acme/acl
+pnpm add @marcusprado02/acl
 ```
 
 ## Quick Start
 
 ```typescript
-import { AntiCorruptionLayer, FunctionTranslator } from '@acme/acl';
+import { AntiCorruptionLayer, FunctionTranslator } from '@marcusprado02/acl';
 
 // Translate a legacy API response to your domain model
 const userTranslator = new FunctionTranslator<LegacyUser, DomainUser>((legacy) => ({
@@ -48,5 +48,5 @@ const domainUser = await acl.translate('user', legacyUser);
 
 ## See Also
 
-- [`@acme/kernel`](../kernel) — domain primitives
-- [`@acme/application`](../application) — use-case layer
+- [`@marcusprado02/kernel`](../kernel) — domain primitives
+- [`@marcusprado02/application`](../application) — use-case layer

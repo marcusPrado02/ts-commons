@@ -1,4 +1,4 @@
-import type { Duration } from '@acme/kernel';
+import type { Duration } from '@marcusprado02/kernel';
 import type { CachePort } from './CachePort';
 
 export interface WarmupItem {

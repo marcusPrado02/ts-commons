@@ -1,11 +1,11 @@
-# @acme/persistence
+# @marcusprado02/persistence
 
 **Persistence Abstractions** - Repository interfaces, pagination primitives, and query optimization utilities.
 
 ## Installation
 
 ```
-pnpm add @acme/persistence
+pnpm add @marcusprado02/persistence
 ```
 
 ## Key Exports
@@ -27,7 +27,7 @@ pnpm add @acme/persistence
 ### Implementing a typed repository
 
 ```typescript
-import { RepositoryPort, Page, PageRequest } from '@acme/persistence';
+import { RepositoryPort, Page, PageRequest } from '@marcusprado02/persistence';
 
 interface Order {
   id: string;
@@ -57,7 +57,7 @@ class OrderRepository implements RepositoryPort<Order, string> {
 ### Eliminating N+1 queries with DataLoader
 
 ```typescript
-import { DataLoader } from '@acme/persistence';
+import { DataLoader } from '@marcusprado02/persistence';
 
 const customerLoader = new DataLoader<string, Customer>(async (ids) => {
   const customers = await db.query('SELECT * FROM customers WHERE id = ANY($1)', [ids]);
@@ -74,7 +74,7 @@ const [alice, bob] = await Promise.all([
 ### Monitoring connection pool health
 
 ```typescript
-import { ConnectionPoolMonitor } from '@acme/persistence';
+import { ConnectionPoolMonitor } from '@marcusprado02/persistence';
 
 const monitor = new ConnectionPoolMonitor(pool, { sampleIntervalMs: 5_000 });
 
@@ -89,4 +89,4 @@ monitor.start();
 
 ## Dependencies
 
-- `@acme/kernel` - domain primitives and identity types
+- `@marcusprado02/kernel` - domain primitives and identity types

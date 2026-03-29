@@ -14,7 +14,7 @@ import type { Request, NextFunction, RequestHandler } from 'express';
 export class ValidationError extends Error {
   constructor(
     message: string,
-    public readonly errors: ValidationErrorDetail[]
+    public readonly errors: ValidationErrorDetail[],
   ) {
     super(message);
     this.name = 'ValidationError';
@@ -51,7 +51,7 @@ export type ValidationResult<T> =
  * @example
  * ```typescript
  * import { z } from 'zod';
- * import { validateBody } from '@acme/web-express';
+ * import { validateBody } from '@marcusprado02/web-express';
  *
  * const createUserSchema = z.object({
  *   name: z.string().min(1),
@@ -147,15 +147,19 @@ export function validateParams<T>(validator: ValidatorFn<T>): RequestHandler {
  * @example
  * ```typescript
  * import { z } from 'zod';
- * import { createZodValidator, validateBody } from '@acme/web-express';
+ * import { createZodValidator, validateBody } from '@marcusprado02/web-express';
  *
  * const schema = z.object({ name: z.string() });
  * app.post('/users', validateBody(createZodValidator(schema)), handler);
  * ```
  */
-export function createZodValidator<T>(
-  schema: { safeParse: (data: unknown) => { success: boolean; data?: T; error?: { errors: Array<{ path: (string | number)[]; message: string }> } } }
-): ValidatorFn<T> {
+export function createZodValidator<T>(schema: {
+  safeParse: (data: unknown) => {
+    success: boolean;
+    data?: T;
+    error?: { errors: Array<{ path: (string | number)[]; message: string }> };
+  };
+}): ValidatorFn<T> {
   return (data: unknown): ValidationResult<T> => {
     const result = schema.safeParse(data);
 
@@ -165,10 +169,11 @@ export function createZodValidator<T>(
 
     return {
       success: false,
-      errors: result.error?.errors.map(e => ({
-        field: e.path.join('.'),
-        message: e.message,
-      })) ?? [],
+      errors:
+        result.error?.errors.map((e) => ({
+          field: e.path.join('.'),
+          message: e.message,
+        })) ?? [],
     };
   };
 }

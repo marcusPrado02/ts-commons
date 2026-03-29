@@ -1,14 +1,14 @@
-# @acme/persistence
+# @marcusprado02/persistence
 
 Repository abstraction, pagination, and Unit of Work. Adapters live in separate packages so your domain only depends on the ports defined here.
 
-**Core install:** `pnpm add @acme/persistence @acme/kernel`
+**Core install:** `pnpm add @marcusprado02/persistence @marcusprado02/kernel`
 
 **Adapter installs:**
 
-- `pnpm add @acme/persistence-prisma`
-- `pnpm add @acme/persistence-mongodb`
-- `pnpm add @acme/persistence-typeorm`
+- `pnpm add @marcusprado02/persistence-prisma`
+- `pnpm add @marcusprado02/persistence-mongodb`
+- `pnpm add @marcusprado02/persistence-typeorm`
 
 ---
 
@@ -17,7 +17,7 @@ Repository abstraction, pagination, and Unit of Work. Adapters live in separate 
 Defines the contract every repository implements. Reference this in your domain layer.
 
 ```typescript
-import { RepositoryPort } from '@acme/persistence';
+import { RepositoryPort } from '@marcusprado02/persistence';
 
 // Define domain-specific methods in addition to the base CRUD methods
 export interface OrderRepository extends RepositoryPort<Order> {
@@ -43,7 +43,7 @@ export interface OrderRepository extends RepositoryPort<Order> {
 ## `PrismaRepository` — Prisma Adapter
 
 ```typescript
-import { PrismaRepository, PrismaUnitOfWork } from '@acme/persistence-prisma';
+import { PrismaRepository, PrismaUnitOfWork } from '@marcusprado02/persistence-prisma';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -90,7 +90,7 @@ await uow.run(async () => {
 ## `MongoRepository` — MongoDB Adapter
 
 ```typescript
-import { MongoRepository } from '@acme/persistence-mongodb';
+import { MongoRepository } from '@marcusprado02/persistence-mongodb';
 import { MongoClient } from 'mongodb';
 
 const client = new MongoClient(connectionString);
@@ -126,7 +126,7 @@ export class MongoOrderRepository
 ## `Page<T>` — Pagination
 
 ```typescript
-import { Page, PageOptions } from '@acme/persistence';
+import { Page, PageOptions } from '@marcusprado02/persistence';
 
 const opts: PageOptions = {
   page: 1,
@@ -151,7 +151,7 @@ console.log(page.totalPages);
 Each adapter requires a `Mapper` to convert between domain entities and persistence rows:
 
 ```typescript
-import type { Mapper } from '@acme/persistence';
+import type { Mapper } from '@marcusprado02/persistence';
 
 export class OrderMapper implements Mapper<Order, OrderRow> {
   toDomain(row: OrderRow): Order {

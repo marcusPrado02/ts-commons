@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access -- TypeORM framework boundary: entity properties */
 /* eslint-disable @typescript-eslint/no-unsafe-call -- TypeORM framework boundary: repository methods */
 import type { Repository, FindOptionsWhere, FindManyOptions, ObjectLiteral } from 'typeorm';
-import type { RepositoryPort } from '@acme/persistence';
+import type { RepositoryPort } from '@marcusprado02/persistence';
 import type { TypeORMMapper } from './TypeORMMapper';
 
 /**
@@ -35,12 +35,14 @@ import type { TypeORMMapper } from './TypeORMMapper';
  * }
  * ```
  */
-export abstract class TypeORMRepository<TDomain, TId, TPersistence extends ObjectLiteral>
-  implements RepositoryPort<TDomain, TId>
-{
+export abstract class TypeORMRepository<
+  TDomain,
+  TId,
+  TPersistence extends ObjectLiteral,
+> implements RepositoryPort<TDomain, TId> {
   constructor(
     protected readonly repository: Repository<TPersistence>,
-    protected readonly mapper: TypeORMMapper<TDomain, TPersistence>
+    protected readonly mapper: TypeORMMapper<TDomain, TPersistence>,
   ) {}
 
   /**
@@ -51,9 +53,7 @@ export abstract class TypeORMRepository<TDomain, TId, TPersistence extends Objec
   /**
    * Build where clause for TypeORM query
    */
-  protected abstract getWhereClause(
-    id: TId
-  ): FindOptionsWhere<TPersistence>;
+  protected abstract getWhereClause(id: TId): FindOptionsWhere<TPersistence>;
 
   /**
    * Save domain entity to database
@@ -105,9 +105,7 @@ export abstract class TypeORMRepository<TDomain, TId, TPersistence extends Objec
   /**
    * Find entities with custom options
    */
-  protected async findMany(
-    options?: FindManyOptions<TPersistence>
-  ): Promise<TDomain[]> {
+  protected async findMany(options?: FindManyOptions<TPersistence>): Promise<TDomain[]> {
     const entities = await this.repository.find(options);
     return entities.map((e) => this.mapper.toDomain(e));
   }
@@ -115,9 +113,7 @@ export abstract class TypeORMRepository<TDomain, TId, TPersistence extends Objec
   /**
    * Count entities with custom options
    */
-  protected async countMany(
-    options?: FindManyOptions<TPersistence>
-  ): Promise<number> {
+  protected async countMany(options?: FindManyOptions<TPersistence>): Promise<number> {
     return await this.repository.count(options);
   }
 }

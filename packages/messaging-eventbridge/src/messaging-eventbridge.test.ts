@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type -- test helper functions */
 /* eslint-disable max-lines-per-function -- test suites naturally have longer functions */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import type { Logger } from '@acme/observability';
+import type { Logger } from '@marcusprado02/observability';
 
 // ── Hoisted mock functions (available before vi.mock factories run) ───────────
 
@@ -201,18 +201,14 @@ describe('EventBridgeEventPublisher', () => {
       Entries: [{ ErrorCode: 'ThrottlingException', ErrorMessage: 'Rate exceeded' }],
     });
 
-    await expect(publisher.publish(makeEnvelope())).rejects.toThrow(
-      'EventBridge rejected event',
-    );
+    await expect(publisher.publish(makeEnvelope())).rejects.toThrow('EventBridge rejected event');
   });
 
   it('should publish a batch split across multiple PutEvents calls', async () => {
     const publisher = new EventBridgeEventPublisher(connection, mockLogger);
     mockEBSend.mockResolvedValue({ FailedEntryCount: 0, Entries: [] });
 
-    const envelopes = Array.from({ length: 15 }, (_, i) =>
-      makeEnvelope({ eventId: `evt-${i}` }),
-    );
+    const envelopes = Array.from({ length: 15 }, (_, i) => makeEnvelope({ eventId: `evt-${i}` }));
     await publisher.publishBatch(envelopes);
 
     // Should have called send twice: first 10, then 5
@@ -295,7 +291,12 @@ describe('EventBridgeEventConsumer', () => {
       id: 'aws-id',
       'detail-type': 'OrderCreated',
       source: 'com.acme.test',
-      detail: { eventId: 'evt-dedup-01', eventVersion: '1.0', timestamp: '2026-01-01T00:00:00.000Z', payload: {} },
+      detail: {
+        eventId: 'evt-dedup-01',
+        eventVersion: '1.0',
+        timestamp: '2026-01-01T00:00:00.000Z',
+        payload: {},
+      },
     });
 
     mockSQSSend
@@ -321,7 +322,12 @@ describe('EventBridgeEventConsumer', () => {
       id: 'aws-id',
       'detail-type': 'UnknownEvent',
       source: 'com.acme.test',
-      detail: { eventId: 'evt-unknown', eventVersion: '1.0', timestamp: '2026-01-01T00:00:00.000Z', payload: {} },
+      detail: {
+        eventId: 'evt-unknown',
+        eventVersion: '1.0',
+        timestamp: '2026-01-01T00:00:00.000Z',
+        payload: {},
+      },
     });
 
     mockSQSSend
@@ -346,7 +352,12 @@ describe('EventBridgeEventConsumer', () => {
       id: 'aws-id',
       'detail-type': 'OrderCreated',
       source: 'com.acme.test',
-      detail: { eventId: 'evt-fail', eventVersion: '1.0', timestamp: '2026-01-01T00:00:00.000Z', payload: {} },
+      detail: {
+        eventId: 'evt-fail',
+        eventVersion: '1.0',
+        timestamp: '2026-01-01T00:00:00.000Z',
+        payload: {},
+      },
     });
 
     mockSQSSend

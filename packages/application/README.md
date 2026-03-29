@@ -1,4 +1,4 @@
-# @acme/application
+# @marcusprado02/application
 
 **Application Layer** - Use cases, CQRS, validação, idempotência e transações.
 
@@ -13,8 +13,8 @@
 ## Uso
 
 ```typescript
-import { CommandHandler, Command, Result } from '@acme/application';
-import { DomainError } from '@acme/kernel';
+import { CommandHandler, Command, Result } from '@marcusprado02/application';
+import { DomainError } from '@marcusprado02/kernel';
 
 class CreateOrderCommand implements Command {
   constructor(public readonly customerId: string) {}

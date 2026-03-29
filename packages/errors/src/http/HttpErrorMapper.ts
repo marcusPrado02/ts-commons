@@ -1,4 +1,4 @@
-import { DomainError, NotFoundError, ConflictError } from '@acme/kernel';
+import { DomainError, NotFoundError, ConflictError } from '@marcusprado02/kernel';
 import { ProblemDetailsBuilder } from './ProblemDetails';
 import { ProblemType } from './ProblemType';
 import type { ProblemDetails } from './ProblemDetails';
@@ -21,11 +21,7 @@ export class HttpErrorMapper {
     }
 
     if (error instanceof DomainError) {
-      return ProblemDetailsBuilder.create(
-        ProblemType.UNPROCESSABLE_ENTITY,
-        'Domain Error',
-        422,
-      )
+      return ProblemDetailsBuilder.create(ProblemType.UNPROCESSABLE_ENTITY, 'Domain Error', 422)
         .withDetail(error.message)
         .build();
     }

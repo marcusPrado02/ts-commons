@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide walks you through installing ts-commons, building the monorepo, and writing your first DDD aggregate using `@acme/kernel`.
+This guide walks you through installing ts-commons, building the monorepo, and writing your first DDD aggregate using `@marcusprado02/kernel`.
 
 ---
 
@@ -34,10 +34,10 @@ pnpm install
 pnpm build
 
 # Build a specific package only
-pnpm --filter @acme/kernel build
+pnpm --filter @marcusprado02/kernel build
 
 # Watch mode (rebuild on change)
-pnpm --filter @acme/kernel build:watch
+pnpm --filter @marcusprado02/kernel build:watch
 ```
 
 ---
@@ -49,13 +49,13 @@ pnpm --filter @acme/kernel build:watch
 pnpm test
 
 # Single package
-pnpm --filter @acme/kernel test
+pnpm --filter @marcusprado02/kernel test
 
 # Watch mode
-pnpm --filter @acme/kernel test:watch
+pnpm --filter @marcusprado02/kernel test:watch
 
 # With coverage
-pnpm --filter @acme/kernel test:coverage
+pnpm --filter @marcusprado02/kernel test:coverage
 ```
 
 ---
@@ -77,13 +77,13 @@ Install one or more packages from the monorepo (once published to npm):
 
 ```bash
 # In your microservice
-npm install @acme/kernel @acme/application @acme/persistence
+npm install @marcusprado02/kernel @marcusprado02/application @marcusprado02/persistence
 ```
 
 Or, inside the monorepo workspace:
 
 ```bash
-pnpm --filter my-service add @acme/kernel
+pnpm --filter my-service add @marcusprado02/kernel
 ```
 
 ---
@@ -91,7 +91,7 @@ pnpm --filter my-service add @acme/kernel
 ## Your First Domain Aggregate
 
 ```typescript
-import { AggregateRoot, ValueObject, DomainEvent, Result, UUID } from '@acme/kernel';
+import { AggregateRoot, ValueObject, DomainEvent, Result, UUID } from '@marcusprado02/kernel';
 
 // 1. Value Object
 interface MoneyProps {
@@ -158,21 +158,21 @@ result.match({
 ```
 my-service/
 ├── src/
-│   ├── domain/                  # Pure DDD — @acme/kernel only
+│   ├── domain/                  # Pure DDD — @marcusprado02/kernel only
 │   │   ├── Order.ts             # AggregateRoot
 │   │   ├── Money.ts             # ValueObject
 │   │   └── events/
 │   │       └── OrderPlacedEvent.ts
 │   │
-│   ├── application/             # Use Cases — @acme/application
+│   ├── application/             # Use Cases — @marcusprado02/application
 │   │   └── usecases/
 │   │       └── PlaceOrderUseCase.ts
 │   │
-│   ├── infrastructure/          # Adapters — @acme/persistence-*, messaging-*, etc.
+│   ├── infrastructure/          # Adapters — @marcusprado02/persistence-*, messaging-*, etc.
 │   │   ├── persistence/
 │   │   └── messaging/
 │   │
-│   └── transport/               # HTTP — @acme/web-fastify or @acme/web-nestjs
+│   └── transport/               # HTTP — @marcusprado02/web-fastify or @marcusprado02/web-nestjs
 │       └── OrderController.ts
 │
 ├── test/

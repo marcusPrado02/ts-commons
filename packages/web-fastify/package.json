@@ -1,5 +1,5 @@
 {
-  "name": "@acme/web-fastify",
+  "name": "@marcusprado02/web-fastify",
   "version": "0.1.0",
   "description": "Fastify adapter for ts-commons platform",
   "type": "module",
@@ -18,11 +18,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@acme/kernel": "workspace:*",
-    "@acme/application": "workspace:*",
-    "@acme/errors": "workspace:*",
-    "@acme/observability": "workspace:*",
-    "@acme/web": "workspace:*",
+    "@marcusprado02/kernel": "workspace:*",
+    "@marcusprado02/application": "workspace:*",
+    "@marcusprado02/errors": "workspace:*",
+    "@marcusprado02/observability": "workspace:*",
+    "@marcusprado02/web": "workspace:*",
     "fastify": "^4.26.0"
   },
   "devDependencies": {
@@ -32,7 +32,7 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

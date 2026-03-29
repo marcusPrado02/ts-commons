@@ -10,8 +10,8 @@ import type { Channel, ChannelModel, Connection } from 'amqplib';
 import { RabbitMQConnection } from './RabbitMQConnection';
 import { RabbitMQEventPublisher } from './RabbitMQEventPublisher';
 import { RabbitMQEventConsumer } from './RabbitMQEventConsumer';
-import type { EventEnvelope, EventHandler } from '@acme/messaging';
-import type { Logger } from '@acme/observability';
+import type { EventEnvelope, EventHandler } from '@marcusprado02/messaging';
+import type { Logger } from '@marcusprado02/observability';
 
 // Mock amqplib
 vi.mock('amqplib', () => ({
@@ -72,11 +72,9 @@ describe('RabbitMQ Adapter', () => {
       await connection.connect();
 
       expect(mockChannelModel.createChannel).toHaveBeenCalledTimes(2);
-      expect(mockChannel.assertExchange).toHaveBeenCalledWith(
-        'test-exchange',
-        'topic',
-        { durable: true }
-      );
+      expect(mockChannel.assertExchange).toHaveBeenCalledWith('test-exchange', 'topic', {
+        durable: true,
+      });
     });
 
     it('should return channel from pool', async () => {
@@ -158,7 +156,7 @@ describe('RabbitMQ Adapter', () => {
           messageId: '123',
           correlationId: 'abc',
           persistent: true,
-        })
+        }),
       );
     });
 
@@ -188,7 +186,7 @@ describe('RabbitMQ Adapter', () => {
             'x-causation-id': 'causation-1',
             userId: 'user-1',
           }),
-        })
+        }),
       );
     });
 
@@ -229,11 +227,10 @@ describe('RabbitMQ Adapter', () => {
       connection = new RabbitMQConnection(config, mockLogger);
       await connection.connect();
 
-      consumer = new RabbitMQEventConsumer(
-        connection,
-        mockLogger,
-        { queue: 'test-queue', durable: true }
-      );
+      consumer = new RabbitMQEventConsumer(connection, mockLogger, {
+        queue: 'test-queue',
+        durable: true,
+      });
     });
 
     it('should subscribe to event type', () => {
@@ -257,12 +254,12 @@ describe('RabbitMQ Adapter', () => {
 
       expect(mockChannel.assertQueue).toHaveBeenCalledWith(
         'test-queue',
-        expect.objectContaining({ durable: true })
+        expect.objectContaining({ durable: true }),
       );
       expect(mockChannel.bindQueue).toHaveBeenCalledWith(
         'test-queue',
         'test-exchange',
-        'UserCreated'
+        'UserCreated',
       );
       expect(mockChannel.consume).toHaveBeenCalled();
     });
@@ -288,7 +285,7 @@ describe('RabbitMQ Adapter', () => {
       await consumer.start();
 
       expect(() => consumer.subscribe('OrderPlaced', handler)).toThrow(
-        'Cannot subscribe after consumer is started'
+        'Cannot subscribe after consumer is started',
       );
     });
 
@@ -310,11 +307,9 @@ describe('RabbitMQ Adapter', () => {
       const connection = new RabbitMQConnection(config, mockLogger);
       await connection.connect();
 
-      expect(mockChannel.assertExchange).toHaveBeenCalledWith(
-        'test-exchange.dlq',
-        'topic',
-        { durable: true }
-      );
+      expect(mockChannel.assertExchange).toHaveBeenCalledWith('test-exchange.dlq', 'topic', {
+        durable: true,
+      });
     });
 
     it('should not create DLQ exchange when disabled', async () => {
@@ -330,7 +325,7 @@ describe('RabbitMQ Adapter', () => {
       expect(mockChannel.assertExchange).not.toHaveBeenCalledWith(
         'test-exchange.dlq',
         expect.anything(),
-        expect.anything()
+        expect.anything(),
       );
     });
   });

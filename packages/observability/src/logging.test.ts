@@ -7,7 +7,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type -- test helper functions */
 /* eslint-disable max-lines-per-function -- test files naturally have longer functions */
 /**
- * Tests for @acme/observability — Structured logging (Item 21)
+ * Tests for @marcusprado02/observability — Structured logging (Item 21)
  *
  * LevelFilterLogger · SamplingLogger · PerformanceLogger · PiiRedactor
  */
@@ -17,7 +17,7 @@ import { LevelFilterLogger } from './logging/LevelFilterLogger';
 import { SamplingLogger } from './logging/SamplingLogger';
 import { PerformanceLogger } from './logging/PerformanceLogger';
 import { PiiRedactor } from './logging/PiiRedactor';
-import type { LoggerPort } from '@acme/kernel';
+import type { LoggerPort } from '@marcusprado02/kernel';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -26,8 +26,8 @@ import type { LoggerPort } from '@acme/kernel';
 function buildMockLogger(): LoggerPort {
   return {
     debug: vi.fn(),
-    info:  vi.fn(),
-    warn:  vi.fn(),
+    info: vi.fn(),
+    warn: vi.fn(),
     error: vi.fn(),
   };
 }
@@ -37,9 +37,11 @@ function buildMockLogger(): LoggerPort {
 // ---------------------------------------------------------------------------
 
 describe('LevelFilterLogger', () => {
-  let inner:  LoggerPort;
+  let inner: LoggerPort;
 
-  beforeEach(() => { inner = buildMockLogger(); });
+  beforeEach(() => {
+    inner = buildMockLogger();
+  });
 
   it('suppresses debug messages when minLevel is INFO', () => {
     const logger = new LevelFilterLogger(inner, LogLevel.INFO);
@@ -67,7 +69,7 @@ describe('LevelFilterLogger', () => {
 
   it('always forwards error messages regardless of minLevel', () => {
     const logger = new LevelFilterLogger(inner, LogLevel.ERROR);
-    const err    = new Error('critical');
+    const err = new Error('critical');
 
     logger.error('critical failure', err);
 
@@ -91,7 +93,9 @@ describe('LevelFilterLogger', () => {
 describe('SamplingLogger', () => {
   let inner: LoggerPort;
 
-  beforeEach(() => { inner = buildMockLogger(); });
+  beforeEach(() => {
+    inner = buildMockLogger();
+  });
 
   it('forwards every info call when sampleRate is 1.0', () => {
     const logger = new SamplingLogger(inner, 1.0, () => 0.0); // 0.0 < 1.0 → always log
@@ -133,11 +137,11 @@ describe('SamplingLogger', () => {
 
 describe('PerformanceLogger', () => {
   let inner: LoggerPort;
-  let perf:  PerformanceLogger;
+  let perf: PerformanceLogger;
 
   beforeEach(() => {
     inner = buildMockLogger();
-    perf  = new PerformanceLogger(inner);
+    perf = new PerformanceLogger(inner);
   });
 
   it('resolves and returns the result of the wrapped async function', async () => {
@@ -171,7 +175,9 @@ describe('PerformanceLogger', () => {
     const boom = new Error('db timeout');
 
     await expect(
-      perf.measure('dbQuery', () => { throw boom; }),
+      perf.measure('dbQuery', () => {
+        throw boom;
+      }),
     ).rejects.toThrow('db timeout');
 
     expect(inner.error).toHaveBeenCalledOnce();
@@ -213,7 +219,10 @@ describe('PiiRedactor', () => {
 
   it('redacts multiple PII fields in a single object', () => {
     const result = PiiRedactor.redact({
-      password: 'pwd', email: 'e@x.com', creditCard: '4111', name: 'Bob',
+      password: 'pwd',
+      email: 'e@x.com',
+      creditCard: '4111',
+      name: 'Bob',
     });
 
     expect(result['password']).toBe('[REDACTED]');

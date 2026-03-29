@@ -1,4 +1,4 @@
-# @acme/persistence-mongodb
+# @marcusprado02/persistence-mongodb
 
 MongoDB native driver adapter for Clean Architecture repositories.
 
@@ -44,7 +44,7 @@ Infrastructure Layer
 ## Installation
 
 ```bash
-pnpm add @acme/persistence-mongodb mongodb
+pnpm add @marcusprado02/persistence-mongodb mongodb
 ```
 
 ---
@@ -54,7 +54,7 @@ pnpm add @acme/persistence-mongodb mongodb
 ### 1. Define a Mapper
 
 ```typescript
-import type { MongoMapper } from '@acme/persistence-mongodb';
+import type { MongoMapper } from '@marcusprado02/persistence-mongodb';
 
 interface User {
   id: { value: string };
@@ -65,16 +65,16 @@ interface User {
 export class UserMongoMapper implements MongoMapper<User> {
   toDocument(domain: User): Record<string, unknown> {
     return {
-      _id:   domain.id.value,
-      name:  domain.name,
+      _id: domain.id.value,
+      name: domain.name,
       email: domain.email,
     };
   }
 
   toDomain(doc: Record<string, unknown>): User {
     return {
-      id:    { value: doc['_id'] as string },
-      name:  doc['name'] as string,
+      id: { value: doc['_id'] as string },
+      name: doc['name'] as string,
       email: doc['email'] as string,
     };
   }
@@ -85,7 +85,7 @@ export class UserMongoMapper implements MongoMapper<User> {
 
 ```typescript
 import { Db } from 'mongodb';
-import { MongoRepository, MongoCollectionLike } from '@acme/persistence-mongodb';
+import { MongoRepository, MongoCollectionLike } from '@marcusprado02/persistence-mongodb';
 
 interface UserId {
   readonly value: string;
@@ -108,7 +108,7 @@ export class UserRepository extends MongoRepository<User, UserId> {
 // Usage
 const client = new MongoClient(uri);
 await client.connect();
-const db   = client.db('myapp');
+const db = client.db('myapp');
 const repo = new UserRepository(db, new UserMongoMapper());
 
 await repo.save({ id: { value: 'u1' }, name: 'Alice', email: 'alice@example.com' });
@@ -119,7 +119,7 @@ await repo.delete({ value: 'u1' });
 ### 3. Transactions with Unit of Work
 
 ```typescript
-import { MongoUnitOfWork } from '@acme/persistence-mongodb';
+import { MongoUnitOfWork } from '@marcusprado02/persistence-mongodb';
 
 const uow = new MongoUnitOfWork(client);
 
@@ -131,19 +131,16 @@ await uow.withTransaction(async (session) => {
 });
 
 // With Result<T, E> return type
-import { Result } from '@acme/kernel';
+import { Result } from '@marcusprado02/kernel';
 
 const result = await uow.withTransactionResult(async (session) => {
-  const existing = await db.collection<UserDoc>('users').findOne(
-    { _id: userId.value },
-    { session },
-  );
+  const existing = await db
+    .collection<UserDoc>('users')
+    .findOne({ _id: userId.value }, { session });
   if (!existing) return Result.err(new Error('User not found'));
-  await db.collection('users').updateOne(
-    { _id: userId.value },
-    { $set: { name: 'Bob' } },
-    { session },
-  );
+  await db
+    .collection('users')
+    .updateOne({ _id: userId.value }, { $set: { name: 'Bob' } }, { session });
   return Result.ok(existing);
 });
 ```
@@ -154,7 +151,7 @@ const result = await uow.withTransactionResult(async (session) => {
 ### 4. Pagination
 
 ```typescript
-import { MongoPaginator, MongoCollectionLike } from '@acme/persistence-mongodb';
+import { MongoPaginator, MongoCollectionLike } from '@marcusprado02/persistence-mongodb';
 
 const paginator = new MongoPaginator(
   db.collection('users') as unknown as MongoCollectionLike,
@@ -163,12 +160,12 @@ const paginator = new MongoPaginator(
 
 const page = await paginator.findPage(
   { page: 1, pageSize: 20, sort: [{ field: 'name', direction: 'asc' }] },
-  { organizationId: 'org-123', deletedAt: null },  // optional MongoDB filter
+  { organizationId: 'org-123', deletedAt: null }, // optional MongoDB filter
 );
 
-console.log(page.items);       // User[]
-console.log(page.total);       // total matching count
-console.log(page.hasNext);     // true/false
+console.log(page.items); // User[]
+console.log(page.total); // total matching count
+console.log(page.hasNext); // true/false
 console.log(page.hasPrevious); // true/false
 ```
 
@@ -178,30 +175,21 @@ Add a `deletedAt` field to your documents then use the bundled helpers instead
 of actually removing documents:
 
 ```typescript
-import {
-  withActivesOnly,
-  softDeleteData,
-  restoreData,
-} from '@acme/persistence-mongodb';
+import { withActivesOnly, softDeleteData, restoreData } from '@marcusprado02/persistence-mongodb';
 
 // Query only active (non-deleted) documents
-const activeUsers = await db.collection('users').find(
-  withActivesOnly({ organizationId: 'org-1' }),
-).toArray();
+const activeUsers = await db
+  .collection('users')
+  .find(withActivesOnly({ organizationId: 'org-1' }))
+  .toArray();
 // → filter: { organizationId: 'org-1', deletedAt: null }
 
 // Soft-delete a document
-await db.collection('users').updateOne(
-  { _id: userId },
-  { $set: softDeleteData() },
-);
+await db.collection('users').updateOne({ _id: userId }, { $set: softDeleteData() });
 // → sets deletedAt: new Date()
 
 // Restore a soft-deleted document
-await db.collection('users').updateOne(
-  { _id: userId },
-  { $set: restoreData() },
-);
+await db.collection('users').updateOne({ _id: userId }, { $set: restoreData() });
 // → sets deletedAt: null
 ```
 
@@ -212,7 +200,7 @@ await db.collection('users').updateOne(
 ```typescript
 import { Module, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { MongoClient } from 'mongodb';
-import { MongoUnitOfWork } from '@acme/persistence-mongodb';
+import { MongoUnitOfWork } from '@marcusprado02/persistence-mongodb';
 
 @Module({
   providers: [
@@ -253,27 +241,27 @@ export class PersistenceModule implements OnModuleDestroy {
 
 ### `MongoRepository<TDomain, TId>` — Abstract methods
 
-| Method | Required | Description |
-|---|---|---|
-| `extractId(entity)` | ✅ | Return the ID value object from a domain entity |
-| `getFilter(id)` | ✅ | Return a MongoDB filter document `{ _id: id.value }` |
+| Method              | Required | Description                                          |
+| ------------------- | -------- | ---------------------------------------------------- |
+| `extractId(entity)` | ✅       | Return the ID value object from a domain entity      |
+| `getFilter(id)`     | ✅       | Return a MongoDB filter document `{ _id: id.value }` |
 
 ### `MongoPaginator.findPage(pageRequest, filter?)`
 
-| Parameter | Type | Description |
-|---|---|---|
-| `pageRequest.page` | `number` | 1-based page number |
-| `pageRequest.pageSize` | `number` | Items per page |
-| `pageRequest.sort` | `Sort[]?` | Array of `{ field, direction }` — maps to `1` / `-1` |
-| `filter` | `Record<string, unknown>?` | Optional MongoDB filter document |
+| Parameter              | Type                       | Description                                          |
+| ---------------------- | -------------------------- | ---------------------------------------------------- |
+| `pageRequest.page`     | `number`                   | 1-based page number                                  |
+| `pageRequest.pageSize` | `number`                   | Items per page                                       |
+| `pageRequest.sort`     | `Sort[]?`                  | Array of `{ field, direction }` — maps to `1` / `-1` |
+| `filter`               | `Record<string, unknown>?` | Optional MongoDB filter document                     |
 
 ### `MongoUnitOfWork`
 
-| Method | Description |
-|---|---|
-| `withTransaction(fn)` | Execute inside `ClientSession.withTransaction()` |
-| `withTransactionResult(fn)` | Same, but fn returns `Result<T, E>` |
-| `getClient()` | Expose the underlying `MongoClientLike` |
+| Method                      | Description                                      |
+| --------------------------- | ------------------------------------------------ |
+| `withTransaction(fn)`       | Execute inside `ClientSession.withTransaction()` |
+| `withTransactionResult(fn)` | Same, but fn returns `Result<T, E>`              |
+| `getClient()`               | Expose the underlying `MongoClientLike`          |
 
 ---
 
@@ -310,24 +298,24 @@ export interface MongoSessionLike {
 Cast your native MongoDB objects at the boundary:
 
 ```typescript
-db.collection('users') as unknown as MongoCollectionLike
-client                  as unknown as MongoClientLike
+db.collection('users') as unknown as MongoCollectionLike;
+client as unknown as MongoClientLike;
 ```
 
 ---
 
 ## Comparison: MongoDB vs TypeORM vs Prisma
 
-| Feature | `@acme/persistence-mongodb` | `@acme/persistence-typeorm` | `@acme/persistence-prisma` |
-|---|---|---|---|
-| Data model | Document (JSON) | Relational | Relational |
-| Schema | Schemaless / runtime | Entity classes | `schema.prisma` |
-| Relations | Manual embedding / references | Join queries | Nested include/select |
-| Transactions | `ClientSession.withTransaction` | QueryRunner | Interactive `$transaction` |
-| Soft delete | Manual (`deletedAt` filter) | `@DeleteDateColumn()` | Manual (`deletedAt` filter) |
-| Pagination | `skip` / `limit` cursor | `skip` / `take` | `skip` / `take` |
-| Multi-DB | MongoDB only | Many relational DBs | Many relational DBs |
-| ID type | `_id` (ObjectId or string) | Any | Any |
+| Feature      | `@marcusprado02/persistence-mongodb` | `@marcusprado02/persistence-typeorm` | `@marcusprado02/persistence-prisma` |
+| ------------ | ------------------------------------ | ------------------------------------ | ----------------------------------- |
+| Data model   | Document (JSON)                      | Relational                           | Relational                          |
+| Schema       | Schemaless / runtime                 | Entity classes                       | `schema.prisma`                     |
+| Relations    | Manual embedding / references        | Join queries                         | Nested include/select               |
+| Transactions | `ClientSession.withTransaction`      | QueryRunner                          | Interactive `$transaction`          |
+| Soft delete  | Manual (`deletedAt` filter)          | `@DeleteDateColumn()`                | Manual (`deletedAt` filter)         |
+| Pagination   | `skip` / `limit` cursor              | `skip` / `take`                      | `skip` / `take`                     |
+| Multi-DB     | MongoDB only                         | Many relational DBs                  | Many relational DBs                 |
+| ID type      | `_id` (ObjectId or string)           | Any                                  | Any                                 |
 
 ---
 
@@ -337,20 +325,20 @@ client                  as unknown as MongoClientLike
 
 ```typescript
 import { describe, it, expect, vi } from 'vitest';
-import type { MongoCollectionLike, MongoCursorLike } from '@acme/persistence-mongodb';
+import type { MongoCollectionLike, MongoCursorLike } from '@marcusprado02/persistence-mongodb';
 
 const cursor: MongoCursorLike = {
-  sort:    vi.fn().mockReturnThis(),
-  skip:    vi.fn().mockReturnThis(),
-  limit:   vi.fn().mockReturnThis(),
+  sort: vi.fn().mockReturnThis(),
+  skip: vi.fn().mockReturnThis(),
+  limit: vi.fn().mockReturnThis(),
   toArray: vi.fn().mockResolvedValue([{ _id: '1', name: 'Alice', email: 'a@b.com' }]),
 };
 
 const collection = {
-  findOne:        vi.fn().mockResolvedValue({ _id: '1', name: 'Alice', email: 'a@b.com' }),
-  find:           vi.fn().mockReturnValue(cursor),
-  replaceOne:     vi.fn().mockResolvedValue(undefined),
-  deleteOne:      vi.fn().mockResolvedValue(undefined),
+  findOne: vi.fn().mockResolvedValue({ _id: '1', name: 'Alice', email: 'a@b.com' }),
+  find: vi.fn().mockReturnValue(cursor),
+  replaceOne: vi.fn().mockResolvedValue(undefined),
+  deleteOne: vi.fn().mockResolvedValue(undefined),
   countDocuments: vi.fn().mockResolvedValue(1),
 } as unknown as MongoCollectionLike;
 
@@ -390,7 +378,7 @@ afterAll(async () => {
 ```typescript
 // Document shape (no schema file required — MongoDB is schemaless)
 interface UserDocument {
-  _id: string;           // domain ID stored as string
+  _id: string; // domain ID stored as string
   name: string;
   email: string;
   organizationId: string;
@@ -401,10 +389,10 @@ interface UserDocument {
 
 // Recommended indexes (create on startup)
 await db.collection('users').createIndexes([
-  { key: { email: 1 },         unique: true },
+  { key: { email: 1 }, unique: true },
   { key: { organizationId: 1 } },
-  { key: { deletedAt: 1 } },   // speeds up soft-delete filter
-  { key: { createdAt: -1 } },  // common sort field
+  { key: { deletedAt: 1 } }, // speeds up soft-delete filter
+  { key: { createdAt: -1 } }, // common sort field
 ]);
 ```
 

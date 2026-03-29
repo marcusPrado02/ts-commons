@@ -2,35 +2,35 @@
 
 ## 🎯 Visão Geral
 
-| Métrica | Valor |
-|---------|--------|
-| **Total de Pacotes** | 13 |
-| **Total de Arquivos TypeScript** | 100 |
-| **Dependências do Kernel** | 0 (zero!) |
-| **Nível de Diretórios** | 3-4 (otimizado) |
-| **Linhas de Documentação** | ~2000+ |
-| **Coverage Alvo** | 80% |
+| Métrica                          | Valor           |
+| -------------------------------- | --------------- |
+| **Total de Pacotes**             | 13              |
+| **Total de Arquivos TypeScript** | 100             |
+| **Dependências do Kernel**       | 0 (zero!)       |
+| **Nível de Diretórios**          | 3-4 (otimizado) |
+| **Linhas de Documentação**       | ~2000+          |
+| **Coverage Alvo**                | 80%             |
 
 ---
 
 ## 📦 Distribuição de Arquivos por Pacote
 
-| Pacote | Arquivos TS | Propósito |
-|--------|-------------|-----------|
-| **@acme/kernel** | 29 | 🎯 DDD Core (Entity, ValueObject, Events) |
-| **@acme/application** | 16 | 🔄 CQRS, Use Cases, Validation |
-| **@acme/errors** | 9 | ❌ Problem Details, Error Taxonomy |
-| **@acme/config** | 8 | ⚙️ 12-factor Configuration |
-| **@acme/security** | 6 | 🔐 AuthN/AuthZ, Security Primitives |
-| **@acme/observability** | 5 | 📊 Logging, Tracing, Metrics |
-| **@acme/messaging** | 5 | 📨 Event Envelope, Publisher/Consumer |
-| **@acme/resilience** | 5 | 🛡️ Retry, Circuit Breaker, Timeout |
-| **@acme/testing** | 4 | 🧪 Fakes, Test Utilities |
-| **@acme/web** | 4 | 🌐 HTTP Context, Middlewares |
-| **@acme/contracts** | 3 | 📋 API Contracts, Versioning |
-| **@acme/outbox** | 3 | 📮 Transactional Outbox/Inbox |
-| **@acme/persistence** | 3 | 🗄️ Repository Pattern |
-| **TOTAL** | **100** | |
+| Pacote                           | Arquivos TS | Propósito                                 |
+| -------------------------------- | ----------- | ----------------------------------------- |
+| **@marcusprado02/kernel**        | 29          | 🎯 DDD Core (Entity, ValueObject, Events) |
+| **@marcusprado02/application**   | 16          | 🔄 CQRS, Use Cases, Validation            |
+| **@marcusprado02/errors**        | 9           | ❌ Problem Details, Error Taxonomy        |
+| **@marcusprado02/config**        | 8           | ⚙️ 12-factor Configuration                |
+| **@marcusprado02/security**      | 6           | 🔐 AuthN/AuthZ, Security Primitives       |
+| **@marcusprado02/observability** | 5           | 📊 Logging, Tracing, Metrics              |
+| **@marcusprado02/messaging**     | 5           | 📨 Event Envelope, Publisher/Consumer     |
+| **@marcusprado02/resilience**    | 5           | 🛡️ Retry, Circuit Breaker, Timeout        |
+| **@marcusprado02/testing**       | 4           | 🧪 Fakes, Test Utilities                  |
+| **@marcusprado02/web**           | 4           | 🌐 HTTP Context, Middlewares              |
+| **@marcusprado02/contracts**     | 3           | 📋 API Contracts, Versioning              |
+| **@marcusprado02/outbox**        | 3           | 📮 Transactional Outbox/Inbox             |
+| **@marcusprado02/persistence**   | 3           | 🗄️ Repository Pattern                     |
+| **TOTAL**                        | **100**     |                                           |
 
 ---
 
@@ -39,33 +39,33 @@
 ```mermaid
 graph TB
     subgraph "Core Layer (Zero Dependencies)"
-        K[@acme/kernel<br/>29 files]
+        K[@marcusprado02/kernel<br/>29 files]
     end
-    
+
     subgraph "Application Layer"
-        A[@acme/application<br/>16 files]
-        E[@acme/errors<br/>9 files]
-        C[@acme/config<br/>8 files]
+        A[@marcusprado02/application<br/>16 files]
+        E[@marcusprado02/errors<br/>9 files]
+        C[@marcusprado02/config<br/>8 files]
     end
-    
+
     subgraph "Cross-Cutting Concerns"
-        O[@acme/observability<br/>5 files]
-        R[@acme/resilience<br/>5 files]
-        S[@acme/security<br/>6 files]
+        O[@marcusprado02/observability<br/>5 files]
+        R[@marcusprado02/resilience<br/>5 files]
+        S[@marcusprado02/security<br/>6 files]
     end
-    
+
     subgraph "Infrastructure Adapters"
-        M[@acme/messaging<br/>5 files]
-        OU[@acme/outbox<br/>3 files]
-        P[@acme/persistence<br/>3 files]
-        W[@acme/web<br/>4 files]
-        CT[@acme/contracts<br/>3 files]
+        M[@marcusprado02/messaging<br/>5 files]
+        OU[@marcusprado02/outbox<br/>3 files]
+        P[@marcusprado02/persistence<br/>3 files]
+        W[@marcusprado02/web<br/>4 files]
+        CT[@marcusprado02/contracts<br/>3 files]
     end
-    
+
     subgraph "Testing"
-        T[@acme/testing<br/>4 files]
+        T[@marcusprado02/testing<br/>4 files]
     end
-    
+
     A --> K
     E --> K
     O --> K
@@ -83,21 +83,22 @@ graph TB
 
 ## 📈 Complexidade por Camada
 
-| Camada | Pacotes | Arquivos | % Total | Complexidade |
-|--------|---------|----------|---------|--------------|
-| **Core** | 1 | 29 | 29% | Alta |
-| **Application** | 3 | 33 | 33% | Média |
-| **Cross-Cutting** | 3 | 16 | 16% | Média |
-| **Infrastructure** | 5 | 18 | 18% | Baixa |
-| **Testing** | 1 | 4 | 4% | Baixa |
+| Camada             | Pacotes | Arquivos | % Total | Complexidade |
+| ------------------ | ------- | -------- | ------- | ------------ |
+| **Core**           | 1       | 29       | 29%     | Alta         |
+| **Application**    | 3       | 33       | 33%     | Média        |
+| **Cross-Cutting**  | 3       | 16       | 16%     | Média        |
+| **Infrastructure** | 5       | 18       | 18%     | Baixa        |
+| **Testing**        | 1       | 4        | 4%      | Baixa        |
 
 ---
 
 ## 🎯 Princípios Aplicados
 
 ### ✅ Dependências Zero no Kernel
+
 ```
-@acme/kernel dependencies: {}
+@marcusprado02/kernel dependencies: {}
 ```
 
 **Resultado:** Domínio completamente portável e sem amarração a frameworks!
@@ -120,18 +121,18 @@ Core → Application → Infrastructure
 
 ## 📚 Documentação Criada
 
-| Documento | Linhas | Propósito |
-|-----------|--------|-----------|
-| **README.md** | ~130 | Visão geral |
-| **QUICKSTART.md** | ~200 | Início rápido |
-| **COMMANDS.md** | ~350 | Comandos úteis |
-| **CONTRIBUTING.md** | ~150 | Guia de contribuição |
-| **PROJECT_SUMMARY.md** | ~300 | Resumo completo |
-| **MIGRATION_GUIDE.md** | ~250 | Guia de migração |
-| **ADR.md** | ~400 | Decisões arquiteturais |
-| **order-example.ts** | ~150 | Exemplo completo |
-| **Package READMEs** | ~500 | Docs específicas |
-| **TOTAL** | **~2430** | |
+| Documento              | Linhas    | Propósito              |
+| ---------------------- | --------- | ---------------------- |
+| **README.md**          | ~130      | Visão geral            |
+| **QUICKSTART.md**      | ~200      | Início rápido          |
+| **COMMANDS.md**        | ~350      | Comandos úteis         |
+| **CONTRIBUTING.md**    | ~150      | Guia de contribuição   |
+| **PROJECT_SUMMARY.md** | ~300      | Resumo completo        |
+| **MIGRATION_GUIDE.md** | ~250      | Guia de migração       |
+| **ADR.md**             | ~400      | Decisões arquiteturais |
+| **order-example.ts**   | ~150      | Exemplo completo       |
+| **Package READMEs**    | ~500      | Docs específicas       |
+| **TOTAL**              | **~2430** |                        |
 
 ---
 
@@ -171,14 +172,14 @@ Level 1: direct kernel consumers → 12 packages
 
 ### Build Time Estimado (TypeScript)
 
-| Pacote | Arquivos | Build Time* | Cache Hit |
-|--------|----------|-------------|-----------|
-| kernel | 29 | ~3s | Cold |
-| application | 16 | ~2s | Depends on kernel |
-| errors | 9 | ~1s | Depends on kernel |
-| Others | 4-8 | ~1s each | Depends on kernel |
+| Pacote      | Arquivos | Build Time\* | Cache Hit         |
+| ----------- | -------- | ------------ | ----------------- |
+| kernel      | 29       | ~3s          | Cold              |
+| application | 16       | ~2s          | Depends on kernel |
+| errors      | 9        | ~1s          | Depends on kernel |
+| Others      | 4-8      | ~1s each     | Depends on kernel |
 
-*Estimativas em máquina média com TypeScript incremental build habilitado.
+\*Estimativas em máquina média com TypeScript incremental build habilitado.
 
 ### Build Total
 
@@ -192,13 +193,13 @@ Level 1: direct kernel consumers → 12 packages
 
 ### Coverage Target por Pacote
 
-| Pacote | Target | Motivo |
-|--------|--------|--------|
-| **kernel** | 95% | Core crítico |
-| **application** | 90% | Lógica central |
-| **errors** | 85% | Error mapping |
-| **config** | 85% | Validações |
-| **Outros** | 80% | Bom o suficiente |
+| Pacote          | Target | Motivo           |
+| --------------- | ------ | ---------------- |
+| **kernel**      | 95%    | Core crítico     |
+| **application** | 90%    | Lógica central   |
+| **errors**      | 85%    | Error mapping    |
+| **config**      | 85%    | Validações       |
+| **Outros**      | 80%    | Bom o suficiente |
 
 ### Tipos de Testes Planejados
 
@@ -238,17 +239,17 @@ Contract Tests    → 10% dos testes
 
 ## 🎨 Patterns Implementados
 
-| Pattern | Pacotes | Arquivos | Exemplos |
-|---------|---------|----------|----------|
-| **Repository** | @acme/persistence | 3 | RepositoryPort.ts |
-| **Specification** | @acme/kernel | 1 | Specification.ts |
-| **Result/Option** | @acme/kernel | 3 | Result.ts, Option.ts, Either.ts |
-| **CQRS** | @acme/application | 6 | Command, Query, Handlers, Bus |
-| **Outbox** | @acme/outbox | 3 | OutboxStore, InboxStore |
-| **Circuit Breaker** | @acme/resilience | 1 | CircuitBreaker.ts |
-| **Value Object** | @acme/kernel | 13 | TenantId, UUID, ULID, etc |
-| **Aggregate Root** | @acme/kernel | 1 | AggregateRoot.ts |
-| **Domain Events** | @acme/kernel | 4 | DomainEvent, Publisher, Recorder |
+| Pattern             | Pacotes                    | Arquivos | Exemplos                         |
+| ------------------- | -------------------------- | -------- | -------------------------------- |
+| **Repository**      | @marcusprado02/persistence | 3        | RepositoryPort.ts                |
+| **Specification**   | @marcusprado02/kernel      | 1        | Specification.ts                 |
+| **Result/Option**   | @marcusprado02/kernel      | 3        | Result.ts, Option.ts, Either.ts  |
+| **CQRS**            | @marcusprado02/application | 6        | Command, Query, Handlers, Bus    |
+| **Outbox**          | @marcusprado02/outbox      | 3        | OutboxStore, InboxStore          |
+| **Circuit Breaker** | @marcusprado02/resilience  | 1        | CircuitBreaker.ts                |
+| **Value Object**    | @marcusprado02/kernel      | 13       | TenantId, UUID, ULID, etc        |
+| **Aggregate Root**  | @marcusprado02/kernel      | 1        | AggregateRoot.ts                 |
+| **Domain Events**   | @marcusprado02/kernel      | 4        | DomainEvent, Publisher, Recorder |
 
 ---
 
@@ -263,33 +264,38 @@ Contract Tests    → 10% dos testes
 ✅ **DDD Tactical Patterns** implementados  
 ✅ **CQRS & Event Sourcing** ready  
 ✅ **12-Factor App** compatibility  
-✅ **Enterprise patterns** (Outbox, Circuit Breaker, etc)  
+✅ **Enterprise patterns** (Outbox, Circuit Breaker, etc)
 
 ---
 
 ## 🎯 Próximos Passos Sugeridos
 
 ### Fase 1: Validação
+
 - [ ] `pnpm install` - Instalar dependências
 - [ ] `pnpm build` - Build completo
 - [ ] Verificar se tudo compila sem erros
 
 ### Fase 2: Testes
-- [ ] Implementar testes unitários para @acme/kernel
+
+- [ ] Implementar testes unitários para @marcusprado02/kernel
 - [ ] Implementar testes de integração para adapters
 - [ ] Atingir 80%+ de coverage
 
 ### Fase 3: CI/CD
+
 - [ ] Configurar GitHub Actions
 - [ ] Automatizar build, test, lint
 - [ ] Configurar publicação automática
 
 ### Fase 4: Publicação
+
 - [ ] Revisar versões dos pacotes
 - [ ] Publicar no npm registry privado/público
 - [ ] Criar releases no GitHub
 
 ### Fase 5: Adoção
+
 - [ ] Migrar primeiro microserviço
 - [ ] Coletar feedback
 - [ ] Iterar e melhorar

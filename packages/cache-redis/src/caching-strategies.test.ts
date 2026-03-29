@@ -6,10 +6,10 @@
 /* eslint-disable max-lines-per-function -- test files naturally have longer functions */
 /* eslint-disable @typescript-eslint/require-await -- test warm functions intentionally omit await */
 /**
- * Tests for @acme/cache-redis — caching strategies (Item 48)
+ * Tests for @marcusprado02/cache-redis — caching strategies (Item 48)
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { Duration } from '@acme/kernel';
+import { Duration } from '@marcusprado02/kernel';
 import { InMemoryCache } from './strategies/InMemoryCache';
 import { MultiLevelCache } from './strategies/MultiLevelCache';
 import { CacheTagRegistry } from './strategies/CacheTagRegistry';

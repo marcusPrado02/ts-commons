@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment -- NestJS framework boundary: Logger construction */
 import type { DynamicModule } from '@nestjs/common';
 import { Global, Module } from '@nestjs/common';
-import type { Logger } from '@acme/observability';
+import type { Logger } from '@marcusprado02/observability';
 
 export interface CommonsObservabilityModuleOptions {
   /**
@@ -40,9 +40,7 @@ export interface CommonsObservabilityModuleOptions {
 @Global()
 @Module({})
 export class CommonsObservabilityModule {
-  static forRoot(
-    options: CommonsObservabilityModuleOptions = {}
-  ): DynamicModule {
+  static forRoot(options: CommonsObservabilityModuleOptions = {}): DynamicModule {
     const logger = options.logger ?? {
       debug: (): void => {},
       info: (): void => {},

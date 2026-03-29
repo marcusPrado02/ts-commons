@@ -1,18 +1,18 @@
-# @acme/outbox
+# @marcusprado02/outbox
 
 Transactional Outbox/Inbox pattern. Guarantees at-least-once event delivery by persisting messages in the same database transaction as the domain change, then relaying them via a background worker.
 
 ## Installation
 
 ```bash
-pnpm add @acme/outbox
+pnpm add @marcusprado02/outbox
 ```
 
 ## Quick Start
 
 ```typescript
-import { OutboxRelay, InMemoryOutboxStore } from '@acme/outbox';
-import type { OutboxMessage } from '@acme/outbox';
+import { OutboxRelay, InMemoryOutboxStore } from '@marcusprado02/outbox';
+import type { OutboxMessage } from '@marcusprado02/outbox';
 
 const store = new InMemoryOutboxStore();
 
@@ -37,8 +37,8 @@ relay.start();
 ## Inbox (Idempotent Consumers)
 
 ```typescript
-import { InMemoryInboxStore } from '@acme/outbox';
-import type { InboxMessage } from '@acme/outbox';
+import { InMemoryInboxStore } from '@marcusprado02/outbox';
+import type { InboxMessage } from '@marcusprado02/outbox';
 
 const inbox = new InMemoryInboxStore();
 
@@ -52,6 +52,6 @@ if (!alreadyProcessed) {
 
 ## See Also
 
-- [`@acme/messaging`](../messaging) — event publisher port
-- [`@acme/saga`](../saga) — saga choreography uses the outbox pattern
-- [`@acme/eventsourcing`](../eventsourcing) — event store
+- [`@marcusprado02/messaging`](../messaging) — event publisher port
+- [`@marcusprado02/saga`](../saga) — saga choreography uses the outbox pattern
+- [`@marcusprado02/eventsourcing`](../eventsourcing) — event store

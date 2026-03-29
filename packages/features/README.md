@@ -1,17 +1,17 @@
-# @acme/features
+# @marcusprado02/features
 
 Feature flags with targeting rules, rollout percentages, and A/B test variants. Evaluate flags based on user context without vendor lock-in.
 
 ## Installation
 
 ```bash
-pnpm add @acme/features
+pnpm add @marcusprado02/features
 ```
 
 ## Quick Start
 
 ```typescript
-import { FeatureService } from '@acme/features';
+import { FeatureService } from '@marcusprado02/features';
 
 const service = new FeatureService(provider);
 
@@ -31,7 +31,7 @@ const variant = await service.getVariant('checkout-flow', {
 ## Evaluation
 
 ```typescript
-import { evaluateTargeting, evaluateRollout } from '@acme/features';
+import { evaluateTargeting, evaluateRollout } from '@marcusprado02/features';
 
 // Targeting: evaluate rules directly
 const match = evaluateTargeting(flag.rules, { plan: 'pro', country: 'BR' });
@@ -43,7 +43,7 @@ const inRollout = evaluateRollout(flag.rollout, 'user-123');
 ## Implementing a Provider
 
 ```typescript
-import type { FeatureProviderPort, FeatureFlag } from '@acme/features';
+import type { FeatureProviderPort, FeatureFlag } from '@marcusprado02/features';
 
 class LaunchDarklyProvider implements FeatureProviderPort {
   async getFlag(key: string): Promise<FeatureFlag | null> {
@@ -57,5 +57,5 @@ class LaunchDarklyProvider implements FeatureProviderPort {
 
 ## See Also
 
-- [`@acme/config`](../config) — runtime configuration
-- [`@acme/hotreload`](../hotreload) — hot-reload for flag sources
+- [`@marcusprado02/config`](../config) — runtime configuration
+- [`@marcusprado02/hotreload`](../hotreload) — hot-reload for flag sources

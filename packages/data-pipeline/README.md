@@ -1,11 +1,11 @@
-# @acme/data-pipeline
+# @marcusprado02/data-pipeline
 
 ETL (Extract-Transform-Load) framework. Streams or batches records through composable transformers with built-in validation, Dead Letter Queue (DLQ), and reprocessing support.
 
 ## Installation
 
 ```bash
-pnpm add @acme/data-pipeline
+pnpm add @marcusprado02/data-pipeline
 ```
 
 ## Quick Start
@@ -16,7 +16,7 @@ import {
   ArraySource,
   InMemoryDestination,
   FunctionTransformer,
-} from '@acme/data-pipeline';
+} from '@marcusprado02/data-pipeline';
 
 const source = new ArraySource([
   { id: 1, name: 'Alice' },
@@ -37,7 +37,7 @@ const result = await pipeline.run();
 ## Streaming Mode
 
 ```typescript
-import { StreamProcessor } from '@acme/data-pipeline';
+import { StreamProcessor } from '@marcusprado02/data-pipeline';
 
 const stream = new StreamProcessor(source, destination, transformers);
 for await (const batch of stream.process()) {
@@ -58,6 +58,6 @@ pipeline.onDlq((entry) => {
 
 ## See Also
 
-- [`@acme/data-quality`](../data-quality) — validation and profiling
-- [`@acme/streams`](../streams) — stream primitives
-- [`@acme/messaging`](../messaging) — event-based pipelines
+- [`@marcusprado02/data-quality`](../data-quality) — validation and profiling
+- [`@marcusprado02/streams`](../streams) — stream primitives
+- [`@marcusprado02/messaging`](../messaging) — event-based pipelines

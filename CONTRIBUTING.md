@@ -29,7 +29,7 @@ pnpm clean
 ## Adicionando um Novo Pacote
 
 1. Criar pasta em `packages/{nome-pacote}`
-2. Adicionar `package.json` com nome `@acme/{nome-pacote}`
+2. Adicionar `package.json` com nome `@marcusprado02/{nome-pacote}`
 3. Adicionar `tsconfig.json` extendendo `tsconfig.base.json`
 4. Criar estrutura de pastas em `src/`
 5. Criar `src/index.ts` com barrel exports
@@ -37,32 +37,38 @@ pnpm clean
 ## Regras de Dependência
 
 ### Kernel (Núcleo)
+
 - ❌ **NÃO** pode depender de nenhum outro pacote
 - ❌ **NÃO** pode importar bibliotecas de framework (Express, Fastify, Prisma, etc.)
 - ✅ Apenas TypeScript puro e Node.js built-ins
 
 ### Application
+
 - ✅ Pode depender de `kernel`
 - ❌ **NÃO** pode depender de pacotes de infraestrutura (web, persistence adapters)
 
 ### Pacotes de Infraestrutura (web, messaging adapters)
+
 - ✅ Podem depender de `kernel`, `application`, e outros pacotes core
 - ✅ Podem importar frameworks específicos (Fastify, RabbitMQ, etc.)
 
 ## Convenções de Código
 
 ### Exports
+
 - Cada pacote deve exportar **APENAS** através de `src/index.ts`
-- Não permitir imports internos: `@acme/kernel/src/ddd/Entity` ❌
-- Usar barrel exports: `@acme/kernel` ✅
+- Não permitir imports internos: `@marcusprado02/kernel/src/ddd/Entity` ❌
+- Usar barrel exports: `@marcusprado02/kernel` ✅
 
 ### Nomenclatura
+
 - Classes: `PascalCase`
 - Interfaces: `PascalCase`
 - Types: `PascalCase`
 - Ports (interfaces): Sufixo `Port` (ex: `LoggerPort`, `RepositoryPort`)
 
 ### Tipos vs Interfaces
+
 - Use `interface` para contratos públicos e ports
 - Use `type` para unions e intersections
 - Exporte tipos com `export type { ... }`

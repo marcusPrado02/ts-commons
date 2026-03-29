@@ -1,11 +1,11 @@
-# @acme/resilience
+# @marcusprado02/resilience
 
 Padrões de **fault tolerance** e resiliência para microserviços distribuídos.
 
 ## Instalação
 
 ```bash
-pnpm add @acme/resilience
+pnpm add @marcusprado02/resilience
 ```
 
 ## Features
@@ -19,14 +19,14 @@ pnpm add @acme/resilience
 ## Timeout
 
 ```typescript
-import { Timeout } from '@acme/resilience';
+import { Timeout } from '@marcusprado02/resilience';
 
 try {
   const result = await Timeout.execute(
     async () => {
       return await slowExternalApi();
     },
-    5000 // 5 segundos
+    5000, // 5 segundos
   );
 } catch (error) {
   if (error instanceof TimeoutError) {
@@ -38,7 +38,7 @@ try {
 ## Retry com Exponential Backoff
 
 ```typescript
-import { Retry } from '@acme/resilience';
+import { Retry } from '@marcusprado02/resilience';
 
 const result = await Retry.execute(
   async () => {
@@ -47,20 +47,20 @@ const result = await Retry.execute(
   {
     maxAttempts: 3,
     delayMs: 1000,
-    backoffMultiplier: 2,    // 1s, 2s, 4s
-    maxDelayMs: 10000,       // Máximo 10s
-  }
+    backoffMultiplier: 2, // 1s, 2s, 4s
+    maxDelayMs: 10000, // Máximo 10s
+  },
 );
 ```
 
 ## Circuit Breaker
 
 ```typescript
-import { CircuitBreaker } from '@acme/resilience';
+import { CircuitBreaker } from '@marcusprado02/resilience';
 
 const breaker = new CircuitBreaker(
-  5,      // Abre após 5 falhas
-  30000   // Tenta novamente após 30s
+  5, // Abre após 5 falhas
+  30000, // Tenta novamente após 30s
 );
 
 try {
@@ -80,20 +80,20 @@ console.log(breaker.getState()); // CLOSED | OPEN | HALF_OPEN
 ## Rate Limiter (Token Bucket)
 
 ```typescript
-import { RateLimiter } from '@acme/resilience';
+import { RateLimiter } from '@marcusprado02/resilience';
 
 const limiter = new RateLimiter(
-  100,  // 100 tokens máximo
-  10    // 10 tokens por segundo
+  100, // 100 tokens máximo
+  10, // 10 tokens por segundo
 );
 
 async function handleRequest() {
   const allowed = await limiter.acquire(1);
-  
+
   if (!allowed) {
     throw new Error('Rate limit exceeded');
   }
-  
+
   // Processar request
 }
 ```
@@ -101,7 +101,7 @@ async function handleRequest() {
 ## Combinando Patterns
 
 ```typescript
-import { Timeout, Retry, CircuitBreaker } from '@acme/resilience';
+import { Timeout, Retry, CircuitBreaker } from '@marcusprado02/resilience';
 
 const breaker = new CircuitBreaker(5, 30000);
 
@@ -114,32 +114,33 @@ async function callExternalApi() {
             return await fetch('https://api.example.com');
           });
         },
-        5000 // Timeout de 5s
+        5000, // Timeout de 5s
       );
     },
-    { maxAttempts: 3, delayMs: 1000 }
+    { maxAttempts: 3, delayMs: 1000 },
   );
 }
 ```
 
 ## Use Cases
 
-| Pattern | Quando Usar |
-|---------|-------------|
-| **Timeout** | Toda chamada externa (HTTP, DB, etc) |
-| **Retry** | Erros temporários (rede, timeout) |
-| **Circuit Breaker** | Proteger serviços downstream |
-| **Rate Limiter** | Proteger APIs públicas |
+| Pattern             | Quando Usar                          |
+| ------------------- | ------------------------------------ |
+| **Timeout**         | Toda chamada externa (HTTP, DB, etc) |
+| **Retry**           | Erros temporários (rede, timeout)    |
+| **Circuit Breaker** | Proteger serviços downstream         |
+| **Rate Limiter**    | Proteger APIs públicas               |
 
 ## Best Practices
 
 ### ✅ DO
+
 - Use timeout em TODAS chamadas externas
 - Configure retry apenas para erros retriable
-- Monitore estado do circuit breaker
--ログ quando circuit breaker abre
+- Monitore estado do circuit breaker -ログ quando circuit breaker abre
 
 ### ❌ DON'T
+
 - Não retry erros 4xx (cliente)
 - Não use retry sem timeout
 - Não ignore erros de circuit breaker open

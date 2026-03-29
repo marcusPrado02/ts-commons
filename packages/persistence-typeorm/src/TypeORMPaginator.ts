@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access -- TypeORM framework boundary: entity properties */
 /* eslint-disable @typescript-eslint/no-unsafe-call -- TypeORM framework boundary: repository methods */
 import type { Repository, FindManyOptions, ObjectLiteral, FindOptionsOrder } from 'typeorm';
-import type { Page, PageRequest, Sort } from '@acme/persistence';
+import type { Page, PageRequest, Sort } from '@marcusprado02/persistence';
 import type { TypeORMMapper } from './TypeORMMapper';
 
 /**
@@ -28,7 +28,7 @@ import type { TypeORMMapper } from './TypeORMMapper';
 export class TypeORMPaginator<TDomain, TPersistence extends ObjectLiteral> {
   constructor(
     private readonly repository: Repository<TPersistence>,
-    private readonly mapper: TypeORMMapper<TDomain, TPersistence>
+    private readonly mapper: TypeORMMapper<TDomain, TPersistence>,
   ) {}
 
   /**
@@ -36,7 +36,7 @@ export class TypeORMPaginator<TDomain, TPersistence extends ObjectLiteral> {
    */
   async findPage(
     pageRequest: PageRequest,
-    findOptions?: FindManyOptions<TPersistence>
+    findOptions?: FindManyOptions<TPersistence>,
   ): Promise<Page<TDomain>> {
     const { page, pageSize, sort } = pageRequest;
     const skip = (page - 1) * pageSize;
@@ -69,9 +69,7 @@ export class TypeORMPaginator<TDomain, TPersistence extends ObjectLiteral> {
   /**
    * Build TypeORM order clause from sort array
    */
-  private buildOrder(
-    sort?: Sort[]
-  ): FindOptionsOrder<TPersistence> | undefined {
+  private buildOrder(sort?: Sort[]): FindOptionsOrder<TPersistence> | undefined {
     if (sort === undefined || sort.length === 0) {
       return undefined;
     }

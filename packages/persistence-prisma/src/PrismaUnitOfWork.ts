@@ -5,7 +5,7 @@
  * multiple repository operations inside a single ACID transaction.
  */
 /* eslint-disable @typescript-eslint/no-unsafe-return -- Prisma $transaction callback returns inferred T */
-import type { Result } from '@acme/kernel';
+import type { Result } from '@marcusprado02/kernel';
 
 /**
  * Minimal structural interface for a PrismaClient instance.

@@ -1,5 +1,5 @@
 {
-  "name": "@acme/kernel",
+  "name": "@marcusprado02/kernel",
   "version": "0.1.0",
   "description": "DDD kernel: Entity, AggregateRoot, ValueObject, DomainEvent - Zero framework dependencies",
   "type": "module",
@@ -29,7 +29,7 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

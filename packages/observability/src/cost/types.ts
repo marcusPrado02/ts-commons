@@ -1,5 +1,5 @@
 /**
- * Cost optimization types for @acme/observability.
+ * Cost optimization types for @marcusprado02/observability.
  */
 
 export interface ResourceUsageRecord {

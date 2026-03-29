@@ -1,17 +1,21 @@
-# @acme/docker-utils
+# @marcusprado02/docker-utils
 
 Container runtime utilities: graceful shutdown, health aggregation, and Kubernetes liveness/readiness endpoints. Works with any HTTP framework.
 
 ## Installation
 
 ```bash
-pnpm add @acme/docker-utils
+pnpm add @marcusprado02/docker-utils
 ```
 
 ## Quick Start
 
 ```typescript
-import { GracefulShutdown, HealthAggregator, HealthCheckHandler } from '@acme/docker-utils';
+import {
+  GracefulShutdown,
+  HealthAggregator,
+  HealthCheckHandler,
+} from '@marcusprado02/docker-utils';
 
 // Graceful shutdown on SIGTERM / SIGINT
 const shutdown = new GracefulShutdown({ timeoutMs: 10_000 });
@@ -41,6 +45,6 @@ app.get('/health/ready', (req, res) => handler.readiness(req, res));
 
 ## See Also
 
-- [`@acme/k8s`](../k8s) — Kubernetes client helpers
-- [`@acme/resilience`](../resilience) — circuit breakers
-- [`@acme/observability`](../observability) — metrics and logging
+- [`@marcusprado02/k8s`](../k8s) — Kubernetes client helpers
+- [`@marcusprado02/resilience`](../resilience) — circuit breakers
+- [`@marcusprado02/observability`](../observability) — metrics and logging

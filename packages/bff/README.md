@@ -1,17 +1,17 @@
-# @acme/bff
+# @marcusprado02/bff
 
 Backend-for-Frontend (BFF) pattern implementation. Aggregates multiple service calls into a single tailored response, with support for REST and GraphQL client types.
 
 ## Installation
 
 ```bash
-pnpm add @acme/bff
+pnpm add @marcusprado02/bff
 ```
 
 ## Quick Start
 
 ```typescript
-import { ServiceAggregator, RestBff, createBffResponse } from '@acme/bff';
+import { ServiceAggregator, RestBff, createBffResponse } from '@marcusprado02/bff';
 
 const aggregator = new ServiceAggregator();
 
@@ -41,5 +41,5 @@ const response = await bff.aggregate({ clientType: 'mobile', requestId: 'req-1' 
 
 ## See Also
 
-- [`@acme/gateway`](../gateway) — API gateway routing
-- [`@acme/web`](../web) — HTTP adapter base types
+- [`@marcusprado02/gateway`](../gateway) — API gateway routing
+- [`@marcusprado02/web`](../web) — HTTP adapter base types

@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type -- test helpers */
 /* eslint-disable max-lines-per-function -- test files naturally have longer functions */
 /**
- * Tests for @acme/testing — bundle size optimization (Item 50)
+ * Tests for @marcusprado02/testing — bundle size optimization (Item 50)
  */
 import { describe, it, expect, beforeEach } from 'vitest';
 import { BundleSizeChecker } from './bundle/BundleSizeChecker';

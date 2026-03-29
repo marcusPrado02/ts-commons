@@ -1,17 +1,17 @@
-# @acme/audit
+# @marcusprado02/audit
 
 Audit trail port and adapters. Records who did what, when, and on which entity — essential for compliance, debugging, and governance.
 
 ## Installation
 
 ```bash
-pnpm add @acme/audit
+pnpm add @marcusprado02/audit
 ```
 
 ## Quick Start
 
 ```typescript
-import { AuditService, InMemoryAuditStorage } from '@acme/audit';
+import { AuditService, InMemoryAuditStorage } from '@marcusprado02/audit';
 
 const storage = new InMemoryAuditStorage();
 const audit = new AuditService(storage);
@@ -44,7 +44,7 @@ const logs = await audit.query({ entityType: 'User', entityId: 'user-123' });
 ## Implementing a Custom Backend
 
 ```typescript
-import type { AuditStoragePort, AuditLog, AuditLogInput, AuditQuery } from '@acme/audit';
+import type { AuditStoragePort, AuditLog, AuditLogInput, AuditQuery } from '@marcusprado02/audit';
 
 class PostgresAuditStorage implements AuditStoragePort {
   async append(entry: AuditLogInput): Promise<AuditLog> {
@@ -58,5 +58,5 @@ class PostgresAuditStorage implements AuditStoragePort {
 
 ## See Also
 
-- [`@acme/observability`](../observability) — logging and metrics
-- [`@acme/security`](../security) — authentication and RBAC
+- [`@marcusprado02/observability`](../observability) — logging and metrics
+- [`@marcusprado02/security`](../security) — authentication and RBAC

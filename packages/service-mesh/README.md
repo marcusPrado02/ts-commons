@@ -1,11 +1,11 @@
-# @acme/service-mesh
+# @marcusprado02/service-mesh
 
 Service mesh configuration builders for Istio and Linkerd. Generates typed `VirtualService`, `DestinationRule`, `PeerAuthentication`, and Linkerd `Server`/`ServerAuthorization` manifests from a unified API.
 
 ## Installation
 
 ```bash
-pnpm add @acme/service-mesh
+pnpm add @marcusprado02/service-mesh
 ```
 
 ## Istio
@@ -15,7 +15,7 @@ import {
   buildVirtualService,
   buildDestinationRule,
   buildPeerAuthentication,
-} from '@acme/service-mesh';
+} from '@marcusprado02/service-mesh';
 
 // Traffic management: weighted routing for canary
 const vs = buildVirtualService({
@@ -39,7 +39,7 @@ const mtls = buildPeerAuthentication({
 ## Linkerd
 
 ```typescript
-import { buildServer, buildServerAuthorization } from '@acme/service-mesh';
+import { buildServer, buildServerAuthorization } from '@marcusprado02/service-mesh';
 
 const server = buildServer({ name: 'order-service', port: 3000, namespace: 'default' });
 const auth = buildServerAuthorization({
@@ -52,5 +52,5 @@ const auth = buildServerAuthorization({
 
 ## See Also
 
-- [`@acme/k8s`](../k8s) — Kubernetes manifest builders
-- [`@acme/resilience`](../resilience) — circuit breakers (application-level)
+- [`@marcusprado02/k8s`](../k8s) — Kubernetes manifest builders
+- [`@marcusprado02/resilience`](../resilience) — circuit breakers (application-level)

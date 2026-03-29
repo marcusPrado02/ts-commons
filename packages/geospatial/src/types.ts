@@ -1,5 +1,5 @@
 /**
- * Core types for the `@acme/geospatial` package.
+ * Core types for the `@marcusprado02/geospatial` package.
  */
 
 /** WGS-84 longitude, clamped to -180..180. */

@@ -1,5 +1,5 @@
 /**
- * Shared types for @acme/cli (Item 53).
+ * Shared types for @marcusprado02/cli (Item 53).
  */
 
 /** Supported DDD artefact kinds for the scaffold command. */

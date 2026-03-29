@@ -5,9 +5,9 @@
    @typescript-eslint/no-unsafe-argument,
    @typescript-eslint/no-unsafe-assignment,
    @typescript-eslint/strict-boolean-expressions
-   -- Result is from @acme/kernel; all types are correct at compile time but
+   -- Result is from @marcusprado02/kernel; all types are correct at compile time but
    unresolvable by the ESLint TS plugin due to TypeScript 5.9.x / plugin <5.4. */
-import { Result } from '@acme/kernel';
+import { Result } from '@marcusprado02/kernel';
 import type { AuthenticatedPrincipal } from './AuthenticatedPrincipal';
 import type { AuthenticatorPort } from './AuthenticatorPort';
 import type { AuthError } from './AuthErrors';

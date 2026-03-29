@@ -1,5 +1,5 @@
 {
-  "name": "@acme/messaging",
+  "name": "@marcusprado02/messaging",
   "version": "0.1.0",
   "description": "Messaging: Event envelopes, Publisher/Subscriber interfaces",
   "type": "module",
@@ -18,7 +18,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@acme/kernel": "workspace:*"
+    "@marcusprado02/kernel": "workspace:*"
   },
   "keywords": [
     "messaging",
@@ -30,7 +30,7 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

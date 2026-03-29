@@ -1,4 +1,4 @@
-import type { EventEnvelope } from '@acme/messaging';
+import type { EventEnvelope } from '@marcusprado02/messaging';
 
 let eventCounter = 0;
 

@@ -72,8 +72,8 @@ if $RUN_BUILD; then
       BUILD_STATUS[$pkg]="skip"
       continue
     fi
-    printf "  %-40s" "@acme/$pkg"
-    if NODE_OPTIONS=--max-old-space-size=4096 pnpm --filter "@acme/$pkg" run build >/dev/null 2>&1; then
+    printf "  %-40s" "@marcusprado02/$pkg"
+    if NODE_OPTIONS=--max-old-space-size=4096 pnpm --filter "@marcusprado02/$pkg" run build >/dev/null 2>&1; then
       echo -e "$PASS"
       BUILD_STATUS[$pkg]="pass"
     else
@@ -99,8 +99,8 @@ if $RUN_TEST; then
       TEST_STATUS[$pkg]="skip"
       continue
     fi
-    printf "  %-40s" "@acme/$pkg"
-    if pnpm --filter "@acme/$pkg" exec vitest run >/dev/null 2>&1; then
+    printf "  %-40s" "@marcusprado02/$pkg"
+    if pnpm --filter "@marcusprado02/$pkg" exec vitest run >/dev/null 2>&1; then
       echo -e "$PASS"
       TEST_STATUS[$pkg]="pass"
     else
@@ -162,7 +162,7 @@ for pkg in "${PACKAGES[@]}"; do
   }
 
   printf "  %-40s  %-18s  %-18s  %-18s\n" \
-    "@acme/$pkg" \
+    "@marcusprado02/$pkg" \
     "$(colorize "$b")" \
     "$(colorize "$t")" \
     "$(colorize "$l")"

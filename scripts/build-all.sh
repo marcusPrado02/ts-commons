@@ -38,7 +38,7 @@ packages=(
 )
 
 for pkg in "${packages[@]}"; do
-  echo -e "${GREEN}Building @acme/$pkg...${NC}"
+  echo -e "${GREEN}Building @marcusprado02/$pkg...${NC}"
   cd "packages/$pkg"
   pnpm run build
   cd ../..

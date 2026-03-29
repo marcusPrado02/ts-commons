@@ -1,17 +1,17 @@
-# @acme/incidents
+# @marcusprado02/incidents
 
 Incident management and alerting. Raises, tracks, and resolves incidents with PagerDuty and OpsGenie, and generates post-mortems with structured action items.
 
 ## Installation
 
 ```bash
-pnpm add @acme/incidents
+pnpm add @marcusprado02/incidents
 ```
 
 ## Quick Start
 
 ```typescript
-import { IncidentManager, PagerDutyAdapter } from '@acme/incidents';
+import { IncidentManager, PagerDutyAdapter } from '@marcusprado02/incidents';
 
 const alert = new PagerDutyAdapter({ routingKey: process.env.PD_ROUTING_KEY! });
 const manager = new IncidentManager(alert);
@@ -38,7 +38,7 @@ await manager.resolve(incident.id, 'Latency returned to baseline after cache war
 ## Post-Mortem
 
 ```typescript
-import { PostMortemBuilder } from '@acme/incidents';
+import { PostMortemBuilder } from '@marcusprado02/incidents';
 
 const pm = new PostMortemBuilder(incident)
   .summary('Cache eviction caused cascading DB load')
@@ -53,5 +53,5 @@ const pm = new PostMortemBuilder(incident)
 
 ## See Also
 
-- [`@acme/observability`](../observability) — metrics and SLO tracking
-- [`@acme/synthetic`](../synthetic) — proactive health monitoring
+- [`@marcusprado02/observability`](../observability) — metrics and SLO tracking
+- [`@marcusprado02/synthetic`](../synthetic) — proactive health monitoring

@@ -1,4 +1,4 @@
-# @acme/security
+# @marcusprado02/security
 
 Authentication and Authorization primitives for the ACME monorepo.
 
@@ -6,13 +6,13 @@ Authentication and Authorization primitives for the ACME monorepo.
 
 Provides a port-and-adapters model for AuthN/AuthZ:
 
-| Abstraction | Role |
-|---|---|
-| `AuthenticatorPort` | Verifies an incoming credential and returns a typed `Result` |
-| `PolicyEnginePort` | Evaluates whether a principal may perform a given action |
-| `AuthenticatedPrincipal` | Identity record (id, tenantId?, roles, permissions) |
-| `Permission` | Type-safe permission value object wrapping a string |
-| `PolicyDecision` | `ALLOW` / `DENY` enum returned by the policy engine |
+| Abstraction              | Role                                                         |
+| ------------------------ | ------------------------------------------------------------ |
+| `AuthenticatorPort`      | Verifies an incoming credential and returns a typed `Result` |
+| `PolicyEnginePort`       | Evaluates whether a principal may perform a given action     |
+| `AuthenticatedPrincipal` | Identity record (id, tenantId?, roles, permissions)          |
+| `Permission`             | Type-safe permission value object wrapping a string          |
+| `PolicyDecision`         | `ALLOW` / `DENY` enum returned by the policy engine          |
 
 ---
 
@@ -25,7 +25,7 @@ Provides a port-and-adapters model for AuthN/AuthZ:
 Validates a JWT using any injected `JwtVerifierLike` (e.g. `jsonwebtoken`).
 
 ```ts
-import { JwtAuthenticator } from '@acme/security';
+import { JwtAuthenticator } from '@marcusprado02/security';
 import jwt from 'jsonwebtoken';
 
 const verifier = { verify: (token: string, secret: string) => jwt.verify(token, secret) };
@@ -47,10 +47,13 @@ if (result.isOk()) {
 Registry-based API key authentication for service-to-service calls.
 
 ```ts
-import { ApiKeyAuthenticator } from '@acme/security';
+import { ApiKeyAuthenticator } from '@marcusprado02/security';
 
 const auth = new ApiKeyAuthenticator([
-  { apiKey: process.env.WORKER_API_KEY!, principal: { id: 'svc-worker', roles: ['service'], permissions: [] } },
+  {
+    apiKey: process.env.WORKER_API_KEY!,
+    principal: { id: 'svc-worker', roles: ['service'], permissions: [] },
+  },
 ]);
 
 const result = await auth.authenticate(apiKey);
@@ -60,11 +63,11 @@ Also strips the `Bearer ` prefix.
 
 #### Error types
 
-| Error | Extends | Meaning |
-|---|---|---|
-| `AuthError` | `Error` | Base authentication error |
+| Error               | Extends     | Meaning                                 |
+| ------------------- | ----------- | --------------------------------------- |
+| `AuthError`         | `Error`     | Base authentication error               |
 | `InvalidTokenError` | `AuthError` | Token is malformed or signature invalid |
-| `ExpiredTokenError` | `AuthError` | Token has expired |
+| `ExpiredTokenError` | `AuthError` | Token has expired                       |
 
 ---
 
@@ -75,15 +78,17 @@ Also strips the `Bearer ` prefix.
 Role-Based Access Control engine. Constructed with a `rolePermissions` map and implements `PolicyEnginePort`.
 
 ```ts
-import { RbacPolicyEngine, Permission, PolicyDecision } from '@acme/security';
+import { RbacPolicyEngine, Permission, PolicyDecision } from '@marcusprado02/security';
 
 const engine = new RbacPolicyEngine({
-  admin:  ['user:read', 'user:write', 'user:delete'],
+  admin: ['user:read', 'user:write', 'user:delete'],
   viewer: ['user:read'],
 });
 
 const decision = await engine.evaluate(principal, Permission.create('user:write'));
-if (decision === PolicyDecision.ALLOW) { /* proceed */ }
+if (decision === PolicyDecision.ALLOW) {
+  /* proceed */
+}
 ```
 
 ---
@@ -94,10 +99,10 @@ All adapters use Node.js built-in `node:crypto` — no third-party runtime depen
 
 #### `AesGcmCipher`
 
-AES-256-GCM authenticated encryption.  A fresh random IV is generated per `encrypt` call.  The key string is normalised to 256 bits via SHA-256, so any string length is accepted.
+AES-256-GCM authenticated encryption. A fresh random IV is generated per `encrypt` call. The key string is normalised to 256 bits via SHA-256, so any string length is accepted.
 
 ```ts
-import { AesGcmCipher } from '@acme/security';
+import { AesGcmCipher } from '@marcusprado02/security';
 
 const cipher = new AesGcmCipher();
 const result = cipher.encrypt('my secret', process.env.ENCRYPTION_KEY!);
@@ -114,7 +119,7 @@ const plain = cipher.decrypt(result, process.env.ENCRYPTION_KEY!);
 Deterministic SHA-256 hex digest. Suitable for checksums and fingerprinting; for passwords use a slow KDF instead.
 
 ```ts
-import { Sha256Hasher } from '@acme/security';
+import { Sha256Hasher } from '@marcusprado02/security';
 
 const hasher = new Sha256Hasher();
 hasher.hash('hello');
@@ -123,10 +128,10 @@ hasher.hash('hello');
 
 #### `HmacSha256Signer`
 
-HMAC-SHA256 signing / verification.  Uses `timingSafeEqual` in `verify` to prevent timing-based side-channel attacks.
+HMAC-SHA256 signing / verification. Uses `timingSafeEqual` in `verify` to prevent timing-based side-channel attacks.
 
 ```ts
-import { HmacSha256Signer } from '@acme/security';
+import { HmacSha256Signer } from '@marcusprado02/security';
 
 const signer = new HmacSha256Signer();
 const sig = signer.sign('payload', process.env.HMAC_KEY!);
@@ -135,10 +140,10 @@ signer.verify('payload', process.env.HMAC_KEY!, sig); // true
 
 #### `PiiMasker`
 
-General-purpose PII masker.  Replaces the middle of a string with `*` (or a custom character), leaving an optional visible prefix and/or suffix.
+General-purpose PII masker. Replaces the middle of a string with `*` (or a custom character), leaving an optional visible prefix and/or suffix.
 
 ```ts
-import { PiiMasker } from '@acme/security';
+import { PiiMasker } from '@marcusprado02/security';
 
 const masker = new PiiMasker();
 
@@ -162,8 +167,8 @@ masker.mask('sensitive', { maskChar: '#' });
 Implement `AuthenticatorPort` or `PolicyEnginePort` to add new adapters (OIDC, OPA, Cedar, etc.) without changing any consumer code.
 
 ```ts
-import type { AuthenticatorPort, AuthenticatedPrincipal, AuthError } from '@acme/security';
-import type { Result } from '@acme/kernel';
+import type { AuthenticatorPort, AuthenticatedPrincipal, AuthError } from '@marcusprado02/security';
+import type { Result } from '@marcusprado02/kernel';
 
 class OidcAuthenticator implements AuthenticatorPort {
   authenticate(token: string): Promise<Result<AuthenticatedPrincipal, AuthError>> {
@@ -210,5 +215,5 @@ This is a private monorepo package — reference it via pnpm workspace:
 
 ```jsonc
 // package.json
-{ "dependencies": { "@acme/security": "workspace:*" } }
+{ "dependencies": { "@marcusprado02/security": "workspace:*" } }
 ```

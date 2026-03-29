@@ -1,4 +1,4 @@
-import type { LoggerPort } from '@acme/kernel';
+import type { LoggerPort } from '@marcusprado02/kernel';
 import { LogLevel } from './LogLevel';
 
 /**

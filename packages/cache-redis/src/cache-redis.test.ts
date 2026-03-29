@@ -6,10 +6,10 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type -- test helper functions */
 /* eslint-disable max-lines-per-function -- test files naturally have longer functions */
 /**
- * Tests for @acme/cache-redis adapter
+ * Tests for @marcusprado02/cache-redis adapter
  */
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { Duration } from '@acme/kernel';
+import { Duration } from '@marcusprado02/kernel';
 import { RedisCache } from './RedisCache';
 import { RedisLock, RedisLockError } from './RedisLock';
 import { RedisPubSub } from './RedisPubSub';
@@ -20,14 +20,14 @@ import type { RedisClientLike, RedisPubSubClientLike } from './RedisClientLike';
 
 function buildClient(): RedisClientLike {
   return {
-    get:     vi.fn(),
-    set:     vi.fn().mockResolvedValue('OK'),
-    del:     vi.fn().mockResolvedValue(1),
-    exists:  vi.fn(),
-    keys:    vi.fn().mockResolvedValue([]),
+    get: vi.fn(),
+    set: vi.fn().mockResolvedValue('OK'),
+    del: vi.fn().mockResolvedValue(1),
+    exists: vi.fn(),
+    keys: vi.fn().mockResolvedValue([]),
     publish: vi.fn().mockResolvedValue(1),
-    ping:    vi.fn().mockResolvedValue('PONG'),
-    quit:    vi.fn().mockResolvedValue('OK'),
+    ping: vi.fn().mockResolvedValue('PONG'),
+    quit: vi.fn().mockResolvedValue('OK'),
   } as unknown as RedisClientLike;
 }
 
@@ -35,7 +35,7 @@ function buildSubscriber(
   onMessageCapture: (listener: (ch: string, msg: string) => void) => void,
 ): RedisPubSubClientLike {
   const sub: RedisPubSubClientLike = {
-    subscribe:   vi.fn().mockResolvedValue(undefined),
+    subscribe: vi.fn().mockResolvedValue(undefined),
     unsubscribe: vi.fn().mockResolvedValue(undefined),
     on: vi.fn().mockImplementation((event: string, listener) => {
       if (event === 'message') onMessageCapture(listener as (ch: string, msg: string) => void);
@@ -54,7 +54,7 @@ describe('RedisCache', () => {
 
   beforeEach(() => {
     client = buildClient();
-    cache  = new RedisCache(client);
+    cache = new RedisCache(client);
   });
 
   it('get() should return Option.some with the deserialized value on a cache hit', async () => {
@@ -127,7 +127,7 @@ describe('RedisLock', () => {
 
   beforeEach(() => {
     client = buildClient();
-    lock   = new RedisLock(client, 5_000);
+    lock = new RedisLock(client, 5_000);
   });
 
   it('acquire() should return true when SET NX PX returns OK', async () => {
@@ -175,9 +175,11 @@ describe('RedisPubSub', () => {
   let messageListener: ((channel: string, message: string) => void) | undefined;
 
   beforeEach(() => {
-    client     = buildClient();
-    subscriber = buildSubscriber((l) => { messageListener = l; });
-    pubSub     = new RedisPubSub(client, subscriber);
+    client = buildClient();
+    subscriber = buildSubscriber((l) => {
+      messageListener = l;
+    });
+    pubSub = new RedisPubSub(client, subscriber);
   });
 
   it('publish() should delegate to the publisher client', async () => {
@@ -226,7 +228,7 @@ describe('RedisConnection', () => {
   let connection: RedisConnection;
 
   beforeEach(() => {
-    client     = buildClient();
+    client = buildClient();
     connection = new RedisConnection(client);
   });
 

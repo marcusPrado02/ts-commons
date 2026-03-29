@@ -1,4 +1,4 @@
-import { ValueObject } from '@acme/kernel';
+import { ValueObject } from '@marcusprado02/kernel';
 
 export class SemVer extends ValueObject<string> {
   private readonly major: number;

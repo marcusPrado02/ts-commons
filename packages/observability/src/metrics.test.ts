@@ -1,5 +1,5 @@
 /**
- * Tests for @acme/observability — Analytics & Metrics (Item 41)
+ * Tests for @marcusprado02/observability — Analytics & Metrics (Item 41)
  *
  * InMemoryMetrics · CompositeMetrics · GrafanaMetricsExporter · DataDogMetricsExporter
  */

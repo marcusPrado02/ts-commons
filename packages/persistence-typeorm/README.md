@@ -1,4 +1,4 @@
-# @acme/persistence-typeorm
+# @marcusprado02/persistence-typeorm
 
 TypeORM adapter for Clean Architecture persistence patterns.
 
@@ -14,7 +14,7 @@ TypeORM adapter for Clean Architecture persistence patterns.
 ## Installation
 
 ```bash
-pnpm add @acme/persistence-typeorm
+pnpm add @marcusprado02/persistence-typeorm
 ```
 
 ## Quick Start
@@ -56,7 +56,7 @@ class UserEntity {
 ### 2. Implement Mapper
 
 ```typescript
-import { TypeORMMapper } from '@acme/persistence-typeorm';
+import { TypeORMMapper } from '@marcusprado02/persistence-typeorm';
 
 class UserMapper implements TypeORMMapper<User, UserEntity> {
   toPersistence(domain: User): UserEntity {
@@ -82,14 +82,11 @@ class UserMapper implements TypeORMMapper<User, UserEntity> {
 ### 3. Create Repository
 
 ```typescript
-import { TypeORMRepository } from '@acme/persistence-typeorm';
+import { TypeORMRepository } from '@marcusprado02/persistence-typeorm';
 import { Repository, FindOptionsWhere } from 'typeorm';
 
 class UserRepository extends TypeORMRepository<User, UserId, UserEntity> {
-  constructor(
-    repository: Repository<UserEntity>,
-    mapper: UserMapper
-  ) {
+  constructor(repository: Repository<UserEntity>, mapper: UserMapper) {
     super(repository, mapper);
   }
 
@@ -158,7 +155,7 @@ await userRepo.delete({ value: '123' });
 ## Unit of Work & Transactions
 
 ```typescript
-import { TypeORMUnitOfWork } from '@acme/persistence-typeorm';
+import { TypeORMUnitOfWork } from '@marcusprado02/persistence-typeorm';
 
 const unitOfWork = new TypeORMUnitOfWork(dataSource);
 
@@ -175,15 +172,13 @@ await unitOfWork.transaction(async (manager) => {
 });
 
 // With Result type
-import { Result } from '@acme/kernel';
+import { Result } from '@marcusprado02/kernel';
 
-const result = await unitOfWork.transactionResult<void, Error>(
-  async (manager) => {
-    const userRepo = manager.getRepository(UserEntity);
-    await userRepo.save(user);
-    return Result.ok(undefined);
-  }
-);
+const result = await unitOfWork.transactionResult<void, Error>(async (manager) => {
+  const userRepo = manager.getRepository(UserEntity);
+  await userRepo.save(user);
+  return Result.ok(undefined);
+});
 
 if (result.isOk()) {
   console.log('Transaction successful');
@@ -195,8 +190,8 @@ if (result.isOk()) {
 ## Pagination
 
 ```typescript
-import { TypeORMPaginator } from '@acme/persistence-typeorm';
-import { PageRequest } from '@acme/persistence';
+import { TypeORMPaginator } from '@marcusprado02/persistence-typeorm';
+import { PageRequest } from '@marcusprado02/persistence';
 
 const paginator = new TypeORMPaginator(typeormRepo, mapper);
 
@@ -213,9 +208,9 @@ const page = await paginator.findPage(pageRequest, {
   where: { active: true },
 });
 
-console.log(page.items);       // Up to 20 items
-console.log(page.total);       // Total count
-console.log(page.hasNext);     // true if more pages
+console.log(page.items); // Up to 20 items
+console.log(page.total); // Total count
+console.log(page.hasNext); // true if more pages
 console.log(page.hasPrevious); // true if not first page
 ```
 
@@ -357,15 +352,15 @@ const userRepo = new UserRepository(mockRepository, mapper);
 
 ## Comparison with Other ORMs
 
-| Feature | TypeORM | Prisma | Mongoose |
-|---------|---------|--------|----------|
-| TypeScript Support | ✅ Native | ✅ Native | ⚠️ Partial |
-| Multiple Databases | ✅ Yes | ✅ Yes | ❌ MongoDB only |
-| Migrations | ✅ Built-in | ✅ Built-in | ❌ Manual |
-| Type Safety | ✅ Decorators | ✅ Generated | ⚠️ Schemas |
-| Active Record | ✅ Yes | ❌ Data Mapper | ✅ Yes |
-| Query Builder | ✅ Yes | ✅ Yes | ✅ Yes |
-| Performance | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
+| Feature            | TypeORM       | Prisma         | Mongoose        |
+| ------------------ | ------------- | -------------- | --------------- |
+| TypeScript Support | ✅ Native     | ✅ Native      | ⚠️ Partial      |
+| Multiple Databases | ✅ Yes        | ✅ Yes         | ❌ MongoDB only |
+| Migrations         | ✅ Built-in   | ✅ Built-in    | ❌ Manual       |
+| Type Safety        | ✅ Decorators | ✅ Generated   | ⚠️ Schemas      |
+| Active Record      | ✅ Yes        | ❌ Data Mapper | ✅ Yes          |
+| Query Builder      | ✅ Yes        | ✅ Yes         | ✅ Yes          |
+| Performance        | ⭐⭐⭐        | ⭐⭐⭐⭐       | ⭐⭐⭐          |
 
 ## License
 

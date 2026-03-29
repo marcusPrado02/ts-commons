@@ -14,7 +14,7 @@ import type { OtelMeterClientLike } from './OtelMeterClientLike';
  * @example
  * ```typescript
  * import { metrics } from '@opentelemetry/api';
- * import { OtelMetrics } from '@acme/observability-otel';
+ * import { OtelMetrics } from '@marcusprado02/observability-otel';
  *
  * const m = new OtelMetrics(metrics.getMeter('my-service'));
  * m.incrementCounter('http.requests', 1, { method: 'GET', status: '200' });
@@ -22,8 +22,11 @@ import type { OtelMeterClientLike } from './OtelMeterClientLike';
  * ```
  */
 export class OtelMetrics implements MetricsPort {
-  private readonly counters   = new Map<string, ReturnType<OtelMeterClientLike['createCounter']>>();
-  private readonly histograms = new Map<string, ReturnType<OtelMeterClientLike['createHistogram']>>();
+  private readonly counters = new Map<string, ReturnType<OtelMeterClientLike['createCounter']>>();
+  private readonly histograms = new Map<
+    string,
+    ReturnType<OtelMeterClientLike['createHistogram']>
+  >();
 
   constructor(private readonly meter: OtelMeterClientLike) {}
 

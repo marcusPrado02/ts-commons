@@ -9,15 +9,12 @@
  */
 
 import type { FastifyRequest, FastifyReply } from 'fastify';
-import type { UseCase } from '@acme/application';
+import type { UseCase } from '@marcusprado02/application';
 
 /**
  * Route handler type for Fastify
  */
-export type FastifyRouteHandler = (
-  request: FastifyRequest,
-  reply: FastifyReply
-) => Promise<void>;
+export type FastifyRouteHandler = (request: FastifyRequest, reply: FastifyReply) => Promise<void>;
 
 /**
  * Adapter for Fastify controllers
@@ -29,7 +26,7 @@ export type FastifyRouteHandler = (
  *
  * @example
  * ```typescript
- * import { FastifyControllerAdapter } from '@acme/web-fastify';
+ * import { FastifyControllerAdapter } from '@marcusprado02/web-fastify';
  *
  * app.post('/users', FastifyControllerAdapter.adaptCreate(createUserUseCase));
  * app.get('/users/:id', FastifyControllerAdapter.adaptQuery(getUserUseCase));
@@ -41,7 +38,7 @@ export class FastifyControllerAdapter {
    * Automatically selects HTTP status based on Result type
    */
   static adapt<TInput, TOutput, TError extends Error>(
-    useCase: UseCase<TInput, TOutput, TError>
+    useCase: UseCase<TInput, TOutput, TError>,
   ): FastifyRouteHandler {
     return async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {
       const result = await useCase.execute(request.body as TInput);
@@ -61,7 +58,7 @@ export class FastifyControllerAdapter {
    * Returns 200 OK on success
    */
   static adaptCommand<TInput, TOutput, TError extends Error>(
-    useCase: UseCase<TInput, TOutput, TError>
+    useCase: UseCase<TInput, TOutput, TError>,
   ): FastifyRouteHandler {
     return async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {
       const result = await useCase.execute(request.body as TInput);
@@ -81,7 +78,7 @@ export class FastifyControllerAdapter {
    * Returns 200 OK with data
    */
   static adaptQuery<TInput, TOutput, TError extends Error>(
-    useCase: UseCase<TInput, TOutput, TError>
+    useCase: UseCase<TInput, TOutput, TError>,
   ): FastifyRouteHandler {
     return async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {
       const input = {
@@ -106,7 +103,7 @@ export class FastifyControllerAdapter {
    * Returns 201 Created on success
    */
   static adaptCreate<TInput, TOutput, TError extends Error>(
-    useCase: UseCase<TInput, TOutput, TError>
+    useCase: UseCase<TInput, TOutput, TError>,
   ): FastifyRouteHandler {
     return async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {
       const result = await useCase.execute(request.body as TInput);
@@ -126,7 +123,7 @@ export class FastifyControllerAdapter {
    * Returns 204 No Content on success
    */
   static adaptDelete<TInput, TError extends Error>(
-    useCase: UseCase<TInput, void, TError>
+    useCase: UseCase<TInput, void, TError>,
   ): FastifyRouteHandler {
     return async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {
       const input = {

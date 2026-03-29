@@ -254,20 +254,20 @@ Criada estrutura completa de monorepo com pnpm workspaces:
 - 100 arquivos TypeScript implementados
 
 **Pacotes criados:**
-- `@acme/kernel` - DDD core (29 arquivos, ZERO dependências)
-- `@acme/application` - CQRS e use cases (16 arquivos)
-- `@acme/errors` - Problem Details RFC 7807 (9 arquivos)
-- `@acme/config` - 12-factor configuration (8 arquivos)
-- `@acme/security` - AuthN/AuthZ (6 arquivos)
-- `@acme/observability` - Logging estruturado (5 arquivos)
-- `@acme/messaging` - Event envelope (5 arquivos)
-- `@acme/resilience` - Fault tolerance (5 arquivos)
-- `@acme/testing` - Fakes e utilities (4 arquivos)
-- `@acme/web` - HTTP adapters (4 arquivos)
-- `@acme/contracts` - API contracts (3 arquivos)
-- `@acme/outbox` - Transactional outbox (3 arquivos)
-- `@acme/persistence` - Repository pattern (3 arquivos)
-- `@acme/web-nestjs` - NestJS adapter (16 arquivos) - **NOVO**
+- `@marcusprado02/kernel` - DDD core (29 arquivos, ZERO dependências)
+- `@marcusprado02/application` - CQRS e use cases (16 arquivos)
+- `@marcusprado02/errors` - Problem Details RFC 7807 (9 arquivos)
+- `@marcusprado02/config` - 12-factor configuration (8 arquivos)
+- `@marcusprado02/security` - AuthN/AuthZ (6 arquivos)
+- `@marcusprado02/observability` - Logging estruturado (5 arquivos)
+- `@marcusprado02/messaging` - Event envelope (5 arquivos)
+- `@marcusprado02/resilience` - Fault tolerance (5 arquivos)
+- `@marcusprado02/testing` - Fakes e utilities (4 arquivos)
+- `@marcusprado02/web` - HTTP adapters (4 arquivos)
+- `@marcusprado02/contracts` - API contracts (3 arquivos)
+- `@marcusprado02/outbox` - Transactional outbox (3 arquivos)
+- `@marcusprado02/persistence` - Repository pattern (3 arquivos)
+- `@marcusprado02/web-nestjs` - NestJS adapter (16 arquivos) - **NOVO**
 
 **Correções realizadas:**
 - ✅ Configurado `@types/node` para resolver APIs Node.js
@@ -318,7 +318,7 @@ Criada estrutura completa de monorepo com pnpm workspaces:
 **Implementação realizada:**
 
 **Pacote criado:**
-- `@acme/architecture-tests` - Framework de validação arquitetural
+- `@marcusprado02/architecture-tests` - Framework de validação arquitetural
 
 **Analyzers implementados:**
 1. **DependencyAnalyzer** - Clean Architecture
@@ -388,7 +388,7 @@ Criada estrutura completa de monorepo com pnpm workspaces:
 **Descrição**: Adicionar testes unitários e de integração para todos os pacotes.
 
 **Tarefas**:
-- [ ] **@acme/kernel** (target: 95% coverage):
+- [ ] **@marcusprado02/kernel** (target: 95% coverage):
   - [ ] Testes para Entity, AggregateRoot, ValueObject
   - [ ] Testes para DomainEvent e event recording
   - [ ] Testes para Result, Option, Either
@@ -396,7 +396,7 @@ Criada estrutura completa de monorepo com pnpm workspaces:
   - [ ] Testes para Specification pattern
   - [ ] Testes para identity types (UUID, ULID, TenantId, etc)
 
-- [ ] **@acme/application** (target: 90% coverage):
+- [ ] **@marcusprado02/application** (target: 90% coverage):
   - [ ] Testes para CommandBus e handlers
   - [ ] Testes para QueryBus e handlers
   - [ ] Testes para UseCaseContext
@@ -404,7 +404,7 @@ Criada estrutura completa de monorepo com pnpm workspaces:
   - [ ] Testes para UnitOfWork
   - [ ] Testes para Validator
 
-- [ ] **@acme/errors** (target: 85% coverage):
+- [ ] **@marcusprado02/errors** (target: 85% coverage):
   - [ ] Testes para ProblemDetails builder
   - [ ] Testes para HttpError
   - [ ] Testes para HttpErrorMapper
@@ -648,14 +648,14 @@ Criada estrutura completa de monorepo com pnpm workspaces:
 
 ### 6. ✅ Implementar validação de regras arquiteturais
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/architecture-tests`  
+**Pacotes afetados**: `@marcusprado02/architecture-tests`  
 **Estimativa**: 1 semana  
 **Status**: Concluído em 18/02/2026
 
 **Descrição**: Garantir conformidade arquitetural através de testes automatizados.
 
 **Tarefas implementadas:**
-- ✅ **Criado pacote `@acme/architecture-tests`**
+- ✅ **Criado pacote `@marcusprado02/architecture-tests`**
 - ✅ **Implementados 3 analyzers principais**:
   - ✅ DependencyAnalyzer - Clean Architecture (validação de camadas)
   - ✅ CQRSAnalyzer - CQRS patterns (Commands, Queries, Handlers)
@@ -691,7 +691,7 @@ Criada estrutura completa de monorepo com pnpm workspaces:
 
 ### 7. ✅ Adapter Express.js
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/web-express`  
+**Pacotes afetados**: `@marcusprado02/web-express`  
 **Estimativa**: 1 semana  
 **Status**: Concluído em 18/02/2026
 
@@ -699,7 +699,7 @@ Criada estrutura completa de monorepo com pnpm workspaces:
 
 **Implementação realizada:**
 
-- ✅ **Criado pacote `@acme/web-express`** com estrutura completa
+- ✅ **Criado pacote `@marcusprado02/web-express`** com estrutura completa
 - ✅ **4 Middlewares implementados**:
   - ✅ `CorrelationMiddleware` - Geração/extração de correlation IDs (UUID)
   - ✅ `ErrorHandlerMiddleware` - Conversão de erros para Problem Details RFC 7807
@@ -757,7 +757,7 @@ import {
   errorHandlerMiddleware,
   loggingMiddleware,
   ExpressControllerAdapter 
-} from '@acme/web-express';
+} from '@marcusprado02/web-express';
 
 const app = express();
 
@@ -779,7 +779,7 @@ app.use(errorHandlerMiddleware(logger));
 
 ### 8. ✅ Adapter Fastify
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/web-fastify`  
+**Pacotes afetados**: `@marcusprado02/web-fastify`  
 **Estimativa**: 1 semana  
 **Status**: Concluído em 18/02/2026
 
@@ -787,7 +787,7 @@ app.use(errorHandlerMiddleware(logger));
 
 **Implementação realizada:**
 
-- ✅ **Criado pacote `@acme/web-fastify`** com estrutura completa
+- ✅ **Criado pacote `@marcusprado02/web-fastify`** com estrutura completa
 - ✅ **3 Hooks implementados**:
   - ✅ `correlationHook` - Geração/extração de correlation IDs (UUID) com suporte async
   - ✅ `errorHandlerHook` - Conversão de erros para Problem Details RFC 7807
@@ -845,7 +845,7 @@ import {
   errorHandlerHook,
   loggingHook,
   FastifyControllerAdapter 
-} from '@acme/web-fastify';
+} from '@marcusprado02/web-fastify';
 
 const app = Fastify();
 
@@ -875,7 +875,7 @@ await app.listen({ port: 3000 });
 
 ### 8. ✅ ESLint Compliance Completo
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/web-express`, `@acme/web-fastify`  
+**Pacotes afetados**: `@marcusprado02/web-express`, `@marcusprado02/web-fastify`  
 **Estimativa**: 1 semana  
 **Status**: Concluído em 18/02/2026
 
@@ -942,7 +942,7 @@ await app.listen({ port: 3000 });
 
 ### 9. ✅ Adapter NestJS
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/web-nestjs`  
+**Pacotes afetados**: `@marcusprado02/web-nestjs`  
 **Estimativa**: 2 semanas  
 **Status**: Concluído em 18/02/2026
 
@@ -950,7 +950,7 @@ await app.listen({ port: 3000 });
 
 **Tarefas implementadas:**
 
-- ✅ **Criado pacote `@acme/web-nestjs`** com estrutura completa:
+- ✅ **Criado pacote `@marcusprado02/web-nestjs`** com estrutura completa:
   - ✅ package.json com NestJS 10.3.3, rxjs 7.8.2, reflect-metadata 0.2.1
   - ✅ tsconfig.json com suporte a decorators (emitDecoratorMetadata, experimentalDecorators)
   - ✅ vitest.config.ts com @nestjs/testing integration
@@ -1017,7 +1017,7 @@ await app.listen({ port: 3000 });
   - ✅ IdempotencyKey.from() → IdempotencyKey.create()
   - ✅ ConsoleLogger não exportado → Logger object default
   - ✅ LogLevel não exportado → String union type
-  - ✅ ValidationError → Importado de @acme/application
+  - ✅ ValidationError → Importado de @marcusprado02/application
   - ✅ ProblemDetails.builder() não existe → Plain object construction
   - ✅ RetryPolicy/TimeoutPolicy não disponíveis → Simplificado CommonsResilienceModule
   - ✅ CircuitBreaker constructor signature → Fixed (failureThreshold, resetTimeoutMs)
@@ -1042,7 +1042,7 @@ import {
   CommonsObservabilityModule,
   CommonsResilienceModule,
   CommonsOutboxModule,
-} from '@acme/web-nestjs';
+} from '@marcusprado02/web-nestjs';
 
 @Module({
   imports: [
@@ -1059,7 +1059,7 @@ import {
 export class AppModule {}
 
 // 2. Use decorators
-import { UseCase, QueryHandler, CommandHandler } from '@acme/web-nestjs';
+import { UseCase, QueryHandler, CommandHandler } from '@marcusprado02/web-nestjs';
 
 @Controller('users')
 @UseCase('UserManagement')
@@ -1084,7 +1084,7 @@ import {
   ErrorMappingInterceptor,
   IdempotencyGuard,
   RateLimitGuard,
-} from '@acme/web-nestjs';
+} from '@marcusprado02/web-nestjs';
 
 @Module({
   providers: [
@@ -1098,8 +1098,8 @@ import {
 export class AppModule {}
 
 // 4. Use ValidationPipe with Result types
-import { ValidationPipe, ValidatorFn } from '@acme/web-nestjs';
-import { Result } from '@acme/kernel';
+import { ValidationPipe, ValidatorFn } from '@marcusprado02/web-nestjs';
+import { Result } from '@marcusprado02/kernel';
 
 const createUserValidator: ValidatorFn<CreateUserDto> = (data) => {
   const dto = data as CreateUserDto;
@@ -1160,7 +1160,7 @@ export class UsersController {
 
 ### 9. ✅ Adapter NestJS
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/web-nestjs`  
+**Pacotes afetados**: `@marcusprado02/web-nestjs`  
 **Estimativa**: 2 semanas  
 **Status**: Concluído em 18/02/2026
 
@@ -1181,7 +1181,7 @@ export class UsersController {
 
 ### 13. ✅ Adapter TypeORM
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/persistence-typeorm`  
+**Pacotes afetados**: `@marcusprado02/persistence-typeorm`  
 **Estimativa**: 2 semanas  
 **Status**: Concluído em 18/02/2026
 
@@ -1204,7 +1204,7 @@ export class UsersController {
 
 ### 10. ✅ 💬 Adapter RabbitMQ
 **Prioridade**: Alta  
-**Pacotes afetados**: Novo pacote `@acme/messaging-rabbitmq`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/messaging-rabbitmq`  
 **Estimativa**: 2 semanas
 **Status**: ✅ **CONCLUÍDO**
 
@@ -1264,7 +1264,7 @@ export class RabbitMQConnection {
 
 ### 11. ✅ 📡 Adapter Kafka
 **Prioridade**: Alta  
-**Pacotes afetados**: Novo pacote `@acme/messaging-kafka`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/messaging-kafka`  
 **Estimativa**: 2 semanas
 **Status**: ✅ **CONCLUÍDO**
 
@@ -1338,7 +1338,7 @@ export class KafkaConnection {
 
 ### 12. ✅ 🔔 Adapter EventBridge (AWS)
 **Prioridade**: Baixa  
-**Pacotes afetados**: Novo pacote `@acme/messaging-eventbridge`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/messaging-eventbridge`  
 **Estimativa**: 1 semana
 **Status**: ✅ **CONCLUÍDO**
 
@@ -1401,7 +1401,7 @@ export class EventBridgeConnection {
 
 ### 13. ✅ 🗄️ Adapter TypeORM
 **Prioridade**: Alta  
-**Pacotes afetados**: Novo pacote `@acme/persistence-typeorm`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/persistence-typeorm`  
 **Estimativa**: 2 semanas
 **Status**: ✅ **CONCLUÍDO**
 
@@ -1450,7 +1450,7 @@ export abstract class TypeORMRepository<
 
 ### 14. ✅ Adapter Prisma
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/persistence-prisma`  
+**Pacotes afetados**: `@marcusprado02/persistence-prisma`  
 **Status**: Concluído
 
 **Descrição**: Adapter para Prisma ORM com suporte a Clean Architecture, unit of work, paginação e soft delete. Sem dependência de tipos gerados (`@prisma/client` é peer opcional — cada consumidor traz o próprio cliente gerado).
@@ -1516,7 +1516,7 @@ export interface PrismaClientLike {
 
 ### 15. ✅ Adapter MongoDB
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/persistence-mongodb`  
+**Pacotes afetados**: `@marcusprado02/persistence-mongodb`  
 **Status**: Concluído
 
 **Descrição**: Adapter para MongoDB native driver com suporte a Clean Architecture, unit of work, paginação e soft delete. Usa structural typing (`MongoCollectionLike`, `MongoClientLike`) — sem import direto de `mongodb` na biblioteca.
@@ -1585,7 +1585,7 @@ export interface MongoSessionLike {
 
 ### 16. ✅ Adapter Redis
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/cache-redis`  
+**Pacotes afetados**: `@marcusprado02/cache-redis`  
 **Status**: Concluído
 
 **Descrição**: Cache adapter Redis com structural typing (`RedisClientLike`, `RedisPubSubClientLike`) — sem import direto de `ioredis` na biblioteca. Suporta cache com `Option<T>`, lock distribuído, pub/sub e health check.
@@ -1638,7 +1638,7 @@ export interface MongoSessionLike {
 
 ### 17. ✅ Secrets Management
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/secrets`  
+**Pacotes afetados**: `@marcusprado02/secrets`  
 **Status**: Concluído
 
 **Descrição**: Abstração para gerenciamento de secrets com structural typing (`AwsSsmClientLike`) — sem import direto de `@aws-sdk/client-ssm` na biblioteca. Suporta env vars, cache com TTL, fallback chain e AWS SSM Parameter Store.
@@ -1693,10 +1693,10 @@ export interface MongoSessionLike {
 
 ### 18. ✅ Authentication & Authorization
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/security`  
+**Pacotes afetados**: `@marcusprado02/security`  
 **Status**: Concluído
 
-**Descrição**: Expansão do módulo `@acme/security` com autenticação JWT e API Key, autorização RBAC, e redesenho dos ports para retornar `Result<AuthenticatedPrincipal, AuthError>` em vez de nullable.
+**Descrição**: Expansão do módulo `@marcusprado02/security` com autenticação JWT e API Key, autorização RBAC, e redesenho dos ports para retornar `Result<AuthenticatedPrincipal, AuthError>` em vez de nullable.
 
 **Implementação realizada:**
 
@@ -1748,7 +1748,7 @@ export interface MongoSessionLike {
 
 ### 19. ✅ Encryption utilities
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/security`  
+**Pacotes afetados**: `@marcusprado02/security`  
 **Status**: Concluído
 
 **Descrição**: Utilitários criptográficos usando exclusivamente o módulo built-in `node:crypto` (sem dependências externas de runtime): cifra simétrica autenticada, hash one-way, assinatura HMAC e mascaramento de PII.
@@ -1791,7 +1791,7 @@ export interface MongoSessionLike {
 
 ### 20. ✅ OpenTelemetry integration
 **Prioridade**: Alta  
-**Pacotes afetados**: Novo pacote `@acme/observability-otel`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/observability-otel`  
 **Status**: Concluído
 
 **Descrição**: Novo pacote de adapters OpenTelemetry com structural typing — sem import direto de `@opentelemetry/api` na biblioteca. Fornece `TracerPort` e `MetricsPort` com adapters OTel reais e No-op para testes.
@@ -1831,7 +1831,7 @@ export interface MongoSessionLike {
 
 ### 21. ✅ Structured logging
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/observability`  
+**Pacotes afetados**: `@marcusprado02/observability`  
 **Status**: Concluído
 
 **Descrição**: Expansão do módulo de logging com filtro dinâmico de nível, amostragem de logs e medição de performance operacional.
@@ -1874,10 +1874,10 @@ export interface MongoSessionLike {
 
 ### 22. ✅ Expandir módulo de resilience
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/resilience`  
+**Pacotes afetados**: `@marcusprado02/resilience`  
 **Status**: Concluído
 
-**Descrição**: Adição de patterns de resiliência avançados ao pacote `@acme/resilience`, sem dependências externas.
+**Descrição**: Adição de patterns de resiliência avançados ao pacote `@marcusprado02/resilience`, sem dependências externas.
 
 **Implementação realizada:**
 
@@ -1918,7 +1918,7 @@ export interface MongoSessionLike {
 
 ### 23. ✅ Expandir suporte a idempotência
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/application`  
+**Pacotes afetados**: `@marcusprado02/application`  
 **Status**: Concluído
 
 **Descrição**: Expansão do suporte a idempotência com implementação in-memory, wrapper de use case e métricas.
@@ -1962,7 +1962,7 @@ export interface MongoSessionLike {
 
 ### 24. ✅ Implementar Outbox Relay
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/outbox`  
+**Pacotes afetados**: `@marcusprado02/outbox`  
 **Status**: Concluído
 
 **Descrição**: Processar mensagens do outbox automaticamente com backoff exponencial, DLQ e métricas.
@@ -2006,7 +2006,7 @@ export interface MongoSessionLike {
 
 ### 25. ✅ Test utilities e helpers
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/testing`  
+**Pacotes afetados**: `@marcusprado02/testing`  
 **Status**: Concluído
 
 **Descrição**: Expansão de ferramentas de teste com builders genéricos, fixtures, custom matchers Vitest e utilities de performance.
@@ -2027,7 +2027,7 @@ export interface MongoSessionLike {
 - `src/fakes/InMemoryOutboxStore.ts` — fix `require-await` (removido `async`, usa `Promise.resolve()`); fix `exactOptionalPropertyTypes` em `markAsPublished`
 - `src/fakes/InMemoryIdempotencyStore.ts` — fix `require-await` (removido `async`, usa `Promise.resolve()`)
 - `src/index.ts` — exports dos novos artefatos
-- `package.json` — `lint`, `test:watch` scripts + `vitest`, `@types/node`, `@acme/messaging` deps
+- `package.json` — `lint`, `test:watch` scripts + `vitest`, `@types/node`, `@marcusprado02/messaging` deps
 - `tsconfig.json` — `composite: true`, `../messaging` reference
 
 **Resultados:**
@@ -2052,7 +2052,7 @@ export interface MongoSessionLike {
 
 ### 26. ✅ Testcontainers support
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/testing`  
+**Pacotes afetados**: `@marcusprado02/testing`  
 **Status**: Concluído
 
 **Descrição**: Infraestrutura de containers para testes de integração, sem dependência direta em `testcontainers` npm — baseada em porta/fake/harness.
@@ -2094,7 +2094,7 @@ export interface MongoSessionLike {
 
 ### 27. ✅ 🔗 HATEOAS support
 **Prioridade**: Baixa  
-**Pacotes afetados**: `@acme/web`  
+**Pacotes afetados**: `@marcusprado02/web`  
 **Estimativa**: 1 semana
 
 **Descrição**: Suporte a Hypermedia.
@@ -2111,7 +2111,7 @@ export interface MongoSessionLike {
 
 ### 28. ✅ 📋 OpenAPI / Swagger generation
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/contracts`  
+**Pacotes afetados**: `@marcusprado02/contracts`  
 **Estimativa**: 1 semana
 
 **Descrição**: Geração automática de documentação API.
@@ -2129,7 +2129,7 @@ export interface MongoSessionLike {
 
 ### 29. ✅ Request validation
 **Prioridade**: Alta  
-**Pacotes afetados**: Novo pacote `@acme/validation`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/validation`  
 **Estimativa**: 1 semana
 
 **Descrição**: Framework de validação de requests com integração Zod, validadores customizados e suporte a validação assíncrona.
@@ -2149,10 +2149,10 @@ export interface MongoSessionLike {
 
 ### 30. ✅ Expandir DDD building blocks
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/kernel`  
+**Pacotes afetados**: `@marcusprado02/kernel`  
 **Estimativa**: 1-2 semanas
 
-**Descrição**: Expansão dos patterns DDD táticos em `@acme/kernel`.
+**Descrição**: Expansão dos patterns DDD táticos em `@marcusprado02/kernel`.
 
 **Implementado**:
 - ✅ **`Factory<T, TProps>`** — abstrato com `create(props): Result<T, DomainError>`; encapsula invariantes de criação
@@ -2236,10 +2236,10 @@ _Tarefas originais (concluídas):_
 
 ### 31. ✅ Event Sourcing
 **Prioridade**: Média  
-**Pacotes afetados**: Novo pacote `@acme/eventsourcing`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/eventsourcing`  
 **Estimativa**: 3 semanas
 
-**Descrição**: Suporte a Event Sourcing com novo pacote `@acme/eventsourcing`.
+**Descrição**: Suporte a Event Sourcing com novo pacote `@marcusprado02/eventsourcing`.
 
 **Implementado**:
 - ✅ **`ConcurrencyError`** — thrown on optimistic-concurrency conflicts
@@ -2258,7 +2258,7 @@ _Tarefas originais (concluídas):_
 
 ### 32. ✅ Pattern matching melhorado
 **Prioridade**: Baixa  
-**Pacotes afetados**: `@acme/kernel`  
+**Pacotes afetados**: `@marcusprado02/kernel`  
 **Estimativa**: 3 dias
 
 **Descrição**: Melhorar sintaxe de pattern matching.
@@ -2276,7 +2276,7 @@ _Tarefas originais (concluídas):_
 
 ### 33. ✅ Result combinators
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/kernel`  
+**Pacotes afetados**: `@marcusprado02/kernel`  
 **Estimativa**: 1 semana
 
 **Descrição**: Adicionar mais operações funcionais.
@@ -2298,7 +2298,7 @@ _Tarefas originais (concluídas):_
 
 ### 34. ✅ Configuration validation melhorada
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/config`  
+**Pacotes afetados**: `@marcusprado02/config`  
 **Estimativa**: 1 semana
 
 **Descrição**: Validação mais robusta de configuração.
@@ -2317,7 +2317,7 @@ _Tarefas originais (concluídas):_
 
 ### 35. 🌍 Multi-tenancy support ✅
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/kernel`  
+**Pacotes afetados**: `@marcusprado02/kernel`  
 **Estimativa**: 2 semanas  
 **Status**: ✅ Concluído
 
@@ -2358,9 +2358,9 @@ _Tarefas originais (concluídas):_
 - [x] **lint-staged** — ESLint + Prettier automáticos no pre-commit
 - [x] **Changesets** — `.changeset/config.json`, scripts `changeset`, `changeset:version`, `changeset:publish`
 - [x] **Workflow `publish.yml`** — `changesets/action@v1`: cria PR de versão automática ou publica no npm
-- [x] **`.npmrc`** — `@acme:registry=https://registry.npmjs.org/`
+- [x] **`.npmrc`** — `@marcusprado02:registry=https://registry.npmjs.org/`
 - [x] **`CHANGELOG.md`** — stub inicial com histórico de items implementados
-- [x] **README badges** — License, CI, Publish workflow, npm (`@acme/kernel`, `@acme/config`), TypeScript, Node.js, pnpm, PRs Welcome
+- [x] **README badges** — License, CI, Publish workflow, npm (`@marcusprado02/kernel`, `@marcusprado02/config`), TypeScript, Node.js, pnpm, PRs Welcome
 - [x] **Root `package.json`** — devDeps: `@changesets/cli`, `@commitlint/cli`, `@commitlint/config-conventional`, `semantic-release` plugins, `husky`, `lint-staged`
 
 **Arquivos criados/modificados**:
@@ -2403,7 +2403,7 @@ _Tarefas originais (concluídas):_
 
 ### 38. 📧 Email sending abstraction ✅
 **Prioridade**: Baixa  
-**Pacotes afetados**: Novo pacote `@acme/email`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/email`  
 **Estimativa**: 1 semana  
 **Status**: ✅ Concluído
 
@@ -2424,7 +2424,7 @@ _Tarefas originais (concluídas):_
 - [x] **36 testes** passando em `email.test.ts`
 
 **Arquivos criados**:
-- `packages/email/package.json` — `@acme/email`, dep `@acme/kernel`
+- `packages/email/package.json` — `@marcusprado02/email`, dep `@marcusprado02/kernel`
 - `packages/email/tsconfig.json`
 - `packages/email/vitest.config.ts`
 - `packages/email/src/EmailTypes.ts`
@@ -2445,7 +2445,7 @@ _Tarefas originais (concluídas):_
 
 ### 39. 📁 File storage abstraction
 **Prioridade**: Baixa  
-**Pacotes afetados**: Novo pacote `@acme/storage`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/storage`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -2459,7 +2459,7 @@ _Tarefas originais (concluídas):_
 
 ### 40. 🔍 Full-text search
 **Prioridade**: Baixa  
-**Pacotes afetados**: Novo pacote `@acme/search`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/search`  
 **Estimativa**: 2 semanas
 
 **Tarefas**:
@@ -2475,7 +2475,7 @@ _Tarefas originais (concluídas):_
 
 ### 41. 📊 Analytics & Metrics
 **Prioridade**: Baixa  
-**Pacotes afetados**: `@acme/observability`  
+**Pacotes afetados**: `@marcusprado02/observability`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -2488,7 +2488,7 @@ _Tarefas originais (concluídas):_
 
 ### 42. 🔔 Notification system
 **Prioridade**: Baixa  
-**Pacotes afetados**: Novo pacote `@acme/notifications`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/notifications`  
 **Estimativa**: 2 semanas
 
 **Tarefas**:
@@ -2503,7 +2503,7 @@ _Tarefas originais (concluídas):_
 
 ### 43. 🗓️ Scheduling & Background Jobs
 **Prioridade**: Média  
-**Pacotes afetados**: Novo pacote `@acme/scheduler`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/scheduler`  
 **Estimativa**: 2 semanas
 
 **Descrição**: Sistema de agendamento e jobs em background.
@@ -2540,7 +2540,7 @@ _Tarefas originais (concluídas):_
 
 ### 44. 🌐 GraphQL support
 **Prioridade**: Baixa  
-**Pacotes afetados**: Novo pacote `@acme/web-graphql`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/web-graphql`  
 **Estimativa**: 2 semanas
 
 **Tarefas**:
@@ -2555,7 +2555,7 @@ _Tarefas originais (concluídas):_
 
 ### 45. 🎛️ Feature flags
 **Prioridade**: Média  
-**Pacotes afetados**: Novo pacote `@acme/features`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/features`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -2584,7 +2584,7 @@ _Tarefas originais (concluídas):_
 
 ### 46. 🔐 Audit logging
 **Prioridade**: Média  
-**Pacotes afetados**: Novo pacote `@acme/audit`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/audit`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -2622,7 +2622,7 @@ _Tarefas originais (concluídas):_
 
 ### 47. 🚀 Performance monitoring
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/observability`  
+**Pacotes afetados**: `@marcusprado02/observability`  
 **Estimativa**: 1 semana
 
 **Descrição**: Monitoramento de performance da aplicação.
@@ -2654,7 +2654,7 @@ _Tarefas originais (concluídas):_
 
 ### 48. 💾 Caching strategies avançadas
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/cache-redis`  
+**Pacotes afetados**: `@marcusprado02/cache-redis`  
 **Estimativa**: 1 semana
 
 **Descrição**: Estratégias avançadas de cache.
@@ -2694,7 +2694,7 @@ _Tarefas originais (concluídas):_
 
 ### 49. 🔧 Query optimization
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/persistence`  
+**Pacotes afetados**: `@marcusprado02/persistence`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -2725,7 +2725,7 @@ _Tarefas originais (concluídas):_
 
 ### 51. 🎯 Load testing framework
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/testing`  
+**Pacotes afetados**: `@marcusprado02/testing`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -2765,7 +2765,7 @@ _Tarefas originais (concluídas):_
 
 ### 52. 🔍 Memory profiling
 **Prioridade**: Baixa  
-**Pacotes afetados**: `@acme/observability`  
+**Pacotes afetados**: `@marcusprado02/observability`  
 **Estimativa**: 3 dias
 
 **Tarefas**:
@@ -2781,7 +2781,7 @@ _Tarefas originais (concluídas):_
 
 ### 53. 🛠️ CLI tool
 **Prioridade**: Média  
-**Pacotes afetados**: Novo pacote `@acme/cli`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/cli`  
 **Estimativa**: 2 semanas
 
 **Descrição**: CLI para scaffolding e automação.
@@ -2876,7 +2876,7 @@ _Tarefas originais (concluídas):_
 
 ### 58. 📝 Code generators ✅
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/cli`  
+**Pacotes afetados**: `@marcusprado02/cli`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -2989,7 +2989,7 @@ _Tarefas originais (concluídas):_
 
 ### 63. 📊 Service mesh integration ✅
 **Prioridade**: Baixa  
-**Pacotes afetados**: `@acme/service-mesh`  
+**Pacotes afetados**: `@marcusprado02/service-mesh`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3005,7 +3005,7 @@ _Tarefas originais (concluídas):_
 
 ### 64. 🌐 API Gateway integration ✅
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/gateway`  
+**Pacotes afetados**: `@marcusprado02/gateway`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3023,7 +3023,7 @@ _Tarefas originais (concluídas):_
 
 ### 65. ✅ Saga pattern implementation
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/saga`  
+**Pacotes afetados**: `@marcusprado02/saga`  
 **Estimativa**: 3 semanas
 
 **Descrição**: Orquestração de transações distribuídas.
@@ -3071,7 +3071,7 @@ _Tarefas originais (concluídas):_
 
 ### 66. ✅ CQRS avançado
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/application`  
+**Pacotes afetados**: `@marcusprado02/application`  
 **Estimativa**: 2 semanas
 
 **Tarefas**:
@@ -3107,7 +3107,7 @@ _Tarefas originais (concluídas):_
 
 ### 67. ✅ Process Manager pattern
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/process-manager`  
+**Pacotes afetados**: `@marcusprado02/process-manager`  
 **Estimativa**: 2 semanas
 
 **Tarefas**:
@@ -3137,7 +3137,7 @@ _Tarefas originais (concluídas):_
 
 ### 68. ✅ Mediator pattern avançado
 **Prioridade**: Baixa  
-**Pacotes afetados**: `@acme/application`  
+**Pacotes afetados**: `@marcusprado02/application`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3169,7 +3169,7 @@ _Tarefas originais (concluídas):_
 
 ### 69. ✅ Anti-corruption layer
 **Prioridade**: Média  
-**Pacotes afetados**: Novo pacote `@acme/acl`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/acl`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3201,7 +3201,7 @@ _Tarefas originais (concluídas):_
 
 ### 70. ✅ Backend for Frontend (BFF)
 **Prioridade**: Baixa  
-**Pacotes afetados**: Novo pacote `@acme/bff`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/bff`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3218,7 +3218,7 @@ _Tarefas originais (concluídas):_
 
 ### 71. ✅ Data pipeline
 **Prioridade**: Baixa  
-**Pacotes afetados**: Novo pacote `@acme/data-pipeline`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/data-pipeline`  
 **Estimativa**: 2 semanas
 
 **Tarefas**:
@@ -3254,7 +3254,7 @@ _Tarefas originais (concluídas):_
 
 ### 72. ✅ Data quality framework
 **Prioridade**: Baixa  
-**Pacotes afetados**: Novo pacote `@acme/data-quality`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/data-quality`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3268,7 +3268,7 @@ _Tarefas originais (concluídas):_
 
 ### 73. ✅ Analytics events
 **Prioridade**: Média  
-**Pacotes afetados**: Novo pacote `@acme/analytics`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/analytics`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3296,7 +3296,7 @@ _Tarefas originais (concluídas):_
 
 ### 74. ✅ Data warehouse integration
 **Prioridade**: Baixa  
-**Pacotes afetados**: Novo pacote `@acme/data-warehouse`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/data-warehouse`  
 **Estimativa**: 2 semanas
 
 **Tarefas**:
@@ -3310,7 +3310,7 @@ _Tarefas originais (concluídas):_
 
 ### 75. ✅ Time series data
 **Prioridade**: Baixa  
-**Pacotes afetados**: Novo pacote `@acme/timeseries`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/timeseries`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3325,7 +3325,7 @@ _Tarefas originais (concluídas):_
 
 ### 76. ✅ Geospatial data
 **Prioridade**: Baixa  
-**Pacotes afetados**: Novo pacote `@acme/geospatial`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/geospatial`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3342,7 +3342,7 @@ _Tarefas originais (concluídas):_
 
 ### 77. ✅ Stream processing
 **Prioridade**: Média  
-**Pacotes afetados**: Novo pacote `@acme/streams`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/streams`  
 **Estimativa**: 2 semanas
 
 **Tarefas**:
@@ -3372,7 +3372,7 @@ _Tarefas originais (concluídas):_
 
 ### 78. ✅ WebSocket support
 **Prioridade**: Média  
-**Pacotes afetados**: Novo pacote `@acme/websocket`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/websocket`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3388,7 +3388,7 @@ _Tarefas originais (concluídas):_
 
 ### 79. ✅ Server-Sent Events (SSE)
 **Prioridade**: Baixa  
-**Pacotes afetados**: `@acme/web`  
+**Pacotes afetados**: `@marcusprado02/web`  
 **Estimativa**: 3 dias
 
 **Tarefas**:
@@ -3418,7 +3418,7 @@ _Tarefas originais (concluídas):_
 
 ### 80. ✅ Change Data Capture (CDC)
 **Prioridade**: Média  
-**Pacotes afetados**: Novo pacote `@acme/cdc`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/cdc`  
 **Estimativa**: 2 semanas
 
 **Tarefas**:
@@ -3433,7 +3433,7 @@ _Tarefas originais (concluídas):_
 
 ### 81. ✅ Event replay
 **Prioridade**: Baixa  
-**Pacotes afetados**: `@acme/eventsourcing`  
+**Pacotes afetados**: `@marcusprado02/eventsourcing`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3447,7 +3447,7 @@ _Tarefas originais (concluídas):_
 
 ### 82. ✅ Pub/Sub patterns
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/messaging`  
+**Pacotes afetados**: `@marcusprado02/messaging`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3463,7 +3463,7 @@ _Tarefas originais (concluídas):_
 
 ### 83. ✅ OAuth2 & OIDC
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/security`  
+**Pacotes afetados**: `@marcusprado02/security`  
 **Estimativa**: 2 semanas
 
 **Tarefas**:
@@ -3500,7 +3500,7 @@ _Tarefas originais (concluídas):_
 
 ### 84. ✅ mTLS support
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/security`  
+**Pacotes afetados**: `@marcusprado02/security`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3514,7 +3514,7 @@ _Tarefas originais (concluídas):_
 
 ### 85. ✅ Single Sign-On (SSO)
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/security`  
+**Pacotes afetados**: `@marcusprado02/security`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3528,7 +3528,7 @@ _Tarefas originais (concluídas):_
 
 ### 86. ✅ API key management
 **Prioridade**: Média  
-**Pacotes afetados**: `@acme/security`  
+**Pacotes afetados**: `@marcusprado02/security`  
 **Estimativa**: 3 dias
 
 **Tarefas**:
@@ -3543,7 +3543,7 @@ _Tarefas originais (concluídas):_
 
 ### 87. ✅ Content Security Policy
 **Prioridade**: Baixa  
-**Pacotes afetados**: `@acme/web`  
+**Pacotes afetados**: `@marcusprado02/web`  
 **Estimativa**: 2 dias
 
 **Tarefas**:
@@ -3556,7 +3556,7 @@ _Tarefas originais (concluídas):_
 
 ### 88. ✅ Data encryption
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/security`  
+**Pacotes afetados**: `@marcusprado02/security`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3590,7 +3590,7 @@ _Tarefas originais (concluídas):_
 
 ### 89. ✅ SLO/SLI monitoring
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/observability`  
+**Pacotes afetados**: `@marcusprado02/observability`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3615,7 +3615,7 @@ _Tarefas originais (concluídas):_
 
 ### 90. ✅ Incident management
 **Prioridade**: Média  
-**Pacotes afetados**: Novo pacote `@acme/incidents`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/incidents`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3655,7 +3655,7 @@ _Tarefas originais (concluídas):_
 
 ### 93. ✅ Chaos engineering
 **Prioridade**: Baixa  
-**Pacotes afetados**: Novo pacote `@acme/chaos`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/chaos`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3669,7 +3669,7 @@ _Tarefas originais (concluídas):_
 
 ### 94. ✅ Cost optimization
 **Prioridade**: Baixa  
-**Pacotes afetados**: `@acme/observability`  
+**Pacotes afetados**: `@marcusprado02/observability`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3683,7 +3683,7 @@ _Tarefas originais (concluídas):_
 
 ### 95. ✅ Green computing
 **Prioridade**: Baixa  
-**Pacotes afetados**: `@acme/observability`  
+**Pacotes afetados**: `@marcusprado02/observability`  
 **Estimativa**: 3 dias
 
 **Tarefas**:
@@ -3696,7 +3696,7 @@ _Tarefas originais (concluídas):_
 
 ### 96. ✅ Distributed tracing avançado
 **Prioridade**: Alta  
-**Pacotes afetados**: `@acme/observability-otel`  
+**Pacotes afetados**: `@marcusprado02/observability-otel`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3710,7 +3710,7 @@ _Tarefas originais (concluídas):_
 
 ### 97. ✅ Synthetic monitoring
 **Prioridade**: Média  
-**Pacotes afetados**: Novo pacote `@acme/synthetic`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/synthetic`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3724,7 +3724,7 @@ _Tarefas originais (concluídas):_
 
 ### 98. ✅ Service discovery
 **Prioridade**: Média  
-**Pacotes afetados**: Novo pacote `@acme/discovery`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/discovery`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3738,7 +3738,7 @@ _Tarefas originais (concluídas):_
 
 ### 99. ✅ Configuration server
 **Prioridade**: Baixa  
-**Pacotes afetados**: `@acme/config`  
+**Pacotes afetados**: `@marcusprado02/config`  
 **Estimativa**: 1 semana
 
 **Tarefas**:
@@ -3753,7 +3753,7 @@ _Tarefas originais (concluídas):_
 
 ### 100. 🗂️ Schema registry
 **Prioridade**: Média  
-**Pacotes afetados**: Novo pacote `@acme/schema-registry`  
+**Pacotes afetados**: Novo pacote `@marcusprado02/schema-registry`  
 **Estimativa**: 1 semana
 
 **Descrição**: Gerenciamento de schemas para eventos e mensagens.

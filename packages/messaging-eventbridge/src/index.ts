@@ -1,5 +1,5 @@
 /**
- * @acme/messaging-eventbridge
+ * @marcusprado02/messaging-eventbridge
  *
  * AWS EventBridge adapter for event-driven messaging.
  *
@@ -15,10 +15,7 @@ export type {
   EventBridgeSQSConsumerConfig,
   EventBridgeHealthCheck,
 } from './EventBridgeConfig';
-export {
-  DEFAULT_EVENTBRIDGE_CONFIG,
-  DEFAULT_SQS_CONSUMER_CONFIG,
-} from './EventBridgeConfig';
+export { DEFAULT_EVENTBRIDGE_CONFIG, DEFAULT_SQS_CONSUMER_CONFIG } from './EventBridgeConfig';
 
 // Connection
 export { EventBridgeConnection } from './EventBridgeConnection';

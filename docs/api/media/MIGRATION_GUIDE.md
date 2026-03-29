@@ -1,6 +1,7 @@
 # Migração de Microserviço Existente para ts-commons
 
 ## Cenário
+
 Você tem um microserviço Node.js/TypeScript existente e quer adotar os padrões da ts-commons.
 
 ## Estratégia de Migração Incremental
@@ -8,27 +9,30 @@ Você tem um microserviço Node.js/TypeScript existente e quer adotar os padrõe
 ### Fase 1: Instalação (Semana 1)
 
 ```bash
-pnpm add @acme/kernel @acme/errors @acme/config @acme/observability
+pnpm add @marcusprado02/kernel @marcusprado02/errors @marcusprado02/config @marcusprado02/observability
 ```
 
 **Ações:**
-1. Substituir classes de erro customizadas por `@acme/errors`
-2. Migrar configuração para `@acme/config` (12-factor)
-3. Padronizar logging com `@acme/observability`
+
+1. Substituir classes de erro customizadas por `@marcusprado02/errors`
+2. Migrar configuração para `@marcusprado02/config` (12-factor)
+3. Padronizar logging com `@marcusprado02/observability`
 
 ### Fase 2: Domain Layer (Semanas 2-3)
 
 ```bash
-pnpm add @acme/kernel
+pnpm add @marcusprado02/kernel
 ```
 
 **Ações:**
+
 1. Identificar entidades de domínio existentes
-2. Migrar para `Entity` ou `AggregateRoot` de `@acme/kernel`
+2. Migrar para `Entity` ou `AggregateRoot` de `@marcusprado02/kernel`
 3. Extrair Value Objects
 4. Introduzir Domain Events
 
 **Antes:**
+
 ```typescript
 class Order {
   id: string;
@@ -38,8 +42,9 @@ class Order {
 ```
 
 **Depois:**
+
 ```typescript
-import { AggregateRoot, ValueObject } from '@acme/kernel';
+import { AggregateRoot, ValueObject } from '@marcusprado02/kernel';
 
 class OrderId extends ValueObject<string> {}
 class Money extends ValueObject<number> {}
@@ -58,15 +63,17 @@ class Order extends AggregateRoot<OrderId> {
 ### Fase 3: Application Layer (Semana 4)
 
 ```bash
-pnpm add @acme/application
+pnpm add @marcusprado02/application
 ```
 
 **Ações:**
+
 1. Extrair lógica de negócio de controllers para Use Cases
 2. Implementar CQRS com `Command` e `Query`
 3. Adicionar validação com `Validator`
 
 **Antes:**
+
 ```typescript
 // No controller
 app.post('/orders', async (req, res) => {
@@ -76,6 +83,7 @@ app.post('/orders', async (req, res) => {
 ```
 
 **Depois:**
+
 ```typescript
 // Command Handler
 class CreateOrderHandler implements CommandHandler<CreateOrderCommand, string> {
@@ -94,10 +102,11 @@ app.post('/orders', async (req, res) => {
 ### Fase 4: Infraestrutura (Semanas 5-6)
 
 ```bash
-pnpm add @acme/resilience @acme/outbox @acme/persistence
+pnpm add @marcusprado02/resilience @marcusprado02/outbox @marcusprado02/persistence
 ```
 
 **Ações:**
+
 1. Adicionar Retry e Circuit Breaker em chamadas externas
 2. Implementar Outbox Pattern para eventos
 3. Abstrair repositories com `RepositoryPort`
@@ -105,18 +114,19 @@ pnpm add @acme/resilience @acme/outbox @acme/persistence
 ### Fase 5: Observabilidade & Segurança (Semana 7)
 
 ```bash
-pnpm add @acme/security @acme/contracts
+pnpm add @marcusprado02/security @marcusprado02/contracts
 ```
 
 **Ações:**
+
 1. Adicionar correlation ID em todas as requisições
-2. Implementar AuthN/AuthZ com `@acme/security`
-3. Versionamento de API com `@acme/contracts`
+2. Implementar AuthN/AuthZ com `@marcusprado02/security`
+3. Versionamento de API com `@marcusprado02/contracts`
 
 ## Checklist de Migração
 
 - [ ] Instalar pacotes core (`kernel`, `errors`, `config`)
-- [ ] Migrar logging para `@acme/observability`
+- [ ] Migrar logging para `@marcusprado02/observability`
 - [ ] Migrar entidades para DDD (`Entity`, `AggregateRoot`)
 - [ ] Extrair Value Objects
 - [ ] Implementar Domain Events

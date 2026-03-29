@@ -1,15 +1,15 @@
-# @acme/scheduler
+# @marcusprado02/scheduler
 
 In-process job scheduler for cron expressions and fixed-interval tasks.
 
-**Install:** `pnpm add @acme/scheduler @acme/kernel`
+**Install:** `pnpm add @marcusprado02/scheduler @marcusprado02/kernel`
 
 ---
 
 ## `InMemoryScheduler`
 
 ```typescript
-import { InMemoryScheduler } from '@acme/scheduler';
+import { InMemoryScheduler } from '@marcusprado02/scheduler';
 
 const scheduler = new InMemoryScheduler();
 
@@ -51,7 +51,7 @@ shutdown.register('scheduler', () => scheduler.stop());
 Manage jobs separately and pass them to the scheduler:
 
 ```typescript
-import { JobRegistry, InMemoryScheduler } from '@acme/scheduler';
+import { JobRegistry, InMemoryScheduler } from '@marcusprado02/scheduler';
 
 const registry = new JobRegistry();
 
@@ -94,7 +94,7 @@ scheduler.scheduleInterval('sync-inventory', {
 ## `CronParser` — Cron Utilities
 
 ```typescript
-import { CronParser } from '@acme/scheduler';
+import { CronParser } from '@marcusprado02/scheduler';
 
 const parser = new CronParser('0 8 * * *');
 
@@ -110,7 +110,7 @@ const schedule = parser.describe(); // "Every day at 08:00"
 If you need raw interval control without the full scheduler:
 
 ```typescript
-import { IntervalRunner } from '@acme/scheduler';
+import { IntervalRunner } from '@marcusprado02/scheduler';
 
 const runner = new IntervalRunner({
   intervalMs: 5_000,

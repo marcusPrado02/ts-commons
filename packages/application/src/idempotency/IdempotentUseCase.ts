@@ -1,4 +1,4 @@
-import type { Result } from '@acme/kernel';
+import type { Result } from '@marcusprado02/kernel';
 import type { IdempotencyKey } from './IdempotencyKey';
 import type { IdempotencyStorePort } from './IdempotencyStorePort';
 import type { IdempotencyMetrics } from './IdempotencyMetrics';

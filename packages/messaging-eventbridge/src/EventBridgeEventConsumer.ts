@@ -3,8 +3,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call -- AWS SQS SDK methods and logger calls */
 /* eslint-disable @typescript-eslint/no-unsafe-argument -- AWS SQS SDK arguments */
 import { SQSClient, ReceiveMessageCommand, DeleteMessageCommand } from '@aws-sdk/client-sqs';
-import type { EventConsumer, EventHandler, EventEnvelope } from '@acme/messaging';
-import type { Logger } from '@acme/observability';
+import type { EventConsumer, EventHandler, EventEnvelope } from '@marcusprado02/messaging';
+import type { Logger } from '@marcusprado02/observability';
 import type { EventBridgeSQSConsumerConfig } from './EventBridgeConfig';
 import { DEFAULT_SQS_CONSUMER_CONFIG } from './EventBridgeConfig';
 
@@ -55,7 +55,16 @@ export class EventBridgeEventConsumer implements EventConsumer {
   private readonly sqsClient: SQSClient;
   private readonly handlers = new Map<string, EventHandler<unknown>>();
   private readonly processedIds = new Set<string>();
-  private readonly config: Required<Omit<EventBridgeSQSConsumerConfig, 'endpoint' | 'accessKeyId' | 'secretAccessKey' | 'sessionToken'>> & Pick<EventBridgeSQSConsumerConfig, 'endpoint' | 'accessKeyId' | 'secretAccessKey' | 'sessionToken'>;
+  private readonly config: Required<
+    Omit<
+      EventBridgeSQSConsumerConfig,
+      'endpoint' | 'accessKeyId' | 'secretAccessKey' | 'sessionToken'
+    >
+  > &
+    Pick<
+      EventBridgeSQSConsumerConfig,
+      'endpoint' | 'accessKeyId' | 'secretAccessKey' | 'sessionToken'
+    >;
   private running = false;
   private pollTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -173,18 +182,24 @@ export class EventBridgeEventConsumer implements EventConsumer {
       return;
     }
 
-    const correlationId = typeof detail['correlationId'] === 'string' ? detail['correlationId'] : undefined;
-    const causationId = typeof detail['causationId'] === 'string' ? detail['causationId'] : undefined;
+    const correlationId =
+      typeof detail['correlationId'] === 'string' ? detail['correlationId'] : undefined;
+    const causationId =
+      typeof detail['causationId'] === 'string' ? detail['causationId'] : undefined;
     const tenantId = typeof detail['tenantId'] === 'string' ? detail['tenantId'] : undefined;
-    const metadata = typeof detail['metadata'] === 'object' && detail['metadata'] !== null
-      ? (detail['metadata'] as Record<string, unknown>)
-      : undefined;
+    const metadata =
+      typeof detail['metadata'] === 'object' && detail['metadata'] !== null
+        ? (detail['metadata'] as Record<string, unknown>)
+        : undefined;
 
     const envelope: EventEnvelope<unknown> = {
       eventId,
       eventType,
       eventVersion: typeof detail['eventVersion'] === 'string' ? detail['eventVersion'] : '1.0',
-      timestamp: typeof detail['timestamp'] === 'string' ? detail['timestamp'] : (sqsMessage.time ?? new Date().toISOString()),
+      timestamp:
+        typeof detail['timestamp'] === 'string'
+          ? detail['timestamp']
+          : (sqsMessage.time ?? new Date().toISOString()),
       payload: detail['payload'] ?? detail,
       ...(correlationId === undefined ? {} : { correlationId }),
       ...(causationId === undefined ? {} : { causationId }),
@@ -249,10 +264,7 @@ export class EventBridgeEventConsumer implements EventConsumer {
       (clientConfig as Record<string, unknown>)['endpoint'] = this.config.endpoint;
     }
 
-    if (
-      this.config.accessKeyId !== undefined &&
-      this.config.secretAccessKey !== undefined
-    ) {
+    if (this.config.accessKeyId !== undefined && this.config.secretAccessKey !== undefined) {
       clientConfig.credentials = {
         accessKeyId: this.config.accessKeyId,
         secretAccessKey: this.config.secretAccessKey,

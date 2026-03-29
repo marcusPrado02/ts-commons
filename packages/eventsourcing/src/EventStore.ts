@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import type { DomainEvent } from '@acme/kernel';
+import type { DomainEvent } from '@marcusprado02/kernel';
 
 /**
  * A callback that handles a single domain event.

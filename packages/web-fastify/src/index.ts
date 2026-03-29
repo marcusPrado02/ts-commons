@@ -1,5 +1,5 @@
 /**
- * @acme/web-fastify
+ * @marcusprado02/web-fastify
  *
  * Fastify adapter for ts-commons platform
  *
@@ -14,7 +14,7 @@
  *   errorHandlerHook,
  *   loggingHook,
  *   FastifyControllerAdapter
- * } from '@acme/web-fastify';
+ * } from '@marcusprado02/web-fastify';
  *
  * const app = Fastify();
  *

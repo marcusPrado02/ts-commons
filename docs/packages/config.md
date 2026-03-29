@@ -1,15 +1,15 @@
-# @acme/config
+# @marcusprado02/config
 
 12-Factor (Factor III) configuration: environment-aware, hot-reloadable, schema-validated.
 
-**Install:** `pnpm add @acme/config @acme/kernel`
+**Install:** `pnpm add @marcusprado02/config @marcusprado02/kernel`
 
 ---
 
 ## `ConfigServer` — Centralised Configuration
 
 ```typescript
-import { ConfigServer } from '@acme/config';
+import { ConfigServer } from '@marcusprado02/config';
 
 const config = new ConfigServer();
 
@@ -50,7 +50,7 @@ const all = config.getAll(); // Record<string, unknown>
 Manages named configuration profiles with inheritance from `default`.
 
 ```typescript
-import { ProfileManager } from '@acme/config';
+import { ProfileManager } from '@marcusprado02/config';
 
 const pm = new ProfileManager();
 pm.register('default', { timeout: 5000, retries: 3, logLevel: 'info' });
@@ -71,7 +71,7 @@ const all = pm.getAll(); // full merged config object
 Polls a remote source and applies changes at runtime — no restart needed.
 
 ```typescript
-import { HotReloadConfigLoader } from '@acme/config';
+import { HotReloadConfigLoader } from '@marcusprado02/config';
 
 const loader = new HotReloadConfigLoader(config, {
   intervalMs: 30_000, // poll every 30 seconds
@@ -92,7 +92,7 @@ shutdown.register('config-loader', () => loader.stop());
 Validates the full config object against a Zod schema. Throws a descriptive error if any value is missing or wrong — fail fast at boot, not at runtime.
 
 ```typescript
-import { ZodConfigSchema } from '@acme/config';
+import { ZodConfigSchema } from '@marcusprado02/config';
 import { z } from 'zod';
 
 const schema = new ZodConfigSchema(
@@ -115,7 +115,7 @@ schema.validate(config.getAll());
 
 ```typescript
 // src/infrastructure/config/bootstrap.ts
-import { ConfigServer, ZodConfigSchema } from '@acme/config';
+import { ConfigServer, ZodConfigSchema } from '@marcusprado02/config';
 import { z } from 'zod';
 
 export function buildConfig(): ConfigServer {

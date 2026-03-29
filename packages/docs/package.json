@@ -1,7 +1,7 @@
 {
-  "name": "@acme/docs",
+  "name": "@marcusprado02/docs",
   "version": "0.1.0",
-  "description": "Story-driven interactive documentation for @acme TypeScript components",
+  "description": "Story-driven interactive documentation for @marcusprado02 TypeScript components",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -34,7 +34,7 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

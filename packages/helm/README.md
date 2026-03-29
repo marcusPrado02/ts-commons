@@ -1,17 +1,17 @@
-# @acme/helm
+# @marcusprado02/helm
 
 Helm chart values builder and release command generator. Produces typed `HelmValues` objects and validated `helm upgrade --install` commands from code.
 
 ## Installation
 
 ```bash
-pnpm add -D @acme/helm
+pnpm add -D @marcusprado02/helm
 ```
 
 ## Quick Start
 
 ```typescript
-import { ValuesBuilder, buildReleaseCommands } from '@acme/helm';
+import { ValuesBuilder, buildReleaseCommands } from '@marcusprado02/helm';
 
 const values = new ValuesBuilder('order-service')
   .image({ repository: 'registry.acme.com/order-service', tag: '1.2.3' })
@@ -35,7 +35,7 @@ const commands = buildReleaseCommands({
 ## Chart Validation
 
 ```typescript
-import { validateValues } from '@acme/helm';
+import { validateValues } from '@marcusprado02/helm';
 
 const result = validateValues(values);
 // result.valid, result.errors
@@ -43,5 +43,5 @@ const result = validateValues(values);
 
 ## See Also
 
-- [`@acme/k8s`](../k8s) — Kubernetes manifest builders
-- [`@acme/terraform`](../terraform) — infrastructure as code
+- [`@marcusprado02/k8s`](../k8s) — Kubernetes manifest builders
+- [`@marcusprado02/terraform`](../terraform) — infrastructure as code

@@ -1,8 +1,8 @@
-# @acme/application
+# @marcusprado02/application
 
 Use Cases, CQRS buses, Mediator pipeline, idempotency, and Unit of Work.
 
-**Install:** `pnpm add @acme/application @acme/kernel`
+**Install:** `pnpm add @marcusprado02/application @marcusprado02/kernel`
 
 ---
 
@@ -11,8 +11,8 @@ Use Cases, CQRS buses, Mediator pipeline, idempotency, and Unit of Work.
 Each business operation is an independent `UseCase`. This keeps domain logic isolated and testable.
 
 ```typescript
-import { UseCase } from '@acme/application';
-import { Result } from '@acme/kernel';
+import { UseCase } from '@marcusprado02/application';
+import { Result } from '@marcusprado02/kernel';
 
 export interface PlaceOrderInput {
   customerId: string;
@@ -53,7 +53,7 @@ export class PlaceOrderUseCase implements UseCase<PlaceOrderInput, PlaceOrderOut
 Decouples the caller from the handler. Commands mutate state; queries read state.
 
 ```typescript
-import { CommandBus, QueryBus, Command, Query } from '@acme/application';
+import { CommandBus, QueryBus, Command, Query } from '@marcusprado02/application';
 
 // Commands (writes)
 export class PlaceOrderCommand extends Command {
@@ -90,7 +90,12 @@ const order = await queryBus.dispatch(new GetOrderQuery('order-123'));
 Mediator adds cross-cutting concerns (logging, validation, caching) as decorators around handlers — without modifying the handlers themselves.
 
 ```typescript
-import { Mediator, LoggingBehavior, ValidationBehavior, CachingBehavior } from '@acme/application';
+import {
+  Mediator,
+  LoggingBehavior,
+  ValidationBehavior,
+  CachingBehavior,
+} from '@marcusprado02/application';
 
 const mediator = new Mediator([
   new LoggingBehavior(logger),
@@ -119,7 +124,7 @@ const result = await mediator.send(new GetOrderQuery('order-123'));
 Wraps any use case to make it idempotent. Re-submitting the same `idempotencyKey` returns the cached result without re-executing.
 
 ```typescript
-import { IdempotentUseCase, InMemoryIdempotencyStore } from '@acme/application';
+import { IdempotentUseCase, InMemoryIdempotencyStore } from '@marcusprado02/application';
 
 // Swap InMemoryIdempotencyStore for RedisIdempotencyStore in production
 const store = new InMemoryIdempotencyStore();
@@ -139,7 +144,7 @@ const result = await idempotentPlaceOrder.execute(input, {
 Ensures multiple repository operations run in a single atomic transaction.
 
 ```typescript
-import { UnitOfWork } from '@acme/application';
+import { UnitOfWork } from '@marcusprado02/application';
 
 export class PlaceOrderUseCase implements UseCase<PlaceOrderInput, PlaceOrderOutput> {
   constructor(

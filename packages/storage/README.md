@@ -1,11 +1,11 @@
-# @acme/storage
+# @marcusprado02/storage
 
 Object storage abstraction — a port interface with thin adapters for AWS S3, Azure Blob Storage, Google Cloud Storage, a local filesystem adapter, and an in-memory adapter for tests. Supports streaming, pre-signed URLs, and multipart upload.
 
 ## Installation
 
 ```bash
-npm install @acme/storage
+npm install @marcusprado02/storage
 ```
 
 Adapters are thin wrappers — you supply the cloud SDK client. Install the relevant SDK separately:
@@ -43,7 +43,7 @@ npm install @google-cloud/storage
 ## Usage
 
 ```typescript
-import { InMemoryStorageAdapter } from '@acme/storage';
+import { InMemoryStorageAdapter } from '@marcusprado02/storage';
 
 const storage = new InMemoryStorageAdapter();
 
@@ -56,7 +56,7 @@ With S3 — you provide the client, the adapter handles the rest:
 
 ```typescript
 import { S3Client } from '@aws-sdk/client-s3';
-import { S3StorageAdapter } from '@acme/storage';
+import { S3StorageAdapter } from '@marcusprado02/storage';
 
 const client = new S3Client({ region: 'us-east-1' });
 const storage = new S3StorageAdapter(client, { bucket: 'my-bucket' });

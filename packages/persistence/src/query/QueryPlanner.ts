@@ -6,7 +6,7 @@ import type { IndexRecommendation, QueryPlan, QueryPlanStep } from './QueryTypes
  *
  * In production you would parse real EXPLAIN output; here the planner
  * provides an analyzable in-process model suitable for testing and tooling
- * built on top of `@acme/persistence`.
+ * built on top of `@marcusprado02/persistence`.
  *
  * @example
  * ```typescript

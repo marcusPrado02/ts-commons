@@ -188,7 +188,11 @@ describe('TutorialEngine', () => {
 
   it('validateStep passes correct input', () => {
     const session = engine.start(GettingStartedTutorial);
-    const result = engine.validateStep(GettingStartedTutorial, session, 'pnpm add @acme/kernel');
+    const result = engine.validateStep(
+      GettingStartedTutorial,
+      session,
+      'pnpm add @marcusprado02/kernel',
+    );
     expect(result.valid).toBe(true);
   });
 

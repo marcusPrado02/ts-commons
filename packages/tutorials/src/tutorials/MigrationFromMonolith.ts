@@ -41,7 +41,7 @@ const steps: readonly TutorialStep[] = [
     title: 'Extract Domain Logic First',
     description:
       'Move pure domain classes (Entity, ValueObject) with zero infrastructure before touching HTTP or DB.',
-    codeExample: `// Move to @acme/kernel\nclass Order extends Entity<string> {}\nclass Money extends ValueObject<{ amount: number; currency: string }> {}`,
+    codeExample: `// Move to @marcusprado02/kernel\nclass Order extends Entity<string> {}\nclass Money extends ValueObject<{ amount: number; currency: string }> {}`,
     hints: ['Domain code has no imports from Express, Prisma, etc.'],
     validate: (input) =>
       input.includes('Entity') || input.includes('ValueObject') || input.includes('domain')

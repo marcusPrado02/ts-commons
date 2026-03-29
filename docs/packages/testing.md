@@ -1,8 +1,8 @@
-# @acme/testing
+# @marcusprado02/testing
 
 Test utilities: typed builders, fake implementations, Vitest custom matchers, and in-memory stores. Keeps tests fast, readable, and deterministic.
 
-**Install (dev):** `pnpm add -D @acme/testing`
+**Install (dev):** `pnpm add -D @marcusprado02/testing`
 
 ---
 
@@ -11,7 +11,7 @@ Test utilities: typed builders, fake implementations, Vitest custom matchers, an
 Reduces repetitive setup code and makes test intent clear.
 
 ```typescript
-import { Builder } from '@acme/testing';
+import { Builder } from '@marcusprado02/testing';
 
 class OrderBuilder extends Builder<OrderProps> {
   withId(id: string) {
@@ -48,10 +48,10 @@ const minimalOrder = new OrderBuilder().build();
 
 ## `FakeClock` — Deterministic Time
 
-Lets you control `Date.now()` without monkey-patching. Used wherever code depends on `Clock` from `@acme/kernel`.
+Lets you control `Date.now()` without monkey-patching. Used wherever code depends on `Clock` from `@marcusprado02/kernel`.
 
 ```typescript
-import { FakeClock, Duration } from '@acme/testing';
+import { FakeClock, Duration } from '@marcusprado02/testing';
 
 const clock = new FakeClock(new Date('2026-01-01T12:00:00Z'));
 
@@ -84,7 +84,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    setupFiles: ['@acme/testing/matchers'],
+    setupFiles: ['@marcusprado02/testing/matchers'],
   },
 });
 ```
@@ -128,7 +128,7 @@ describe('PlaceOrderUseCase', () => {
 Replaces `PrismaOutboxStore` or `MongoOutboxStore` in unit tests.
 
 ```typescript
-import { InMemoryOutboxStore } from '@acme/testing';
+import { InMemoryOutboxStore } from '@marcusprado02/testing';
 
 const outboxStore = new InMemoryOutboxStore();
 const useCase = new PlaceOrderUseCase(uow, orderRepo, outboxStore);
@@ -148,7 +148,7 @@ outboxStore.clear();
 ## `InMemoryRepository` — Generic Fake Repository
 
 ```typescript
-import { InMemoryRepository } from '@acme/testing';
+import { InMemoryRepository } from '@marcusprado02/testing';
 
 class InMemoryOrderRepository extends InMemoryRepository<Order> implements OrderRepository {
   async findByCustomerId(customerId: string): Promise<Order[]> {
@@ -170,7 +170,7 @@ orderRepo.seed([order1, order2]); // pre-populate
 ## `InMemoryEventPublisher` — Fake Publisher
 
 ```typescript
-import { InMemoryEventPublisher } from '@acme/testing';
+import { InMemoryEventPublisher } from '@marcusprado02/testing';
 
 const publisher = new InMemoryEventPublisher();
 const useCase = new PlaceOrderUseCase(repo, publisher);

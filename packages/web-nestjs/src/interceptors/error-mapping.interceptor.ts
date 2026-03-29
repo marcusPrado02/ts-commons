@@ -6,15 +6,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call -- NestJS framework boundary: response.status().json() */
 /* eslint-disable @typescript-eslint/no-unsafe-return -- NestJS framework boundary: throwError returns any */
 import type { NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
-import {
-  Injectable,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import type { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import type { ProblemDetails } from '@acme/errors';
+import type { ProblemDetails } from '@marcusprado02/errors';
 
 /**
  * Interceptor to map errors to Problem Details format
@@ -71,7 +67,7 @@ export class ErrorMappingInterceptor implements NestInterceptor {
         response.status(statusCode).json(problemDetails);
 
         return throwError(() => error);
-      })
+      }),
     );
   }
 }

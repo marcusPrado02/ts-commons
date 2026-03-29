@@ -3,9 +3,9 @@
    @typescript-eslint/no-unsafe-call,
    @typescript-eslint/no-unsafe-member-access,
    @typescript-eslint/no-unsafe-argument
-   -- Option is from @acme/kernel; all types correct at compile time but
+   -- Option is from @marcusprado02/kernel; all types correct at compile time but
    unresolvable by ESLint TS plugin due to TypeScript 5.9.x / plugin <5.4. */
-import { Option } from '@acme/kernel';
+import { Option } from '@marcusprado02/kernel';
 import type { AwsSsmClientLike } from './AwsSsmClientLike';
 import type { SecretsPort } from './SecretsPort';
 import { SecretsRotationNotSupportedError } from './SecretsErrors';
@@ -18,7 +18,7 @@ import { SecretsRotationNotSupportedError } from './SecretsErrors';
  * @example
  * ```typescript
  * import { SSMClient } from '@aws-sdk/client-ssm';
- * import type { AwsSsmClientLike } from '@acme/secrets';
+ * import type { AwsSsmClientLike } from '@marcusprado02/secrets';
  *
  * const adapter = new AwsSsmSecretsAdapter(
  *   new SSMClient({ region: 'us-east-1' }) as unknown as AwsSsmClientLike,
@@ -39,8 +39,8 @@ export class AwsSsmSecretsAdapter implements SecretsPort {
   async get(key: string): Promise<Option<string>> {
     try {
       const response = await this.client.getParameter({
-        Name:            this.fullName(key),
-        WithDecryption:  true,
+        Name: this.fullName(key),
+        WithDecryption: true,
       });
       return Option.fromNullable(response.Parameter?.Value ?? null);
     } catch (err: unknown) {
@@ -53,9 +53,9 @@ export class AwsSsmSecretsAdapter implements SecretsPort {
 
   async set(key: string, value: string): Promise<void> {
     await this.client.putParameter({
-      Name:      this.fullName(key),
-      Value:     value,
-      Type:      'SecureString',
+      Name: this.fullName(key),
+      Value: value,
+      Type: 'SecureString',
       Overwrite: true,
     });
   }

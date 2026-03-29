@@ -28,7 +28,7 @@ pnpm build
 ```bash
 pnpm test
 # or single package:
-pnpm --filter @acme/kernel exec vitest run
+pnpm --filter @marcusprado02/kernel exec vitest run
 ```
 
 ## 4. Lint + format
@@ -52,20 +52,20 @@ pnpm format --check  # CI mode
 
 ## Core packages
 
-| Package               | Purpose                                                                  | External deps       |
-| --------------------- | ------------------------------------------------------------------------ | ------------------- |
-| `@acme/kernel`        | DDD primitives (Entity, ValueObject, AggregateRoot, DomainEvent, Result) | **none**            |
-| `@acme/application`   | Mediator, CQRS (MediatorRequest, RequestHandler, Pipeline behaviors)     | kernel              |
-| `@acme/errors`        | ProblemDetails, HttpErrorMapper, AppError taxonomy                       | kernel              |
-| `@acme/persistence`   | RepositoryPort, Page, UnitOfWork                                         | kernel              |
-| `@acme/messaging`     | EventEnvelope, EventPublisherPort, FanOutBroker, TopicRouter             | kernel              |
-| `@acme/observability` | Logger, InMemoryMetrics, LoggerFactory, PiiRedactor                      | kernel              |
-| `@acme/resilience`    | CircuitBreaker, Retry, Timeout, Bulkhead                                 | kernel              |
-| `@acme/security`      | JWT auth, API keys, RBAC, crypto utils                                   | kernel              |
-| `@acme/eventsourcing` | EventSourcedAggregate, InMemoryEventStore, ProjectionRunner              | kernel              |
-| `@acme/saga`          | Saga orchestration, SagaTransaction, compensation                        | kernel              |
-| `@acme/outbox`        | Transactional outbox/inbox pattern                                       | kernel, messaging   |
-| `@acme/testing`       | Test fakes, builders, test doubles                                       | kernel, application |
+| Package                        | Purpose                                                                  | External deps       |
+| ------------------------------ | ------------------------------------------------------------------------ | ------------------- |
+| `@marcusprado02/kernel`        | DDD primitives (Entity, ValueObject, AggregateRoot, DomainEvent, Result) | **none**            |
+| `@marcusprado02/application`   | Mediator, CQRS (MediatorRequest, RequestHandler, Pipeline behaviors)     | kernel              |
+| `@marcusprado02/errors`        | ProblemDetails, HttpErrorMapper, AppError taxonomy                       | kernel              |
+| `@marcusprado02/persistence`   | RepositoryPort, Page, UnitOfWork                                         | kernel              |
+| `@marcusprado02/messaging`     | EventEnvelope, EventPublisherPort, FanOutBroker, TopicRouter             | kernel              |
+| `@marcusprado02/observability` | Logger, InMemoryMetrics, LoggerFactory, PiiRedactor                      | kernel              |
+| `@marcusprado02/resilience`    | CircuitBreaker, Retry, Timeout, Bulkhead                                 | kernel              |
+| `@marcusprado02/security`      | JWT auth, API keys, RBAC, crypto utils                                   | kernel              |
+| `@marcusprado02/eventsourcing` | EventSourcedAggregate, InMemoryEventStore, ProjectionRunner              | kernel              |
+| `@marcusprado02/saga`          | Saga orchestration, SagaTransaction, compensation                        | kernel              |
+| `@marcusprado02/outbox`        | Transactional outbox/inbox pattern                                       | kernel, messaging   |
+| `@marcusprado02/testing`       | Test fakes, builders, test doubles                                       | kernel, application |
 
 ---
 
@@ -104,8 +104,8 @@ Demonstrates: `EventSourcedAggregate`, `InMemoryEventStore`, `loadFromHistory`, 
 ### Domain aggregate
 
 ```typescript
-import { AggregateRoot, Result } from '@acme/kernel';
-import type { DomainEvent } from '@acme/kernel';
+import { AggregateRoot, Result } from '@marcusprado02/kernel';
+import type { DomainEvent } from '@marcusprado02/kernel';
 import { randomUUID } from 'node:crypto';
 
 class OrderCreated implements DomainEvent {
@@ -137,8 +137,8 @@ class Order extends AggregateRoot<string> {
 ### CQRS with Mediator
 
 ```typescript
-import { MediatorRequest, Mediator } from '@acme/application';
-import type { RequestHandler } from '@acme/application';
+import { MediatorRequest, Mediator } from '@marcusprado02/application';
+import type { RequestHandler } from '@marcusprado02/application';
 
 class ConfirmOrderCommand extends MediatorRequest<{ orderId: string }> {
   constructor(readonly orderId: string) {
@@ -161,8 +161,8 @@ const result = await mediator.send(new ConfirmOrderCommand('ord-1'));
 ### Error mapping to HTTP Problem Details
 
 ```typescript
-import { HttpErrorMapper } from '@acme/errors';
-import { AppError, AppErrorCode } from '@acme/errors';
+import { HttpErrorMapper } from '@marcusprado02/errors';
+import { AppError, AppErrorCode } from '@marcusprado02/errors';
 
 try {
   throw new AppError('Validation failed', AppErrorCode.VALIDATION_ERROR);
@@ -175,7 +175,7 @@ try {
 ### Observability
 
 ```typescript
-import { Logger, InMemoryMetrics } from '@acme/observability';
+import { Logger, InMemoryMetrics } from '@marcusprado02/observability';
 
 const logger = new Logger({ name: 'order-service' });
 const metrics = new InMemoryMetrics();
@@ -192,14 +192,14 @@ const snapshot = metrics.getSnapshot();
 ## Architecture overview
 
 ```
-Presentation  [@acme/web, @acme/web-graphql, @acme/bff]
+Presentation  [@marcusprado02/web, @marcusprado02/web-graphql, @marcusprado02/bff]
       │
-Application   [@acme/application]  ← commands, queries, mediator, pipeline
+Application   [@marcusprado02/application]  ← commands, queries, mediator, pipeline
       │
-Domain        [@acme/kernel]       ← zero external dependencies
+Domain        [@marcusprado02/kernel]       ← zero external dependencies
       │
-Infrastructure[@acme/persistence, @acme/messaging, @acme/eventsourcing, ...]
-Cross-cutting [@acme/observability, @acme/errors, @acme/resilience, @acme/security]
+Infrastructure[@marcusprado02/persistence, @marcusprado02/messaging, @marcusprado02/eventsourcing, ...]
+Cross-cutting [@marcusprado02/observability, @marcusprado02/errors, @marcusprado02/resilience, @marcusprado02/security]
 ```
 
 ---

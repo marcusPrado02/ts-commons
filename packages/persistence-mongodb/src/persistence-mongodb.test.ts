@@ -6,11 +6,11 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type -- test helper functions */
 /* eslint-disable max-lines-per-function -- test files naturally have longer functions */
 /**
- * Tests for @acme/persistence-mongodb adapter
+ * Tests for @marcusprado02/persistence-mongodb adapter
  */
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { Result } from '@acme/kernel';
-import type { PageRequest } from '@acme/persistence';
+import { Result } from '@marcusprado02/kernel';
+import type { PageRequest } from '@marcusprado02/persistence';
 import { MongoRepository } from './MongoRepository';
 import type { MongoCollectionLike, MongoCursorLike } from './MongoRepository';
 import type { MongoMapper } from './MongoMapper';
@@ -57,19 +57,19 @@ function makeDoc(id = '1'): UserDoc {
 
 function buildCursor(): MongoCursorLike {
   return {
-    sort:    vi.fn().mockReturnThis(),
-    skip:    vi.fn().mockReturnThis(),
-    limit:   vi.fn().mockReturnThis(),
+    sort: vi.fn().mockReturnThis(),
+    skip: vi.fn().mockReturnThis(),
+    limit: vi.fn().mockReturnThis(),
     toArray: vi.fn().mockResolvedValue([]),
   } as unknown as MongoCursorLike;
 }
 
 function buildCollection(cursor: MongoCursorLike): MongoCollectionLike {
   return {
-    findOne:        vi.fn(),
-    find:           vi.fn().mockReturnValue(cursor),
-    replaceOne:     vi.fn().mockResolvedValue(undefined),
-    deleteOne:      vi.fn().mockResolvedValue(undefined),
+    findOne: vi.fn(),
+    find: vi.fn().mockReturnValue(cursor),
+    replaceOne: vi.fn().mockResolvedValue(undefined),
+    deleteOne: vi.fn().mockResolvedValue(undefined),
     countDocuments: vi.fn(),
   } as unknown as MongoCollectionLike;
 }
@@ -77,9 +77,9 @@ function buildCollection(cursor: MongoCursorLike): MongoCollectionLike {
 function buildMapper(): MongoMapper<User> {
   return {
     toDocument: vi.fn((u: User) => makeDoc(u.id.value)),
-    toDomain:   vi.fn((d: UserDoc) => ({
-      id:    { value: d['_id'] as string },
-      name:  d['name'] as string,
+    toDomain: vi.fn((d: UserDoc) => ({
+      id: { value: d['_id'] as string },
+      name: d['name'] as string,
       email: d['email'] as string,
     })),
   };
@@ -94,10 +94,10 @@ describe('MongoRepository', () => {
   let repo: UserMongoRepository;
 
   beforeEach(() => {
-    cursor     = buildCursor();
+    cursor = buildCursor();
     collection = buildCollection(cursor);
-    mapper     = buildMapper();
-    repo       = new UserMongoRepository(collection, mapper);
+    mapper = buildMapper();
+    repo = new UserMongoRepository(collection, mapper);
   });
 
   it('save() should call replaceOne with upsert:true and the mapped document', async () => {
@@ -105,11 +105,7 @@ describe('MongoRepository', () => {
 
     await repo.save(user);
 
-    expect(collection.replaceOne).toHaveBeenCalledWith(
-      { _id: '1' },
-      makeDoc(),
-      { upsert: true },
-    );
+    expect(collection.replaceOne).toHaveBeenCalledWith({ _id: '1' }, makeDoc(), { upsert: true });
     expect(mapper.toDocument).toHaveBeenCalledWith(user);
   });
 
@@ -174,13 +170,11 @@ describe('MongoUnitOfWork', () => {
 
   beforeEach(() => {
     const sessionImpl: MongoSessionLike = {
-      withTransaction: vi.fn().mockImplementation(
-        (fn: () => Promise<unknown>) => fn(),
-      ),
+      withTransaction: vi.fn().mockImplementation((fn: () => Promise<unknown>) => fn()),
       endSession: vi.fn().mockResolvedValue(undefined),
     };
     session = sessionImpl;
-    client  = { startSession: vi.fn().mockReturnValue(session) };
+    client = { startSession: vi.fn().mockReturnValue(session) };
     unitOfWork = new MongoUnitOfWork(client);
   });
 
@@ -223,10 +217,10 @@ describe('MongoPaginator', () => {
   let paginator: MongoPaginator<User>;
 
   beforeEach(() => {
-    cursor     = buildCursor();
-    mapper     = buildMapper();
+    cursor = buildCursor();
+    mapper = buildMapper();
     collection = buildCollection(cursor);
-    paginator  = new MongoPaginator(collection, mapper);
+    paginator = new MongoPaginator(collection, mapper);
   });
 
   it('findPage() should return items, total, and correct pagination flags', async () => {
@@ -240,7 +234,7 @@ describe('MongoPaginator', () => {
     expect(page.total).toBe(5);
     expect(page.page).toBe(1);
     expect(page.pageSize).toBe(2);
-    expect(page.hasNext).toBe(true);      // 0 + 2 < 5
+    expect(page.hasNext).toBe(true); // 0 + 2 < 5
     expect(page.hasPrevious).toBe(false); // page 1
     expect(cursor.sort).not.toHaveBeenCalled();
   });
@@ -253,7 +247,7 @@ describe('MongoPaginator', () => {
       page: 1,
       pageSize: 10,
       sort: [
-        { field: 'name',      direction: 'asc'  },
+        { field: 'name', direction: 'asc' },
         { field: 'createdAt', direction: 'desc' },
       ],
     });

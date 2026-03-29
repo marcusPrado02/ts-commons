@@ -1,14 +1,14 @@
-# @acme/messaging
+# @marcusprado02/messaging
 
 Event publishing and consuming abstraction. Define ports in your domain; swap broker adapters without changing business code.
 
-**Core install:** `pnpm add @acme/messaging @acme/kernel`
+**Core install:** `pnpm add @marcusprado02/messaging @marcusprado02/kernel`
 
 **Adapter installs:**
 
-- `pnpm add @acme/messaging-kafka`
-- `pnpm add @acme/messaging-rabbitmq`
-- `pnpm add @acme/messaging-eventbridge`
+- `pnpm add @marcusprado02/messaging-kafka`
+- `pnpm add @marcusprado02/messaging-rabbitmq`
+- `pnpm add @marcusprado02/messaging-eventbridge`
 
 ---
 
@@ -17,7 +17,7 @@ Event publishing and consuming abstraction. Define ports in your domain; swap br
 The port that domain/application code depends on:
 
 ```typescript
-import { EventPublisherPort, EventEnvelope } from '@acme/messaging';
+import { EventPublisherPort, EventEnvelope } from '@marcusprado02/messaging';
 
 // Domain boundary — no broker details here
 export interface OrderEventPublisher extends EventPublisherPort {
@@ -44,7 +44,7 @@ const envelope = EventEnvelope.create(new OrderPlacedEvent(orderId, total));
 ### Publisher
 
 ```typescript
-import { KafkaEventPublisher, KafkaConnection } from '@acme/messaging-kafka';
+import { KafkaEventPublisher, KafkaConnection } from '@marcusprado02/messaging-kafka';
 
 const kafka = new KafkaConnection({
   brokers: ['kafka:9092'],
@@ -62,7 +62,7 @@ await publisher.publish(EventEnvelope.create(new OrderPlacedEvent(orderId, total
 ### Consumer
 
 ```typescript
-import { KafkaEventConsumer } from '@acme/messaging-kafka';
+import { KafkaEventConsumer } from '@marcusprado02/messaging-kafka';
 
 const consumer = new KafkaEventConsumer(kafka, {
   topics: ['orders.events'],
@@ -90,7 +90,7 @@ import {
   RabbitMQConnection,
   RabbitMQEventPublisher,
   RabbitMQEventConsumer,
-} from '@acme/messaging-rabbitmq';
+} from '@marcusprado02/messaging-rabbitmq';
 
 const connection = new RabbitMQConnection({ url: 'amqp://rabbitmq:5672' });
 
@@ -115,7 +115,10 @@ consumer.subscribe(async (envelope) => {
 ## AWS EventBridge
 
 ```typescript
-import { EventBridgeEventPublisher, EventBridgeConnection } from '@acme/messaging-eventbridge';
+import {
+  EventBridgeEventPublisher,
+  EventBridgeConnection,
+} from '@marcusprado02/messaging-eventbridge';
 
 const bridge = new EventBridgeConnection({ region: 'us-east-1' });
 
@@ -134,7 +137,7 @@ await publisher.publish(EventEnvelope.create(new OrderPlacedEvent(orderId, total
 Decouple consumer logic with a simple dispatcher:
 
 ```typescript
-import { EventEnvelope } from '@acme/messaging';
+import { EventEnvelope } from '@marcusprado02/messaging';
 
 class OrderEventDispatcher {
   private readonly handlers = new Map<string, (env: EventEnvelope) => Promise<void>>();

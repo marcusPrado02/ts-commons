@@ -5,9 +5,9 @@
    @typescript-eslint/no-unsafe-argument,
    @typescript-eslint/no-unsafe-assignment,
    @typescript-eslint/strict-boolean-expressions
-   -- Option is from @acme/kernel; all types correct at compile time but
+   -- Option is from @marcusprado02/kernel; all types correct at compile time but
    unresolvable by ESLint TS plugin due to TypeScript 5.9.x / plugin <5.4. */
-import { Option } from '@acme/kernel';
+import { Option } from '@marcusprado02/kernel';
 import type { SecretsPort } from './SecretsPort';
 
 /**

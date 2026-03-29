@@ -5,7 +5,7 @@
    @typescript-eslint/no-unsafe-argument,
    @typescript-eslint/no-unsafe-assignment,
    @typescript-eslint/strict-boolean-expressions
-   -- Permission extends ValueObject<string> from @acme/kernel; `.value` is
+   -- Permission extends ValueObject<string> from @marcusprado02/kernel; `.value` is
    typed correctly at compile time but may appear as `any` to the ESLint TS
    plugin due to the TypeScript 5.9.x / plugin <5.4 version mismatch. */
 import type { AuthenticatedPrincipal } from '../authn/AuthenticatedPrincipal';

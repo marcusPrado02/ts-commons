@@ -1,4 +1,4 @@
-import type { EventPublisherPort } from '@acme/messaging';
+import type { EventPublisherPort } from '@marcusprado02/messaging';
 
 import type { OutboxStorePort } from '../outbox/OutboxStorePort';
 import type { OutboxRelayMetrics } from './OutboxRelayMetrics';
@@ -58,7 +58,7 @@ export class OutboxRelay {
 
       // Exponential back-off: skip if not yet eligible for retry
       if (msg.attempts > 0 && msg.lastAttemptAt !== undefined) {
-        const backoffMs = this.resolvedOptions.backoffBaseMs * (2 ** (msg.attempts - 1));
+        const backoffMs = this.resolvedOptions.backoffBaseMs * 2 ** (msg.attempts - 1);
         if (Date.now() < msg.lastAttemptAt.getTime() + backoffMs) {
           continue;
         }

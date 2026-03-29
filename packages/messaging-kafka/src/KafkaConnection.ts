@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call -- kafkajs methods */
 import { Kafka, logLevel } from 'kafkajs';
 import type { Producer, Admin } from 'kafkajs';
-import type { Logger } from '@acme/observability';
+import type { Logger } from '@marcusprado02/observability';
 import type { KafkaConfig, KafkaHealthCheck, KafkaProducerOptions } from './KafkaConfig';
 import { DEFAULT_KAFKA_CONFIG, DEFAULT_PRODUCER_OPTIONS } from './KafkaConfig';
 
@@ -31,21 +31,26 @@ export class KafkaConnection {
   private kafka: Kafka | null = null;
   private producer: Producer | null = null;
   private admin: Admin | null = null;
-  private readonly config: Required<Omit<KafkaConfig, 'transactionalId' | 'kafkaJSConfig'>> & Pick<KafkaConfig, 'transactionalId' | 'kafkaJSConfig'>;
-  private readonly producerOptions: Required<Omit<KafkaProducerOptions, 'batch'>> & Pick<KafkaProducerOptions, 'batch'>;
+  private readonly config: Required<Omit<KafkaConfig, 'transactionalId' | 'kafkaJSConfig'>> &
+    Pick<KafkaConfig, 'transactionalId' | 'kafkaJSConfig'>;
+  private readonly producerOptions: Required<Omit<KafkaProducerOptions, 'batch'>> &
+    Pick<KafkaProducerOptions, 'batch'>;
   private isConnected = false;
   private lastError: string | undefined;
 
   constructor(
     config: KafkaConfig,
     private readonly logger: Logger,
-    producerOptions: KafkaProducerOptions = {}
+    producerOptions: KafkaProducerOptions = {},
   ) {
     this.config = { ...DEFAULT_KAFKA_CONFIG, ...config };
     this.producerOptions = { ...DEFAULT_PRODUCER_OPTIONS, ...producerOptions };
 
     // Validate transactional configuration
-    if (this.config.transactional === true && (this.config.transactionalId === undefined || this.config.transactionalId === '')) {
+    if (
+      this.config.transactional === true &&
+      (this.config.transactionalId === undefined || this.config.transactionalId === '')
+    ) {
       throw new Error('transactionalId is required when transactional is true');
     }
   }

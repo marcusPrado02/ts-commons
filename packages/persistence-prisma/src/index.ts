@@ -13,7 +13,7 @@
  *   PrismaPaginator,
  *   withActivesOnly,
  *   softDeleteData,
- * } from '@acme/persistence-prisma';
+ * } from '@marcusprado02/persistence-prisma';
  * ```
  */
 

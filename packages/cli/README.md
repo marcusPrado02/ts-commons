@@ -1,13 +1,13 @@
-# @acme/cli
+# @marcusprado02/cli
 
-CLI tooling for scaffolding services, running code migrations, and managing project dependencies within the `@acme/*` ecosystem.
+CLI tooling for scaffolding services, running code migrations, and managing project dependencies within the `@marcusprado02/*` ecosystem.
 
 ## Installation
 
 ```bash
-pnpm add -D @acme/cli
+pnpm add -D @marcusprado02/cli
 # or globally
-pnpm add -g @acme/cli
+pnpm add -g @marcusprado02/cli
 ```
 
 ## Commands
@@ -36,7 +36,7 @@ acme deps upgrade --interactive
 ## Programmatic API
 
 ```typescript
-import { ScaffoldCommand, ProjectInitializer, DependencyChecker } from '@acme/cli';
+import { ScaffoldCommand, ProjectInitializer, DependencyChecker } from '@marcusprado02/cli';
 
 const scaffold = new ScaffoldCommand();
 const result = await scaffold.run({ kind: 'service', name: 'order-service' });
@@ -57,5 +57,5 @@ const deps = await checker.check('./package.json');
 
 ## See Also
 
-- [`@acme/codegen`](../codegen) — code generator templates
-- [`@acme/tutorials`](../tutorials) — interactive onboarding
+- [`@marcusprado02/codegen`](../codegen) — code generator templates
+- [`@marcusprado02/tutorials`](../tutorials) — interactive onboarding

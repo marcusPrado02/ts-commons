@@ -1,4 +1,4 @@
-import type { Result } from '@acme/kernel';
+import type { Result } from '@marcusprado02/kernel';
 
 /**
  * Use case interface for application layer operations.

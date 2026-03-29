@@ -6,13 +6,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call -- NestJS framework boundary: context.switchToHttp().getRequest(), IdempotencyKey methods */
 /* eslint-disable @typescript-eslint/consistent-type-imports -- IdempotencyStorePort is used by decorator metadata */
 import type { CanActivate, ExecutionContext } from '@nestjs/common';
-import {
-  Injectable,
-  Inject,
-  ConflictException,
-} from '@nestjs/common';
-import { IdempotencyStorePort } from '@acme/application';
-import { IdempotencyKey } from '@acme/application';
+import { Injectable, Inject, ConflictException } from '@nestjs/common';
+import { IdempotencyStorePort } from '@marcusprado02/application';
+import { IdempotencyKey } from '@marcusprado02/application';
 
 /**
  * Guard to enforce idempotency using idempotency keys
@@ -30,16 +26,14 @@ import { IdempotencyKey } from '@acme/application';
 export class IdempotencyGuard implements CanActivate {
   constructor(
     @Inject('IDEMPOTENCY_STORE')
-    private readonly store: IdempotencyStorePort
+    private readonly store: IdempotencyStorePort,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
 
     // Extract idempotency key from header
-    const idempotencyKeyHeader = request.headers[
-      'idempotency-key'
-    ] as string | undefined;
+    const idempotencyKeyHeader = request.headers['idempotency-key'] as string | undefined;
 
     if (idempotencyKeyHeader === undefined) {
       // No idempotency key, allow request
@@ -53,9 +47,7 @@ export class IdempotencyGuard implements CanActivate {
 
     if (existingResult !== undefined) {
       // Request already processed, throw conflict
-      throw new ConflictException(
-        'Request already processed with this idempotency key'
-      );
+      throw new ConflictException('Request already processed with this idempotency key');
     }
 
     // Attach idempotency key to request for downstream use

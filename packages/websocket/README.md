@@ -1,17 +1,17 @@
-# @acme/websocket
+# @marcusprado02/websocket
 
 WebSocket server abstraction with room management, reconnection handling, and authentication. Adapts to Socket.io or any custom `SocketAdapter`.
 
 ## Installation
 
 ```bash
-pnpm add @acme/websocket
+pnpm add @marcusprado02/websocket
 ```
 
 ## Quick Start
 
 ```typescript
-import { WebSocketServer, RoomManager } from '@acme/websocket';
+import { WebSocketServer, RoomManager } from '@marcusprado02/websocket';
 
 const server = new WebSocketServer({
   adapter: socketIoAdapter,
@@ -32,7 +32,7 @@ server.listen(3001);
 ## Room Management
 
 ```typescript
-import { RoomManager } from '@acme/websocket';
+import { RoomManager } from '@marcusprado02/websocket';
 
 const rooms = new RoomManager();
 await rooms.join(connectionId, 'order:123');
@@ -43,7 +43,7 @@ await rooms.leave(connectionId, 'order:123');
 ## Reconnection
 
 ```typescript
-import { ReconnectionHandler } from '@acme/websocket';
+import { ReconnectionHandler } from '@marcusprado02/websocket';
 
 const reconnect = new ReconnectionHandler({
   strategy: 'exponential',
@@ -55,5 +55,5 @@ const reconnect = new ReconnectionHandler({
 
 ## See Also
 
-- [`@acme/messaging`](../messaging) — broker-backed event publishing
-- [`@acme/web`](../web) — HTTP adapter base types
+- [`@marcusprado02/messaging`](../messaging) — broker-backed event publishing
+- [`@marcusprado02/web`](../web) — HTTP adapter base types

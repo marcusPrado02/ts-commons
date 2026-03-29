@@ -1,5 +1,5 @@
 /**
- * Core types for the @acme/data-pipeline package.
+ * Core types for the @marcusprado02/data-pipeline package.
  */
 
 /** The fundamental unit of data flowing through a pipeline. */

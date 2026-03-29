@@ -1,5 +1,5 @@
 /**
- * Integration tests for @acme/web-nestjs package
+ * Integration tests for @marcusprado02/web-nestjs package
  */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment -- Test file: NestJS testing utilities use any */
 /* eslint-disable @typescript-eslint/no-unsafe-call -- Test file: NestJS testing utilities use any */
@@ -11,15 +11,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import type { TestingModule } from '@nestjs/testing';
 import { Test } from '@nestjs/testing';
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  UseInterceptors,
-  UseGuards,
-  Module,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, UseInterceptors, UseGuards, Module } from '@nestjs/common';
 import request from 'supertest';
 import type { INestApplication } from '@nestjs/common';
 import {
@@ -35,10 +27,10 @@ import {
   QueryHandler,
   type ValidatorFn,
 } from '../src/index.js';
-import type { Logger } from '@acme/observability';
-import { Result } from '@acme/kernel';
+import type { Logger } from '@marcusprado02/observability';
+import { Result } from '@marcusprado02/kernel';
 
-describe('@acme/web-nestjs', () => {
+describe('@marcusprado02/web-nestjs', () => {
   let app: INestApplication;
   let mockLogger: Logger;
 
@@ -68,7 +60,6 @@ describe('@acme/web-nestjs', () => {
   @Controller('test')
   @UseInterceptors(CorrelationInterceptor, LoggingInterceptor, ErrorMappingInterceptor)
   class TestController {
-
     @Get('ping')
     ping(): { message: string } {
       return { message: 'pong' };
@@ -86,9 +77,10 @@ describe('@acme/web-nestjs', () => {
 
     @CommandHandler('CreateUser')
     @Post('users')
-    createUser(
-      @Body(new ValidationPipe(createUserValidator)) dto: CreateUserDto
-    ): { id: string; name: string } {
+    createUser(@Body(new ValidationPipe(createUserValidator)) dto: CreateUserDto): {
+      id: string;
+      name: string;
+    } {
       return {
         id: '123',
         name: dto.name,
@@ -168,7 +160,7 @@ describe('@acme/web-nestjs', () => {
       expect(response.status).toBe(200);
       expect(response.headers['x-correlation-id']).toBeDefined();
       expect(response.headers['x-correlation-id']).toMatch(
-        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
       );
     });
 
@@ -185,9 +177,7 @@ describe('@acme/web-nestjs', () => {
 
   describe('Decorators', () => {
     it('should use @QueryHandler decorator', async () => {
-      const response = await request(app.getHttpServer()).get(
-        '/test/users/123'
-      );
+      const response = await request(app.getHttpServer()).get('/test/users/123');
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual({
@@ -198,12 +188,10 @@ describe('@acme/web-nestjs', () => {
     });
 
     it('should use @CommandHandler decorator', async () => {
-      const response = await request(app.getHttpServer())
-        .post('/test/users')
-        .send({
-          name: 'Jane Doe',
-          email: 'jane@example.com',
-        });
+      const response = await request(app.getHttpServer()).post('/test/users').send({
+        name: 'Jane Doe',
+        email: 'jane@example.com',
+      });
 
       expect(response.status).toBe(201);
       expect(response.body).toEqual({
@@ -215,23 +203,19 @@ describe('@acme/web-nestjs', () => {
 
   describe('ValidationPipe', () => {
     it('should validate request body successfully', async () => {
-      const response = await request(app.getHttpServer())
-        .post('/test/users')
-        .send({
-          name: 'John Doe',
-          email: 'john@example.com',
-        });
+      const response = await request(app.getHttpServer()).post('/test/users').send({
+        name: 'John Doe',
+        email: 'john@example.com',
+      });
 
       expect(response.status).toBe(201);
     });
 
     it('should reject invalid request body', async () => {
-      const response = await request(app.getHttpServer())
-        .post('/test/users')
-        .send({
-          name: 'John Doe',
-          email: 'invalid-email',
-        });
+      const response = await request(app.getHttpServer()).post('/test/users').send({
+        name: 'John Doe',
+        email: 'invalid-email',
+      });
 
       expect(response.status).toBe(400);
       // ErrorMappingInterceptor converts to Problem Details RFC 7807
@@ -253,15 +237,9 @@ describe('@acme/web-nestjs', () => {
 
   describe('RateLimitGuard', () => {
     it('should allow requests within limit', async () => {
-      const response1 = await request(app.getHttpServer()).post(
-        '/test/rate-limited'
-      );
-      const response2 = await request(app.getHttpServer()).post(
-        '/test/rate-limited'
-      );
-      const response3 = await request(app.getHttpServer()).post(
-        '/test/rate-limited'
-      );
+      const response1 = await request(app.getHttpServer()).post('/test/rate-limited');
+      const response2 = await request(app.getHttpServer()).post('/test/rate-limited');
+      const response3 = await request(app.getHttpServer()).post('/test/rate-limited');
 
       expect(response1.status).toBe(201);
       expect(response2.status).toBe(201);
@@ -273,9 +251,7 @@ describe('@acme/web-nestjs', () => {
       await request(app.getHttpServer()).post('/test/rate-limited');
       await request(app.getHttpServer()).post('/test/rate-limited');
 
-      const response = await request(app.getHttpServer()).post(
-        '/test/rate-limited'
-      );
+      const response = await request(app.getHttpServer()).post('/test/rate-limited');
 
       expect(response.status).toBe(429);
       expect(response.body.message).toContain('Too many requests');
@@ -293,9 +269,7 @@ describe('@acme/web-nestjs', () => {
         });
 
       expect(response.status).toBe(201);
-      expect(response.headers['x-correlation-id']).toBe(
-        '550e8400-e29b-41d4-a716-446655440001'
-      );
+      expect(response.headers['x-correlation-id']).toBe('550e8400-e29b-41d4-a716-446655440001');
       expect(response.body).toEqual({
         id: '123',
         name: 'Integration Test',

@@ -1,17 +1,17 @@
-# @acme/notifications
+# @marcusprado02/notifications
 
 Multi-channel notification delivery: in-memory (dev/test), Webhook, and extensible via the `NotificationPort` interface. Supports rate limiting, retry, and opt-out management.
 
 ## Installation
 
 ```bash
-pnpm add @acme/notifications
+pnpm add @marcusprado02/notifications
 ```
 
 ## Quick Start
 
 ```typescript
-import { NotificationService, InMemoryNotificationAdapter } from '@acme/notifications';
+import { NotificationService, InMemoryNotificationAdapter } from '@marcusprado02/notifications';
 
 const adapter = new InMemoryNotificationAdapter();
 const service = new NotificationService(adapter);
@@ -46,7 +46,7 @@ const service = new NotificationService(adapter, {
 ## Implementing a Custom Adapter
 
 ```typescript
-import type { NotificationPort, Notification, SendResult } from '@acme/notifications';
+import type { NotificationPort, Notification, SendResult } from '@marcusprado02/notifications';
 
 class TwilioAdapter implements NotificationPort {
   async send(notification: Notification): Promise<SendResult> {
@@ -57,5 +57,5 @@ class TwilioAdapter implements NotificationPort {
 
 ## See Also
 
-- [`@acme/email`](../email) — dedicated email delivery
-- [`@acme/messaging`](../messaging) — event-driven notifications
+- [`@marcusprado02/email`](../email) — dedicated email delivery
+- [`@marcusprado02/messaging`](../messaging) — event-driven notifications

@@ -1,8 +1,8 @@
-# @acme/cache-redis
+# @marcusprado02/cache-redis
 
 Redis-backed distributed cache, multi-level (L1 memory + L2 Redis) cache, distributed locks, and pub/sub.
 
-**Install:** `pnpm add @acme/cache-redis @acme/kernel`
+**Install:** `pnpm add @marcusprado02/cache-redis @marcusprado02/kernel`
 
 **Requires:** Redis 6+
 
@@ -11,7 +11,7 @@ Redis-backed distributed cache, multi-level (L1 memory + L2 Redis) cache, distri
 ## `RedisConnection`
 
 ```typescript
-import { RedisConnection } from '@acme/cache-redis';
+import { RedisConnection } from '@marcusprado02/cache-redis';
 
 const connection = new RedisConnection({
   host: process.env.REDIS_HOST ?? 'localhost',
@@ -30,7 +30,7 @@ shutdown.register('redis', () => connection.disconnect());
 ## `RedisCache` — Basic Cache
 
 ```typescript
-import { RedisCache } from '@acme/cache-redis';
+import { RedisCache } from '@marcusprado02/cache-redis';
 
 const cache = new RedisCache(connection, {
   ttlSeconds: 3600, // default TTL (1 hour)
@@ -65,7 +65,7 @@ const order2 = await cache.getOrSet(
 Reads from in-process memory first (L1), falls back to Redis (L2). Writes go to both layers.
 
 ```typescript
-import { MultiLevelCache, InMemoryCache, RedisCache } from '@acme/cache-redis';
+import { MultiLevelCache, InMemoryCache, RedisCache } from '@marcusprado02/cache-redis';
 
 const cache = new MultiLevelCache({
   l1: new InMemoryCache({
@@ -92,7 +92,7 @@ const order = await cache.get<OrderDto>('order:123');
 Prevents race conditions across multiple service instances.
 
 ```typescript
-import { RedisLock } from '@acme/cache-redis';
+import { RedisLock } from '@marcusprado02/cache-redis';
 
 const lock = new RedisLock(connection, {
   ttlMs: 5_000, // lock expires after 5 seconds (safety net)
@@ -116,7 +116,7 @@ await lock.acquire('lock:order:123', async () => {
 Broadcast messages across service instances (e.g. cache invalidation).
 
 ```typescript
-import { RedisPubSub } from '@acme/cache-redis';
+import { RedisPubSub } from '@marcusprado02/cache-redis';
 
 const pubsub = new RedisPubSub(connection);
 
@@ -136,7 +136,7 @@ await pubsub.publish('orders.invalidate', orderId);
 Pre-populates cache at service startup to avoid cold-start latency spikes.
 
 ```typescript
-import { CacheWarmer } from '@acme/cache-redis';
+import { CacheWarmer } from '@marcusprado02/cache-redis';
 
 const warmer = new CacheWarmer(cache);
 

@@ -8,7 +8,7 @@ function toPascal(name: string): string {
 
 function entityTemplate(name: string): string {
   return [
-    `import { Entity } from '@acme/kernel';`,
+    `import { Entity } from '@marcusprado02/kernel';`,
     ``,
     `export interface ${name}Props {`,
     `  readonly id: string;`,
@@ -22,7 +22,7 @@ function entityTemplate(name: string): string {
 
 function aggregateTemplate(name: string): string {
   return [
-    `import { AggregateRoot } from '@acme/kernel';`,
+    `import { AggregateRoot } from '@marcusprado02/kernel';`,
     ``,
     `export interface ${name}Props {`,
     `  readonly id: string;`,
@@ -36,7 +36,7 @@ function aggregateTemplate(name: string): string {
 
 function useCaseTemplate(name: string): string {
   return [
-    `import type { UseCase } from '@acme/application';`,
+    `import type { UseCase } from '@marcusprado02/application';`,
     ``,
     `export interface ${name}Input { }`,
     `export interface ${name}Output { }`,
@@ -61,7 +61,7 @@ function repositoryTemplate(name: string): string {
 
 function eventTemplate(name: string): string {
   return [
-    `import { DomainEvent } from '@acme/kernel';`,
+    `import { DomainEvent } from '@marcusprado02/kernel';`,
     ``,
     `export class ${name} extends DomainEvent {`,
     `  static readonly EVENT_NAME = '${name}';`,
@@ -72,7 +72,7 @@ function eventTemplate(name: string): string {
 
 function valueObjectTemplate(name: string): string {
   return [
-    `import { ValueObject } from '@acme/kernel';`,
+    `import { ValueObject } from '@marcusprado02/kernel';`,
     ``,
     `export interface ${name}Props { readonly value: string; }`,
     ``,

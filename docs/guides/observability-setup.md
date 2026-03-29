@@ -1,13 +1,13 @@
 # Observability Setup Guide
 
-This guide shows how to wire `@acme/observability` into a service: structured logging, metrics, performance monitoring, and SLO tracking.
+This guide shows how to wire `@marcusprado02/observability` into a service: structured logging, metrics, performance monitoring, and SLO tracking.
 
 ---
 
 ## Installation
 
 ```bash
-pnpm add @acme/observability @acme/kernel
+pnpm add @marcusprado02/observability @marcusprado02/kernel
 ```
 
 ---
@@ -17,7 +17,7 @@ pnpm add @acme/observability @acme/kernel
 ### Basic Logger
 
 ```typescript
-import { Logger } from '@acme/observability';
+import { Logger } from '@marcusprado02/observability';
 
 const logger = new Logger({ name: 'order-service' });
 
@@ -29,7 +29,7 @@ logger.error('Payment failed', { orderId: 'ord-1', reason: 'Card declined' });
 ### LoggerFactory (named children)
 
 ```typescript
-import { LoggerFactory } from '@acme/observability';
+import { LoggerFactory } from '@marcusprado02/observability';
 
 const factory = new LoggerFactory({ defaultLevel: 'info' });
 const httpLogger = factory.create('http');
@@ -42,7 +42,7 @@ dbLogger.debug('Query executed', { sql: 'SELECT ...', rows: 42 });
 ### Level filtering
 
 ```typescript
-import { Logger, LevelFilterLogger, LogLevel } from '@acme/observability';
+import { Logger, LevelFilterLogger, LogLevel } from '@marcusprado02/observability';
 
 const base = new Logger({ name: 'svc' });
 const filtered = new LevelFilterLogger(base, LogLevel.WARN); // only WARN and above
@@ -51,7 +51,7 @@ const filtered = new LevelFilterLogger(base, LogLevel.WARN); // only WARN and ab
 ### PII redaction
 
 ```typescript
-import { Logger, PiiRedactor } from '@acme/observability';
+import { Logger, PiiRedactor } from '@marcusprado02/observability';
 
 const redactor = new PiiRedactor(['email', 'creditCard', 'ssn']);
 const logger = new Logger({ name: 'svc', redactor });
@@ -66,7 +66,7 @@ logger.info('User signed up', { email: 'alice@example.com' }); // → email: '[R
 ### InMemoryMetrics (development / testing)
 
 ```typescript
-import { InMemoryMetrics } from '@acme/observability';
+import { InMemoryMetrics } from '@marcusprado02/observability';
 
 const metrics = new InMemoryMetrics();
 
@@ -83,7 +83,7 @@ console.log(snapshot.histograms);
 ### Composite metrics (fan-out to multiple backends)
 
 ```typescript
-import { CompositeMetrics, InMemoryMetrics } from '@acme/observability';
+import { CompositeMetrics, InMemoryMetrics } from '@marcusprado02/observability';
 
 const local = new InMemoryMetrics();
 const composite = new CompositeMetrics([local /*, grafana, datadog */]);
@@ -95,8 +95,8 @@ composite.incrementCounter('orders.created');
 ### Grafana / Prometheus push gateway
 
 ```typescript
-import { GrafanaMetricsExporter } from '@acme/observability';
-import type { PushGatewayClientLike } from '@acme/observability';
+import { GrafanaMetricsExporter } from '@marcusprado02/observability';
+import type { PushGatewayClientLike } from '@marcusprado02/observability';
 
 // Implement PushGatewayClientLike against your HTTP client
 declare const pushGatewayClient: PushGatewayClientLike;
@@ -110,8 +110,8 @@ const exporter = new GrafanaMetricsExporter(pushGatewayClient, {
 ### DataDog
 
 ```typescript
-import { DataDogMetricsExporter } from '@acme/observability';
-import type { DataDogHttpClientLike } from '@acme/observability';
+import { DataDogMetricsExporter } from '@marcusprado02/observability';
+import type { DataDogHttpClientLike } from '@marcusprado02/observability';
 
 declare const ddClient: DataDogHttpClientLike;
 const exporter = new DataDogMetricsExporter(ddClient, { apiKey: process.env.DD_API_KEY! });
@@ -126,7 +126,7 @@ const exporter = new DataDogMetricsExporter(ddClient, { apiKey: process.env.DD_A
 Tracks request timing, detects slow operations, and reports budget violations.
 
 ```typescript
-import { PerformanceMonitor } from '@acme/observability';
+import { PerformanceMonitor } from '@marcusprado02/observability';
 
 const monitor = new PerformanceMonitor({
   slowQueryThresholdMs: 200,
@@ -145,7 +145,7 @@ console.log(report.budgetViolations);
 ### QueryProfiler
 
 ```typescript
-import { QueryProfiler } from '@acme/observability';
+import { QueryProfiler } from '@marcusprado02/observability';
 
 const profiler = new QueryProfiler({ slowThresholdMs: 100 });
 
@@ -158,7 +158,7 @@ const profile = done();
 ### RequestTimingCollector
 
 ```typescript
-import { RequestTimingCollector } from '@acme/observability';
+import { RequestTimingCollector } from '@marcusprado02/observability';
 
 const collector = new RequestTimingCollector();
 
@@ -175,8 +175,8 @@ app.use((req, res, next) => {
 ## SLO / SLI Tracking
 
 ```typescript
-import { SliTracker, SloTracker, AvailabilitySli } from '@acme/observability';
-import type { SloConfig } from '@acme/observability';
+import { SliTracker, SloTracker, AvailabilitySli } from '@marcusprado02/observability';
+import type { SloConfig } from '@marcusprado02/observability';
 
 const sloConfig: SloConfig = {
   name: 'api-availability',
@@ -201,7 +201,7 @@ console.log(status.burnRateAlerts); // active burn rate alerts
 ## Memory Profiling
 
 ```typescript
-import { MemoryLeakDetector, MemoryAlertManager } from '@acme/observability';
+import { MemoryLeakDetector, MemoryAlertManager } from '@marcusprado02/observability';
 
 // Alert when heap exceeds 512 MB
 const alertManager = new MemoryAlertManager([
@@ -228,7 +228,7 @@ const leaks = detector.getLeaks();
 Wire observability into your DI root once, then inject into handlers:
 
 ```typescript
-import { LoggerFactory, InMemoryMetrics, CompositeMetrics } from '@acme/observability';
+import { LoggerFactory, InMemoryMetrics, CompositeMetrics } from '@marcusprado02/observability';
 
 // Composition root
 const loggers = new LoggerFactory({ defaultLevel: 'info' });

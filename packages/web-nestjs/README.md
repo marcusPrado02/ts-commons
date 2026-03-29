@@ -1,4 +1,4 @@
-# @acme/web-nestjs
+# @marcusprado02/web-nestjs
 
 NestJS integration package providing Clean Architecture-compliant modules, decorators, interceptors, guards, and pipes for building production-ready web applications.
 
@@ -16,7 +16,7 @@ NestJS integration package providing Clean Architecture-compliant modules, decor
 ## Installation
 
 ```bash
-pnpm add @acme/web-nestjs
+pnpm add @marcusprado02/web-nestjs
 ```
 
 ## Quick Start
@@ -30,7 +30,7 @@ import {
   CommonsObservabilityModule,
   CommonsResilienceModule,
   CommonsOutboxModule,
-} from '@acme/web-nestjs';
+} from '@marcusprado02/web-nestjs';
 
 @Module({
   imports: [
@@ -51,7 +51,7 @@ export class AppModule {}
 
 ```typescript
 import { Controller, Get, Post, Body } from '@nestjs/common';
-import { UseCase, QueryHandler, CommandHandler } from '@acme/web-nestjs';
+import { UseCase, QueryHandler, CommandHandler } from '@marcusprado02/web-nestjs';
 
 @Controller('users')
 @UseCase('UserManagement')
@@ -81,7 +81,7 @@ import {
   ErrorMappingInterceptor,
   IdempotencyGuard,
   RateLimitGuard,
-} from '@acme/web-nestjs';
+} from '@marcusprado02/web-nestjs';
 
 @Module({
   providers: [
@@ -99,8 +99,8 @@ export class AppModule {}
 
 ```typescript
 import { Controller, Post, Body } from '@nestjs/common';
-import { ValidationPipe, ValidatorFn } from '@acme/web-nestjs';
-import { Result } from '@acme/kernel';
+import { ValidationPipe, ValidatorFn } from '@marcusprado02/web-nestjs';
+import { Result } from '@marcusprado02/kernel';
 
 interface CreateUserDto {
   name: string;
@@ -118,9 +118,7 @@ const createUserValidator: ValidatorFn<CreateUserDto> = (data) => {
 @Controller('users')
 export class UsersController {
   @Post()
-  async create(
-    @Body(new ValidationPipe(createUserValidator)) dto: CreateUserDto
-  ) {
+  async create(@Body(new ValidationPipe(createUserValidator)) dto: CreateUserDto) {
     return { id: '1', ...dto };
   }
 }
@@ -213,14 +211,14 @@ This package follows Clean Architecture principles:
 
 ## Comparison with Other Adapters
 
-| Feature | Express | Fastify | NestJS |
-|---------|---------|---------|--------|
-| Dependency Injection | Manual | Manual | Built-in |
-| Decorators | Custom | Custom | Native |
-| Interceptors | Middleware | Hooks | Interceptors |
-| Guards | Middleware | Hooks | Guards |
-| Validation | Middleware | Hooks | Pipes |
-| Module System | None | Plugins | Modules |
+| Feature              | Express    | Fastify | NestJS       |
+| -------------------- | ---------- | ------- | ------------ |
+| Dependency Injection | Manual     | Manual  | Built-in     |
+| Decorators           | Custom     | Custom  | Native       |
+| Interceptors         | Middleware | Hooks   | Interceptors |
+| Guards               | Middleware | Hooks   | Guards       |
+| Validation           | Middleware | Hooks   | Pipes        |
+| Module System        | None       | Plugins | Modules      |
 
 ## Testing
 

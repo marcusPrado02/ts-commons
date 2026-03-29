@@ -1,4 +1,4 @@
-# @acme/messaging-rabbitmq
+# @marcusprado02/messaging-rabbitmq
 
 RabbitMQ adapter for event-driven messaging with Clean Architecture principles.
 
@@ -17,7 +17,7 @@ RabbitMQ adapter for event-driven messaging with Clean Architecture principles.
 ## Installation
 
 ```bash
-pnpm add @acme/messaging-rabbitmq
+pnpm add @marcusprado02/messaging-rabbitmq
 ```
 
 ## Quick Start
@@ -25,8 +25,8 @@ pnpm add @acme/messaging-rabbitmq
 ### 1. Create Connection
 
 ```typescript
-import { RabbitMQConnection } from '@acme/messaging-rabbitmq';
-import { Logger } from '@acme/observability';
+import { RabbitMQConnection } from '@marcusprado02/messaging-rabbitmq';
+import { Logger } from '@marcusprado02/observability';
 
 const logger = Logger.create({ serviceName: 'my-service' });
 
@@ -38,7 +38,7 @@ const connection = new RabbitMQConnection(
     enableDLQ: true,
     maxRetries: 3,
   },
-  logger
+  logger,
 );
 
 await connection.connect();
@@ -47,7 +47,7 @@ await connection.connect();
 ### 2. Publish Events
 
 ```typescript
-import { RabbitMQEventPublisher } from '@acme/messaging-rabbitmq';
+import { RabbitMQEventPublisher } from '@marcusprado02/messaging-rabbitmq';
 
 const publisher = new RabbitMQEventPublisher(connection, logger);
 
@@ -67,18 +67,14 @@ await publisher.publish({
 ### 3. Consume Events
 
 ```typescript
-import { RabbitMQEventConsumer } from '@acme/messaging-rabbitmq';
+import { RabbitMQEventConsumer } from '@marcusprado02/messaging-rabbitmq';
 
-const consumer = new RabbitMQEventConsumer(
-  connection,
-  logger,
-  {
-    queue: 'user-service',
-    durable: true,
-    enableRetry: true,
-    maxRetries: 3,
-  }
-);
+const consumer = new RabbitMQEventConsumer(connection, logger, {
+  queue: 'user-service',
+  durable: true,
+  enableRetry: true,
+  maxRetries: 3,
+});
 
 consumer.subscribe('UserCreated', {
   handle: async (envelope) => {
@@ -105,33 +101,33 @@ process.on('SIGTERM', async () => {
 
 ### RabbitMQConfig
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `url` | `string` | - | Connection URL (amqp://user:pass@host:port/vhost) |
-| `exchange` | `string` | - | Exchange name for publishing |
-| `exchangeType` | `'topic' \| 'direct' \| 'fanout' \| 'headers'` | `'topic'` | Exchange type |
-| `poolSize` | `number` | `5` | Number of channels in pool |
-| `connectionTimeout` | `number` | `30000` | Connection timeout in ms |
-| `heartbeat` | `number` | `60` | Heartbeat interval in seconds |
-| `prefetchCount` | `number` | `10` | Prefetch count for consumers |
-| `enableDLQ` | `boolean` | `true` | Enable dead letter queue |
-| `dlqExchangeSuffix` | `string` | `'.dlq'` | DLQ exchange suffix |
-| `dlqQueueSuffix` | `string` | `'.dlq'` | DLQ queue suffix |
-| `maxRetries` | `number` | `3` | Max retry attempts |
-| `retryDelay` | `number` | `5000` | Retry delay in ms |
+| Property            | Type                                           | Default   | Description                                       |
+| ------------------- | ---------------------------------------------- | --------- | ------------------------------------------------- |
+| `url`               | `string`                                       | -         | Connection URL (amqp://user:pass@host:port/vhost) |
+| `exchange`          | `string`                                       | -         | Exchange name for publishing                      |
+| `exchangeType`      | `'topic' \| 'direct' \| 'fanout' \| 'headers'` | `'topic'` | Exchange type                                     |
+| `poolSize`          | `number`                                       | `5`       | Number of channels in pool                        |
+| `connectionTimeout` | `number`                                       | `30000`   | Connection timeout in ms                          |
+| `heartbeat`         | `number`                                       | `60`      | Heartbeat interval in seconds                     |
+| `prefetchCount`     | `number`                                       | `10`      | Prefetch count for consumers                      |
+| `enableDLQ`         | `boolean`                                      | `true`    | Enable dead letter queue                          |
+| `dlqExchangeSuffix` | `string`                                       | `'.dlq'`  | DLQ exchange suffix                               |
+| `dlqQueueSuffix`    | `string`                                       | `'.dlq'`  | DLQ queue suffix                                  |
+| `maxRetries`        | `number`                                       | `3`       | Max retry attempts                                |
+| `retryDelay`        | `number`                                       | `5000`    | Retry delay in ms                                 |
 
 ### RabbitMQConsumerOptions
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `queue` | `string` | - | Queue name |
-| `routingKey` | `string` | `eventType` | Routing key pattern |
-| `autoAck` | `boolean` | `false` | Auto-acknowledge messages |
-| `exclusive` | `boolean` | `false` | Exclusive queue |
-| `durable` | `boolean` | `true` | Durable queue |
-| `enableRetry` | `boolean` | `true` | Enable retry mechanism |
-| `maxRetries` | `number` | `3` | Max retry attempts |
-| `retryDelay` | `number` | `5000` | Retry delay in ms |
+| Property      | Type      | Default     | Description               |
+| ------------- | --------- | ----------- | ------------------------- |
+| `queue`       | `string`  | -           | Queue name                |
+| `routingKey`  | `string`  | `eventType` | Routing key pattern       |
+| `autoAck`     | `boolean` | `false`     | Auto-acknowledge messages |
+| `exclusive`   | `boolean` | `false`     | Exclusive queue           |
+| `durable`     | `boolean` | `true`      | Durable queue             |
+| `enableRetry` | `boolean` | `true`      | Enable retry mechanism    |
+| `maxRetries`  | `number`  | `3`         | Max retry attempts        |
+| `retryDelay`  | `number`  | `5000`      | Retry delay in ms         |
 
 ## Advanced Usage
 
@@ -161,15 +157,11 @@ await publisher.publishBatch(events);
 ### Custom Routing Keys
 
 ```typescript
-const consumer = new RabbitMQEventConsumer(
-  connection,
-  logger,
-  {
-    queue: 'notifications',
-    routingKey: 'user.*', // Matches UserCreated, UserUpdated, etc.
-    durable: true,
-  }
-);
+const consumer = new RabbitMQEventConsumer(connection, logger, {
+  queue: 'notifications',
+  routingKey: 'user.*', // Matches UserCreated, UserUpdated, etc.
+  durable: true,
+});
 ```
 
 ### Health Monitoring
@@ -189,21 +181,17 @@ The consumer automatically retries failed messages with exponential backoff:
 
 - **Attempt 1**: Immediate
 - **Attempt 2**: 5 seconds delay
-- **Attempt 3**: 10 seconds delay (5 * 2^1)
-- **Attempt 4**: 20 seconds delay (5 * 2^2)
+- **Attempt 3**: 10 seconds delay (5 \* 2^1)
+- **Attempt 4**: 20 seconds delay (5 \* 2^2)
 - **DLQ**: After max retries exceeded
 
 ```typescript
-const consumer = new RabbitMQEventConsumer(
-  connection,
-  logger,
-  {
-    queue: 'orders',
-    enableRetry: true,
-    maxRetries: 3,
-    retryDelay: 5000, // Base delay
-  }
-);
+const consumer = new RabbitMQEventConsumer(connection, logger, {
+  queue: 'orders',
+  enableRetry: true,
+  maxRetries: 3,
+  retryDelay: 5000, // Base delay
+});
 ```
 
 ### Dead Letter Queue
@@ -219,7 +207,7 @@ const connection = new RabbitMQConnection(
     dlqExchangeSuffix: '.dlq',
     dlqQueueSuffix: '.dlq',
   },
-  logger
+  logger,
 );
 
 // DLQ Exchange: events.dlq
@@ -227,6 +215,7 @@ const connection = new RabbitMQConnection(
 ```
 
 DLQ messages include metadata:
+
 - `x-death-reason`: Error message
 - `x-death-timestamp`: Timestamp
 - `x-original-exchange`: Original exchange
@@ -260,15 +249,15 @@ graph LR
     B -->|channel.publish| C[RabbitMQ Exchange]
     C -->|route| D[Queue 1]
     C -->|route| E[Queue 2]
-    
+
     D -->|consume| F[RabbitMQEventConsumer 1]
     E -->|consume| G[RabbitMQEventConsumer 2]
-    
+
     F -->|failed| H[DLQ Exchange]
     G -->|failed| H
-    
+
     H -->|route| I[DLQ Queue]
-    
+
     B -.->|pool| J[RabbitMQConnection]
     F -.->|pool| J
     G -.->|pool| J
@@ -278,29 +267,30 @@ graph LR
 
 This adapter follows Clean Architecture principles:
 
-- **Domain Independence**: Uses `@acme/messaging` ports (EventPublisherPort, EventConsumer)
+- **Domain Independence**: Uses `@marcusprado02/messaging` ports (EventPublisherPort, EventConsumer)
 - **Framework Boundary**: RabbitMQ implementation details isolated
 - **Dependency Inversion**: Application depends on abstractions, not concrete RabbitMQ
 - **Testability**: Easily mockable for unit tests
 
 ## Comparison: RabbitMQ vs Kafka vs EventBridge
 
-| Feature | RabbitMQ | Kafka | EventBridge |
-|---------|----------|-------|-------------|
-| **Message Model** | Queue/Exchange | Log/Stream | Event Bus |
-| **Throughput** | Moderate (10K-50K msg/s) | High (100K+ msg/s) | Moderate (10K msg/s) |
-| **Latency** | Low (ms) | Low (ms) | Moderate (ms-s) |
-| **Ordering** | Queue-level | Partition-level | None |
-| **Durability** | Disk/Memory | Disk (log) | AWS-managed |
-| **Protocol** | AMQP | Binary | HTTP/AWS SDK |
-| **DLQ** | ✅ Native | ⚠️ Manual | ✅ Native |
-| **Retry** | ✅ Built-in | ⚠️ Manual | ✅ Built-in |
-| **Schema** | ⚠️ Manual | ✅ Registry | ⚠️ Manual |
-| **Multi-tenancy** | ✅ Virtual hosts | ⚠️ Topics | ✅ Event buses |
-| **Setup** | Self-hosted | Self-hosted | Serverless |
-| **Cost** | Server costs | Server costs | Pay-per-event |
+| Feature           | RabbitMQ                 | Kafka              | EventBridge          |
+| ----------------- | ------------------------ | ------------------ | -------------------- |
+| **Message Model** | Queue/Exchange           | Log/Stream         | Event Bus            |
+| **Throughput**    | Moderate (10K-50K msg/s) | High (100K+ msg/s) | Moderate (10K msg/s) |
+| **Latency**       | Low (ms)                 | Low (ms)           | Moderate (ms-s)      |
+| **Ordering**      | Queue-level              | Partition-level    | None                 |
+| **Durability**    | Disk/Memory              | Disk (log)         | AWS-managed          |
+| **Protocol**      | AMQP                     | Binary             | HTTP/AWS SDK         |
+| **DLQ**           | ✅ Native                | ⚠️ Manual          | ✅ Native            |
+| **Retry**         | ✅ Built-in              | ⚠️ Manual          | ✅ Built-in          |
+| **Schema**        | ⚠️ Manual                | ✅ Registry        | ⚠️ Manual            |
+| **Multi-tenancy** | ✅ Virtual hosts         | ⚠️ Topics          | ✅ Event buses       |
+| **Setup**         | Self-hosted              | Self-hosted        | Serverless           |
+| **Cost**          | Server costs             | Server costs       | Pay-per-event        |
 
 **Use RabbitMQ when:**
+
 - Task queues with retry logic needed
 - Moderate throughput requirements
 - Complex routing patterns required
@@ -308,6 +298,7 @@ This adapter follows Clean Architecture principles:
 - Traditional messaging patterns preferred
 
 **Use Kafka when:**
+
 - High throughput streaming required
 - Event sourcing/CQRS patterns
 - Log aggregation and analytics
@@ -315,6 +306,7 @@ This adapter follows Clean Architecture principles:
 - Event replay capability important
 
 **Use EventBridge when:**
+
 - AWS-native architecture
 - Serverless applications
 - Cross-account event routing
@@ -396,7 +388,7 @@ await publisher.publish({
 
 ```typescript
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { RabbitMQEventPublisher } from '@acme/messaging-rabbitmq';
+import { RabbitMQEventPublisher } from '@marcusprado02/messaging-rabbitmq';
 
 describe('Event Publishing', () => {
   let publisher: RabbitMQEventPublisher;
@@ -420,7 +412,7 @@ describe('Event Publishing', () => {
       'events',
       'UserCreated',
       expect.any(Buffer),
-      expect.objectContaining({ messageId: '123' })
+      expect.objectContaining({ messageId: '123' }),
     );
   });
 });
@@ -429,9 +421,9 @@ describe('Event Publishing', () => {
 ## Dependencies
 
 - `amqplib`: RabbitMQ client library
-- `@acme/kernel`: Core domain types
-- `@acme/messaging`: Messaging ports and contracts
-- `@acme/observability`: Logging interfaces
+- `@marcusprado02/kernel`: Core domain types
+- `@marcusprado02/messaging`: Messaging ports and contracts
+- `@marcusprado02/observability`: Logging interfaces
 
 ## License
 

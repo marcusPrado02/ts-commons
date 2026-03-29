@@ -1,4 +1,4 @@
-import { ValueObject } from '@acme/kernel';
+import { ValueObject } from '@marcusprado02/kernel';
 
 export class EventName extends ValueObject<string> {
   private constructor(value: string) {

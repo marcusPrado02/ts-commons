@@ -1,4 +1,4 @@
-import type { DomainEvent } from '@acme/kernel';
+import type { DomainEvent } from '@marcusprado02/kernel';
 
 /**
  * Options that control how events are replayed from the store.

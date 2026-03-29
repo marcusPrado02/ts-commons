@@ -14,6 +14,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      packages: write
       id-token: write
 
     steps:
@@ -32,7 +33,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@marcusprado02'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -44,8 +46,8 @@ jobs:
         run: pnpm test
 
       # This action creates/updates a "Version Packages" pull request when
-      # changesets are present, or publishes to npm when that PR is merged.
-      - name: Create Release PR or Publish to npm
+      # changesets are present, or publishes to GitHub Packages when that PR is merged.
+      - name: Create Release PR or Publish to GitHub Packages
         id: changesets
         uses: changesets/action@v1
         with:
@@ -55,8 +57,7 @@ jobs:
           title: 'chore(release): version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Print published packages
         if: steps.changesets.outputs.published == 'true'

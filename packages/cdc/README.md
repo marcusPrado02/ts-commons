@@ -1,17 +1,17 @@
-# @acme/cdc
+# @marcusprado02/cdc
 
 Change Data Capture (CDC) — normalizes and processes database change events from Debezium, PostgreSQL logical replication, MySQL binlog, and MongoDB changestreams into a unified `CdcEvent` format.
 
 ## Installation
 
 ```bash
-pnpm add @acme/cdc
+pnpm add @marcusprado02/cdc
 ```
 
 ## Quick Start
 
 ```typescript
-import { EventNormalizer, CdcFilter, CdcProcessor } from '@acme/cdc';
+import { EventNormalizer, CdcFilter, CdcProcessor } from '@marcusprado02/cdc';
 
 const normalizer = new EventNormalizer();
 const filter = new CdcFilter({ operations: ['INSERT', 'UPDATE'], tables: ['orders'] });
@@ -42,5 +42,5 @@ const event = await processor.process(rawDebeziumEvent);
 
 ## See Also
 
-- [`@acme/messaging`](../messaging) — event publishing
-- [`@acme/eventsourcing`](../eventsourcing) — event sourcing patterns
+- [`@marcusprado02/messaging`](../messaging) — event publishing
+- [`@marcusprado02/eventsourcing`](../eventsourcing) — event sourcing patterns

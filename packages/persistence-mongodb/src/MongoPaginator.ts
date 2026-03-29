@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call -- MongoDB framework boundary: collection method calls */
 /* eslint-disable @typescript-eslint/no-unsafe-argument -- MongoDB framework boundary: Sort fields inferred as any through PageRequest */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access -- MongoDB framework boundary: Sort.field / Sort.direction inferred as any */
-import type { Page, PageRequest, Sort } from '@acme/persistence';
+import type { Page, PageRequest, Sort } from '@marcusprado02/persistence';
 import type { MongoMapper } from './MongoMapper';
 import type { MongoCollectionLike } from './MongoRepository';
 

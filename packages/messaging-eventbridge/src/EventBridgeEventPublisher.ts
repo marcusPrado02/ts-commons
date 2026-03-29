@@ -5,8 +5,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument -- envelope and AWS SDK arguments */
 import { PutEventsCommand } from '@aws-sdk/client-eventbridge';
 import type { PutEventsRequestEntry } from '@aws-sdk/client-eventbridge';
-import type { EventPublisherPort, EventEnvelope } from '@acme/messaging';
-import type { Logger } from '@acme/observability';
+import type { EventPublisherPort, EventEnvelope } from '@marcusprado02/messaging';
+import type { Logger } from '@marcusprado02/observability';
 import type { EventBridgeConnection } from './EventBridgeConnection';
 
 /**
@@ -130,7 +130,9 @@ export class EventBridgeEventPublisher implements EventPublisherPort {
             }
           });
         } else {
-          chunk.forEach(() => { this.connection.incrementPublished(); });
+          chunk.forEach(() => {
+            this.connection.incrementPublished();
+          });
         }
       } catch (error) {
         const msg = (error as Error).message;

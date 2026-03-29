@@ -5,10 +5,10 @@
    @typescript-eslint/no-unsafe-argument,
    @typescript-eslint/no-unsafe-assignment,
    @typescript-eslint/strict-boolean-expressions
-   -- Result is from @acme/kernel; all types are correct at compile time but
+   -- Result is from @marcusprado02/kernel; all types are correct at compile time but
    unresolvable by the ESLint TS plugin due to TypeScript 5.9.x / plugin <5.4.
    JwtClaims index-signature fields are unknown[], narrowed via typeof/Array.isArray. */
-import { Result } from '@acme/kernel';
+import { Result } from '@marcusprado02/kernel';
 import type { AuthenticatedPrincipal } from './AuthenticatedPrincipal';
 import type { AuthenticatorPort } from './AuthenticatorPort';
 import type { AuthError } from './AuthErrors';
@@ -33,7 +33,7 @@ import type { JwtVerifierLike } from './JwtVerifierLike';
  * @example
  * ```typescript
  * import jwt from 'jsonwebtoken';
- * import { JwtAuthenticator } from '@acme/security';
+ * import { JwtAuthenticator } from '@marcusprado02/security';
  *
  * const auth = new JwtAuthenticator(
  *   jwt as unknown as JwtVerifierLike,
@@ -53,16 +53,19 @@ export class JwtAuthenticator implements AuthenticatorPort {
     try {
       const claims = this.verifier.verify(raw, this.secret);
 
-      const rolesRaw       = claims['roles'];
+      const rolesRaw = claims['roles'];
       const permissionsRaw = claims['permissions'];
-      const tenantIdRaw    = claims['tenantId'];
+      const tenantIdRaw = claims['tenantId'];
 
-      const roles:       string[] = Array.isArray(rolesRaw)       ? (rolesRaw as string[])       : [];
-      const permissions: string[] = Array.isArray(permissionsRaw) ? (permissionsRaw as string[]) : [];
+      const roles: string[] = Array.isArray(rolesRaw) ? (rolesRaw as string[]) : [];
+      const permissions: string[] = Array.isArray(permissionsRaw)
+        ? (permissionsRaw as string[])
+        : [];
 
-      const principal: AuthenticatedPrincipal = typeof tenantIdRaw === 'string'
-        ? { id: claims.sub, tenantId: tenantIdRaw, roles, permissions }
-        : { id: claims.sub, roles, permissions };
+      const principal: AuthenticatedPrincipal =
+        typeof tenantIdRaw === 'string'
+          ? { id: claims.sub, tenantId: tenantIdRaw, roles, permissions }
+          : { id: claims.sub, roles, permissions };
 
       return Promise.resolve(Result.ok(principal));
     } catch (err: unknown) {

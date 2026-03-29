@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment -- NestJS framework boundary: OutboxStore construction */
 import type { DynamicModule } from '@nestjs/common';
 import { Global, Module } from '@nestjs/common';
-import type { OutboxStorePort } from '@acme/outbox';
+import type { OutboxStorePort } from '@marcusprado02/outbox';
 
 export interface CommonsOutboxModuleOptions {
   /**

@@ -6,10 +6,10 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type -- test helper functions */
 /* eslint-disable max-lines-per-function -- test files naturally have longer functions */
 /**
- * Tests for @acme/secrets
+ * Tests for @marcusprado02/secrets
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { Option, Duration } from '@acme/kernel';
+import { Option, Duration } from '@marcusprado02/kernel';
 import { EnvSecretsAdapter } from './EnvSecretsAdapter';
 import { CachedSecretsAdapter } from './CachedSecretsAdapter';
 import { FallbackSecretsAdapter } from './FallbackSecretsAdapter';
@@ -24,16 +24,16 @@ import type { AwsSsmClientLike } from './AwsSsmClientLike';
 
 function buildSsmClient(): AwsSsmClientLike {
   return {
-    getParameter:    vi.fn(),
-    putParameter:    vi.fn().mockResolvedValue({}),
+    getParameter: vi.fn(),
+    putParameter: vi.fn().mockResolvedValue({}),
     deleteParameter: vi.fn().mockResolvedValue({}),
   } as unknown as AwsSsmClientLike;
 }
 
 function buildInnerAdapter(): SecretsPort {
   return {
-    get:    vi.fn(),
-    set:    vi.fn().mockResolvedValue(undefined),
+    get: vi.fn(),
+    set: vi.fn().mockResolvedValue(undefined),
     delete: vi.fn().mockResolvedValue(undefined),
     rotate: vi.fn().mockResolvedValue(undefined),
   };
@@ -95,7 +95,7 @@ describe('CachedSecretsAdapter', () => {
   let adapter: CachedSecretsAdapter;
 
   beforeEach(() => {
-    inner   = buildInnerAdapter();
+    inner = buildInnerAdapter();
     adapter = new CachedSecretsAdapter(inner, Duration.ofMinutes(5));
   });
 
@@ -132,11 +132,11 @@ describe('CachedSecretsAdapter', () => {
 
   it('delete() should delegate to inner and evict from cache', async () => {
     vi.mocked(inner.get).mockResolvedValue(Option.some('value'));
-    await adapter.get('token');          // prime the cache
+    await adapter.get('token'); // prime the cache
     await adapter.delete('token');
 
     vi.mocked(inner.get).mockResolvedValue(Option.none());
-    await adapter.get('token');          // must hit inner again
+    await adapter.get('token'); // must hit inner again
 
     expect(inner.delete).toHaveBeenCalledWith('token');
     expect(inner.get).toHaveBeenCalledTimes(2);
@@ -155,25 +155,25 @@ describe('CachedSecretsAdapter', () => {
 
 describe('FallbackSecretsAdapter', () => {
   it('get() should return the first adapter value when found', async () => {
-    const primary   = buildInnerAdapter();
+    const primary = buildInnerAdapter();
     const secondary = buildInnerAdapter();
     vi.mocked(primary.get).mockResolvedValue(Option.some('primary-val'));
 
     const adapter = new FallbackSecretsAdapter([primary, secondary]);
-    const result  = await adapter.get('key');
+    const result = await adapter.get('key');
 
     expect(result.unwrap()).toBe('primary-val');
     expect(secondary.get).not.toHaveBeenCalled();
   });
 
   it('get() should fall through to second adapter when first returns none', async () => {
-    const primary   = buildInnerAdapter();
+    const primary = buildInnerAdapter();
     const secondary = buildInnerAdapter();
     vi.mocked(primary.get).mockResolvedValue(Option.none());
     vi.mocked(secondary.get).mockResolvedValue(Option.some('fallback-val'));
 
     const adapter = new FallbackSecretsAdapter([primary, secondary]);
-    const result  = await adapter.get('key');
+    const result = await adapter.get('key');
 
     expect(result.unwrap()).toBe('fallback-val');
   });
@@ -185,7 +185,7 @@ describe('FallbackSecretsAdapter', () => {
     vi.mocked(b.get).mockResolvedValue(Option.none());
 
     const adapter = new FallbackSecretsAdapter([a, b]);
-    const result  = await adapter.get('missing');
+    const result = await adapter.get('missing');
 
     expect(result.isNone()).toBe(true);
   });
@@ -222,7 +222,7 @@ describe('AwsSsmSecretsAdapter', () => {
   let adapter: AwsSsmSecretsAdapter;
 
   beforeEach(() => {
-    client  = buildSsmClient();
+    client = buildSsmClient();
     adapter = new AwsSsmSecretsAdapter(client, '/myapp/prod');
   });
 
@@ -234,15 +234,15 @@ describe('AwsSsmSecretsAdapter', () => {
     const result = await adapter.get('DB_PASSWORD');
 
     expect(client.getParameter).toHaveBeenCalledWith({
-      Name:           '/myapp/prod/DB_PASSWORD',
+      Name: '/myapp/prod/DB_PASSWORD',
       WithDecryption: true,
     });
     expect(result.unwrap()).toBe('db-secret-xyz');
   });
 
   it('get() should return Option.none when ParameterNotFound is thrown', async () => {
-    const err  = new Error('Parameter not found');
-    err.name   = 'ParameterNotFound';
+    const err = new Error('Parameter not found');
+    err.name = 'ParameterNotFound';
     vi.mocked(client.getParameter).mockRejectedValue(err);
 
     const result = await adapter.get('MISSING_KEY');
@@ -254,9 +254,9 @@ describe('AwsSsmSecretsAdapter', () => {
     await adapter.set('API_KEY', 'tok-123');
 
     expect(client.putParameter).toHaveBeenCalledWith({
-      Name:      '/myapp/prod/API_KEY',
-      Value:     'tok-123',
-      Type:      'SecureString',
+      Name: '/myapp/prod/API_KEY',
+      Value: 'tok-123',
+      Type: 'SecureString',
       Overwrite: true,
     });
   });

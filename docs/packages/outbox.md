@@ -1,8 +1,8 @@
-# @acme/outbox
+# @marcusprado02/outbox
 
 Transactional Outbox pattern: events are persisted atomically with your domain data before being published to the message broker. Guarantees **at-least-once delivery** with no dual-write problems.
 
-**Install:** `pnpm add @acme/outbox @acme/kernel @acme/messaging`
+**Install:** `pnpm add @marcusprado02/outbox @marcusprado02/kernel @marcusprado02/messaging`
 
 ---
 
@@ -26,7 +26,7 @@ If the broker is down, events accumulate in the outbox and are delivered once it
 ## `OutboxStorePort` — Port
 
 ```typescript
-import type { OutboxStorePort } from '@acme/outbox';
+import type { OutboxStorePort } from '@marcusprado02/outbox';
 
 // Implement using your DB of choice (see adapters in persistence-prisma / persistence-mongodb)
 export interface OutboxStorePort {
@@ -42,8 +42,8 @@ export interface OutboxStorePort {
 ## Writing to the Outbox (in a Use Case)
 
 ```typescript
-import { OutboxStorePort } from '@acme/outbox';
-import { UUID } from '@acme/kernel';
+import { OutboxStorePort } from '@marcusprado02/outbox';
+import { UUID } from '@marcusprado02/kernel';
 
 export class PlaceOrderUseCase {
   constructor(
@@ -80,7 +80,7 @@ export class PlaceOrderUseCase {
 ## `OutboxRelay` — Background Publisher
 
 ```typescript
-import { OutboxRelay } from '@acme/outbox';
+import { OutboxRelay } from '@marcusprado02/outbox';
 
 const relay = new OutboxRelay(outboxStore, publisher, {
   pollingIntervalMs: 5_000, // poll every 5 seconds
@@ -100,7 +100,7 @@ shutdown.register('outbox-relay', () => relay.stop());
 ## `InMemoryOutboxStore` — For Tests
 
 ```typescript
-import { InMemoryOutboxStore } from '@acme/outbox';
+import { InMemoryOutboxStore } from '@marcusprado02/outbox';
 
 const outboxStore = new InMemoryOutboxStore();
 const useCase = new PlaceOrderUseCase(uow, orderRepo, outboxStore);
@@ -112,14 +112,14 @@ expect(events).toHaveLength(1);
 expect(events[0]!.eventType).toBe('OrderPlacedEvent');
 ```
 
-> See also `@acme/testing` which re-exports `InMemoryOutboxStore` alongside other test fakes.
+> See also `@marcusprado02/testing` which re-exports `InMemoryOutboxStore` alongside other test fakes.
 
 ---
 
 ## Outbox with Prisma
 
 ```typescript
-import { PrismaOutboxStore } from '@acme/persistence-prisma';
+import { PrismaOutboxStore } from '@marcusprado02/persistence-prisma';
 
 const outboxStore = new PrismaOutboxStore(prisma);
 // Uses the `outbox` Prisma model — see docs/guides/building-a-microservice.md

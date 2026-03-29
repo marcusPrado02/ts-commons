@@ -1,8 +1,8 @@
-# @acme/kernel
+# @marcusprado02/kernel
 
 The foundational package with zero runtime dependencies. Provides all DDD primitives for building domain models.
 
-**Install:** `pnpm add @acme/kernel`
+**Install:** `pnpm add @marcusprado02/kernel`
 
 ---
 
@@ -11,7 +11,7 @@ The foundational package with zero runtime dependencies. Provides all DDD primit
 Replaces thrown exceptions in domain code. Every operation that can fail returns `Result` instead of throwing.
 
 ```typescript
-import { Result } from '@acme/kernel';
+import { Result } from '@marcusprado02/kernel';
 
 // Creating results
 const ok = Result.ok<Order, DomainError>(order);
@@ -45,7 +45,7 @@ const { oks, errs } = Result.partition(orderResults);
 Compared by value, not reference. Invariants are enforced in static factory methods.
 
 ```typescript
-import { ValueObject, Result } from '@acme/kernel';
+import { ValueObject, Result } from '@marcusprado02/kernel';
 
 interface MoneyProps {
   amount: number;
@@ -93,7 +93,7 @@ Entities have identity (ID). `AggregateRoot` is a specialised entity that:
 - Controls the transaction boundary
 
 ```typescript
-import { AggregateRoot, DomainEvent, Result } from '@acme/kernel';
+import { AggregateRoot, DomainEvent, Result } from '@marcusprado02/kernel';
 
 // 1. Domain Event
 export class OrderPlacedEvent extends DomainEvent {
@@ -159,7 +159,7 @@ for (const event of order.pullDomainEvents()) {
 ## `UUID` and `ULID`
 
 ```typescript
-import { UUID, ULID } from '@acme/kernel';
+import { UUID, ULID } from '@marcusprado02/kernel';
 
 const uuid = UUID.generate(); // "550e8400-e29b-41d4-a716-446655440000"
 UUID.from('550e8400-...'); // parsed / validated
@@ -173,7 +173,7 @@ const ulid = ULID.generate(); // "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 ## `CorrelationId` and `TenantContext`
 
 ```typescript
-import { CorrelationId, TenantId, TenantContext } from '@acme/kernel';
+import { CorrelationId, TenantId, TenantContext } from '@marcusprado02/kernel';
 
 const correlationId = CorrelationId.generate();
 
@@ -194,7 +194,7 @@ import {
   ConflictError,
   InvariantViolationError,
   UnauthorizedError,
-} from '@acme/kernel';
+} from '@marcusprado02/kernel';
 
 throw new NotFoundError('Order', orderId);
 // → "Order with id 'xxx' not found"
@@ -212,7 +212,7 @@ throw new InvariantViolationError('Price must be positive');
 Makes time-dependent code testable without monkey-patching `Date`.
 
 ```typescript
-import { SystemClock, Clock } from '@acme/kernel';
+import { SystemClock, Clock } from '@marcusprado02/kernel';
 
 class OrderExpirationService {
   constructor(private readonly clock: Clock) {}
@@ -228,7 +228,7 @@ class OrderExpirationService {
 // Production
 const service = new OrderExpirationService(new SystemClock());
 
-// Tests — use FakeClock from @acme/testing
+// Tests — use FakeClock from @marcusprado02/testing
 const fakeClock = new FakeClock(new Date('2026-01-01'));
 const service = new OrderExpirationService(fakeClock);
 ```

@@ -1,5 +1,5 @@
 {
-  "name": "@acme/web-graphql",
+  "name": "@marcusprado02/web-graphql",
   "version": "0.1.0",
   "description": "GraphQL support — schema-first, typed resolver adapters, DataLoader, subscriptions, federation utilities, and Problem Details error formatting",
   "type": "module",
@@ -24,7 +24,7 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

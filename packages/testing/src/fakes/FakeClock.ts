@@ -1,4 +1,4 @@
-import type { Clock } from '@acme/kernel';
+import type { Clock } from '@marcusprado02/kernel';
 
 /**
  * Fake clock for testing time-dependent code.

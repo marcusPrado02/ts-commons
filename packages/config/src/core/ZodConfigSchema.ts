@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import type { ZodType } from 'zod';
-import { Result } from '@acme/kernel';
+import { Result } from '@marcusprado02/kernel';
 import type { ConfigSchema } from './ConfigSchema';
 
 /**

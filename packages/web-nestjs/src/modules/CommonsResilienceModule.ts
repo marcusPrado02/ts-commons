@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment -- NestJS framework boundary: CircuitBreaker construction */
 import type { DynamicModule } from '@nestjs/common';
 import { Global, Module } from '@nestjs/common';
-import { CircuitBreaker } from '@acme/resilience';
+import { CircuitBreaker } from '@marcusprado02/resilience';
 
 export interface CircuitBreakerConfig {
   failureThreshold: number;
@@ -28,9 +28,7 @@ export interface CommonsResilienceModuleOptions {
 @Global()
 @Module({})
 export class CommonsResilienceModule {
-  static forRoot(
-    options: CommonsResilienceModuleOptions = {}
-  ): DynamicModule {
+  static forRoot(options: CommonsResilienceModuleOptions = {}): DynamicModule {
     const providers = [];
 
     if (options.enableCircuitBreaker !== false && options.circuitBreaker) {
@@ -38,7 +36,7 @@ export class CommonsResilienceModule {
         provide: 'CIRCUIT_BREAKER',
         useValue: new CircuitBreaker(
           options.circuitBreaker.failureThreshold,
-          options.circuitBreaker.resetTimeoutMs
+          options.circuitBreaker.resetTimeoutMs,
         ),
       });
     }

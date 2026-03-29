@@ -1,4 +1,4 @@
-# @acme/kernel
+# @marcusprado02/kernel
 
 **DDD Kernel** - Núcleo de Domain-Driven Design com **zero dependências de framework**.
 
@@ -14,13 +14,7 @@
 ## Uso
 
 ```typescript
-import { 
-  AggregateRoot, 
-  DomainEvent, 
-  ValueObject, 
-  Result, 
-  UUID 
-} from '@acme/kernel';
+import { AggregateRoot, DomainEvent, ValueObject, Result, UUID } from '@marcusprado02/kernel';
 
 class OrderId extends ValueObject<string> {}
 

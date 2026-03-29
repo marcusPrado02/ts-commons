@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import type { UseCaseContext } from '../src';
-import { CorrelationId, RequestId, TenantId } from '@acme/kernel';
+import { CorrelationId, RequestId, TenantId } from '@marcusprado02/kernel';
 
 describe('UseCaseContext', () => {
   describe('basic structure', () => {
@@ -130,7 +130,10 @@ describe('UseCaseContext', () => {
       };
 
       expect((context.metadata?.['request'] as { method: string }).method).toBe('POST');
-      expect((context.metadata?.['feature'] as { flags: string[] }).flags).toEqual(['new-ui', 'beta-feature']);
+      expect((context.metadata?.['feature'] as { flags: string[] }).flags).toEqual([
+        'new-ui',
+        'beta-feature',
+      ]);
     });
 
     it('should support various metadata types', () => {

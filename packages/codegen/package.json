@@ -1,7 +1,7 @@
 {
-  "name": "@acme/codegen",
+  "name": "@marcusprado02/codegen",
   "version": "0.1.0",
-  "description": "Code generators — CRUD, API endpoints, test suites and migrations for @acme/ts-commons",
+  "description": "Code generators — CRUD, API endpoints, test suites and migrations for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -34,6 +34,6 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   }
 }

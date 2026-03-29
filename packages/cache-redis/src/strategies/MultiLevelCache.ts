@@ -1,5 +1,5 @@
-import type { Option } from '@acme/kernel';
-import type { Duration } from '@acme/kernel';
+import type { Option } from '@marcusprado02/kernel';
+import type { Duration } from '@marcusprado02/kernel';
 import type { CachePort } from './CachePort';
 
 /**

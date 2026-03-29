@@ -31,7 +31,7 @@ export interface FastifyUserContext {
  *
  * @example
  * ```typescript
- * import { FastifyContextAdapter } from '@acme/web-fastify';
+ * import { FastifyContextAdapter } from '@marcusprado02/web-fastify';
  *
  * // Extract context in route handler
  * app.get('/users', async (request, reply) => {
@@ -100,9 +100,7 @@ export class FastifyContextAdapter {
         return undefined;
       }
 
-      const payload = JSON.parse(
-        Buffer.from(parts[1], 'base64').toString('utf-8')
-      );
+      const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf-8'));
 
       const userId = (typeof payload.sub === 'string' ? payload.sub : payload.userId) as string;
       const result: FastifyUserContext = { userId };

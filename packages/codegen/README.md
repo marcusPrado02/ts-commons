@@ -1,17 +1,17 @@
-# @acme/codegen
+# @marcusprado02/codegen
 
 Code generators for common patterns — CRUD repositories, REST API endpoints, test suites, and database migrations. Produces clean, typed TypeScript scaffolding.
 
 ## Installation
 
 ```bash
-pnpm add -D @acme/codegen
+pnpm add -D @marcusprado02/codegen
 ```
 
 ## Quick Start
 
 ```typescript
-import { CrudGenerator, GeneratorRegistry } from '@acme/codegen';
+import { CrudGenerator, GeneratorRegistry } from '@marcusprado02/codegen';
 
 const registry = new GeneratorRegistry();
 registry.register(new CrudGenerator());
@@ -41,7 +41,7 @@ const result = await registry.run('crud', {
 ## Template Engine
 
 ```typescript
-import { render, capitalize, toKebab } from '@acme/codegen';
+import { render, capitalize, toKebab } from '@marcusprado02/codegen';
 
 const code = render('class {{Name}}Repository { }', { Name: capitalize('order') });
 // 'class OrderRepository { }'
@@ -49,5 +49,5 @@ const code = render('class {{Name}}Repository { }', { Name: capitalize('order') 
 
 ## See Also
 
-- [`@acme/cli`](../cli) — CLI wrapper for these generators
-- [`@acme/testing`](../testing) — test builders and fakes
+- [`@marcusprado02/cli`](../cli) — CLI wrapper for these generators
+- [`@marcusprado02/testing`](../testing) — test builders and fakes

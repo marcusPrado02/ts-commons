@@ -1,5 +1,5 @@
 {
-  "name": "@acme/persistence",
+  "name": "@marcusprado02/persistence",
   "version": "0.1.0",
   "description": "Repository abstractions, UnitOfWork, Pagination",
   "type": "module",
@@ -23,7 +23,7 @@
     "vitest": "^2.1.9"
   },
   "dependencies": {
-    "@acme/kernel": "workspace:*"
+    "@marcusprado02/kernel": "workspace:*"
   },
   "keywords": [
     "persistence",
@@ -35,7 +35,7 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

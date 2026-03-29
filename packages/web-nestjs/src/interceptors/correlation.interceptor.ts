@@ -9,8 +9,8 @@ import type { NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/com
 import { Injectable } from '@nestjs/common';
 import type { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import type { CorrelationId } from '@acme/kernel';
-import { UUID } from '@acme/kernel';
+import type { CorrelationId } from '@marcusprado02/kernel';
+import { UUID } from '@marcusprado02/kernel';
 
 /**
  * Interceptor to handle correlation ID generation and propagation
@@ -31,9 +31,7 @@ export class CorrelationInterceptor implements NestInterceptor {
     const response = context.switchToHttp().getResponse();
 
     // Extract or generate correlation ID
-    const correlationIdHeader = request.headers['x-correlation-id'] as
-      | string
-      | undefined;
+    const correlationIdHeader = request.headers['x-correlation-id'] as string | undefined;
 
     let correlationId: CorrelationId;
     if (correlationIdHeader !== undefined) {
@@ -51,7 +49,7 @@ export class CorrelationInterceptor implements NestInterceptor {
     return next.handle().pipe(
       tap(() => {
         // Additional logic after response
-      })
+      }),
     );
   }
 }

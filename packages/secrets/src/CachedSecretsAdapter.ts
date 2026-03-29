@@ -5,11 +5,11 @@
    @typescript-eslint/no-unsafe-argument,
    @typescript-eslint/no-unsafe-assignment,
    @typescript-eslint/strict-boolean-expressions
-   -- Option and Duration are from @acme/kernel; all types are correct at
+   -- Option and Duration are from @marcusprado02/kernel; all types are correct at
    compile time but the ESLint TS plugin cannot resolve them due to the
    TypeScript version mismatch (5.9.x vs plugin-supported <5.4). */
-import { Option } from '@acme/kernel';
-import type { Duration } from '@acme/kernel';
+import { Option } from '@marcusprado02/kernel';
+import type { Duration } from '@marcusprado02/kernel';
 import type { SecretsPort } from './SecretsPort';
 
 interface CacheEntry {
@@ -49,7 +49,7 @@ export class CachedSecretsAdapter implements SecretsPort {
     const result = await this.inner.get(key);
     if (result.isSome()) {
       this.cache.set(key, {
-        value:     result.unwrap(),
+        value: result.unwrap(),
         expiresAt: Date.now() + ttl(this.ttl),
       });
     }

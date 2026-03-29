@@ -1,5 +1,5 @@
 {
-  "name": "@acme/web",
+  "name": "@marcusprado02/web",
   "version": "0.1.0",
   "description": "Web adapters: HTTP server abstractions and middlewares",
   "type": "module",
@@ -20,9 +20,9 @@
     "lint": "eslint src --ext .ts"
   },
   "dependencies": {
-    "@acme/kernel": "workspace:*",
-    "@acme/errors": "workspace:*",
-    "@acme/contracts": "workspace:*"
+    "@marcusprado02/kernel": "workspace:*",
+    "@marcusprado02/errors": "workspace:*",
+    "@marcusprado02/contracts": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
@@ -41,7 +41,7 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

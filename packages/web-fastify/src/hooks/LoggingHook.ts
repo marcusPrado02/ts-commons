@@ -9,7 +9,7 @@
  */
 
 import type { FastifyRequest, FastifyReply, HookHandlerDoneFunction } from 'fastify';
-import type { Logger } from '@acme/observability';
+import type { Logger } from '@marcusprado02/observability';
 
 export interface LoggingHookOptions {
   /**
@@ -45,7 +45,7 @@ export interface LoggingHookOptions {
  * @example
  * ```typescript
  * import Fastify from 'fastify';
- * import { loggingHook } from '@acme/web-fastify';
+ * import { loggingHook } from '@marcusprado02/web-fastify';
  *
  * const app = Fastify();
  * app.addHook('onRequest', loggingHook(logger, { logLevel: 'info' }));
@@ -53,7 +53,7 @@ export interface LoggingHookOptions {
  */
 export function loggingHook(
   logger: Logger,
-  options: LoggingHookOptions = {}
+  options: LoggingHookOptions = {},
 ): (request: FastifyRequest, reply: FastifyReply) => Promise<void> {
   const {
     logLevel = 'info',
@@ -71,31 +71,25 @@ export function loggingHook(
     const startTime = Date.now();
 
     // Log incoming request
-    (logger[logLevel] as (message: string, data?: unknown) => void)(
-      'HTTP Request',
-      {
-        httpMethod: request.method,
-        path: request.url,
-        correlationId: request.headers['x-correlation-id'],
-        ...(logRequestBody && { body: request.body }),
-      }
-    );
+    (logger[logLevel] as (message: string, data?: unknown) => void)('HTTP Request', {
+      httpMethod: request.method,
+      path: request.url,
+      correlationId: request.headers['x-correlation-id'],
+      ...(logRequestBody && { body: request.body }),
+    });
 
     // Hook into response to log after completion
     reply.raw.on('finish', () => {
       const duration = Date.now() - startTime;
       const statusCode = reply.statusCode;
 
-      (logger[logLevel] as (message: string, data?: unknown) => void)(
-        'HTTP Response',
-        {
-          httpMethod: request.method,
-          path: request.url,
-          statusCode,
-          duration,
-          correlationId: request.headers['x-correlation-id'],
-        }
-      );
+      (logger[logLevel] as (message: string, data?: unknown) => void)('HTTP Response', {
+        httpMethod: request.method,
+        path: request.url,
+        statusCode,
+        duration,
+        correlationId: request.headers['x-correlation-id'],
+      });
     });
   };
 }
@@ -105,12 +99,9 @@ export function loggingHook(
  */
 export function loggingHookCallback(
   logger: Logger,
-  options: LoggingHookOptions = {}
+  options: LoggingHookOptions = {},
 ): (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) => void {
-  const {
-    logLevel = 'info',
-    excludePaths = ['/health', '/metrics'],
-  } = options;
+  const { logLevel = 'info', excludePaths = ['/health', '/metrics'] } = options;
 
   return (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction): void => {
     if (excludePaths.includes(request.url)) {
@@ -120,27 +111,21 @@ export function loggingHookCallback(
 
     const startTime = Date.now();
 
-    (logger[logLevel] as (message: string, data?: unknown) => void)(
-      'HTTP Request',
-      {
-        httpMethod: request.method,
-        path: request.url,
-        correlationId: request.headers['x-correlation-id'],
-      }
-    );
+    (logger[logLevel] as (message: string, data?: unknown) => void)('HTTP Request', {
+      httpMethod: request.method,
+      path: request.url,
+      correlationId: request.headers['x-correlation-id'],
+    });
 
     reply.raw.on('finish', () => {
       const duration = Date.now() - startTime;
-      (logger[logLevel] as (message: string, data?: unknown) => void)(
-        'HTTP Response',
-        {
-          httpMethod: request.method,
-          path: request.url,
-          statusCode: reply.statusCode,
-          duration,
-          correlationId: request.headers['x-correlation-id'],
-        }
-      );
+      (logger[logLevel] as (message: string, data?: unknown) => void)('HTTP Response', {
+        httpMethod: request.method,
+        path: request.url,
+        statusCode: reply.statusCode,
+        duration,
+        correlationId: request.headers['x-correlation-id'],
+      });
     });
 
     done();

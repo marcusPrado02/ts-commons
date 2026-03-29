@@ -1,5 +1,5 @@
 /**
- * Tests for @acme/email
+ * Tests for @marcusprado02/email
  *
  * Covers:
  *   - InMemoryEmailAdapter (7 tests)
@@ -33,7 +33,7 @@ import type { SmtpClientLike, SmtpSendMailResult } from './SmtpEmailAdapter';
 import type { SendGridClientLike, SendGridResponse } from './SendGridEmailAdapter';
 import type { MailgunClientLike } from './MailgunEmailAdapter';
 import type { SesClientLike } from './SesEmailAdapter';
-import type { LoggerPort } from '@acme/kernel';
+import type { LoggerPort } from '@marcusprado02/kernel';
 
 // ---------------------------------------------------------------------------
 // Fixtures
@@ -41,7 +41,7 @@ import type { LoggerPort } from '@acme/kernel';
 
 function buildMessage(overrides?: Partial<EmailMessage>): EmailMessage {
   return {
-    from: { email: 'sender@acme.dev', name: 'ACME' },
+    from: { email: 'sender@marcusprado02.dev', name: 'ACME' },
     to: [{ email: 'user@example.com', name: 'Alice' }],
     subject: 'Hello, {{name}}!',
     text: 'Plain text body.',

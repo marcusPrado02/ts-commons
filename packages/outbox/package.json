@@ -1,5 +1,5 @@
 {
-  "name": "@acme/outbox",
+  "name": "@marcusprado02/outbox",
   "version": "0.1.0",
   "description": "Transactional Outbox/Inbox + Idempotency",
   "type": "module",
@@ -24,8 +24,8 @@
     "vitest": "^2.1.9"
   },
   "dependencies": {
-    "@acme/kernel": "workspace:*",
-    "@acme/messaging": "workspace:*"
+    "@marcusprado02/kernel": "workspace:*",
+    "@marcusprado02/messaging": "workspace:*"
   },
   "keywords": [
     "outbox",
@@ -37,7 +37,7 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

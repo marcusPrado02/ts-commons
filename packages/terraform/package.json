@@ -1,7 +1,7 @@
 {
-  "name": "@acme/terraform",
+  "name": "@marcusprado02/terraform",
   "version": "0.1.0",
-  "description": "Terraform module generator, validator and CLI builder for @acme/ts-commons",
+  "description": "Terraform module generator, validator and CLI builder for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -32,6 +32,6 @@
   ],
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   }
 }

@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import { Result } from '@acme/kernel';
+import { Result } from '@marcusprado02/kernel';
 import type { ValidationResult, Validator } from './Validator';
 import type { ValidationIssue } from './ValidationError';
 import { ValidationError } from './ValidationError';
@@ -79,7 +79,9 @@ export class FunctionValidator<T> implements Validator<T> {
       return Promise.resolve(Result.ok<T, ValidationError>(result));
     }
     return Promise.resolve(
-      Result.err<T, ValidationError>(ValidationError.fromMessage(this.field, this.message, this.code)),
+      Result.err<T, ValidationError>(
+        ValidationError.fromMessage(this.field, this.message, this.code),
+      ),
     );
   }
 }

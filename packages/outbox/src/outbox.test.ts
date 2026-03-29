@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/unbound-method */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import type { EventEnvelope, EventPublisherPort } from '@acme/messaging';
+import type { EventEnvelope, EventPublisherPort } from '@marcusprado02/messaging';
 import type { OutboxMessage } from './outbox/OutboxStorePort';
 import type { InboxMessage } from './inbox/InboxStorePort';
 import { InMemoryOutboxStore } from './outbox/InMemoryOutboxStore';

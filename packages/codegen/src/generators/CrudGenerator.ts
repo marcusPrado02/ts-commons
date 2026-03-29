@@ -7,7 +7,7 @@ import type {
 } from '../GeneratorTypes';
 import { render, capitalize, toKebab, toCamel, pluralise } from '../TemplateEngine';
 
-const ENTITY_TEMPLATE = `import { Entity } from '@acme/kernel';
+const ENTITY_TEMPLATE = `import { Entity } from '@marcusprado02/kernel';
 
 export class {{Name}} extends Entity<string> {
 {{fields}}

@@ -8,8 +8,8 @@
  */
 
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
-import type { UseCase } from '@acme/application';
-import type { Result } from '@acme/kernel';
+import type { UseCase } from '@marcusprado02/application';
+import type { Result } from '@marcusprado02/kernel';
 
 /**
  * Options for controller adapter
@@ -44,7 +44,7 @@ export interface ControllerAdapterOptions {
  * @example
  * ```typescript
  * import express from 'express';
- * import { ExpressControllerAdapter } from '@acme/web-express';
+ * import { ExpressControllerAdapter } from '@marcusprado02/web-express';
  * import { CreateUserUseCase } from './usecases';
  *
  * const app = express();

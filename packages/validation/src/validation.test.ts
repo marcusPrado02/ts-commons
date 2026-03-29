@@ -64,9 +64,9 @@ describe('ZodValidator', () => {
   const validator = new ZodValidator(schema);
 
   it('returns Ok with parsed value for valid input', async () => {
-    const result = await validator.validate({ email: 'alice@acme.com', age: 25 });
+    const result = await validator.validate({ email: 'alice@marcusprado02.com', age: 25 });
     expect(result.isOk()).toBe(true);
-    expect(result.unwrap()).toEqual({ email: 'alice@acme.com', age: 25 });
+    expect(result.unwrap()).toEqual({ email: 'alice@marcusprado02.com', age: 25 });
   });
 
   it('returns Err with issues for invalid email', async () => {
@@ -78,7 +78,7 @@ describe('ZodValidator', () => {
   });
 
   it('returns Err for value below minimum (age < 18)', async () => {
-    const result = await validator.validate({ email: 'alice@acme.com', age: 16 });
+    const result = await validator.validate({ email: 'alice@marcusprado02.com', age: 16 });
     expect(result.isErr()).toBe(true);
     expect(result.unwrapErr().hasField('age')).toBe(true);
   });

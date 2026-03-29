@@ -1,7 +1,7 @@
 {
-  "name": "@acme/hotreload",
+  "name": "@marcusprado02/hotreload",
   "version": "0.1.0",
-  "description": "Hot reload utilities — watch mode, incremental compilation and fast test refresh for @acme/ts-commons",
+  "description": "Hot reload utilities — watch mode, incremental compilation and fast test refresh for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -33,6 +33,6 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   }
 }

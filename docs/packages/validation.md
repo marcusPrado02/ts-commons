@@ -1,8 +1,8 @@
-# @acme/validation
+# @marcusprado02/validation
 
 Schema and business-rule validation. Returns typed `Result<T, ValidationError>` — never throws.
 
-**Install:** `pnpm add @acme/validation @acme/kernel`
+**Install:** `pnpm add @marcusprado02/validation @marcusprado02/kernel`
 
 ---
 
@@ -11,7 +11,7 @@ Schema and business-rule validation. Returns typed `Result<T, ValidationError>` 
 Wraps a Zod schema as a `ValidatorPort`. Returns `Ok<ValidatedInput>` or `Err<ValidationError>` with a full list of field errors.
 
 ```typescript
-import { ZodValidator } from '@acme/validation';
+import { ZodValidator } from '@marcusprado02/validation';
 import { z } from 'zod';
 
 const placeOrderSchema = z.object({
@@ -49,7 +49,7 @@ result.match({
 Runs validators in sequence. Short-circuits on the first failure (default) or collects all errors.
 
 ```typescript
-import { CompositeValidator } from '@acme/validation';
+import { CompositeValidator } from '@marcusprado02/validation';
 
 // 1. Schema validator — checks shape and types
 // 2. Business rule validator — checks domain rules (e.g. customer not blocked)
@@ -69,8 +69,8 @@ const result = await validator.validate(input);
 Implement `ValidatorPort<T>` to create reusable business rule validators:
 
 ```typescript
-import type { ValidatorPort, ValidationError } from '@acme/validation';
-import { Result } from '@acme/kernel';
+import type { ValidatorPort, ValidationError } from '@marcusprado02/validation';
+import { Result } from '@marcusprado02/kernel';
 
 export class CustomerNotBlockedValidator implements ValidatorPort<PlaceOrderInput> {
   constructor(private readonly customerRepo: CustomerRepository) {}
@@ -98,7 +98,7 @@ export class CustomerNotBlockedValidator implements ValidatorPort<PlaceOrderInpu
 Use `ValidationBehavior` to run validation automatically before any handler:
 
 ```typescript
-import { Mediator, ValidationBehavior } from '@acme/application';
+import { Mediator, ValidationBehavior } from '@marcusprado02/application';
 
 const mediator = new Mediator([
   new ValidationBehavior(validator),

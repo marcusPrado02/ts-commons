@@ -1,8 +1,8 @@
-# @acme/docker-utils
+# @marcusprado02/docker-utils
 
 Kubernetes-ready shutdown and health checks. Implements 12-Factor Factor IX (Disposability): fast startup, graceful shutdown, and proper liveness/readiness signals.
 
-**Install:** `pnpm add @acme/docker-utils @acme/kernel`
+**Install:** `pnpm add @marcusprado02/docker-utils @marcusprado02/kernel`
 
 ---
 
@@ -11,7 +11,7 @@ Kubernetes-ready shutdown and health checks. Implements 12-Factor Factor IX (Dis
 Handles `SIGTERM` and `SIGINT`. Executes registered cleanup handlers in reverse registration order (last in, first out) within a configurable timeout.
 
 ```typescript
-import { GracefulShutdown } from '@acme/docker-utils';
+import { GracefulShutdown } from '@marcusprado02/docker-utils';
 
 const shutdown = new GracefulShutdown({ timeoutMs: 30_000 });
 
@@ -52,7 +52,7 @@ If any cleanup handler throws or the overall timeout is exceeded, the process ex
 Aggregates multiple health checks into a single endpoint. Supports both liveness (`/health`) and readiness (`/health/ready`) probes.
 
 ```typescript
-import { HealthAggregator } from '@acme/docker-utils';
+import { HealthAggregator } from '@marcusprado02/docker-utils';
 
 const health = new HealthAggregator();
 

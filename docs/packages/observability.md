@@ -1,17 +1,17 @@
-# @acme/observability
+# @marcusprado02/observability
 
 Structured logging, metrics, distributed tracing, SLO tracking, and performance monitoring — all following the Port/Adapter pattern.
 
-**Install:** `pnpm add @acme/observability @acme/kernel`
+**Install:** `pnpm add @marcusprado02/observability @marcusprado02/kernel`
 
-**OpenTelemetry tracing:** `pnpm add @acme/observability-otel`
+**OpenTelemetry tracing:** `pnpm add @marcusprado02/observability-otel`
 
 ---
 
 ## `LoggerFactory` — Structured Logging
 
 ```typescript
-import { LoggerFactory, LogLevel } from '@acme/observability';
+import { LoggerFactory, LogLevel } from '@marcusprado02/observability';
 
 const factory = new LoggerFactory({
   level: LogLevel.INFO,
@@ -36,7 +36,7 @@ All log lines automatically include: `correlationId`, `tenantId`, `timestamp`, `
 Redacts sensitive fields before they reach the log output.
 
 ```typescript
-import { PiiRedactor } from '@acme/observability';
+import { PiiRedactor } from '@marcusprado02/observability';
 
 const redactor = new PiiRedactor({
   fields: ['password', 'creditCard', 'cpf', 'email', 'token'],
@@ -57,7 +57,7 @@ log.info('Login attempt', {
 ## `MetricsPort` and Exporters
 
 ```typescript
-import { MetricsPort, InMemoryMetrics } from '@acme/observability';
+import { MetricsPort, InMemoryMetrics } from '@marcusprado02/observability';
 
 // In production: DataDogMetrics, GrafanaMetrics, OtelMetrics, etc.
 const metrics: MetricsPort = new InMemoryMetrics();
@@ -82,7 +82,7 @@ metrics.timing('payment.latency', start, { provider: 'stripe' });
 ## `OtelTracer` — Distributed Tracing (OpenTelemetry)
 
 ```typescript
-import { OtelTracer } from '@acme/observability-otel';
+import { OtelTracer } from '@marcusprado02/observability-otel';
 
 const tracer = new OtelTracer({ serviceName: 'orders-service' });
 
@@ -109,7 +109,7 @@ try {
 ## `AdvancedTracer` — Dependency Analysis
 
 ```typescript
-import { AdvancedTracer } from '@acme/observability-otel';
+import { AdvancedTracer } from '@marcusprado02/observability-otel';
 
 const tracer = new AdvancedTracer({
   strategy: 'ratio',
@@ -143,7 +143,7 @@ const criticalPath = tracer.getCriticalPath(traceId);
 ## `SloTracker` — SLO and Error Budget
 
 ```typescript
-import { SloTracker } from '@acme/observability';
+import { SloTracker } from '@marcusprado02/observability';
 
 const slo = new SloTracker({
   name: 'orders-availability',
@@ -167,7 +167,7 @@ const report = slo.getReport();
 ## `PerformanceMonitor` — Latency Tracking
 
 ```typescript
-import { PerformanceMonitor } from '@acme/observability';
+import { PerformanceMonitor } from '@marcusprado02/observability';
 
 const monitor = new PerformanceMonitor({ p99ThresholdMs: 500 });
 
@@ -185,7 +185,7 @@ const slow = monitor.getSlowOperations(); // operations where p99 > threshold
 
 ## Correlation IDs in Logs
 
-When using `@acme/web-fastify`, the `CorrelationHook` automatically injects `correlationId` into every request. The logger reads from `CorrelationContext` automatically.
+When using `@marcusprado02/web-fastify`, the `CorrelationHook` automatically injects `correlationId` into every request. The logger reads from `CorrelationContext` automatically.
 
 ```typescript
 // All log lines in this request will include correlationId

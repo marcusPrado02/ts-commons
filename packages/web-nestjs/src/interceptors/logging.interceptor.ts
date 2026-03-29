@@ -6,13 +6,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call -- NestJS framework boundary: logger.info/error methods and Observable operators */
 /* eslint-disable @typescript-eslint/consistent-type-imports -- Logger is used by decorator metadata */
 import type { NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
-import {
-  Injectable,
-  Inject,
-} from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import type { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Logger } from '@acme/observability';
+import { Logger } from '@marcusprado02/observability';
 
 /**
  * Interceptor to log request and response details
@@ -71,7 +68,7 @@ export class LoggingInterceptor implements NestInterceptor {
             correlationId: correlationIdValue,
           });
         },
-      })
+      }),
     );
   }
 }

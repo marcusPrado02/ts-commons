@@ -285,7 +285,7 @@ export class DDDAnalyzer {
    */
   private isDomainLayer(content: string): boolean {
     return (
-      content.includes('@acme/kernel') ||
+      content.includes('@marcusprado02/kernel') ||
       content.includes("from '../kernel'") ||
       content.includes("from './kernel'")
     );
@@ -434,7 +434,7 @@ export class DDDAnalyzer {
     const violations: DDDViolation[] = [];
 
     // Domain events should have a timestamp. Skip when the base class already
-    // provides it (e.g. extending @acme/kernel's DomainEvent which has occurredAt).
+    // provides it (e.g. extending @marcusprado02/kernel's DomainEvent which has occurredAt).
     const hasTimestamp = inheritsTimestamp || /(?:occurredAt|timestamp|when)\s*[:=]/i.test(content);
 
     if (!hasTimestamp) {
@@ -578,7 +578,7 @@ export class DDDAnalyzer {
         content.includes('mongoose') ||
         content.includes('typeorm') ||
         content.includes('prisma') ||
-        /import.*from\s+['"](?!@acme\/kernel)/g.test(content);
+        /import.*from\s+['"](?!@marcusprado02\/kernel)/g.test(content);
 
       if (hasInfraDependencies) {
         violations.push({

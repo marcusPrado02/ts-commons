@@ -1,4 +1,4 @@
-# @acme/web-fastify
+# @marcusprado02/web-fastify
 
 Fastify adapter for ts-commons platform following Clean Architecture and hexagonal architecture principles.
 
@@ -16,7 +16,7 @@ Fastify adapter for ts-commons platform following Clean Architecture and hexagon
 ## Installation
 
 ```bash
-pnpm add @acme/web-fastify
+pnpm add @marcusprado02/web-fastify
 ```
 
 ## Quick Start
@@ -29,7 +29,7 @@ import {
   loggingHook,
   FastifyControllerAdapter,
   FastifyContextAdapter,
-} from '@acme/web-fastify';
+} from '@marcusprado02/web-fastify';
 
 const app = Fastify();
 
@@ -57,9 +57,11 @@ await app.listen({ port: 3000 });
 Generates or extracts correlation IDs for request tracing.
 
 **Parameters:**
+
 - `headerName` (optional): HTTP header name for correlation ID. Default: `'x-correlation-id'`
 
 **Example:**
+
 ```typescript
 app.addHook('onRequest', correlationHook('x-request-id'));
 ```
@@ -69,12 +71,14 @@ app.addHook('onRequest', correlationHook('x-request-id'));
 Converts errors to RFC 7807 Problem Details format.
 
 **Supported Error Types:**
+
 - `ValidationError` → 400 Bad Request
 - `DomainError` → 422 Unprocessable Entity
 - 404 errors → 404 Not Found
 - Others → 500 Internal Server Error
 
 **Example:**
+
 ```typescript
 app.setErrorHandler(errorHandlerHook(logger));
 ```
@@ -84,17 +88,22 @@ app.setErrorHandler(errorHandlerHook(logger));
 Logs HTTP requests and responses with structured data.
 
 **Options:**
+
 - `logLevel`: Log level ('debug' | 'info' | 'warn'). Default: `'info'`
 - `logRequestBody`: Whether to log request body. Default: `false`
 - `excludePaths`: Array of paths to exclude from logging. Default: `['/health', '/metrics']`
 
 **Example:**
+
 ```typescript
-app.addHook('onRequest', loggingHook(logger, {
-  logLevel: 'debug',
-  logRequestBody: true,
-  excludePaths: ['/health'],
-}));
+app.addHook(
+  'onRequest',
+  loggingHook(logger, {
+    logLevel: 'debug',
+    logRequestBody: true,
+    excludePaths: ['/health'],
+  }),
+);
 ```
 
 ### Adapters
@@ -106,6 +115,7 @@ Adapts use cases to Fastify route handlers with automatic Result type handling.
 **Methods:**
 
 ##### `adapt(useCase)`
+
 Generic adapter for any use case. Returns 200 OK on success.
 
 ```typescript
@@ -113,6 +123,7 @@ app.get('/users', FastifyControllerAdapter.adapt(listUsersUseCase));
 ```
 
 ##### `adaptCommand(useCase)`
+
 For command use cases (mutations). Returns 200 OK on success.
 
 ```typescript
@@ -120,6 +131,7 @@ app.put('/users/:id', FastifyControllerAdapter.adaptCommand(updateUserUseCase));
 ```
 
 ##### `adaptQuery(useCase)`
+
 For query use cases (read-only). Returns 200 OK with data.
 
 ```typescript
@@ -127,6 +139,7 @@ app.get('/users/:id', FastifyControllerAdapter.adaptQuery(getUserUseCase));
 ```
 
 ##### `adaptCreate(useCase)`
+
 For creation commands. Returns 201 Created on success.
 
 ```typescript
@@ -134,6 +147,7 @@ app.post('/users', FastifyControllerAdapter.adaptCreate(createUserUseCase));
 ```
 
 ##### `adaptDelete(useCase)`
+
 For deletion commands. Returns 204 No Content on success.
 
 ```typescript
@@ -147,6 +161,7 @@ Extracts context information from Fastify requests.
 **Methods:**
 
 ##### `fromRequest(request)`
+
 Extracts complete context from request.
 
 ```typescript
@@ -157,6 +172,7 @@ console.log(context.user);
 ```
 
 ##### `extractTenantId(request)`
+
 Extracts tenant ID from `x-tenant-id` header.
 
 ```typescript
@@ -164,6 +180,7 @@ const tenantId = FastifyContextAdapter.extractTenantId(request);
 ```
 
 ##### `extractUserContext(request)`
+
 Extracts user context from JWT or session.
 
 ```typescript
@@ -171,6 +188,7 @@ const user = FastifyContextAdapter.extractUserContext(request);
 ```
 
 ##### `contextHook()`
+
 Creates a hook that adds context to request.
 
 ```typescript
@@ -191,23 +209,23 @@ graph TB
         Routes[Routes]
         Hooks[Hooks]
     end
-    
+
     subgraph "Adapter Layer"
         CA[Controller Adapter]
         CX[Context Adapter]
     end
-    
+
     subgraph "Application Layer"
         UC[Use Cases]
         CMD[Commands]
         QRY[Queries]
     end
-    
+
     subgraph "Domain Layer"
         ENT[Entities]
         VO[Value Objects]
     end
-    
+
     Routes --> Hooks
     Hooks --> CA
     Hooks --> CX
@@ -217,7 +235,7 @@ graph TB
     CMD --> ENT
     QRY --> ENT
     ENT --> VO
-    
+
     style Routes fill:#e1f5ff
     style Hooks fill:#fff3e0
     style CA fill:#f3e5f5
@@ -236,10 +254,10 @@ import {
   loggingHook,
   FastifyControllerAdapter,
   FastifyContextAdapter,
-} from '@acme/web-fastify';
-import { Logger } from '@acme/observability';
-import { Result } from '@acme/kernel';
-import type { UseCase } from '@acme/application';
+} from '@marcusprado02/web-fastify';
+import { Logger } from '@marcusprado02/observability';
+import { Result } from '@marcusprado02/kernel';
+import type { UseCase } from '@marcusprado02/application';
 
 // Create logger
 const logger = new Logger('user-service');
@@ -249,11 +267,11 @@ class GetUserUseCase implements UseCase<{ id: string }, User, Error> {
   async execute(input: { id: string }): Promise<Result<User, Error>> {
     // Your business logic here
     const user = await userRepository.findById(input.id);
-    
+
     if (!user) {
       return Result.err(new Error('User not found'));
     }
-    
+
     return Result.ok(user);
   }
 }
@@ -286,7 +304,7 @@ logger.info('Server started on port 3000');
 ```typescript
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import Fastify, { FastifyInstance } from 'fastify';
-import { correlationHook, errorHandlerHook } from '@acme/web-fastify';
+import { correlationHook, errorHandlerHook } from '@marcusprado02/web-fastify';
 
 describe('My API', () => {
   let app: FastifyInstance;
@@ -295,10 +313,10 @@ describe('My API', () => {
     app = Fastify();
     app.addHook('onRequest', correlationHook());
     app.setErrorHandler(errorHandlerHook(logger));
-    
+
     // Register routes
     app.get('/users/:id', getUserHandler);
-    
+
     await app.ready();
   });
 
@@ -380,14 +398,14 @@ app.get('/users/:id', async (request, reply) => {
 
 ## Differences from Express Adapter
 
-| Feature | Express | Fastify |
-|---------|---------|---------|
-| **Hooks** | Middleware functions | Hook system (onRequest, preHandler, etc.) |
-| **Performance** | Good | Excellent (2x faster) |
-| **Schema Validation** | Manual | Built-in JSON Schema |
-| **Async/Await** | Supported | Native and optimized |
-| **Plugin System** | None | First-class plugin system |
-| **Type Safety** | Good | Excellent |
+| Feature               | Express              | Fastify                                   |
+| --------------------- | -------------------- | ----------------------------------------- |
+| **Hooks**             | Middleware functions | Hook system (onRequest, preHandler, etc.) |
+| **Performance**       | Good                 | Excellent (2x faster)                     |
+| **Schema Validation** | Manual               | Built-in JSON Schema                      |
+| **Async/Await**       | Supported            | Native and optimized                      |
+| **Plugin System**     | None                 | First-class plugin system                 |
+| **Type Safety**       | Good                 | Excellent                                 |
 
 ## License
 
@@ -395,8 +413,8 @@ MIT
 
 ## Related Packages
 
-- `@acme/web-express` - Express.js adapter
-- `@acme/web` - Core web abstractions
-- `@acme/application` - Use cases and CQRS
-- `@acme/kernel` - Domain primitives
-- `@acme/observability` - Logging and tracing
+- `@marcusprado02/web-express` - Express.js adapter
+- `@marcusprado02/web` - Core web abstractions
+- `@marcusprado02/application` - Use cases and CQRS
+- `@marcusprado02/kernel` - Domain primitives
+- `@marcusprado02/observability` - Logging and tracing

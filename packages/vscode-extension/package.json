@@ -1,7 +1,7 @@
 {
-  "name": "@acme/vscode-extension",
+  "name": "@marcusprado02/vscode-extension",
   "version": "0.1.0",
-  "description": "VSCode extension utilities — snippets, DDD pattern detection, architecture validation and quick fixes for @acme/ts-commons",
+  "description": "VSCode extension utilities — snippets, DDD pattern detection, architecture validation and quick fixes for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -34,7 +34,7 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

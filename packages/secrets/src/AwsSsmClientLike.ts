@@ -7,7 +7,7 @@
  * @example
  * ```typescript
  * import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
- * import type { AwsSsmClientLike } from '@acme/secrets';
+ * import type { AwsSsmClientLike } from '@marcusprado02/secrets';
  *
  * const ssmClient = new SSMClient({ region: 'us-east-1' });
  * const adapter = new AwsSsmSecretsAdapter(ssmClient as unknown as AwsSsmClientLike);

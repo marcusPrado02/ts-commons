@@ -1,11 +1,11 @@
-# @acme/search
+# @marcusprado02/search
 
 Full-text search abstraction — a port interface with adapters for Algolia, Elasticsearch, MeiliSearch, and an in-memory implementation for tests. Supports faceted search, fuzzy matching, and suggestions.
 
 ## Installation
 
 ```bash
-npm install @acme/search
+npm install @marcusprado02/search
 ```
 
 Adapters require the corresponding SDK to be installed separately:
@@ -54,7 +54,7 @@ npm install meilisearch
 ## Usage
 
 ```typescript
-import { InMemorySearchAdapter } from '@acme/search';
+import { InMemorySearchAdapter } from '@marcusprado02/search';
 
 const adapter = new InMemorySearchAdapter();
 
@@ -74,7 +74,7 @@ Swap in a production adapter by providing its SDK client:
 
 ```typescript
 import { MeiliSearch } from 'meilisearch';
-import { MeiliSearchAdapter } from '@acme/search';
+import { MeiliSearchAdapter } from '@marcusprado02/search';
 
 const client = new MeiliSearch({ host: 'http://localhost:7700', apiKey: 'key' });
 const adapter = new MeiliSearchAdapter(client);

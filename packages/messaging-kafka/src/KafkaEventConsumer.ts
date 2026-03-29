@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access -- kafkajs message properties */
 /* eslint-disable @typescript-eslint/no-unsafe-call -- kafkajs methods */
 /* eslint-disable @typescript-eslint/no-unsafe-argument -- envelope properties */
-import type { EventConsumer, EventHandler, EventEnvelope } from '@acme/messaging';
-import type { Logger } from '@acme/observability';
+import type { EventConsumer, EventHandler, EventEnvelope } from '@marcusprado02/messaging';
+import type { Logger } from '@marcusprado02/observability';
 import type { Consumer, EachMessagePayload } from 'kafkajs';
 import type { KafkaConnection } from './KafkaConnection';
 import type { KafkaConsumerOptions } from './KafkaConfig';
@@ -45,7 +45,7 @@ export class KafkaEventConsumer implements EventConsumer {
   constructor(
     private readonly connection: KafkaConnection,
     private readonly logger: Logger,
-    options: KafkaConsumerOptions
+    options: KafkaConsumerOptions,
   ) {
     this.options = { ...DEFAULT_CONSUMER_OPTIONS, ...options } as Required<KafkaConsumerOptions>;
   }
@@ -162,11 +162,13 @@ export class KafkaEventConsumer implements EventConsumer {
 
         // Still commit offset to avoid reprocessing
         if (this.options.autoCommit === false && this.consumer !== null) {
-          await this.consumer.commitOffsets([{
-            topic,
-            partition,
-            offset: (Number(message.offset) + 1).toString(),
-          }]);
+          await this.consumer.commitOffsets([
+            {
+              topic,
+              partition,
+              offset: (Number(message.offset) + 1).toString(),
+            },
+          ]);
         }
         return;
       }
@@ -181,11 +183,13 @@ export class KafkaEventConsumer implements EventConsumer {
 
         // Commit offset for unhandled messages to avoid blocking
         if (this.options.autoCommit === false && this.consumer !== null) {
-          await this.consumer.commitOffsets([{
-            topic,
-            partition,
-            offset: (Number(message.offset) + 1).toString(),
-          }]);
+          await this.consumer.commitOffsets([
+            {
+              topic,
+              partition,
+              offset: (Number(message.offset) + 1).toString(),
+            },
+          ]);
         }
         return;
       }
@@ -204,11 +208,13 @@ export class KafkaEventConsumer implements EventConsumer {
 
       // Manual offset commit for at-least-once delivery
       if (this.options.autoCommit === false && this.consumer !== null) {
-        await this.consumer.commitOffsets([{
-          topic,
-          partition,
-          offset: (Number(message.offset) + 1).toString(),
-        }]);
+        await this.consumer.commitOffsets([
+          {
+            topic,
+            partition,
+            offset: (Number(message.offset) + 1).toString(),
+          },
+        ]);
       }
 
       this.logger.debug('Message processed successfully', {

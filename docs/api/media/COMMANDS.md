@@ -9,20 +9,20 @@
 pnpm install
 
 # Instalar dependência em um pacote específico
-pnpm --filter @acme/kernel add <package>
+pnpm --filter @marcusprado02/kernel add <package>
 
 # Instalar dev dependency em um pacote
-pnpm --filter @acme/kernel add -D <package>
+pnpm --filter @marcusprado02/kernel add -D <package>
 
 # Instalar dependência workspace em outro pacote
-pnpm --filter @acme/application add @acme/kernel
+pnpm --filter @marcusprado02/application add @marcusprado02/kernel
 ```
 
 ### Remover Dependências
 
 ```bash
 # Remover de um pacote específico
-pnpm --filter @acme/kernel remove <package>
+pnpm --filter @marcusprado02/kernel remove <package>
 ```
 
 ---
@@ -46,10 +46,10 @@ pnpm -r run build --watch
 
 ```bash
 # Build apenas kernel
-pnpm --filter @acme/kernel build
+pnpm --filter @marcusprado02/kernel build
 
 # Build kernel e suas dependências
-pnpm --filter @acme/kernel... build
+pnpm --filter @marcusprado02/kernel... build
 ```
 
 ### Limpar Builds
@@ -76,7 +76,7 @@ pnpm test
 pnpm test:watch
 
 # Testes de um pacote específico
-pnpm --filter @acme/kernel test
+pnpm --filter @marcusprado02/kernel test
 
 # Testes com coverage
 pnpm -r run test -- --coverage
@@ -96,7 +96,7 @@ pnpm lint
 pnpm lint --fix
 
 # Lint pacote específico
-pnpm --filter @acme/kernel lint
+pnpm --filter @marcusprado02/kernel lint
 ```
 
 ### Formatação
@@ -116,7 +116,7 @@ pnpm format --check
 pnpm typecheck
 
 # Type check pacote específico
-pnpm --filter @acme/kernel typecheck
+pnpm --filter @marcusprado02/kernel typecheck
 ```
 
 ---
@@ -130,7 +130,7 @@ pnpm --filter @acme/kernel typecheck
 pnpm list --depth=2
 
 # Ver dependências de um pacote
-pnpm --filter @acme/application list
+pnpm --filter @marcusprado02/application list
 
 # Ver apenas dependências de produção
 pnpm list --prod
@@ -143,7 +143,7 @@ pnpm list --prod
 pnpm list -r --depth -1
 
 # Ver informações de um pacote
-pnpm --filter @acme/kernel info
+pnpm --filter @marcusprado02/kernel info
 ```
 
 ### Análise de Bundle
@@ -177,10 +177,10 @@ pnpm -r --workspace-concurrency=1 run build
 
 ```bash
 # Apenas pacotes que dependem de kernel
-pnpm --filter ...@acme/kernel run test
+pnpm --filter ...@marcusprado02/kernel run test
 
 # Apenas kernel e suas dependências
-pnpm --filter @acme/kernel... run build
+pnpm --filter @marcusprado02/kernel... run build
 ```
 
 ---
@@ -216,7 +216,7 @@ pnpm -r publish --dry-run
 pnpm -r publish --access public
 
 # Publicar pacote específico
-pnpm --filter @acme/kernel publish --access public
+pnpm --filter @marcusprado02/kernel publish --access public
 ```
 
 ### Bump de Versão
@@ -309,7 +309,7 @@ cd packages/novo-pacote
 # 2. Criar package.json
 cat > package.json << EOF
 {
-  "name": "@acme/novo-pacote",
+  "name": "@marcusprado02/novo-pacote",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",

@@ -8,8 +8,8 @@ import type { Producer, Admin, Kafka, Consumer } from 'kafkajs';
 import { KafkaConnection } from './KafkaConnection';
 import { KafkaEventPublisher } from './KafkaEventPublisher';
 import { KafkaEventConsumer } from './KafkaEventConsumer';
-import type { EventEnvelope, EventHandler } from '@acme/messaging';
-import type { Logger } from '@acme/observability';
+import type { EventEnvelope, EventHandler } from '@marcusprado02/messaging';
+import type { Logger } from '@marcusprado02/observability';
 
 // Mock kafkajs
 vi.mock('kafkajs', () => ({
@@ -137,7 +137,7 @@ describe('Kafka Adapter', () => {
       };
 
       expect(() => new KafkaConnection(config, mockLogger)).toThrow(
-        'transactionalId is required when transactional is true'
+        'transactionalId is required when transactional is true',
       );
     });
   });
@@ -182,7 +182,7 @@ describe('Kafka Adapter', () => {
               }),
             }),
           ]),
-        })
+        }),
       );
     });
 
@@ -211,7 +211,7 @@ describe('Kafka Adapter', () => {
               }),
             }),
           ]),
-        })
+        }),
       );
     });
 
@@ -275,14 +275,10 @@ describe('Kafka Adapter', () => {
       connection = new KafkaConnection(config, mockLogger);
       await connection.connect();
 
-      consumer = new KafkaEventConsumer(
-        connection,
-        mockLogger,
-        {
-          groupId: 'test-group',
-          topics: ['UserCreated', 'OrderPlaced'],
-        }
-      );
+      consumer = new KafkaEventConsumer(connection, mockLogger, {
+        groupId: 'test-group',
+        topics: ['UserCreated', 'OrderPlaced'],
+      });
     });
 
     it('should subscribe to event type', () => {
@@ -308,7 +304,7 @@ describe('Kafka Adapter', () => {
       expect(mockConsumer.subscribe).toHaveBeenCalledWith(
         expect.objectContaining({
           topics: ['UserCreated', 'OrderPlaced'],
-        })
+        }),
       );
       expect(mockConsumer.run).toHaveBeenCalled();
     });
@@ -335,7 +331,7 @@ describe('Kafka Adapter', () => {
       await consumer.start();
 
       expect(() => consumer.subscribe('OrderPlaced', handler)).toThrow(
-        'Cannot subscribe after consumer is started'
+        'Cannot subscribe after consumer is started',
       );
     });
 

@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
-import { Result, Option } from '@acme/kernel';
+import { Result, Option } from '@marcusprado02/kernel';
 import { Builder } from './builders/Builder';
 import { EventEnvelopeFixture } from './fixtures/EventEnvelopeFixture';
 import { registerAcmeMatchers } from './matchers/vitestMatchers';

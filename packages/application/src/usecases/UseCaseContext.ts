@@ -1,4 +1,4 @@
-import type { CorrelationId, TenantId, RequestId } from '@acme/kernel';
+import type { CorrelationId, TenantId, RequestId } from '@marcusprado02/kernel';
 
 /**
  * Context carried through use case execution.

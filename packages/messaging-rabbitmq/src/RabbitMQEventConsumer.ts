@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access -- amqplib message properties */
 /* eslint-disable @typescript-eslint/no-unsafe-call -- amqplib channel methods */
 /* eslint-disable @typescript-eslint/no-unsafe-argument -- envelope properties */
-import type { EventConsumer, EventHandler, EventEnvelope } from '@acme/messaging';
-import type { Logger } from '@acme/observability';
+import type { EventConsumer, EventHandler, EventEnvelope } from '@marcusprado02/messaging';
+import type { Logger } from '@marcusprado02/observability';
 import type { Message, Channel } from 'amqplib';
 import type { RabbitMQConnection } from './RabbitMQConnection';
 import type { RabbitMQConsumerOptions } from './RabbitMQConfig';
@@ -39,7 +39,7 @@ export class RabbitMQEventConsumer implements EventConsumer {
   constructor(
     private readonly connection: RabbitMQConnection,
     private readonly logger: Logger,
-    private readonly options: RabbitMQConsumerOptions
+    private readonly options: RabbitMQConsumerOptions,
   ) {}
 
   /**
@@ -95,7 +95,7 @@ export class RabbitMQEventConsumer implements EventConsumer {
       },
       {
         noAck: this.options.autoAck ?? false,
-      }
+      },
     );
 
     this.consumerTags.push(consumeResult.consumerTag);
@@ -240,26 +240,17 @@ export class RabbitMQEventConsumer implements EventConsumer {
         'x-retry-count': retryCount + 1,
       };
 
-      channel.publish(
-        config.exchange,
-        msg.fields.routingKey,
-        msg.content,
-        {
-          ...msg.properties,
-          headers: newHeaders,
-        }
-      );
+      channel.publish(config.exchange, msg.fields.routingKey, msg.content, {
+        ...msg.properties,
+        headers: newHeaders,
+      });
     }, delay);
   }
 
   /**
    * Send message to Dead Letter Queue
    */
-  private sendToDeadLetterQueue(
-    msg: Message,
-    channel: Channel,
-    error: Error
-  ): void {
+  private sendToDeadLetterQueue(msg: Message, channel: Channel, error: Error): void {
     const config = this.connection.getConfig();
 
     if (config.enableDLQ === false) {

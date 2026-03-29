@@ -5,13 +5,13 @@
     "incremental": false,
     "noEmit": true,
     "paths": {
-      "@acme/application": ["../packages/application/src/index.ts"],
-      "@acme/errors": ["../packages/errors/src/index.ts"],
-      "@acme/eventsourcing": ["../packages/eventsourcing/src/index.ts"],
-      "@acme/kernel": ["../packages/kernel/src/index.ts"],
-      "@acme/messaging": ["../packages/messaging/src/index.ts"],
-      "@acme/observability": ["../packages/observability/src/index.ts"],
-      "@acme/persistence": ["../packages/persistence/src/index.ts"]
+      "@marcusprado02/application": ["../packages/application/src/index.ts"],
+      "@marcusprado02/errors": ["../packages/errors/src/index.ts"],
+      "@marcusprado02/eventsourcing": ["../packages/eventsourcing/src/index.ts"],
+      "@marcusprado02/kernel": ["../packages/kernel/src/index.ts"],
+      "@marcusprado02/messaging": ["../packages/messaging/src/index.ts"],
+      "@marcusprado02/observability": ["../packages/observability/src/index.ts"],
+      "@marcusprado02/persistence": ["../packages/persistence/src/index.ts"]
     }
   },
   "include": ["./**/*.ts"],

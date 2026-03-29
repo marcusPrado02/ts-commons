@@ -6,11 +6,11 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type -- test helper functions */
 /* eslint-disable max-lines-per-function -- test files naturally have longer functions */
 /**
- * Tests for @acme/persistence-prisma adapter
+ * Tests for @marcusprado02/persistence-prisma adapter
  */
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { Result } from '@acme/kernel';
-import type { PageRequest } from '@acme/persistence';
+import { Result } from '@marcusprado02/kernel';
+import type { PageRequest } from '@marcusprado02/persistence';
 import { PrismaRepository } from './PrismaRepository';
 import type { PrismaModelDelegate } from './PrismaRepository';
 import type { PrismaMapper } from './PrismaMapper';
@@ -166,9 +166,9 @@ describe('PrismaUnitOfWork', () => {
   beforeEach(() => {
     // $transaction calls the work fn with the same client (interactive tx)
     const client: PrismaClientLike = {
-      $transaction: vi.fn().mockImplementation((fn: (tx: PrismaClientLike) => Promise<unknown>) =>
-        fn(client),
-      ),
+      $transaction: vi
+        .fn()
+        .mockImplementation((fn: (tx: PrismaClientLike) => Promise<unknown>) => fn(client)),
       $disconnect: vi.fn().mockResolvedValue(undefined),
       $connect: vi.fn().mockResolvedValue(undefined),
     };

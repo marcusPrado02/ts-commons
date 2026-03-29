@@ -15,7 +15,7 @@ A monorepo of **65+ focused TypeScript packages** implementing Clean Architectur
 
 ## Principles
 
-- **Zero dependencies in the core** — `@acme/kernel` has no runtime deps
+- **Zero dependencies in the core** — `@marcusprado02/kernel` has no runtime deps
 - **Port / Adapter everywhere** — swap infrastructure without touching domain code
 - **12-Factor compliant** — config, secrets, logging, disposability all covered
 - **Railway-Oriented Programming** — `Result<T, E>` replaces thrown exceptions
@@ -41,131 +41,131 @@ Minimum requirements: **Node ≥ 20**, **pnpm ≥ 8**
 
 ### Domain Layer
 
-| Package           | Description                                                                                | Deps     |
-| ----------------- | ------------------------------------------------------------------------------------------ | -------- |
-| `@acme/kernel`    | `AggregateRoot`, `ValueObject`, `Entity`, `Result`, `DomainEvent`, `UUID`, `ULID`, `Clock` | **none** |
-| `@acme/errors`    | Problem Details (RFC 7807), typed HTTP error hierarchy                                     | `kernel` |
-| `@acme/contracts` | Shared API contracts, versioning primitives                                                | `kernel` |
+| Package                    | Description                                                                                | Deps     |
+| -------------------------- | ------------------------------------------------------------------------------------------ | -------- |
+| `@marcusprado02/kernel`    | `AggregateRoot`, `ValueObject`, `Entity`, `Result`, `DomainEvent`, `UUID`, `ULID`, `Clock` | **none** |
+| `@marcusprado02/errors`    | Problem Details (RFC 7807), typed HTTP error hierarchy                                     | `kernel` |
+| `@marcusprado02/contracts` | Shared API contracts, versioning primitives                                                | `kernel` |
 
 ### Application Layer
 
-| Package                 | Description                                                                        | Deps                    |
-| ----------------------- | ---------------------------------------------------------------------------------- | ----------------------- |
-| `@acme/application`     | `UseCase`, `CommandBus`, `QueryBus`, `Mediator`, `IdempotentUseCase`, `UnitOfWork` | `kernel`                |
-| `@acme/validation`      | `ZodValidator`, `CompositeValidator`                                               | `kernel`                |
-| `@acme/acl`             | Anti-Corruption Layer helpers                                                      | `kernel`                |
-| `@acme/process-manager` | Long-running process coordination                                                  | `kernel`, `application` |
+| Package                          | Description                                                                        | Deps                    |
+| -------------------------------- | ---------------------------------------------------------------------------------- | ----------------------- |
+| `@marcusprado02/application`     | `UseCase`, `CommandBus`, `QueryBus`, `Mediator`, `IdempotentUseCase`, `UnitOfWork` | `kernel`                |
+| `@marcusprado02/validation`      | `ZodValidator`, `CompositeValidator`                                               | `kernel`                |
+| `@marcusprado02/acl`             | Anti-Corruption Layer helpers                                                      | `kernel`                |
+| `@marcusprado02/process-manager` | Long-running process coordination                                                  | `kernel`, `application` |
 
 ### Configuration & Secrets
 
-| Package           | Description                                                                  | Deps               |
-| ----------------- | ---------------------------------------------------------------------------- | ------------------ |
-| `@acme/config`    | `ConfigServer`, `ProfileManager`, `HotReloadConfigLoader`, `ZodConfigSchema` | `kernel`           |
-| `@acme/secrets`   | Port + adapters: Env, AWS SSM, Vault, `CachedSecretsAdapter`                 | `kernel`           |
-| `@acme/features`  | Feature flags with environment-aware evaluation                              | `kernel`, `config` |
-| `@acme/hotreload` | Hot-reload for any configuration source                                      | `config`           |
+| Package                    | Description                                                                  | Deps               |
+| -------------------------- | ---------------------------------------------------------------------------- | ------------------ |
+| `@marcusprado02/config`    | `ConfigServer`, `ProfileManager`, `HotReloadConfigLoader`, `ZodConfigSchema` | `kernel`           |
+| `@marcusprado02/secrets`   | Port + adapters: Env, AWS SSM, Vault, `CachedSecretsAdapter`                 | `kernel`           |
+| `@marcusprado02/features`  | Feature flags with environment-aware evaluation                              | `kernel`, `config` |
+| `@marcusprado02/hotreload` | Hot-reload for any configuration source                                      | `config`           |
 
 ### Persistence
 
-| Package                     | Description                                          | Deps                    |
-| --------------------------- | ---------------------------------------------------- | ----------------------- |
-| `@acme/persistence`         | `RepositoryPort<T>`, `Page<T>`, pagination helpers   | `kernel`                |
-| `@acme/persistence-prisma`  | `PrismaRepository`, `PrismaUnitOfWork`               | `persistence`           |
-| `@acme/persistence-mongodb` | `MongoRepository`, `MongoUnitOfWork`                 | `persistence`           |
-| `@acme/persistence-typeorm` | `TypeOrmRepository`, `TypeOrmUnitOfWork`             | `persistence`           |
-| `@acme/eventsourcing`       | Event store, event-sourced aggregate base, snapshots | `kernel`, `persistence` |
-| `@acme/schema-registry`     | Schema registry port + Confluent/Glue adapters       | `kernel`                |
+| Package                              | Description                                          | Deps                    |
+| ------------------------------------ | ---------------------------------------------------- | ----------------------- |
+| `@marcusprado02/persistence`         | `RepositoryPort<T>`, `Page<T>`, pagination helpers   | `kernel`                |
+| `@marcusprado02/persistence-prisma`  | `PrismaRepository`, `PrismaUnitOfWork`               | `persistence`           |
+| `@marcusprado02/persistence-mongodb` | `MongoRepository`, `MongoUnitOfWork`                 | `persistence`           |
+| `@marcusprado02/persistence-typeorm` | `TypeOrmRepository`, `TypeOrmUnitOfWork`             | `persistence`           |
+| `@marcusprado02/eventsourcing`       | Event store, event-sourced aggregate base, snapshots | `kernel`, `persistence` |
+| `@marcusprado02/schema-registry`     | Schema registry port + Confluent/Glue adapters       | `kernel`                |
 
 ### Messaging
 
-| Package                       | Description                                                    | Deps                  |
-| ----------------------------- | -------------------------------------------------------------- | --------------------- |
-| `@acme/messaging`             | `EventPublisherPort`, `EventEnvelope`, consumer port           | `kernel`              |
-| `@acme/messaging-kafka`       | `KafkaEventPublisher`, `KafkaEventConsumer`, `KafkaConnection` | `messaging`           |
-| `@acme/messaging-rabbitmq`    | `RabbitMQEventPublisher`, `RabbitMQEventConsumer`              | `messaging`           |
-| `@acme/messaging-eventbridge` | AWS EventBridge adapter                                        | `messaging`           |
-| `@acme/outbox`                | Transactional outbox/inbox, `OutboxRelay`, `OutboxStorePort`   | `kernel`, `messaging` |
-| `@acme/cdc`                   | Change Data Capture + Debezium adapter                         | `messaging`           |
-| `@acme/streams`               | Stream processing primitives                                   | `messaging`           |
+| Package                                | Description                                                    | Deps                  |
+| -------------------------------------- | -------------------------------------------------------------- | --------------------- |
+| `@marcusprado02/messaging`             | `EventPublisherPort`, `EventEnvelope`, consumer port           | `kernel`              |
+| `@marcusprado02/messaging-kafka`       | `KafkaEventPublisher`, `KafkaEventConsumer`, `KafkaConnection` | `messaging`           |
+| `@marcusprado02/messaging-rabbitmq`    | `RabbitMQEventPublisher`, `RabbitMQEventConsumer`              | `messaging`           |
+| `@marcusprado02/messaging-eventbridge` | AWS EventBridge adapter                                        | `messaging`           |
+| `@marcusprado02/outbox`                | Transactional outbox/inbox, `OutboxRelay`, `OutboxStorePort`   | `kernel`, `messaging` |
+| `@marcusprado02/cdc`                   | Change Data Capture + Debezium adapter                         | `messaging`           |
+| `@marcusprado02/streams`               | Stream processing primitives                                   | `messaging`           |
 
 ### Application Patterns
 
-| Package             | Description                                                         | Deps          |
-| ------------------- | ------------------------------------------------------------------- | ------------- |
-| `@acme/saga`        | `SagaTransaction` + compensation, `SagaChoreography`, `SagaMonitor` | `application` |
-| `@acme/resilience`  | `CircuitBreaker`, `Retry`, `Timeout`, `RateLimiter`, `Bulkhead`     | `kernel`      |
-| `@acme/scheduler`   | `InMemoryScheduler`, cron (`CronParser`), `IntervalRunner`          | `kernel`      |
-| `@acme/cache-redis` | `RedisCache`, `MultiLevelCache`, `RedisLock`, `RedisPubSub`         | `kernel`      |
+| Package                      | Description                                                         | Deps          |
+| ---------------------------- | ------------------------------------------------------------------- | ------------- |
+| `@marcusprado02/saga`        | `SagaTransaction` + compensation, `SagaChoreography`, `SagaMonitor` | `application` |
+| `@marcusprado02/resilience`  | `CircuitBreaker`, `Retry`, `Timeout`, `RateLimiter`, `Bulkhead`     | `kernel`      |
+| `@marcusprado02/scheduler`   | `InMemoryScheduler`, cron (`CronParser`), `IntervalRunner`          | `kernel`      |
+| `@marcusprado02/cache-redis` | `RedisCache`, `MultiLevelCache`, `RedisLock`, `RedisPubSub`         | `kernel`      |
 
 ### Security
 
-| Package          | Description                                                                                  | Deps     |
-| ---------------- | -------------------------------------------------------------------------------------------- | -------- |
-| `@acme/security` | `JwtAuthenticator`, `RbacPolicyEngine`, `AesGcmCipher`, `PiiMasker`, `ClientCredentialsFlow` | `kernel` |
+| Package                   | Description                                                                                  | Deps     |
+| ------------------------- | -------------------------------------------------------------------------------------------- | -------- |
+| `@marcusprado02/security` | `JwtAuthenticator`, `RbacPolicyEngine`, `AesGcmCipher`, `PiiMasker`, `ClientCredentialsFlow` | `kernel` |
 
 ### Observability
 
-| Package                    | Description                                                                       | Deps                      |
-| -------------------------- | --------------------------------------------------------------------------------- | ------------------------- |
-| `@acme/observability`      | `LoggerFactory`, `PiiRedactor`, `MetricsPort`, `SloTracker`, `PerformanceMonitor` | `kernel`                  |
-| `@acme/observability-otel` | `OtelTracer`, `AdvancedTracer` (OpenTelemetry)                                    | `observability`           |
-| `@acme/audit`              | Audit trail port + adapters                                                       | `kernel`, `observability` |
-| `@acme/incidents`          | Incident management (PagerDuty, OpsGenie)                                         | `observability`           |
-| `@acme/synthetic`          | Synthetic monitoring / canary checks                                              | `observability`           |
+| Package                             | Description                                                                       | Deps                      |
+| ----------------------------------- | --------------------------------------------------------------------------------- | ------------------------- |
+| `@marcusprado02/observability`      | `LoggerFactory`, `PiiRedactor`, `MetricsPort`, `SloTracker`, `PerformanceMonitor` | `kernel`                  |
+| `@marcusprado02/observability-otel` | `OtelTracer`, `AdvancedTracer` (OpenTelemetry)                                    | `observability`           |
+| `@marcusprado02/audit`              | Audit trail port + adapters                                                       | `kernel`, `observability` |
+| `@marcusprado02/incidents`          | Incident management (PagerDuty, OpsGenie)                                         | `observability`           |
+| `@marcusprado02/synthetic`          | Synthetic monitoring / canary checks                                              | `observability`           |
 
 ### Web & API
 
-| Package             | Description                                                       | Deps                 |
-| ------------------- | ----------------------------------------------------------------- | -------------------- |
-| `@acme/web`         | HTTP adapter base types: `HttpContext`, error mappers             | `kernel`, `errors`   |
-| `@acme/web-fastify` | `FastifyControllerAdapter`, `CorrelationHook`, `ErrorHandlerHook` | `web`                |
-| `@acme/web-nestjs`  | `CommonsCoreModule`, interceptors, guards, decorators             | `web`, `application` |
-| `@acme/web-express` | Express middleware and controller adapter                         | `web`                |
-| `@acme/web-graphql` | GraphQL schema helpers and context types                          | `web`                |
-| `@acme/bff`         | Backend-for-Frontend adapter utilities                            | `web`                |
-| `@acme/gateway`     | API gateway routing & composition                                 | `web`, `resilience`  |
-| `@acme/websocket`   | WebSocket port + Socket.io adapter                                | `web`                |
+| Package                      | Description                                                       | Deps                 |
+| ---------------------------- | ----------------------------------------------------------------- | -------------------- |
+| `@marcusprado02/web`         | HTTP adapter base types: `HttpContext`, error mappers             | `kernel`, `errors`   |
+| `@marcusprado02/web-fastify` | `FastifyControllerAdapter`, `CorrelationHook`, `ErrorHandlerHook` | `web`                |
+| `@marcusprado02/web-nestjs`  | `CommonsCoreModule`, interceptors, guards, decorators             | `web`, `application` |
+| `@marcusprado02/web-express` | Express middleware and controller adapter                         | `web`                |
+| `@marcusprado02/web-graphql` | GraphQL schema helpers and context types                          | `web`                |
+| `@marcusprado02/bff`         | Backend-for-Frontend adapter utilities                            | `web`                |
+| `@marcusprado02/gateway`     | API gateway routing & composition                                 | `web`, `resilience`  |
+| `@marcusprado02/websocket`   | WebSocket port + Socket.io adapter                                | `web`                |
 
 ### Platform
 
-| Package              | Description                                                | Deps           |
-| -------------------- | ---------------------------------------------------------- | -------------- |
-| `@acme/docker-utils` | `GracefulShutdown`, `HealthAggregator`, liveness/readiness | `kernel`       |
-| `@acme/k8s`          | Kubernetes client helpers, ConfigMap watcher               | `config`       |
-| `@acme/helm`         | Helm chart templates                                       | —              |
-| `@acme/terraform`    | Terraform modules                                          | —              |
-| `@acme/service-mesh` | Istio/Linkerd configuration helpers                        | `docker-utils` |
-| `@acme/discovery`    | Service discovery port + Consul/Eureka adapters            | `kernel`       |
+| Package                       | Description                                                | Deps           |
+| ----------------------------- | ---------------------------------------------------------- | -------------- |
+| `@marcusprado02/docker-utils` | `GracefulShutdown`, `HealthAggregator`, liveness/readiness | `kernel`       |
+| `@marcusprado02/k8s`          | Kubernetes client helpers, ConfigMap watcher               | `config`       |
+| `@marcusprado02/helm`         | Helm chart templates                                       | —              |
+| `@marcusprado02/terraform`    | Terraform modules                                          | —              |
+| `@marcusprado02/service-mesh` | Istio/Linkerd configuration helpers                        | `docker-utils` |
+| `@marcusprado02/discovery`    | Service discovery port + Consul/Eureka adapters            | `kernel`       |
 
 ### Data & Analytics
 
-| Package                | Description                                      | Deps            |
-| ---------------------- | ------------------------------------------------ | --------------- |
-| `@acme/data-pipeline`  | Data pipeline primitives                         | `kernel`        |
-| `@acme/data-quality`   | Data quality rules and validation                | `validation`    |
-| `@acme/data-warehouse` | Data warehouse adapter ports                     | `persistence`   |
-| `@acme/analytics`      | Event analytics and metrics aggregation          | `observability` |
-| `@acme/timeseries`     | Time-series port + InfluxDB/TimescaleDB adapters | `persistence`   |
-| `@acme/geospatial`     | Geospatial value objects and query helpers       | `kernel`        |
+| Package                         | Description                                      | Deps            |
+| ------------------------------- | ------------------------------------------------ | --------------- |
+| `@marcusprado02/data-pipeline`  | Data pipeline primitives                         | `kernel`        |
+| `@marcusprado02/data-quality`   | Data quality rules and validation                | `validation`    |
+| `@marcusprado02/data-warehouse` | Data warehouse adapter ports                     | `persistence`   |
+| `@marcusprado02/analytics`      | Event analytics and metrics aggregation          | `observability` |
+| `@marcusprado02/timeseries`     | Time-series port + InfluxDB/TimescaleDB adapters | `persistence`   |
+| `@marcusprado02/geospatial`     | Geospatial value objects and query helpers       | `kernel`        |
 
 ### Communication
 
-| Package               | Description                                      | Deps          |
-| --------------------- | ------------------------------------------------ | ------------- |
-| `@acme/email`         | Email port + SES/SendGrid/SMTP adapters          | `kernel`      |
-| `@acme/notifications` | Multi-channel notifications (push, SMS, email)   | `kernel`      |
-| `@acme/search`        | Search port + Elasticsearch/OpenSearch adapters  | `persistence` |
-| `@acme/storage`       | Object storage port + S3/GCS/Azure Blob adapters | `kernel`      |
+| Package                        | Description                                      | Deps          |
+| ------------------------------ | ------------------------------------------------ | ------------- |
+| `@marcusprado02/email`         | Email port + SES/SendGrid/SMTP adapters          | `kernel`      |
+| `@marcusprado02/notifications` | Multi-channel notifications (push, SMS, email)   | `kernel`      |
+| `@marcusprado02/search`        | Search port + Elasticsearch/OpenSearch adapters  | `persistence` |
+| `@marcusprado02/storage`       | Object storage port + S3/GCS/Azure Blob adapters | `kernel`      |
 
 ### Developer Tooling
 
-| Package                    | Description                                                 | Deps                    |
-| -------------------------- | ----------------------------------------------------------- | ----------------------- |
-| `@acme/testing`            | `Builder<T>`, `FakeClock`, Vitest matchers, in-memory fakes | `kernel`, `application` |
-| `@acme/architecture-tests` | Fitness functions: enforce layer rules at test time         | `kernel`                |
-| `@acme/codegen`            | Code generation templates for DDD artifacts                 | —                       |
-| `@acme/cli`                | CLI scaffolding tool                                        | `codegen`               |
-| `@acme/vscode-extension`   | VS Code extension for template generation                   | `codegen`               |
+| Package                             | Description                                                 | Deps                    |
+| ----------------------------------- | ----------------------------------------------------------- | ----------------------- |
+| `@marcusprado02/testing`            | `Builder<T>`, `FakeClock`, Vitest matchers, in-memory fakes | `kernel`, `application` |
+| `@marcusprado02/architecture-tests` | Fitness functions: enforce layer rules at test time         | `kernel`                |
+| `@marcusprado02/codegen`            | Code generation templates for DDD artifacts                 | —                       |
+| `@marcusprado02/cli`                | CLI scaffolding tool                                        | `codegen`               |
+| `@marcusprado02/vscode-extension`   | VS Code extension for template generation                   | `codegen`               |
 
 ---
 
@@ -177,18 +177,18 @@ Minimum requirements: **Node ≥ 20**, **pnpm ≥ 8**
 │                                                                │
 │  ┌──────────────┐  ┌──────────────────┐  ┌────────────────┐  │
 │  │    Domain    │  │   Application    │  │   Transport    │  │
-│  │ @acme/kernel │◄─│ @acme/application│◄─│ @acme/web-*    │  │
-│  │ @acme/errors │  │ @acme/validation │  │                │  │
+│  │ @marcusprado02/kernel │◄─│ @marcusprado02/application│◄─│ @marcusprado02/web-*    │  │
+│  │ @marcusprado02/errors │  │ @marcusprado02/validation │  │                │  │
 │  └──────────────┘  └──────────────────┘  └────────────────┘  │
 │                             │                                  │
 │                   ┌─────────▼──────────┐                      │
 │                   │  Infrastructure    │                      │
-│                   │  @acme/persistence-│                      │
-│                   │  @acme/messaging-* │                      │
-│                   │  @acme/cache-redis │                      │
-│                   │  @acme/security    │                      │
-│                   │  @acme/observ*     │                      │
-│                   │  @acme/config      │                      │
+│                   │  @marcusprado02/persistence-│                      │
+│                   │  @marcusprado02/messaging-* │                      │
+│                   │  @marcusprado02/cache-redis │                      │
+│                   │  @marcusprado02/security    │                      │
+│                   │  @marcusprado02/observ*     │                      │
+│                   │  @marcusprado02/config      │                      │
 │                   └────────────────────┘                      │
 └────────────────────────────────────────────────────────────────┘
 ```

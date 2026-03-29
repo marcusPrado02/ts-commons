@@ -1,17 +1,17 @@
-# @acme/streams
+# @marcusprado02/streams
 
 Reactive stream processing primitives: `EventStream`, backpressure queues, stream merging, and time-window aggregation. Designed for high-throughput in-process event pipelines.
 
 ## Installation
 
 ```bash
-pnpm add @acme/streams
+pnpm add @marcusprado02/streams
 ```
 
 ## Quick Start
 
 ```typescript
-import { EventStream } from '@acme/streams';
+import { EventStream } from '@marcusprado02/streams';
 
 const stream = new EventStream<OrderEvent>();
 
@@ -33,7 +33,7 @@ sub.unsubscribe();
 ## Backpressure
 
 ```typescript
-import { BackpressureQueue } from '@acme/streams';
+import { BackpressureQueue } from '@marcusprado02/streams';
 
 const queue = new BackpressureQueue<OrderEvent>({
   maxSize: 1000,
@@ -47,7 +47,7 @@ const next = await queue.dequeue();
 ## Windowed Aggregation
 
 ```typescript
-import { WindowStrategy } from '@acme/streams';
+import { WindowStrategy } from '@marcusprado02/streams';
 
 const window = new WindowStrategy<OrderEvent>({
   type: 'tumbling',
@@ -63,7 +63,7 @@ window.onFlush((batch) => {
 ## Stream Merging
 
 ```typescript
-import { StreamMerger } from '@acme/streams';
+import { StreamMerger } from '@marcusprado02/streams';
 
 const merged = StreamMerger.merge([ordersStream, paymentsStream]);
 merged.subscribe({ next: (event) => router.dispatch(event) });
@@ -71,5 +71,5 @@ merged.subscribe({ next: (event) => router.dispatch(event) });
 
 ## See Also
 
-- [`@acme/messaging`](../messaging) — broker-backed event publishing
-- [`@acme/data-pipeline`](../data-pipeline) — ETL framework
+- [`@marcusprado02/messaging`](../messaging) — broker-backed event publishing
+- [`@marcusprado02/data-pipeline`](../data-pipeline) — ETL framework

@@ -1,17 +1,17 @@
-# @acme/analytics
+# @marcusprado02/analytics
 
 Event tracking and product analytics. Unified port over Segment, Mixpanel, and Google Analytics 4 — swap providers without touching application code.
 
 ## Installation
 
 ```bash
-pnpm add @acme/analytics
+pnpm add @marcusprado02/analytics
 ```
 
 ## Quick Start
 
 ```typescript
-import { AnalyticsTracker, InMemoryProvider } from '@acme/analytics';
+import { AnalyticsTracker, InMemoryProvider } from '@marcusprado02/analytics';
 
 const tracker = new AnalyticsTracker(new InMemoryProvider());
 
@@ -37,7 +37,7 @@ await tracker.page({ userId: 'user-123', name: 'Checkout', url: '/checkout' });
 ## Funnel Tracking
 
 ```typescript
-import { FunnelTracker } from '@acme/analytics';
+import { FunnelTracker } from '@marcusprado02/analytics';
 
 const funnels = new FunnelTracker(tracker);
 const result = await funnels.track('signup', ['visit', 'register', 'verify'], userId);
@@ -47,7 +47,7 @@ const result = await funnels.track('signup', ['visit', 'register', 'verify'], us
 ## Custom Dimensions
 
 ```typescript
-import { CustomDimensionRegistry } from '@acme/analytics';
+import { CustomDimensionRegistry } from '@marcusprado02/analytics';
 
 const dims = new CustomDimensionRegistry();
 dims.register({ key: 'plan', label: 'Subscription Plan' });
@@ -55,4 +55,4 @@ dims.register({ key: 'plan', label: 'Subscription Plan' });
 
 ## See Also
 
-- [`@acme/observability`](../observability) — application-level metrics and logging
+- [`@marcusprado02/observability`](../observability) — application-level metrics and logging

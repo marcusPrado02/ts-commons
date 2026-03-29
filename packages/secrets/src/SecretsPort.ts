@@ -1,4 +1,4 @@
-import type { Option } from '@acme/kernel';
+import type { Option } from '@marcusprado02/kernel';
 
 /**
  * Core port for secrets management.

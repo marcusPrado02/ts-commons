@@ -1,7 +1,7 @@
 {
-  "name": "@acme/process-manager",
+  "name": "@marcusprado02/process-manager",
   "version": "0.1.0",
-  "description": "Process Manager pattern: state machine, timeout scheduling, process correlation and monitoring for @acme/ts-commons",
+  "description": "Process Manager pattern: state machine, timeout scheduling, process correlation and monitoring for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -33,6 +33,6 @@
   ],
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   }
 }

@@ -5,6 +5,7 @@
 This library implements Clean Architecture principles with Domain-Driven Design (DDD) patterns. The architecture is organized in layers with clear dependency rules.
 
 ### Dependency Rule
+
 **Dependencies point inward.** Outer layers depend on inner layers, never the reverse.
 
 ```
@@ -27,19 +28,20 @@ This library implements Clean Architecture principles with Domain-Driven Design 
 ## C4 Model Diagrams
 
 ### Context Diagram (Level 1)
+
 ```mermaid
 C4Context
     title System Context - TypeScript Commons Platform
 
     Person(developer, "Developer", "Builds microservices")
-    
+
     System(tsCommons, "TypeScript Commons", "Reusable library for Node.js microservices")
-    
+
     System_Ext(database, "Database", "PostgreSQL, MongoDB, etc.")
     System_Ext(messageQueue, "Message Queue", "RabbitMQ, Kafka, etc.")
     System_Ext(monitoring, "Monitoring", "Prometheus, Grafana, etc.")
     System_Ext(secrets, "Secrets Management", "Vault, AWS Secrets, etc.")
-    
+
     Rel(developer, tsCommons, "Uses", "NPM packages")
     Rel(tsCommons, database, "Connects to", "SQL/NoSQL")
     Rel(tsCommons, messageQueue, "Publishes/Consumes", "Events")
@@ -48,23 +50,24 @@ C4Context
 ```
 
 ### Container Diagram (Level 2)
+
 ```mermaid
 C4Container
     title Container Diagram - TypeScript Commons Internal Structure
 
     Container_Boundary(c1, "TypeScript Commons Library") {
-        Container(kernel, "Kernel Package", "@acme/kernel", "Domain primitives, entities, value objects")
-        Container(application, "Application Package", "@acme/application", "Use cases, CQRS, commands/queries")
-        Container(web, "Web Package", "@acme/web", "HTTP adapters, middleware, routing")
-        Container(messaging, "Messaging Package", "@acme/messaging", "Event publishing, message handling")
-        Container(persistence, "Persistence Package", "@acme/persistence", "Repository pattern, database adapters")
-        Container(observability, "Observability Package", "@acme/observability", "Logging, metrics, tracing")
-        Container(security, "Security Package", "@acme/security", "Authentication, authorization")
-        Container(config, "Config Package", "@acme/config", "Configuration management")
+        Container(kernel, "Kernel Package", "@marcusprado02/kernel", "Domain primitives, entities, value objects")
+        Container(application, "Application Package", "@marcusprado02/application", "Use cases, CQRS, commands/queries")
+        Container(web, "Web Package", "@marcusprado02/web", "HTTP adapters, middleware, routing")
+        Container(messaging, "Messaging Package", "@marcusprado02/messaging", "Event publishing, message handling")
+        Container(persistence, "Persistence Package", "@marcusprado02/persistence", "Repository pattern, database adapters")
+        Container(observability, "Observability Package", "@marcusprado02/observability", "Logging, metrics, tracing")
+        Container(security, "Security Package", "@marcusprado02/security", "Authentication, authorization")
+        Container(config, "Config Package", "@marcusprado02/config", "Configuration management")
     }
-    
+
     System_Ext(userApp, "User Application", "Microservice using the library")
-    
+
     Rel(userApp, web, "HTTP requests", "Express/Fastify")
     Rel(userApp, application, "Business logic", "Use cases")
     Rel(application, kernel, "Domain operations", "Entities/VOs")
@@ -75,11 +78,12 @@ C4Container
 ```
 
 ### Component Diagram (Level 3) - Kernel Package
+
 ```mermaid
 C4Component
-    title Component Diagram - Kernel Package (@acme/kernel)
+    title Component Diagram - Kernel Package (@marcusprado02/kernel)
 
-    Container_Boundary(c1, "@acme/kernel") {
+    Container_Boundary(c1, "@marcusprado02/kernel") {
         Component(entity, "Entity", "Base class", "Domain entity with identity")
         Component(valueObject, "ValueObject", "Base class", "Immutable value objects")
         Component(aggregateRoot, "AggregateRoot", "Class", "Consistency boundary")
@@ -90,9 +94,9 @@ C4Component
         Component(clock, "Clock", "Service", "Time abstraction")
         Component(specification, "Specification", "Pattern", "Business rules")
     }
-    
+
     Component_Ext(userCode, "User Domain Code", "Business entities")
-    
+
     Rel(userCode, entity, "Extends", "TypeScript")
     Rel(userCode, valueObject, "Extends", "TypeScript")
     Rel(entity, domainEvent, "Records", "Event sourcing")
@@ -104,7 +108,7 @@ C4Component
 
 ## Package Architecture
 
-### Domain Layer (@acme/kernel)
+### Domain Layer (@marcusprado02/kernel)
 
 **Purpose**: Contains enterprise business rules and domain logic.
 **Dependencies**: None (zero external dependencies)
@@ -112,10 +116,11 @@ C4Component
 #### Core Components:
 
 1. **Entity**: Base class for domain entities with identity
+
    ```typescript
    export abstract class Entity<TId extends Identifier> {
      protected constructor(public readonly id: TId) {}
-     
+
      equals(other: Entity<TId>): boolean {
        return this.id.equals(other.id);
      }
@@ -123,10 +128,11 @@ C4Component
    ```
 
 2. **ValueObject**: Immutable objects defined by their attributes
+
    ```typescript
    export abstract class ValueObject<T> {
      protected constructor(protected readonly _value: T) {}
-     
+
      get value(): T {
        return this._value;
      }
@@ -137,7 +143,7 @@ C4Component
    ```typescript
    export abstract class AggregateRoot<TId extends Identifier> extends Entity<TId> {
      private _events: DomainEvent[] = [];
-     
+
      getUncommittedEvents(): readonly DomainEvent[] {
        return this._events;
      }
@@ -153,28 +159,30 @@ C4Component
 
 ---
 
-### Application Layer (@acme/application)
+### Application Layer (@marcusprado02/application)
 
 **Purpose**: Orchestrates use cases and coordinates between domain and infrastructure.
 
 #### Core Components:
 
 1. **Command/Query Separation (CQRS)**:
+
    ```typescript
    export interface Command {
      readonly type: string;
    }
-   
+
    export interface Query<TResult> {
      readonly type: string;
    }
-   
+
    export interface CommandHandler<TCommand extends Command> {
      handle(command: TCommand): Promise<Result<void, ApplicationError>>;
    }
    ```
 
 2. **Use Case Pattern**:
+
    ```typescript
    export abstract class UseCase<TRequest, TResponse> {
      abstract execute(request: TRequest): Promise<Result<TResponse, ApplicationError>>;
@@ -197,12 +205,12 @@ C4Component
 
 #### Package Breakdown:
 
-1. **@acme/web**: HTTP adapters (Express, Fastify)
-2. **@acme/persistence**: Database adapters (TypeORM, Prisma, MongoDB)
-3. **@acme/messaging**: Event publishing (RabbitMQ, Kafka, Redis)
-4. **@acme/observability**: Logging, metrics, distributed tracing
-5. **@acme/security**: Authentication, authorization, encryption
-6. **@acme/config**: Configuration management with validation
+1. **@marcusprado02/web**: HTTP adapters (Express, Fastify)
+2. **@marcusprado02/persistence**: Database adapters (TypeORM, Prisma, MongoDB)
+3. **@marcusprado02/messaging**: Event publishing (RabbitMQ, Kafka, Redis)
+4. **@marcusprado02/observability**: Logging, metrics, distributed tracing
+5. **@marcusprado02/security**: Authentication, authorization, encryption
+6. **@marcusprado02/config**: Configuration management with validation
 
 ---
 
@@ -239,7 +247,7 @@ export class PostgresUserRepository extends UserRepository {
   constructor(private database: Database) {
     super();
   }
-  
+
   async findById(id: UserId): Promise<Option<User>> {
     // PostgreSQL implementation
   }
@@ -252,14 +260,11 @@ export class PostgresUserRepository extends UserRepository {
 export class DomainServiceFactory {
   constructor(
     private userRepository: UserRepository,
-    private eventPublisher: EventPublisher
+    private eventPublisher: EventPublisher,
   ) {}
-  
+
   createUserRegistrationService(): UserRegistrationService {
-    return new UserRegistrationService(
-      this.userRepository,
-      this.eventPublisher
-    );
+    return new UserRegistrationService(this.userRepository, this.eventPublisher);
   }
 }
 ```
@@ -269,13 +274,13 @@ export class DomainServiceFactory {
 ```typescript
 export class UserSpecifications {
   static isActive(): Specification<User> {
-    return new Specification(user => user.status === UserStatus.Active);
+    return new Specification((user) => user.status === UserStatus.Active);
   }
-  
+
   static hasValidEmail(): Specification<User> {
-    return new Specification(user => user.email.isValid());
+    return new Specification((user) => user.email.isValid());
   }
-  
+
   static canPlaceOrder(): Specification<User> {
     return this.isActive().and(this.hasValidEmail());
   }
@@ -308,11 +313,13 @@ export class UserSpecifications {
 ## Configuration Strategy
 
 ### Hierarchical Configuration:
+
 1. **Environment variables** (highest priority)
 2. **Configuration files** (config/production.json)
 3. **Default values** (lowest priority)
 
 ### Type-Safe Configuration:
+
 ```typescript
 export interface ApplicationConfig {
   readonly database: DatabaseConfig;
@@ -323,8 +330,7 @@ export interface ApplicationConfig {
 
 export class ConfigurationBuilder {
   static async build(): Promise<Result<ApplicationConfig, ConfigError>> {
-    return ConfigurationLoader
-      .fromEnvironment()
+    return ConfigurationLoader.fromEnvironment()
       .mergeWith(await ConfigurationLoader.fromFile('config.json'))
       .mergeWith(DefaultConfiguration)
       .validate(ApplicationConfigSchema);
@@ -337,11 +343,12 @@ export class ConfigurationBuilder {
 ### Error Categories:
 
 1. **Domain Errors**: Business rule violations
-2. **Application Errors**: Use case failures  
+2. **Application Errors**: Use case failures
 3. **Infrastructure Errors**: External system failures
 4. **System Errors**: Unexpected failures
 
 ### Error Flow:
+
 ```
 Domain Error → Application Error → HTTP Error (Problem Details RFC 7807)
 ```

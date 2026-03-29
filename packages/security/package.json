@@ -1,5 +1,5 @@
 {
-  "name": "@acme/security",
+  "name": "@marcusprado02/security",
   "version": "0.1.0",
   "description": "Security: AuthN/AuthZ, Crypto, PII, Audit",
   "type": "module",
@@ -19,7 +19,7 @@
     "lint": "eslint src --ext .ts"
   },
   "dependencies": {
-    "@acme/kernel": "workspace:*"
+    "@marcusprado02/kernel": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
@@ -35,7 +35,7 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

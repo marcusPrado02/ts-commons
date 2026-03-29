@@ -23,13 +23,13 @@ This guide describes the testing approach for microservices built with ts-common
 
 ## Unit Tests — Domain and Application
 
-Unit tests cover `@acme/kernel` domain models and `@acme/application` use cases. They use in-memory fakes from `@acme/testing` — no database, no network.
+Unit tests cover `@marcusprado02/kernel` domain models and `@marcusprado02/application` use cases. They use in-memory fakes from `@marcusprado02/testing` — no database, no network.
 
 ### Testing a Value Object
 
 ```typescript
 import { describe, test, expect } from 'vitest';
-import '@acme/testing/matchers';
+import '@marcusprado02/testing/matchers';
 import { Money } from '../domain/Money.js';
 
 describe('Money', () => {
@@ -61,7 +61,7 @@ describe('Money', () => {
 
 ```typescript
 import { describe, test, expect } from 'vitest';
-import '@acme/testing/matchers';
+import '@marcusprado02/testing/matchers';
 import { Order } from '../domain/Order.js';
 
 describe('Order', () => {
@@ -91,8 +91,8 @@ describe('Order', () => {
 
 ```typescript
 import { describe, test, expect, beforeEach } from 'vitest';
-import '@acme/testing/matchers';
-import { InMemoryOutboxStore, InMemoryUnitOfWork } from '@acme/testing';
+import '@marcusprado02/testing/matchers';
+import { InMemoryOutboxStore, InMemoryUnitOfWork } from '@marcusprado02/testing';
 import { PlaceOrderUseCase } from '../application/usecases/PlaceOrderUseCase.js';
 import { InMemoryOrderRepository } from './helpers/InMemoryOrderRepository.js';
 
@@ -193,7 +193,7 @@ describe('PrismaOrderRepository (integration)', () => {
 ## FakeClock in Tests
 
 ```typescript
-import { FakeClock, Duration } from '@acme/testing';
+import { FakeClock, Duration } from '@marcusprado02/testing';
 import { describe, test, expect } from 'vitest';
 
 describe('OrderExpirationService', () => {
@@ -224,7 +224,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    setupFiles: ['@acme/testing/matchers'],
+    setupFiles: ['@marcusprado02/testing/matchers'],
     environment: 'node',
     coverage: {
       provider: 'v8',
@@ -245,12 +245,12 @@ export default defineConfig({
 
 ## Architecture Tests
 
-`@acme/architecture-tests` enforces layer rules at test time as fitness functions:
+`@marcusprado02/architecture-tests` enforces layer rules at test time as fitness functions:
 
 ```typescript
 // test/architecture.spec.ts
 import { describe, test } from 'vitest';
-import { ArchitectureTests } from '@acme/architecture-tests';
+import { ArchitectureTests } from '@marcusprado02/architecture-tests';
 
 const arch = new ArchitectureTests({ root: './src' });
 
@@ -287,10 +287,10 @@ describe('Architecture', () => {
 
 ## Summary
 
-| Test type    | Tool                       | Fakes used                                                                         |
-| ------------ | -------------------------- | ---------------------------------------------------------------------------------- |
-| Unit         | Vitest                     | `InMemoryRepository`, `InMemoryOutboxStore`, `FakeClock`, `InMemoryEventPublisher` |
-| Integration  | Vitest                     | Real DB/broker (Testcontainers or local Docker)                                    |
-| Contract     | Pact / AsyncAPI            | —                                                                                  |
-| E2E          | Vitest + Supertest         | Running service instance                                                           |
-| Architecture | `@acme/architecture-tests` | —                                                                                  |
+| Test type    | Tool                                | Fakes used                                                                         |
+| ------------ | ----------------------------------- | ---------------------------------------------------------------------------------- |
+| Unit         | Vitest                              | `InMemoryRepository`, `InMemoryOutboxStore`, `FakeClock`, `InMemoryEventPublisher` |
+| Integration  | Vitest                              | Real DB/broker (Testcontainers or local Docker)                                    |
+| Contract     | Pact / AsyncAPI                     | —                                                                                  |
+| E2E          | Vitest + Supertest                  | Running service instance                                                           |
+| Architecture | `@marcusprado02/architecture-tests` | —                                                                                  |

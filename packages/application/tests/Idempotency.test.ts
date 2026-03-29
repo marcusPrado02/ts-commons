@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/unbound-method */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { Result } from '@acme/kernel';
+import { Result } from '@marcusprado02/kernel';
 import {
   IdempotencyKey,
   InMemoryIdempotencyStore,
@@ -83,7 +83,7 @@ describe('InMemoryIdempotencyStore', () => {
     await store.tryAcquire(key3, 60_000);
 
     // Small delay to ensure ttl=0 entries are past their expiresAt
-    await new Promise<void>(r => setTimeout(r, 5));
+    await new Promise<void>((r) => setTimeout(r, 5));
 
     const removed = store.cleanup();
     expect(removed).toBe(2);

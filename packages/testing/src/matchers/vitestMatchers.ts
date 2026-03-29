@@ -1,5 +1,5 @@
 import { expect } from 'vitest';
-import { Option, Result } from '@acme/kernel';
+import { Option, Result } from '@marcusprado02/kernel';
 
 interface MatcherResult {
   pass: boolean;
@@ -53,12 +53,12 @@ const acmeMatchers = {
 };
 
 /**
- * Registers the custom `@acme` Vitest matchers.
+ * Registers the custom `@marcusprado02` Vitest matchers.
  * Call once in a `beforeAll` or setup file.
  *
  * @example
  * ```typescript
- * import { registerAcmeMatchers } from '@acme/testing';
+ * import { registerAcmeMatchers } from '@marcusprado02/testing';
  * beforeAll(() => registerAcmeMatchers());
  *
  * it('...', () => {

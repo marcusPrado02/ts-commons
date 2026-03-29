@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call -- TypeORM framework boundary: transaction methods */
 /* eslint-disable @typescript-eslint/no-unsafe-return -- TypeORM framework boundary: transaction callback returns any */
 import type { DataSource, EntityManager } from 'typeorm';
-import type { Result } from '@acme/kernel';
+import type { Result } from '@marcusprado02/kernel';
 
 /**
  * Unit of Work for managing transactions in TypeORM
@@ -32,9 +32,7 @@ export class TypeORMUnitOfWork {
    * Execute work within a transaction
    * All operations are committed if successful, rolled back on error
    */
-  async transaction<T>(
-    work: (manager: EntityManager) => Promise<T>
-  ): Promise<T> {
+  async transaction<T>(work: (manager: EntityManager) => Promise<T>): Promise<T> {
     return await this.dataSource.transaction(work);
   }
 
@@ -46,7 +44,7 @@ export class TypeORMUnitOfWork {
    * Any exceptions thrown will propagate normally.
    */
   async transactionResult<T, E extends Error>(
-    work: (manager: EntityManager) => Promise<Result<T, E>>
+    work: (manager: EntityManager) => Promise<Result<T, E>>,
   ): Promise<Result<T, E>> {
     return await this.dataSource.transaction(work);
   }

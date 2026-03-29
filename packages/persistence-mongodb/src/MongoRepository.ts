@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment -- MongoDB framework boundary: collection methods return any */
 /* eslint-disable @typescript-eslint/no-unsafe-call -- MongoDB framework boundary: collection method calls */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access -- MongoDB framework boundary: document property access */
-import type { RepositoryPort } from '@acme/persistence';
+import type { RepositoryPort } from '@marcusprado02/persistence';
 import type { MongoMapper } from './MongoMapper';
 
 // ── Structural cursor interface ───────────────────────────────────────────────
@@ -74,9 +74,7 @@ export interface MongoCollectionLike {
  * }
  * ```
  */
-export abstract class MongoRepository<TDomain, TId>
-  implements RepositoryPort<TDomain, TId>
-{
+export abstract class MongoRepository<TDomain, TId> implements RepositoryPort<TDomain, TId> {
   constructor(
     protected readonly collection: MongoCollectionLike,
     protected readonly mapper: MongoMapper<TDomain>,

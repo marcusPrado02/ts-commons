@@ -1,5 +1,5 @@
 {
-  "name": "@acme/examples",
+  "name": "@marcusprado02/examples",
   "version": "0.0.0",
   "private": true,
   "description": "Runnable end-to-end examples for ts-commons (not published)",
@@ -10,13 +10,13 @@
     "event-sourcing": "tsx event-sourcing-example.ts"
   },
   "dependencies": {
-    "@acme/application": "workspace:*",
-    "@acme/errors": "workspace:*",
-    "@acme/eventsourcing": "workspace:*",
-    "@acme/kernel": "workspace:*",
-    "@acme/messaging": "workspace:*",
-    "@acme/observability": "workspace:*",
-    "@acme/persistence": "workspace:*"
+    "@marcusprado02/application": "workspace:*",
+    "@marcusprado02/errors": "workspace:*",
+    "@marcusprado02/eventsourcing": "workspace:*",
+    "@marcusprado02/kernel": "workspace:*",
+    "@marcusprado02/messaging": "workspace:*",
+    "@marcusprado02/observability": "workspace:*",
+    "@marcusprado02/persistence": "workspace:*"
   },
   "devDependencies": {
     "tsx": "*"

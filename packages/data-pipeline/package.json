@@ -1,7 +1,7 @@
 {
-  "name": "@acme/data-pipeline",
+  "name": "@marcusprado02/data-pipeline",
   "version": "0.1.0",
-  "description": "ETL framework, stream/batch processing, data validation and DLQ for @acme/ts-commons",
+  "description": "ETL framework, stream/batch processing, data validation and DLQ for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -33,6 +33,6 @@
   ],
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   }
 }

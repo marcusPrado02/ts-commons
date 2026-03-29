@@ -1,5 +1,5 @@
 {
-  "name": "@acme/architecture-tests",
+  "name": "@marcusprado02/architecture-tests",
   "version": "0.1.0",
   "description": "Architecture validation tests for TypeScript Commons library",
   "type": "module",
@@ -37,26 +37,26 @@
     "vitest": "^2.1.8"
   },
   "dependencies": {
-    "@acme/kernel": "workspace:*",
-    "@acme/application": "workspace:*",
-    "@acme/errors": "workspace:*",
-    "@acme/config": "workspace:*",
-    "@acme/observability": "workspace:*",
-    "@acme/resilience": "workspace:*",
-    "@acme/security": "workspace:*",
-    "@acme/messaging": "workspace:*",
-    "@acme/outbox": "workspace:*",
-    "@acme/persistence": "workspace:*",
-    "@acme/contracts": "workspace:*",
-    "@acme/web": "workspace:*",
-    "@acme/testing": "workspace:*"
+    "@marcusprado02/kernel": "workspace:*",
+    "@marcusprado02/application": "workspace:*",
+    "@marcusprado02/errors": "workspace:*",
+    "@marcusprado02/config": "workspace:*",
+    "@marcusprado02/observability": "workspace:*",
+    "@marcusprado02/resilience": "workspace:*",
+    "@marcusprado02/security": "workspace:*",
+    "@marcusprado02/messaging": "workspace:*",
+    "@marcusprado02/outbox": "workspace:*",
+    "@marcusprado02/persistence": "workspace:*",
+    "@marcusprado02/contracts": "workspace:*",
+    "@marcusprado02/web": "workspace:*",
+    "@marcusprado02/testing": "workspace:*"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

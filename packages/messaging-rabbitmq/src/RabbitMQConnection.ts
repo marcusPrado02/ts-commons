@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call -- amqplib methods return any */
 import type { ChannelModel, Channel, Options } from 'amqplib';
 import { connect } from 'amqplib';
-import type { Logger } from '@acme/observability';
+import type { Logger } from '@marcusprado02/observability';
 import type { RabbitMQConfig, RabbitMQHealthCheck } from './RabbitMQConfig';
 import { DEFAULT_RABBITMQ_CONFIG } from './RabbitMQConfig';
 

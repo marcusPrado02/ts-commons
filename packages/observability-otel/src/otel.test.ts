@@ -7,7 +7,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type -- test helper functions */
 /* eslint-disable max-lines-per-function -- test files naturally have longer functions */
 /**
- * Tests for @acme/observability-otel — OtelTracer, OtelMetrics, NoopTracer, NoopMetrics
+ * Tests for @marcusprado02/observability-otel — OtelTracer, OtelMetrics, NoopTracer, NoopMetrics
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { OtelTracer } from './OtelTracer';
@@ -47,9 +47,11 @@ describe('OtelTracer', () => {
   let tracer: OtelTracer;
 
   beforeEach(() => {
-    mockSpan          = buildMockSpan();
-    mockTracerClient  = { startSpan: vi.fn().mockReturnValue(mockSpan) } as unknown as OtelTracerClientLike;
-    tracer            = new OtelTracer(mockTracerClient);
+    mockSpan = buildMockSpan();
+    mockTracerClient = {
+      startSpan: vi.fn().mockReturnValue(mockSpan),
+    } as unknown as OtelTracerClientLike;
+    tracer = new OtelTracer(mockTracerClient);
   });
 
   it('startSpan calls tracer.startSpan with the correct name', () => {
@@ -80,7 +82,7 @@ describe('OtelTracer', () => {
   });
 
   it('SpanHandle.recordError delegates to span.recordException', () => {
-    const span  = tracer.startSpan('action');
+    const span = tracer.startSpan('action');
     const error = new Error('boom');
 
     span.recordError(error);
@@ -94,16 +96,16 @@ describe('OtelTracer', () => {
 // ---------------------------------------------------------------------------
 
 describe('OtelMetrics', () => {
-  let mockCounter:   ReturnType<typeof buildMockCounter>;
+  let mockCounter: ReturnType<typeof buildMockCounter>;
   let mockHistogram: ReturnType<typeof buildMockHistogram>;
-  let mockMeter:     OtelMeterClientLike;
-  let metrics:       OtelMetrics;
+  let mockMeter: OtelMeterClientLike;
+  let metrics: OtelMetrics;
 
   beforeEach(() => {
-    mockCounter   = buildMockCounter();
+    mockCounter = buildMockCounter();
     mockHistogram = buildMockHistogram();
-    mockMeter     = {
-      createCounter:   vi.fn().mockReturnValue(mockCounter),
+    mockMeter = {
+      createCounter: vi.fn().mockReturnValue(mockCounter),
       createHistogram: vi.fn().mockReturnValue(mockHistogram),
     } as unknown as OtelMeterClientLike;
     metrics = new OtelMetrics(mockMeter);

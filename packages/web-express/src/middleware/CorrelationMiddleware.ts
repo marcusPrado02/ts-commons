@@ -8,8 +8,8 @@
  */
 
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
-import { CorrelationId } from '@acme/kernel';
-import type { Logger } from '@acme/observability';
+import { CorrelationId } from '@marcusprado02/kernel';
+import type { Logger } from '@marcusprado02/observability';
 
 /**
  * Request extension to include correlation context
@@ -34,7 +34,7 @@ declare global {
  * @example
  * ```typescript
  * import express from 'express';
- * import { correlationMiddleware } from '@acme/web-express';
+ * import { correlationMiddleware } from '@marcusprado02/web-express';
  *
  * const app = express();
  * app.use(correlationMiddleware());

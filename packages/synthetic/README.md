@@ -1,17 +1,17 @@
-# @acme/synthetic
+# @marcusprado02/synthetic
 
 Synthetic monitoring and canary checks. Runs API health probes and multi-step user journey simulations, then alerts when checks fail or latency exceeds thresholds.
 
 ## Installation
 
 ```bash
-pnpm add @acme/synthetic
+pnpm add @marcusprado02/synthetic
 ```
 
 ## API Health Checks
 
 ```typescript
-import { SyntheticMonitor } from '@acme/synthetic';
+import { SyntheticMonitor } from '@marcusprado02/synthetic';
 
 const monitor = new SyntheticMonitor();
 
@@ -58,6 +58,6 @@ const result = await monitor.runJourney('checkout-flow');
 
 ## See Also
 
-- [`@acme/incidents`](../incidents) — incident management on check failure
-- [`@acme/chaos`](../chaos) — chaos engineering
-- [`@acme/resilience`](../resilience) — circuit breakers
+- [`@marcusprado02/incidents`](../incidents) — incident management on check failure
+- [`@marcusprado02/chaos`](../chaos) — chaos engineering
+- [`@marcusprado02/resilience`](../resilience) — circuit breakers

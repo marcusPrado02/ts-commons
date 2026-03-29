@@ -1,11 +1,11 @@
-# @acme/email
+# @marcusprado02/email
 
 Email sending abstraction — a provider-agnostic `EmailPort` interface with in-memory and logging adapters for testing and development.
 
 ## Installation
 
 ```bash
-pnpm add @acme/email
+pnpm add @marcusprado02/email
 ```
 
 ## Exports
@@ -53,13 +53,13 @@ pnpm add @acme/email
 ### Send an email (production)
 
 ```ts
-import type { EmailPort, EmailMessage } from '@acme/email';
+import type { EmailPort, EmailMessage } from '@marcusprado02/email';
 
 // Inject a real adapter (e.g. SmtpEmailAdapter, SendGridEmailAdapter)
 // via dependency injection; accept the EmailPort interface.
 async function sendWelcome(mailer: EmailPort, userEmail: string): Promise<void> {
   const message: EmailMessage = {
-    from: { email: 'no-reply@acme.dev', name: 'Acme' },
+    from: { email: 'no-reply@marcusprado02.dev', name: 'Acme' },
     to: [{ email: userEmail }],
     subject: 'Welcome to Acme',
     text: 'Thanks for signing up.',
@@ -74,7 +74,7 @@ async function sendWelcome(mailer: EmailPort, userEmail: string): Promise<void> 
 ### Test with InMemoryEmailAdapter
 
 ```ts
-import { InMemoryEmailAdapter } from '@acme/email';
+import { InMemoryEmailAdapter } from '@marcusprado02/email';
 
 const mailer = new InMemoryEmailAdapter();
 
@@ -91,7 +91,7 @@ mailer.clear();
 ### Track lifecycle events with InMemoryEmailTracker
 
 ```ts
-import { InMemoryEmailTracker } from '@acme/email';
+import { InMemoryEmailTracker } from '@marcusprado02/email';
 
 const tracker = new InMemoryEmailTracker();
 
@@ -107,6 +107,6 @@ const events = tracker.getEvents('msg-1'); // all three events above
 
 ## Dependencies
 
-| Package        | Role                                                                |
-| -------------- | ------------------------------------------------------------------- |
-| `@acme/kernel` | Core utilities including `LoggerPort` used by `LoggingEmailAdapter` |
+| Package                 | Role                                                                |
+| ----------------------- | ------------------------------------------------------------------- |
+| `@marcusprado02/kernel` | Core utilities including `LoggerPort` used by `LoggingEmailAdapter` |

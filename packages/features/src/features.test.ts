@@ -62,12 +62,16 @@ describe('TargetingEngine', () => {
     });
 
     it('contains — match', () => {
-      const rules: TargetingRule[] = [{ attribute: 'email', operator: 'contains', value: '@acme' }];
-      expect(evaluateTargeting(rules, { email: 'alice@acme.com' })).toBe(true);
+      const rules: TargetingRule[] = [
+        { attribute: 'email', operator: 'contains', value: '@marcusprado02' },
+      ];
+      expect(evaluateTargeting(rules, { email: 'alice@marcusprado02.com' })).toBe(true);
     });
 
     it('contains — no match', () => {
-      const rules: TargetingRule[] = [{ attribute: 'email', operator: 'contains', value: '@acme' }];
+      const rules: TargetingRule[] = [
+        { attribute: 'email', operator: 'contains', value: '@marcusprado02' },
+      ];
       expect(evaluateTargeting(rules, { email: 'alice@other.com' })).toBe(false);
     });
 

@@ -1,5 +1,5 @@
 {
-  "name": "@acme/email",
+  "name": "@marcusprado02/email",
   "version": "0.1.0",
   "description": "Email sending abstraction — port + adapters (In-memory, Logging, SMTP, SendGrid, Mailgun, AWS SES)",
   "type": "module",
@@ -18,7 +18,7 @@
     "lint": "eslint src --ext .ts"
   },
   "dependencies": {
-    "@acme/kernel": "workspace:*"
+    "@marcusprado02/kernel": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
@@ -26,7 +26,7 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

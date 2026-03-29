@@ -1,5 +1,5 @@
 {
-  "name": "@acme/storage",
+  "name": "@marcusprado02/storage",
   "version": "0.1.0",
   "description": "File storage abstraction — port + adapters (In-memory, Local filesystem, S3, Azure Blob, GCS) with streaming, pre-signed URLs, and multipart upload",
   "type": "module",
@@ -24,7 +24,7 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

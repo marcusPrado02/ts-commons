@@ -1,17 +1,17 @@
-# @acme/scheduler
+# @marcusprado02/scheduler
 
 Job scheduling abstraction with in-memory and persistent backends. Supports cron expressions, intervals, one-time delays, concurrency limits, and automatic retry.
 
 ## Installation
 
 ```bash
-pnpm add @acme/scheduler
+pnpm add @marcusprado02/scheduler
 ```
 
 ## Quick Start
 
 ```typescript
-import { InMemoryScheduler } from '@acme/scheduler';
+import { InMemoryScheduler } from '@marcusprado02/scheduler';
 
 const scheduler = new InMemoryScheduler();
 
@@ -57,5 +57,5 @@ const stats = scheduler.stats();
 
 ## See Also
 
-- [`@acme/process-manager`](../process-manager) — state machine processes
-- [`@acme/saga`](../saga) — distributed saga orchestration
+- [`@marcusprado02/process-manager`](../process-manager) — state machine processes
+- [`@marcusprado02/saga`](../saga) — distributed saga orchestration

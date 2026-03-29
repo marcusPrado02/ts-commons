@@ -11,7 +11,7 @@ import type { EmailMessage, SendEmailResult } from './EmailTypes';
  * @example
  * ```ts
  * const mailer = new InMemoryEmailAdapter();
- * await mailer.send({ from: { email: 'no-reply@acme.dev' }, to: [{ email: 'user@example.com' }], subject: 'Hi' });
+ * await mailer.send({ from: { email: 'no-reply@marcusprado02.dev' }, to: [{ email: 'user@example.com' }], subject: 'Hi' });
  * expect(mailer.getSentEmailsTo('user@example.com')).toHaveLength(1);
  * ```
  */

@@ -5,7 +5,7 @@
  * code can execute multiple collection operations inside a single ACID
  * transaction (requires a MongoDB replica set or sharded cluster).
  */
-import type { Result } from '@acme/kernel';
+import type { Result } from '@marcusprado02/kernel';
 
 // ── Structural interfaces ─────────────────────────────────────────────────────
 

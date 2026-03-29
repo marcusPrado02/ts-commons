@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import type { DomainEvent } from '@acme/kernel';
+import type { DomainEvent } from '@marcusprado02/kernel';
 
 /**
  * Base class for event-sourced aggregates.

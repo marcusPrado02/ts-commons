@@ -1,5 +1,5 @@
 /**
- * Test file for @acme/web-express package
+ * Test file for @marcusprado02/web-express package
  * ESLint rules are relaxed for test files due to testing framework types
  * and the need to interact with Express types that contain 'any'.
  */
@@ -20,9 +20,9 @@ import {
   ValidationError,
   type ValidatorFn,
 } from '../src/index.js';
-import type { Logger } from '@acme/observability';
+import type { Logger } from '@marcusprado02/observability';
 
-describe('@acme/web-express', () => {
+describe('@marcusprado02/web-express', () => {
   let app: Express;
   let mockLogger: Logger;
 

@@ -11,6 +11,7 @@ Precisamos de uma forma de organizar múltiplos pacotes relacionados que compart
 Usar monorepo com pnpm workspaces.
 
 **Consequências:**
+
 - ✅ Single source of truth
 - ✅ Dependency hoisting
 - ✅ Builds incrementais
@@ -26,9 +27,10 @@ Usar monorepo com pnpm workspaces.
 O domínio não deve depender de frameworks ou bibliotecas externas.
 
 **Decisão:**
-Pacote `@acme/kernel` tem ZERO dependencies npm.
+Pacote `@marcusprado02/kernel` tem ZERO dependencies npm.
 
 **Consequências:**
+
 - ✅ Domínio puro e portável
 - ✅ Fácil de testar
 - ✅ Não quebra com updates de frameworks
@@ -47,6 +49,7 @@ Precisamos isolar domínio de detalhes de infraestrutura.
 Usar Ports (interfaces) no kernel/application e Adapters na infra.
 
 **Consequências:**
+
 - ✅ Fácil trocar implementações
 - ✅ Testabilidade com fakes
 - ✅ Independência de tecnologia
@@ -62,9 +65,10 @@ Usar Ports (interfaces) no kernel/application e Adapters na infra.
 Queries e Commands têm SLAs e características diferentes.
 
 **Decisão:**
-Separar Commands (escrita) de Queries (leitura) no `@acme/application`.
+Separar Commands (escrita) de Queries (leitura) no `@marcusprado02/application`.
 
 **Consequências:**
+
 - ✅ Otimizações independentes
 - ✅ Escalabilidade
 - ✅ Clareza de intent
@@ -80,9 +84,10 @@ Separar Commands (escrita) de Queries (leitura) no `@acme/application`.
 Precisamos garantir at-least-once delivery de eventos.
 
 **Decisão:**
-Usar Transactional Outbox Pattern no `@acme/outbox`.
+Usar Transactional Outbox Pattern no `@marcusprado02/outbox`.
 
 **Consequências:**
+
 - ✅ Eventos sempre publicados
 - ✅ Consistência transacional
 - ✅ Resiliência a falhas
@@ -102,6 +107,7 @@ Precisamos controlar surface area da API pública.
 Cada pacote exporta apenas via `src/index.ts`.
 
 **Consequências:**
+
 - ✅ API pública clara
 - ✅ Breaking changes detectáveis
 - ✅ Tree-shaking otimizado

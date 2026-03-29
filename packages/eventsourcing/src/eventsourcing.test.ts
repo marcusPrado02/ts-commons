@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { describe, it, expect, vi } from 'vitest';
-import { DomainEvent } from '@acme/kernel';
+import { DomainEvent } from '@marcusprado02/kernel';
 import { InMemoryEventStore, ConcurrencyError } from './EventStore';
 import { EventSourcedAggregate } from './EventSourcedAggregate';
 import { InMemorySnapshotStore } from './Snapshot';
@@ -170,7 +170,12 @@ interface CounterState {
 describe('InMemorySnapshotStore', () => {
   it('save then get returns the correct snapshot', async () => {
     const store = new InMemorySnapshotStore();
-    await store.save<CounterState>({ aggregateId: 'c-1', version: 5, state: { count: 42 }, timestamp: new Date() });
+    await store.save<CounterState>({
+      aggregateId: 'c-1',
+      version: 5,
+      state: { count: 42 },
+      timestamp: new Date(),
+    });
     const snap = await store.get<CounterState>('c-1');
     expect(snap).toBeDefined();
     expect(snap?.state.count).toBe(42);
@@ -187,8 +192,18 @@ describe('InMemorySnapshotStore', () => {
     const store = new InMemorySnapshotStore();
     const ts1 = new Date(1000);
     const ts2 = new Date(2000);
-    await store.save<CounterState>({ aggregateId: 'c-1', version: 5, state: { count: 10 }, timestamp: ts1 });
-    await store.save<CounterState>({ aggregateId: 'c-1', version: 10, state: { count: 20 }, timestamp: ts2 });
+    await store.save<CounterState>({
+      aggregateId: 'c-1',
+      version: 5,
+      state: { count: 10 },
+      timestamp: ts1,
+    });
+    await store.save<CounterState>({
+      aggregateId: 'c-1',
+      version: 10,
+      state: { count: 20 },
+      timestamp: ts2,
+    });
     const snap = await store.get<CounterState>('c-1');
     expect(snap?.version).toBe(10);
     expect(snap?.state.count).toBe(20);
@@ -197,7 +212,12 @@ describe('InMemorySnapshotStore', () => {
   it('all snapshot fields are preserved exactly', async () => {
     const store = new InMemorySnapshotStore();
     const timestamp = new Date('2026-01-01T00:00:00.000Z');
-    await store.save<CounterState>({ aggregateId: 'agg-42', version: 7, state: { count: 99 }, timestamp });
+    await store.save<CounterState>({
+      aggregateId: 'agg-42',
+      version: 7,
+      state: { count: 99 },
+      timestamp,
+    });
     const snap = await store.get<CounterState>('agg-42');
     expect(snap).toMatchObject({ aggregateId: 'agg-42', version: 7, state: { count: 99 } });
     expect(snap?.timestamp).toBe(timestamp);

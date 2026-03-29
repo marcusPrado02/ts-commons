@@ -1,4 +1,4 @@
-# @acme/web-express
+# @marcusprado02/web-express
 
 Express.js adapter for the ts-commons platform. Provides middleware, adapters, and utilities for integrating Express.js with Clean Architecture patterns.
 
@@ -14,7 +14,7 @@ Express.js adapter for the ts-commons platform. Provides middleware, adapters, a
 ## Installation
 
 ```bash
-pnpm add @acme/web-express express
+pnpm add @marcusprado02/web-express express
 pnpm add -D @types/express
 ```
 
@@ -27,8 +27,8 @@ import {
   loggingMiddleware,
   errorHandlerMiddleware,
   adaptUseCase,
-} from '@acme/web-express';
-import { createLogger } from '@acme/observability';
+} from '@marcusprado02/web-express';
+import { createLogger } from '@marcusprado02/observability';
 import { CreateUserUseCase } from './usecases';
 
 const app = express();
@@ -41,9 +41,12 @@ app.use(loggingMiddleware(logger));
 
 // Define routes with use case adapters
 const createUserUseCase = new CreateUserUseCase();
-app.post('/users', adaptUseCase(createUserUseCase, {
-  successStatus: 201,
-}));
+app.post(
+  '/users',
+  adaptUseCase(createUserUseCase, {
+    successStatus: 201,
+  }),
+);
 
 // Error handler (must be last)
 app.use(errorHandlerMiddleware(logger));
@@ -60,7 +63,7 @@ app.listen(3000, () => {
 Automatically creates or extracts correlation IDs from requests:
 
 ```typescript
-import { correlationMiddleware } from '@acme/web-express';
+import { correlationMiddleware } from '@marcusprado02/web-express';
 
 app.use(correlationMiddleware(logger));
 
@@ -76,17 +79,19 @@ app.get('/users', (req, res) => {
 Structured HTTP request/response logging:
 
 ```typescript
-import { loggingMiddleware, advancedLoggingMiddleware } from '@acme/web-express';
+import { loggingMiddleware, advancedLoggingMiddleware } from '@marcusprado02/web-express';
 
 // Basic logging
 app.use(loggingMiddleware(logger));
 
 // Advanced with options
-app.use(advancedLoggingMiddleware(logger, {
-  logBody: true,
-  excludePaths: ['/health', '/metrics'],
-  maxBodySize: 500,
-}));
+app.use(
+  advancedLoggingMiddleware(logger, {
+    logBody: true,
+    excludePaths: ['/health', '/metrics'],
+    maxBodySize: 500,
+  }),
+);
 ```
 
 ### Error Handler Middleware
@@ -94,7 +99,7 @@ app.use(advancedLoggingMiddleware(logger, {
 Converts errors to RFC 7807 Problem Details:
 
 ```typescript
-import { errorHandlerMiddleware } from '@acme/web-express';
+import { errorHandlerMiddleware } from '@marcusprado02/web-express';
 
 // Must be registered as last middleware
 app.use(errorHandlerMiddleware(logger));
@@ -105,7 +110,7 @@ app.use(errorHandlerMiddleware(logger));
 Type-safe request validation:
 
 ```typescript
-import { validateBody, createZodValidator } from '@acme/web-express';
+import { validateBody, createZodValidator } from '@marcusprado02/web-express';
 import { z } from 'zod';
 
 const createUserSchema = z.object({
@@ -114,14 +119,11 @@ const createUserSchema = z.object({
   age: z.number().min(18),
 });
 
-app.post('/users',
-  validateBody(createZodValidator(createUserSchema)),
-  async (req, res) => {
-    // req.body is now typed and validated
-    const user = await createUser(req.body);
-    res.status(201).json(user);
-  }
-);
+app.post('/users', validateBody(createZodValidator(createUserSchema)), async (req, res) => {
+  // req.body is now typed and validated
+  const user = await createUser(req.body);
+  res.status(201).json(user);
+});
 ```
 
 ## Adapters
@@ -131,30 +133,30 @@ app.post('/users',
 Adapt use cases to Express request handlers:
 
 ```typescript
-import { ExpressControllerAdapter } from '@acme/web-express';
+import { ExpressControllerAdapter } from '@marcusprado02/web-express';
 
 // Basic adaptation
-app.post('/users', ExpressControllerAdapter.adapt(createUserUseCase, {
-  successStatus: 201,
-  extractInput: (req) => req.body,
-}));
+app.post(
+  '/users',
+  ExpressControllerAdapter.adapt(createUserUseCase, {
+    successStatus: 201,
+    extractInput: (req) => req.body,
+  }),
+);
 
 // Command adaptation (returns 204 No Content)
-app.delete('/users/:id',
+app.delete(
+  '/users/:id',
   ExpressControllerAdapter.adaptCommand(deleteUserUseCase, {
     extractInput: (req) => ({ userId: req.params.id }),
-  })
+  }),
 );
 
 // Query adaptation (extracts from params + query)
-app.get('/users/:id',
-  ExpressControllerAdapter.adaptQuery(getUserUseCase)
-);
+app.get('/users/:id', ExpressControllerAdapter.adaptQuery(getUserUseCase));
 
 // Creation adaptation (returns 201 Created)
-app.post('/users',
-  ExpressControllerAdapter.adaptCreate(createUserUseCase)
-);
+app.post('/users', ExpressControllerAdapter.adaptCreate(createUserUseCase));
 ```
 
 ### Context Adapter
@@ -162,7 +164,7 @@ app.post('/users',
 Extract use case context from requests:
 
 ```typescript
-import { ExpressContextAdapter } from '@acme/web-express';
+import { ExpressContextAdapter } from '@marcusprado02/web-express';
 
 // Create context from request
 app.use((req, res, next) => {
@@ -186,8 +188,8 @@ import {
   validateBody,
   createZodValidator,
   ExpressControllerAdapter,
-} from '@acme/web-express';
-import { createLogger } from '@acme/observability';
+} from '@marcusprado02/web-express';
+import { createLogger } from '@marcusprado02/observability';
 import { z } from 'zod';
 
 const app = express();
@@ -205,24 +207,25 @@ const createUserSchema = z.object({
 });
 
 // Routes with validation and use case adaptation
-app.post('/users',
+app.post(
+  '/users',
   validateBody(createZodValidator(createUserSchema)),
-  ExpressControllerAdapter.adaptCreate(createUserUseCase)
+  ExpressControllerAdapter.adaptCreate(createUserUseCase),
 );
 
-app.get('/users/:id',
-  ExpressControllerAdapter.adaptQuery(getUserUseCase)
-);
+app.get('/users/:id', ExpressControllerAdapter.adaptQuery(getUserUseCase));
 
-app.put('/users/:id',
+app.put(
+  '/users/:id',
   validateBody(createZodValidator(updateUserSchema)),
-  ExpressControllerAdapter.adapt(updateUserUseCase)
+  ExpressControllerAdapter.adapt(updateUserUseCase),
 );
 
-app.delete('/users/:id',
+app.delete(
+  '/users/:id',
   ExpressControllerAdapter.adaptDelete(deleteUserUseCase, {
     extractInput: (req) => ({ userId: req.params.id }),
-  })
+  }),
 );
 
 // Error handler (must be last)
@@ -243,7 +246,7 @@ This package follows Clean Architecture principles:
 ┌─────────────────────────────────────┐
 │      Express.js (Framework)         │
 │  ┌───────────────────────────────┐  │
-│  │   @acme/web-express           │  │
+│  │   @marcusprado02/web-express           │  │
 │  │   (Adapter Layer)             │  │
 │  │  • Middleware                 │  │
 │  │  • Controller Adapter         │  │
@@ -262,27 +265,31 @@ This package follows Clean Architecture principles:
 ## Best Practices
 
 1. **Middleware order matters**:
+
    ```typescript
-   app.use(express.json());              // 1. Body parsing
-   app.use(correlationMiddleware());     // 2. Correlation ID
-   app.use(loggingMiddleware());         // 3. Logging
+   app.use(express.json()); // 1. Body parsing
+   app.use(correlationMiddleware()); // 2. Correlation ID
+   app.use(loggingMiddleware()); // 3. Logging
    // ... routes ...
-   app.use(errorHandlerMiddleware());    // Last: Error handling
+   app.use(errorHandlerMiddleware()); // Last: Error handling
    ```
 
 2. **Use validation early**:
+
    ```typescript
-   app.post('/users',
-     validateBody(validator),  // Validate first
-     adaptUseCase(useCase)     // Then execute
+   app.post(
+     '/users',
+     validateBody(validator), // Validate first
+     adaptUseCase(useCase), // Then execute
    );
    ```
 
 3. **Leverage type safety**:
+
    ```typescript
    const schema = z.object({ ... });
    type CreateUserDto = z.infer<typeof schema>;
-   
+
    app.post('/users',
      validateBody(createZodValidator(schema)),
      (req: Request<{}, {}, CreateUserDto>, res) => {

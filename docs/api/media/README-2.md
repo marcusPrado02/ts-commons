@@ -1,11 +1,11 @@
-# @acme/errors
+# @marcusprado02/errors
 
 Error handling padronizado com **Problem Details (RFC 7807)**, taxonomy de erros, e mapeamento para HTTP.
 
 ## Instalação
 
 ```bash
-pnpm add @acme/errors
+pnpm add @marcusprado02/errors
 ```
 
 ## Features
@@ -20,10 +20,9 @@ pnpm add @acme/errors
 ### Problem Details
 
 ```typescript
-import { ProblemDetailsBuilder, ProblemType } from '@acme/errors';
+import { ProblemDetailsBuilder, ProblemType } from '@marcusprado02/errors';
 
-const problem = ProblemDetailsBuilder
-  .create(ProblemType.NOT_FOUND, 'Resource Not Found', 404)
+const problem = ProblemDetailsBuilder.create(ProblemType.NOT_FOUND, 'Resource Not Found', 404)
   .withDetail('Order with ID 123 not found')
   .withInstance('/orders/123')
   .withCorrelationId('abc-123')
@@ -43,26 +42,20 @@ const problem = ProblemDetailsBuilder
 ### Error Taxonomy
 
 ```typescript
-import { RetryableError, NonRetryableError, AppErrorCode } from '@acme/errors';
+import { RetryableError, NonRetryableError, AppErrorCode } from '@marcusprado02/errors';
 
 // Erro que pode ser retentado
-throw new RetryableError(
-  'Database connection failed',
-  AppErrorCode.DATABASE_ERROR
-);
+throw new RetryableError('Database connection failed', AppErrorCode.DATABASE_ERROR);
 
 // Erro que NÃO deve ser retentado
-throw new NonRetryableError(
-  'Invalid input',
-  AppErrorCode.VALIDATION_ERROR
-);
+throw new NonRetryableError('Invalid input', AppErrorCode.VALIDATION_ERROR);
 ```
 
 ### HTTP Error Mapper
 
 ```typescript
-import { HttpErrorMapper } from '@acme/errors';
-import { NotFoundError } from '@acme/kernel';
+import { HttpErrorMapper } from '@marcusprado02/errors';
+import { NotFoundError } from '@marcusprado02/kernel';
 
 try {
   // ... código que pode lançar domain errors
@@ -79,7 +72,7 @@ try {
 ### Fastify
 
 ```typescript
-import { HttpErrorMapper } from '@acme/errors';
+import { HttpErrorMapper } from '@marcusprado02/errors';
 
 fastify.setErrorHandler((error, request, reply) => {
   const problem = HttpErrorMapper.toProblemDetails(error);

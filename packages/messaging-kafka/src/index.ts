@@ -1,5 +1,5 @@
 /**
- * @acme/messaging-kafka
+ * @marcusprado02/messaging-kafka
  *
  * Apache Kafka adapter for event-driven messaging
  *

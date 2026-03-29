@@ -1,4 +1,4 @@
-import { Result } from '@acme/kernel';
+import { Result } from '@marcusprado02/kernel';
 import type { AuthenticatedPrincipal } from '../authn/AuthenticatedPrincipal';
 import { type AuthError, InvalidTokenError } from '../authn/AuthErrors';
 import type { SsoProviderConfig, SsoTokenPayload } from './types';

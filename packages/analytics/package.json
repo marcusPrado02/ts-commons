@@ -1,7 +1,7 @@
 {
-  "name": "@acme/analytics",
+  "name": "@marcusprado02/analytics",
   "version": "0.1.0",
-  "description": "Analytics event tracking with Segment, Mixpanel, GA4, custom dimensions, and funnel tracking for @acme/ts-commons",
+  "description": "Analytics event tracking with Segment, Mixpanel, GA4, custom dimensions, and funnel tracking for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -32,6 +32,6 @@
   ],
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   }
 }

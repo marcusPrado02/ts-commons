@@ -1,5 +1,5 @@
-import type { IdempotencyStorePort } from '@acme/application';
-import type { IdempotencyKey } from '@acme/application';
+import type { IdempotencyStorePort } from '@marcusprado02/application';
+import type { IdempotencyKey } from '@marcusprado02/application';
 
 export class InMemoryIdempotencyStore<T = unknown> implements IdempotencyStorePort<T> {
   private readonly locks = new Map<string, { result?: T; expiresAt: number }>();

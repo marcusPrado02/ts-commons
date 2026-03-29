@@ -7,7 +7,7 @@ import type {
 } from '../GeneratorTypes';
 import { render, toSnake } from '../TemplateEngine';
 
-const MIGRATION_TEMPLATE = `import type { Migration } from '@acme/persistence';
+const MIGRATION_TEMPLATE = `import type { Migration } from '@marcusprado02/persistence';
 
 export const {{migrationName}}: Migration = {
   name: '{{migrationName}}',

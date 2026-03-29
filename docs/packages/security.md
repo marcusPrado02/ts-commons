@@ -1,15 +1,15 @@
-# @acme/security
+# @marcusprado02/security
 
 Authentication, authorisation, OAuth2, encryption, and PII masking.
 
-**Install:** `pnpm add @acme/security @acme/kernel`
+**Install:** `pnpm add @marcusprado02/security @marcusprado02/kernel`
 
 ---
 
 ## `JwtAuthenticator` — Token Verification
 
 ```typescript
-import { JwtAuthenticator } from '@acme/security';
+import { JwtAuthenticator } from '@marcusprado02/security';
 
 const authenticator = new JwtAuthenticator(jwtVerifier, {
   issuer: 'https://auth.example.com',
@@ -34,7 +34,7 @@ result.match({
 ## `RbacPolicyEngine` — Role-Based Access Control
 
 ```typescript
-import { RbacPolicyEngine } from '@acme/security';
+import { RbacPolicyEngine } from '@marcusprado02/security';
 
 const engine = new RbacPolicyEngine({
   roles: {
@@ -57,7 +57,7 @@ engine.assertAllowed(principal, 'order:delete');
 ## `ClientCredentialsFlow` — OAuth2 Server-to-Server
 
 ```typescript
-import { ClientCredentialsFlow } from '@acme/security';
+import { ClientCredentialsFlow } from '@marcusprado02/security';
 
 const flow = new ClientCredentialsFlow(
   {
@@ -79,7 +79,7 @@ const token = await flow.getToken();
 ## `TokenIntrospector` — Token Inspection
 
 ```typescript
-import { TokenIntrospector } from '@acme/security';
+import { TokenIntrospector } from '@marcusprado02/security';
 
 const introspector = new TokenIntrospector(
   {
@@ -106,7 +106,7 @@ console.log('Expires:', info.exp);
 Encrypts sensitive data at rest (e.g. credit card numbers, national IDs).
 
 ```typescript
-import { AesGcmCipher } from '@acme/security';
+import { AesGcmCipher } from '@marcusprado02/security';
 
 const cipher = new AesGcmCipher(process.env.ENCRYPTION_KEY!);
 
@@ -126,7 +126,7 @@ const plaintext = await cipher.decrypt(ciphertext);
 Masks personally identifiable information for display in logs, UIs, etc.
 
 ```typescript
-import { PiiMasker } from '@acme/security';
+import { PiiMasker } from '@marcusprado02/security';
 
 const masker = new PiiMasker();
 
@@ -151,7 +151,7 @@ const masker = new PiiMasker({
 ## Middleware Pattern (Fastify)
 
 ```typescript
-import { JwtAuthenticator, RbacPolicyEngine } from '@acme/security';
+import { JwtAuthenticator, RbacPolicyEngine } from '@marcusprado02/security';
 
 const withAuth = async (request: FastifyRequest, reply: FastifyReply) => {
   const token = request.headers.authorization?.replace('Bearer ', '');

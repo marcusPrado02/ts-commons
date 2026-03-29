@@ -1,15 +1,15 @@
-# @acme/web — Fastify and NestJS Adapters
+# @marcusprado02/web — Fastify and NestJS Adapters
 
 HTTP transport layer adapters. Your application and domain code knows nothing about HTTP — these adapters translate between HTTP and `UseCase`/`Mediator`.
 
 **Install:**
 
-- `pnpm add @acme/web-fastify @acme/web` (Fastify)
-- `pnpm add @acme/web-nestjs @acme/web` (NestJS)
+- `pnpm add @marcusprado02/web-fastify @marcusprado02/web` (Fastify)
+- `pnpm add @marcusprado02/web-nestjs @marcusprado02/web` (NestJS)
 
 ---
 
-## Fastify — `@acme/web-fastify`
+## Fastify — `@marcusprado02/web-fastify`
 
 ### `FastifyControllerAdapter`
 
@@ -21,7 +21,7 @@ import {
   CorrelationHook,
   LoggingHook,
   ErrorHandlerHook,
-} from '@acme/web-fastify';
+} from '@marcusprado02/web-fastify';
 
 const app = Fastify({ logger: false });
 
@@ -76,7 +76,7 @@ await app.listen({ port: 3000, host: '0.0.0.0' });
 
 ---
 
-## NestJS — `@acme/web-nestjs`
+## NestJS — `@marcusprado02/web-nestjs`
 
 ### `CommonsCoreModule`
 
@@ -88,7 +88,7 @@ import {
   CommonsCoreModule,
   CommonsObservabilityModule,
   CommonsResilienceModule,
-} from '@acme/web-nestjs';
+} from '@marcusprado02/web-nestjs';
 
 @Module({
   imports: [
@@ -120,8 +120,8 @@ import {
   ErrorMappingInterceptor,
   IdempotencyGuard,
   RateLimitGuard,
-} from '@acme/web-nestjs';
-import { CommandBus, QueryBus } from '@acme/application';
+} from '@marcusprado02/web-nestjs';
+import { CommandBus, QueryBus } from '@marcusprado02/application';
 
 @UseInterceptors(CorrelationInterceptor, LoggingInterceptor, ErrorMappingInterceptor)
 @UseGuards(RateLimitGuard)
@@ -167,7 +167,7 @@ export class OrderController {
 
 ## Error Mapping
 
-`@acme/errors` defines a hierarchy mapped to HTTP status codes:
+`@marcusprado02/errors` defines a hierarchy mapped to HTTP status codes:
 
 | Error Class               | HTTP Status |
 | ------------------------- | ----------- |

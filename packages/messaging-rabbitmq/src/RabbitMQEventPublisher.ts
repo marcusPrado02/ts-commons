@@ -3,8 +3,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument -- envelope properties */
 /* eslint-disable @typescript-eslint/no-unsafe-call -- logger methods */
 /* eslint-disable @typescript-eslint/require-await -- Async required by interface but channel.publish is synchronous */
-import type { EventPublisherPort, EventEnvelope } from '@acme/messaging';
-import type { Logger } from '@acme/observability';
+import type { EventPublisherPort, EventEnvelope } from '@marcusprado02/messaging';
+import type { Logger } from '@marcusprado02/observability';
 import type { RabbitMQConnection } from './RabbitMQConnection';
 
 /**
@@ -33,7 +33,7 @@ import type { RabbitMQConnection } from './RabbitMQConnection';
 export class RabbitMQEventPublisher implements EventPublisherPort {
   constructor(
     private readonly connection: RabbitMQConnection,
-    private readonly logger: Logger
+    private readonly logger: Logger,
   ) {}
 
   /**

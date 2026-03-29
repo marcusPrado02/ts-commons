@@ -7,7 +7,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import type { Repository } from 'typeorm';
 import { TypeORMPaginator } from './TypeORMPaginator';
 import type { TypeORMMapper } from './TypeORMMapper';
-import type { PageRequest } from '@acme/persistence';
+import type { PageRequest } from '@marcusprado02/persistence';
 
 interface User {
   id: { value: string };
@@ -112,7 +112,7 @@ describe('TypeORMPaginator', () => {
     expect(repository.findAndCount).toHaveBeenCalledWith(
       expect.objectContaining({
         order: { name: 'ASC' },
-      })
+      }),
     );
   });
 
@@ -133,7 +133,7 @@ describe('TypeORMPaginator', () => {
     expect(repository.findAndCount).toHaveBeenCalledWith(
       expect.objectContaining({
         order: { name: 'ASC', id: 'DESC' },
-      })
+      }),
     );
   });
 
@@ -151,7 +151,7 @@ describe('TypeORMPaginator', () => {
       expect.objectContaining({
         skip: 40, // (3-1) * 20
         take: 20,
-      })
+      }),
     );
   });
 });

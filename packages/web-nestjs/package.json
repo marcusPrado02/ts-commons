@@ -1,5 +1,5 @@
 {
-  "name": "@acme/web-nestjs",
+  "name": "@marcusprado02/web-nestjs",
   "version": "0.1.0",
   "description": "NestJS adapter for TypeScript Commons Platform - Deep integration with modules, decorators, interceptors, guards and pipes",
   "type": "module",
@@ -33,12 +33,12 @@
   "author": "ACME Corp",
   "license": "MIT",
   "dependencies": {
-    "@acme/application": "workspace:*",
-    "@acme/kernel": "workspace:*",
-    "@acme/errors": "workspace:*",
-    "@acme/observability": "workspace:*",
-    "@acme/resilience": "workspace:*",
-    "@acme/outbox": "workspace:*",
+    "@marcusprado02/application": "workspace:*",
+    "@marcusprado02/kernel": "workspace:*",
+    "@marcusprado02/errors": "workspace:*",
+    "@marcusprado02/observability": "workspace:*",
+    "@marcusprado02/resilience": "workspace:*",
+    "@marcusprado02/outbox": "workspace:*",
     "@nestjs/common": "^10.3.3",
     "@nestjs/core": "^10.3.3",
     "reflect-metadata": "^0.2.1",
@@ -62,7 +62,7 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

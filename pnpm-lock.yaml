@@ -87,6 +87,34 @@ importers:
         specifier: ^4.0.18
         version: 4.0.18(@types/node@20.19.33)(@vitest/ui@4.0.18)(tsx@4.21.0)
 
+  examples:
+    dependencies:
+      '@marcusprado02/application':
+        specifier: workspace:*
+        version: link:../packages/application
+      '@marcusprado02/errors':
+        specifier: workspace:*
+        version: link:../packages/errors
+      '@marcusprado02/eventsourcing':
+        specifier: workspace:*
+        version: link:../packages/eventsourcing
+      '@marcusprado02/kernel':
+        specifier: workspace:*
+        version: link:../packages/kernel
+      '@marcusprado02/messaging':
+        specifier: workspace:*
+        version: link:../packages/messaging
+      '@marcusprado02/observability':
+        specifier: workspace:*
+        version: link:../packages/observability
+      '@marcusprado02/persistence':
+        specifier: workspace:*
+        version: link:../packages/persistence
+    devDependencies:
+      tsx:
+        specifier: '*'
+        version: 4.21.0
+
   packages/acl:
     devDependencies:
       '@types/node':
@@ -107,7 +135,7 @@ importers:
 
   packages/application:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
     devDependencies:
@@ -120,43 +148,43 @@ importers:
 
   packages/architecture-tests:
     dependencies:
-      '@acme/application':
+      '@marcusprado02/application':
         specifier: workspace:*
         version: link:../application
-      '@acme/config':
+      '@marcusprado02/config':
         specifier: workspace:*
         version: link:../config
-      '@acme/contracts':
+      '@marcusprado02/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@acme/errors':
+      '@marcusprado02/errors':
         specifier: workspace:*
         version: link:../errors
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
-      '@acme/messaging':
+      '@marcusprado02/messaging':
         specifier: workspace:*
         version: link:../messaging
-      '@acme/observability':
+      '@marcusprado02/observability':
         specifier: workspace:*
         version: link:../observability
-      '@acme/outbox':
+      '@marcusprado02/outbox':
         specifier: workspace:*
         version: link:../outbox
-      '@acme/persistence':
+      '@marcusprado02/persistence':
         specifier: workspace:*
         version: link:../persistence
-      '@acme/resilience':
+      '@marcusprado02/resilience':
         specifier: workspace:*
         version: link:../resilience
-      '@acme/security':
+      '@marcusprado02/security':
         specifier: workspace:*
         version: link:../security
-      '@acme/testing':
+      '@marcusprado02/testing':
         specifier: workspace:*
         version: link:../testing
-      '@acme/web':
+      '@marcusprado02/web':
         specifier: workspace:*
         version: link:../web
     devDependencies:
@@ -193,7 +221,7 @@ importers:
 
   packages/cache-redis:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
       ioredis:
@@ -205,6 +233,21 @@ importers:
         version: 20.19.33
       vitest:
         specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  packages/cdc:
+    devDependencies:
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.1
+      vitest:
+        specifier: 2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  packages/chaos:
+    devDependencies:
+      vitest:
+        specifier: 2.1.9
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
   packages/cli:
@@ -227,7 +270,7 @@ importers:
 
   packages/config:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
       zod:
@@ -243,7 +286,7 @@ importers:
 
   packages/contracts:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
     devDependencies:
@@ -281,6 +324,12 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
+  packages/discovery:
+    devDependencies:
+      vitest:
+        specifier: 2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
   packages/docker-utils:
     devDependencies:
       '@types/node':
@@ -301,7 +350,7 @@ importers:
 
   packages/email:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
     devDependencies:
@@ -314,13 +363,13 @@ importers:
 
   packages/errors:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
 
   packages/eventsourcing:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
     devDependencies:
@@ -376,6 +425,15 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
+  packages/incidents:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
   packages/k8s:
     devDependencies:
       '@types/node':
@@ -389,19 +447,19 @@ importers:
 
   packages/messaging:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
 
   packages/messaging-eventbridge:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
-      '@acme/messaging':
+      '@marcusprado02/messaging':
         specifier: workspace:*
         version: link:../messaging
-      '@acme/observability':
+      '@marcusprado02/observability':
         specifier: workspace:*
         version: link:../observability
       '@aws-sdk/client-eventbridge':
@@ -420,13 +478,13 @@ importers:
 
   packages/messaging-kafka:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
-      '@acme/messaging':
+      '@marcusprado02/messaging':
         specifier: workspace:*
         version: link:../messaging
-      '@acme/observability':
+      '@marcusprado02/observability':
         specifier: workspace:*
         version: link:../observability
       kafkajs:
@@ -442,13 +500,13 @@ importers:
 
   packages/messaging-rabbitmq:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
-      '@acme/messaging':
+      '@marcusprado02/messaging':
         specifier: workspace:*
         version: link:../messaging
-      '@acme/observability':
+      '@marcusprado02/observability':
         specifier: workspace:*
         version: link:../observability
       amqplib:
@@ -476,7 +534,7 @@ importers:
 
   packages/observability:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
     devDependencies:
@@ -502,10 +560,10 @@ importers:
 
   packages/outbox:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
-      '@acme/messaging':
+      '@marcusprado02/messaging':
         specifier: workspace:*
         version: link:../messaging
     devDependencies:
@@ -518,7 +576,7 @@ importers:
 
   packages/persistence:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
     devDependencies:
@@ -531,10 +589,10 @@ importers:
 
   packages/persistence-mongodb:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
-      '@acme/persistence':
+      '@marcusprado02/persistence':
         specifier: workspace:*
         version: link:../persistence
       mongodb:
@@ -550,10 +608,10 @@ importers:
 
   packages/persistence-prisma:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
-      '@acme/persistence':
+      '@marcusprado02/persistence':
         specifier: workspace:*
         version: link:../persistence
       '@prisma/client':
@@ -569,10 +627,10 @@ importers:
 
   packages/persistence-typeorm:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
-      '@acme/persistence':
+      '@marcusprado02/persistence':
         specifier: workspace:*
         version: link:../persistence
       typeorm:
@@ -597,7 +655,7 @@ importers:
 
   packages/resilience:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
     devDependencies:
@@ -626,6 +684,12 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
+  packages/schema-registry:
+    devDependencies:
+      vitest:
+        specifier: 2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
   packages/search:
     devDependencies:
       '@types/node':
@@ -637,7 +701,7 @@ importers:
 
   packages/secrets:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
     devDependencies:
@@ -650,7 +714,7 @@ importers:
 
   packages/security:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
     devDependencies:
@@ -688,6 +752,12 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
+  packages/synthetic:
+    devDependencies:
+      vitest:
+        specifier: 2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
   packages/terraform:
     devDependencies:
       '@types/node':
@@ -699,16 +769,16 @@ importers:
 
   packages/testing:
     dependencies:
-      '@acme/application':
+      '@marcusprado02/application':
         specifier: workspace:*
         version: link:../application
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
-      '@acme/messaging':
+      '@marcusprado02/messaging':
         specifier: workspace:*
         version: link:../messaging
-      '@acme/outbox':
+      '@marcusprado02/outbox':
         specifier: workspace:*
         version: link:../outbox
     devDependencies:
@@ -739,7 +809,7 @@ importers:
 
   packages/validation:
     dependencies:
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
       zod:
@@ -764,13 +834,13 @@ importers:
 
   packages/web:
     dependencies:
-      '@acme/contracts':
+      '@marcusprado02/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@acme/errors':
+      '@marcusprado02/errors':
         specifier: workspace:*
         version: link:../errors
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
     devDependencies:
@@ -783,19 +853,19 @@ importers:
 
   packages/web-express:
     dependencies:
-      '@acme/application':
+      '@marcusprado02/application':
         specifier: workspace:*
         version: link:../application
-      '@acme/errors':
+      '@marcusprado02/errors':
         specifier: workspace:*
         version: link:../errors
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
-      '@acme/observability':
+      '@marcusprado02/observability':
         specifier: workspace:*
         version: link:../observability
-      '@acme/web':
+      '@marcusprado02/web':
         specifier: workspace:*
         version: link:../web
       express:
@@ -823,19 +893,19 @@ importers:
 
   packages/web-fastify:
     dependencies:
-      '@acme/application':
+      '@marcusprado02/application':
         specifier: workspace:*
         version: link:../application
-      '@acme/errors':
+      '@marcusprado02/errors':
         specifier: workspace:*
         version: link:../errors
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
-      '@acme/observability':
+      '@marcusprado02/observability':
         specifier: workspace:*
         version: link:../observability
-      '@acme/web':
+      '@marcusprado02/web':
         specifier: workspace:*
         version: link:../web
       fastify:
@@ -863,22 +933,22 @@ importers:
 
   packages/web-nestjs:
     dependencies:
-      '@acme/application':
+      '@marcusprado02/application':
         specifier: workspace:*
         version: link:../application
-      '@acme/errors':
+      '@marcusprado02/errors':
         specifier: workspace:*
         version: link:../errors
-      '@acme/kernel':
+      '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
-      '@acme/observability':
+      '@marcusprado02/observability':
         specifier: workspace:*
         version: link:../observability
-      '@acme/outbox':
+      '@marcusprado02/outbox':
         specifier: workspace:*
         version: link:../outbox
-      '@acme/resilience':
+      '@marcusprado02/resilience':
         specifier: workspace:*
         version: link:../resilience
       '@nestjs/common':
@@ -917,6 +987,15 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  packages/websocket:
+    devDependencies:
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.1
+      vitest:
+        specifier: 2.1.9
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
 packages:

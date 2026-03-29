@@ -2,21 +2,22 @@
 
 ## 📚 Documentação Disponível
 
-| Documento | Descrição |
-|-----------|-----------|
-| [README.md](./README.md) | Visão geral e arquitetura |
-| [QUICKSTART.md](./QUICKSTART.md) | Guia rápido de início |
-| **[COMMANDS.md](./COMMANDS.md)** | **⭐ Comandos úteis (build, test, publish)** |
-| [CONTRIBUTING.md](./CONTRIBUTING.md) | Guia de contribuição |
-| [docs/ADR.md](./docs/ADR.md) | Decisões arquiteturais |
-| [docs/MIGRATION_GUIDE.md](./docs/MIGRATION_GUIDE.md) | Migrar para ts-commons |
-| [examples/order-example.ts](./examples/order-example.ts) | Exemplo completo |
+| Documento                                                | Descrição                                    |
+| -------------------------------------------------------- | -------------------------------------------- |
+| [README.md](./README.md)                                 | Visão geral e arquitetura                    |
+| [QUICKSTART.md](./QUICKSTART.md)                         | Guia rápido de início                        |
+| **[COMMANDS.md](./COMMANDS.md)**                         | **⭐ Comandos úteis (build, test, publish)** |
+| [CONTRIBUTING.md](./CONTRIBUTING.md)                     | Guia de contribuição                         |
+| [docs/ADR.md](./docs/ADR.md)                             | Decisões arquiteturais                       |
+| [docs/MIGRATION_GUIDE.md](./docs/MIGRATION_GUIDE.md)     | Migrar para ts-commons                       |
+| [examples/order-example.ts](./examples/order-example.ts) | Exemplo completo                             |
 
 ---
 
 ## ✅ O que foi criado
 
 ### 📁 Estrutura de Monorepo (pnpm)
+
 ```
 ts-commons/
 ├── package.json              ✅ Configuração do workspace
@@ -37,7 +38,8 @@ ts-commons/
 
 ### 📦 Pacotes Criados (12 pacotes)
 
-#### 1️⃣ **@acme/kernel** (DDD Core - ZERO dependencies)
+#### 1️⃣ **@marcusprado02/kernel** (DDD Core - ZERO dependencies)
+
 ```
 packages/kernel/src/
 ├── ddd/
@@ -77,7 +79,8 @@ packages/kernel/src/
 └── index.ts ✅
 ```
 
-#### 2️⃣ **@acme/application** (Use Cases, CQRS)
+#### 2️⃣ **@marcusprado02/application** (Use Cases, CQRS)
+
 ```
 packages/application/src/
 ├── cqrs/
@@ -103,7 +106,8 @@ packages/application/src/
 └── index.ts ✅
 ```
 
-#### 3️⃣ **@acme/errors** (Problem Details, HTTP Errors)
+#### 3️⃣ **@marcusprado02/errors** (Problem Details, HTTP Errors)
+
 ```
 packages/errors/src/
 ├── http/
@@ -119,7 +123,8 @@ packages/errors/src/
 └── index.ts ✅
 ```
 
-#### 4️⃣ **@acme/config** (12-Factor Config)
+#### 4️⃣ **@marcusprado02/config** (12-Factor Config)
+
 ```
 packages/config/src/
 ├── core/
@@ -134,7 +139,8 @@ packages/config/src/
 └── index.ts ✅
 ```
 
-#### 5️⃣ **@acme/observability** (Logging, Metrics, Tracing)
+#### 5️⃣ **@marcusprado02/observability** (Logging, Metrics, Tracing)
+
 ```
 packages/observability/src/
 ├── logging/
@@ -145,7 +151,8 @@ packages/observability/src/
 └── index.ts ✅
 ```
 
-#### 6️⃣ **@acme/resilience** (Fault Tolerance)
+#### 6️⃣ **@marcusprado02/resilience** (Fault Tolerance)
+
 ```
 packages/resilience/src/
 ├── timeouts/
@@ -159,7 +166,8 @@ packages/resilience/src/
 └── index.ts ✅
 ```
 
-#### 7️⃣ **@acme/security** (AuthN/AuthZ, Crypto)
+#### 7️⃣ **@marcusprado02/security** (AuthN/AuthZ, Crypto)
+
 ```
 packages/security/src/
 ├── authn/
@@ -172,7 +180,8 @@ packages/security/src/
 └── index.ts ✅
 ```
 
-#### 8️⃣ **@acme/messaging** (Event Messaging)
+#### 8️⃣ **@marcusprado02/messaging** (Event Messaging)
+
 ```
 packages/messaging/src/
 ├── envelope/
@@ -185,7 +194,8 @@ packages/messaging/src/
 └── index.ts ✅
 ```
 
-#### 9️⃣ **@acme/outbox** (Transactional Outbox/Inbox)
+#### 9️⃣ **@marcusprado02/outbox** (Transactional Outbox/Inbox)
+
 ```
 packages/outbox/src/
 ├── outbox/
@@ -195,7 +205,8 @@ packages/outbox/src/
 └── index.ts ✅
 ```
 
-#### 🔟 **@acme/persistence** (Repository Pattern)
+#### 🔟 **@marcusprado02/persistence** (Repository Pattern)
+
 ```
 packages/persistence/src/
 ├── repository/
@@ -205,7 +216,8 @@ packages/persistence/src/
 └── index.ts ✅
 ```
 
-#### 1️⃣1️⃣ **@acme/contracts** (API Contracts)
+#### 1️⃣1️⃣ **@marcusprado02/contracts** (API Contracts)
+
 ```
 packages/contracts/src/
 ├── compatibility/
@@ -215,7 +227,8 @@ packages/contracts/src/
 └── index.ts ✅
 ```
 
-#### 1️⃣2️⃣ **@acme/web** (HTTP Adapters)
+#### 1️⃣2️⃣ **@marcusprado02/web** (HTTP Adapters)
+
 ```
 packages/web/src/
 ├── http/
@@ -226,7 +239,8 @@ packages/web/src/
 └── index.ts ✅
 ```
 
-#### 1️⃣3️⃣ **@acme/testing** (Test Utilities)
+#### 1️⃣3️⃣ **@marcusprado02/testing** (Test Utilities)
+
 ```
 packages/testing/src/
 ├── fakes/
@@ -239,17 +253,20 @@ packages/testing/src/
 ## 🚀 Próximos Passos
 
 ### 1. Instalar Dependências
+
 ```bash
 cd /home/maps/2026/ts-commons
 pnpm install
 ```
 
 ### 2. Build Todos os Pacotes
+
 ```bash
 pnpm build
 ```
 
 ### 3. Publicar (quando pronto)
+
 ```bash
 # Buildar tudo
 pnpm build
@@ -262,13 +279,13 @@ pnpm -r publish
 
 ```bash
 # Instalar pacotes necessários
-pnpm add @acme/kernel @acme/application @acme/errors
+pnpm add @marcusprado02/kernel @marcusprado02/application @marcusprado02/errors
 ```
 
 ```typescript
 // Exemplo de uso
-import { AggregateRoot, Result } from '@acme/kernel';
-import { CommandHandler } from '@acme/application';
+import { AggregateRoot, Result } from '@marcusprado02/kernel';
+import { CommandHandler } from '@marcusprado02/application';
 
 // Seu domínio aqui
 class Order extends AggregateRoot<OrderId> {
@@ -288,7 +305,7 @@ class Order extends AggregateRoot<OrderId> {
 ✅ **12-Factor** - Config por environment variables  
 ✅ **Security** - AuthN/AuthZ, PII masking  
 ✅ **Testing** - Fakes, Builders, Test harnesses  
-✅ **API Contracts** - Versionamento, Headers padronizados  
+✅ **API Contracts** - Versionamento, Headers padronizados
 
 ## 📊 Estatísticas
 

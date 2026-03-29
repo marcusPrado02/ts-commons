@@ -1,6 +1,6 @@
 import type { Middleware } from '../http/Middleware';
-import { CORRELATION_ID_HEADER } from '@acme/contracts';
-import { CorrelationId } from '@acme/kernel';
+import { CORRELATION_ID_HEADER } from '@marcusprado02/contracts';
+import { CorrelationId } from '@marcusprado02/kernel';
 
 export function correlationMiddleware(): Middleware {
   return async (context, next) => {

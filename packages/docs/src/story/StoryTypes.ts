@@ -1,5 +1,5 @@
 /**
- * Core story types for interactive documentation of @acme components.
+ * Core story types for interactive documentation of @marcusprado02 components.
  * Mirrors the Storybook Meta / StoryObj pattern for pure TypeScript libraries.
  */
 

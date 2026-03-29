@@ -3,10 +3,10 @@
    @typescript-eslint/no-unsafe-call,
    @typescript-eslint/no-unsafe-member-access,
    @typescript-eslint/no-unsafe-argument
-   -- Option is imported from @acme/kernel; static methods (fromNullable) are
+   -- Option is imported from @marcusprado02/kernel; static methods (fromNullable) are
    correctly typed at compile time but unresolvable by the ESLint TS plugin due
    to the TypeScript version mismatch (5.9.x vs plugin-supported <5.4). */
-import { Option } from '@acme/kernel';
+import { Option } from '@marcusprado02/kernel';
 import type { SecretsPort } from './SecretsPort';
 import { SecretsRotationNotSupportedError } from './SecretsErrors';
 

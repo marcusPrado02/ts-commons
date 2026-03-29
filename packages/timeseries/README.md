@@ -1,18 +1,18 @@
-# @acme/timeseries
+# @marcusprado02/timeseries
 
 Time-series data adapters for InfluxDB and TimescaleDB. Provides write, query, aggregation, downsampling, and retention policy management behind a unified `TimeSeriesAdapter` interface.
 
 ## Installation
 
 ```bash
-pnpm add @acme/timeseries
+pnpm add @marcusprado02/timeseries
 ```
 
 ## Quick Start
 
 ```typescript
-import { InfluxDBAdapter } from '@acme/timeseries';
-import type { InfluxDBConfig } from '@acme/timeseries';
+import { InfluxDBAdapter } from '@marcusprado02/timeseries';
+import type { InfluxDBConfig } from '@marcusprado02/timeseries';
 
 const config: InfluxDBConfig = {
   url: 'http://localhost:8086',
@@ -44,7 +44,7 @@ const points = await adapter.query({
 ## Aggregation & Downsampling
 
 ```typescript
-import { AggregationEngine, Downsampler } from '@acme/timeseries';
+import { AggregationEngine, Downsampler } from '@marcusprado02/timeseries';
 
 const engine = new AggregationEngine(adapter);
 const result = await engine.aggregate({
@@ -60,5 +60,5 @@ await downsampler.downsample({ sourceBucket: 'raw', targetBucket: '1h', algorith
 
 ## See Also
 
-- [`@acme/observability`](../observability) — application metrics
-- [`@acme/geospatial`](../geospatial) — spatial data
+- [`@marcusprado02/observability`](../observability) — application metrics
+- [`@marcusprado02/geospatial`](../geospatial) — spatial data

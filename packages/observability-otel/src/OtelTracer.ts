@@ -24,7 +24,7 @@ function buildSpanHandle(span: OtelSpanLike): SpanHandle {
  * @example
  * ```typescript
  * import { trace } from '@opentelemetry/api';
- * import { OtelTracer } from '@acme/observability-otel';
+ * import { OtelTracer } from '@marcusprado02/observability-otel';
  *
  * const tracer  = new OtelTracer(trace.getTracer('my-service'));
  * const span    = tracer.startSpan('processOrder', { 'order.id': orderId });

@@ -2,11 +2,11 @@
  * Microservice example: HTTP handler + CQRS + Metrics + Logging + Error mapping
  *
  * Demonstrates:
- *  - @acme/application  — Mediator, MediatorRequest, RequestHandler
- *  - @acme/persistence  — RepositoryPort<T, TId>
- *  - @acme/observability — Logger, InMemoryMetrics
- *  - @acme/errors       — HttpErrorMapper, AppError
- *  - @acme/kernel       — AggregateRoot<TId>, DomainEvent (abstract class), Result
+ *  - @marcusprado02/application  — Mediator, MediatorRequest, RequestHandler
+ *  - @marcusprado02/persistence  — RepositoryPort<T, TId>
+ *  - @marcusprado02/observability — Logger, InMemoryMetrics
+ *  - @marcusprado02/errors       — HttpErrorMapper, AppError
+ *  - @marcusprado02/kernel       — AggregateRoot<TId>, DomainEvent (abstract class), Result
  *
  * Run (after pnpm build):
  *   npx tsx --tsconfig examples/tsconfig.json examples/microservice-example.ts
@@ -14,12 +14,12 @@
 
 import { randomUUID } from 'node:crypto';
 
-import { AggregateRoot, DomainEvent, Result } from '@acme/kernel';
-import { MediatorRequest, Mediator } from '@acme/application';
-import type { RequestHandler } from '@acme/application';
-import type { RepositoryPort } from '@acme/persistence';
-import { Logger, InMemoryMetrics } from '@acme/observability';
-import { AppError, AppErrorCode, HttpErrorMapper } from '@acme/errors';
+import { AggregateRoot, DomainEvent, Result } from '@marcusprado02/kernel';
+import { MediatorRequest, Mediator } from '@marcusprado02/application';
+import type { RequestHandler } from '@marcusprado02/application';
+import type { RepositoryPort } from '@marcusprado02/persistence';
+import { Logger, InMemoryMetrics } from '@marcusprado02/observability';
+import { AppError, AppErrorCode, HttpErrorMapper } from '@marcusprado02/errors';
 
 // ─── Domain ──────────────────────────────────────────────────────────────────
 

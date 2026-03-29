@@ -1,5 +1,5 @@
 {
-  "name": "@acme/incidents",
+  "name": "@marcusprado02/incidents",
   "version": "0.1.0",
   "description": "Incident management: workflows, PagerDuty/Opsgenie integration, post-mortems, runbook automation",
   "type": "module",
@@ -24,7 +24,7 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "license": "MIT"
 }

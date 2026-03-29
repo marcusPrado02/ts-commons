@@ -1,17 +1,17 @@
-# @acme/chaos
+# @marcusprado02/chaos
 
 Chaos engineering framework for resilience testing. Injects controlled failures — network partitions, service outages, resource exhaustion — to validate how your system behaves under stress.
 
 ## Installation
 
 ```bash
-pnpm add @acme/chaos
+pnpm add @marcusprado02/chaos
 ```
 
 ## Quick Start
 
 ```typescript
-import { ChaosMonkey, NetworkChaosExperiment } from '@acme/chaos';
+import { ChaosMonkey, NetworkChaosExperiment } from '@marcusprado02/chaos';
 
 const monkey = new ChaosMonkey({ enabled: process.env.NODE_ENV === 'test' });
 
@@ -34,7 +34,7 @@ await monkey.wrap(async () => {
 ## Framework Mode
 
 ```typescript
-import { ChaosExperimentFramework } from '@acme/chaos';
+import { ChaosExperimentFramework } from '@marcusprado02/chaos';
 
 const framework = new ChaosExperimentFramework();
 framework.schedule({ experiment: 'network', cron: '*/5 * * * *', durationMs: 60_000 });
@@ -47,5 +47,5 @@ const report = await framework.run();
 
 ## See Also
 
-- [`@acme/resilience`](../resilience) — circuit breakers and retry policies
-- [`@acme/synthetic`](../synthetic) — synthetic monitoring
+- [`@marcusprado02/resilience`](../resilience) — circuit breakers and retry policies
+- [`@marcusprado02/synthetic`](../synthetic) — synthetic monitoring

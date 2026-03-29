@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { Result } from '@acme/kernel';
+import { Result } from '@marcusprado02/kernel';
 import { InMemoryQueryBus, type Query, type QueryHandler } from '../src';
 
 // Test Data Types
@@ -41,7 +41,7 @@ class GetUserByIdHandler implements QueryHandler<GetUserByIdQuery, User, Error> 
   ];
 
   handle(query: GetUserByIdQuery): Promise<Result<User, Error>> {
-    const user = this.users.find(u => u.id === query.id);
+    const user = this.users.find((u) => u.id === query.id);
     if (!user) {
       return Promise.resolve(Result.err(new Error(`User not found: ${query.id}`)));
     }
@@ -58,10 +58,12 @@ class GetAllUsersHandler implements QueryHandler<GetAllUsersQuery, UserList, Err
 
   handle(query: GetAllUsersQuery): Promise<Result<UserList, Error>> {
     const limited = this.users.slice(0, query.limit);
-    return Promise.resolve(Result.ok({
-      users: limited,
-      total: this.users.length,
-    }));
+    return Promise.resolve(
+      Result.ok({
+        users: limited,
+        total: this.users.length,
+      }),
+    );
   }
 }
 
@@ -73,8 +75,8 @@ class SearchUsersHandler implements QueryHandler<SearchUsersQuery, User[], Error
   ];
 
   handle(query: SearchUsersQuery): Promise<Result<User[], Error>> {
-    const results = this.users.filter(u =>
-      u.username.toLowerCase().includes(query.searchTerm.toLowerCase())
+    const results = this.users.filter((u) =>
+      u.username.toLowerCase().includes(query.searchTerm.toLowerCase()),
     );
     return Promise.resolve(Result.ok(results));
   }
@@ -141,7 +143,7 @@ describe('InMemoryQueryBus', () => {
       const query = new GetUserByIdQuery('1');
 
       await expect(queryBus.dispatch(query)).rejects.toThrow(
-        'No handler registered for query: GetUserByIdQuery'
+        'No handler registered for query: GetUserByIdQuery',
       );
     });
 
@@ -167,7 +169,7 @@ describe('InMemoryQueryBus', () => {
       expect(searchResult.isOk()).toBe(true);
       const searchResults = searchResult.unwrap() as User[];
       expect(searchResults.map((u: User) => u.username)).toEqual(['john', 'johnny']);
-      expect(searchResults.map(u => u.username)).toEqual(['john', 'johnny']);
+      expect(searchResults.map((u) => u.username)).toEqual(['john', 'johnny']);
     });
 
     it('should handle queries with default parameters', async () => {
@@ -187,7 +189,9 @@ describe('InMemoryQueryBus', () => {
       class CountingByIdHandler implements QueryHandler<GetUserByIdQuery, User, Error> {
         handle(query: GetUserByIdQuery): Promise<Result<User, Error>> {
           byIdCount++;
-          return Promise.resolve(Result.ok({ id: query.id, username: 'test', email: 'test@test.com' }));
+          return Promise.resolve(
+            Result.ok({ id: query.id, username: 'test', email: 'test@test.com' }),
+          );
         }
       }
 
@@ -213,7 +217,7 @@ describe('InMemoryQueryBus', () => {
       class AsyncGetUserHandler implements QueryHandler<GetUserByIdQuery, User, Error> {
         async handle(query: GetUserByIdQuery): Promise<Result<User, Error>> {
           // Simulate async database lookup
-          await new Promise(resolve => setTimeout(resolve, 10));
+          await new Promise((resolve) => setTimeout(resolve, 10));
           return Result.ok({
             id: query.id,
             username: 'async-user',
@@ -279,11 +283,13 @@ describe('InMemoryQueryBus', () => {
 
       class GetComplexDataHandler implements QueryHandler<GetComplexDataQuery, ComplexData, Error> {
         handle(_query: GetComplexDataQuery): Promise<Result<ComplexData, Error>> {
-          return Promise.resolve(Result.ok({
-            nested: { deep: { value: 'test' } },
-            array: [1, 2, 3],
-            map: new Map([['key', 'value']]),
-          }));
+          return Promise.resolve(
+            Result.ok({
+              nested: { deep: { value: 'test' } },
+              array: [1, 2, 3],
+              map: new Map([['key', 'value']]),
+            }),
+          );
         }
       }
 
@@ -340,10 +346,12 @@ describe('InMemoryQueryBus', () => {
           const end = start + query.pageSize;
           const users = this.allUsers.slice(start, end);
 
-          return Promise.resolve(Result.ok({
-            users,
-            total: this.allUsers.length,
-          }));
+          return Promise.resolve(
+            Result.ok({
+              users,
+              total: this.allUsers.length,
+            }),
+          );
         }
       }
 

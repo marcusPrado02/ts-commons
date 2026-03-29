@@ -1,7 +1,7 @@
 {
-  "name": "@acme/data-warehouse",
+  "name": "@marcusprado02/data-warehouse",
   "version": "0.1.0",
-  "description": "Data warehouse integration: Snowflake, BigQuery, Redshift, sync strategies and schema evolution for @acme/ts-commons",
+  "description": "Data warehouse integration: Snowflake, BigQuery, Redshift, sync strategies and schema evolution for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -32,6 +32,6 @@
   ],
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   }
 }

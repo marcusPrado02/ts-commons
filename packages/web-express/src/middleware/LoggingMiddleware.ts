@@ -8,7 +8,7 @@
  */
 
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
-import type { Logger } from '@acme/observability';
+import type { Logger } from '@marcusprado02/observability';
 
 // Helper to cast logger methods to avoid TypeScript strict errors
 const cast = <T>(fn: T): ((message: string, data?: unknown) => void) =>
@@ -43,8 +43,8 @@ function logResponse(logger: Logger, req: Request, res: Response, startTime: num
  * @example
  * ```typescript
  * import express from 'express';
- * import { loggingMiddleware } from '@acme/web-express';
- * import { createLogger } from '@acme/observability';
+ * import { loggingMiddleware } from '@marcusprado02/web-express';
+ * import { createLogger } from '@marcusprado02/observability';
  *
  * const app = express();
  * const logger = createLogger('http');

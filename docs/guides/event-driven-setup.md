@@ -1,16 +1,16 @@
 # Event-Driven Architecture Setup Guide
 
-This guide covers how to wire `@acme/messaging`, `@acme/eventsourcing`, and `@acme/outbox` into a service.
+This guide covers how to wire `@marcusprado02/messaging`, `@marcusprado02/eventsourcing`, and `@marcusprado02/outbox` into a service.
 
 ---
 
 ## Core concepts
 
-| Package               | Role                                                                             |
-| --------------------- | -------------------------------------------------------------------------------- |
-| `@acme/messaging`     | Event envelopes, publisher port, pub/sub routing (`FanOutBroker`, `TopicRouter`) |
-| `@acme/eventsourcing` | Event-sourced aggregates, event store, projections                               |
-| `@acme/outbox`        | Transactional outbox/inbox — at-least-once delivery guarantee                    |
+| Package                        | Role                                                                             |
+| ------------------------------ | -------------------------------------------------------------------------------- |
+| `@marcusprado02/messaging`     | Event envelopes, publisher port, pub/sub routing (`FanOutBroker`, `TopicRouter`) |
+| `@marcusprado02/eventsourcing` | Event-sourced aggregates, event store, projections                               |
+| `@marcusprado02/outbox`        | Transactional outbox/inbox — at-least-once delivery guarantee                    |
 
 ---
 
@@ -19,8 +19,8 @@ This guide covers how to wire `@acme/messaging`, `@acme/eventsourcing`, and `@ac
 ### Define an event envelope
 
 ```typescript
-import type { EventEnvelope } from '@acme/messaging';
-import { EventName, EventVersion } from '@acme/messaging';
+import type { EventEnvelope } from '@marcusprado02/messaging';
+import { EventName, EventVersion } from '@marcusprado02/messaging';
 
 // 1. Define the payload shape
 interface OrderConfirmedPayload {
@@ -45,7 +45,7 @@ const envelope: EventEnvelope<OrderConfirmedPayload> = {
 `EventPublisherPort` is the abstraction; swap implementations without changing callers.
 
 ```typescript
-import type { EventPublisherPort, EventEnvelope } from '@acme/messaging';
+import type { EventPublisherPort, EventEnvelope } from '@marcusprado02/messaging';
 
 // In-memory (tests, demos)
 class ConsoleEventPublisher implements EventPublisherPort {
@@ -64,8 +64,8 @@ class ConsoleEventPublisher implements EventPublisherPort {
 ### FanOutBroker (in-process, all subscribers receive every event)
 
 ```typescript
-import { FanOutBroker } from '@acme/messaging';
-import type { EventEnvelope } from '@acme/messaging';
+import { FanOutBroker } from '@marcusprado02/messaging';
+import type { EventEnvelope } from '@marcusprado02/messaging';
 
 const broker = new FanOutBroker();
 
@@ -88,7 +88,7 @@ broker.removeSubscriber('email-handler');
 ### TopicRouter (filter by event type)
 
 ```typescript
-import { TopicRouter } from '@acme/messaging';
+import { TopicRouter } from '@marcusprado02/messaging';
 
 const router = new TopicRouter();
 
@@ -108,7 +108,7 @@ await router.route(envelope);
 ### ContentRouter (filter by payload content)
 
 ```typescript
-import { ContentRouter } from '@acme/messaging';
+import { ContentRouter } from '@marcusprado02/messaging';
 
 const router = new ContentRouter<{ region: string }>();
 
@@ -128,8 +128,8 @@ router.subscribe(
 ### Define an event-sourced aggregate
 
 ```typescript
-import { EventSourcedAggregate } from '@acme/eventsourcing';
-import type { DomainEvent } from '@acme/kernel';
+import { EventSourcedAggregate } from '@marcusprado02/eventsourcing';
+import type { DomainEvent } from '@marcusprado02/kernel';
 
 class AccountOpened implements DomainEvent {
   readonly occurredAt = new Date();
@@ -165,7 +165,7 @@ class BankAccount extends EventSourcedAggregate<string> {
 ### Persist and reload via EventStore
 
 ```typescript
-import { InMemoryEventStore } from '@acme/eventsourcing';
+import { InMemoryEventStore } from '@marcusprado02/eventsourcing';
 
 const store = new InMemoryEventStore();
 
@@ -183,8 +183,8 @@ const reloaded = BankAccount.loadFromHistory(history);
 ### Build read-model projections
 
 ```typescript
-import { ProjectionRunner } from '@acme/eventsourcing';
-import type { Projection } from '@acme/eventsourcing';
+import { ProjectionRunner } from '@marcusprado02/eventsourcing';
+import type { Projection } from '@marcusprado02/eventsourcing';
 
 interface AccountView {
   owner: string;
@@ -212,8 +212,8 @@ const view = runner.run(history);
 The outbox pattern guarantees at-least-once delivery: messages are saved in the same database transaction as your domain state, then relayed to the broker asynchronously.
 
 ```typescript
-import { InMemoryOutboxStore, InMemoryInboxStore, OutboxRelay } from '@acme/outbox';
-import type { OutboxMessage } from '@acme/outbox';
+import { InMemoryOutboxStore, InMemoryInboxStore, OutboxRelay } from '@marcusprado02/outbox';
+import type { OutboxMessage } from '@marcusprado02/outbox';
 
 // 1. Setup stores
 const outboxStore = new InMemoryOutboxStore();
@@ -248,8 +248,8 @@ relay.stop();
 ### Inbox (idempotent processing)
 
 ```typescript
-import { InMemoryInboxStore } from '@acme/outbox';
-import type { InboxMessage } from '@acme/outbox';
+import { InMemoryInboxStore } from '@marcusprado02/outbox';
+import type { InboxMessage } from '@marcusprado02/outbox';
 
 const inbox = new InMemoryInboxStore();
 

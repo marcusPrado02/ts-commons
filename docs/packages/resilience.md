@@ -1,8 +1,8 @@
-# @acme/resilience
+# @marcusprado02/resilience
 
 Patterns for fault tolerance: Circuit Breaker, Retry, Rate Limiter, Bulkhead, and Timeout. All composable and injectable.
 
-**Install:** `pnpm add @acme/resilience @acme/kernel`
+**Install:** `pnpm add @marcusprado02/resilience @marcusprado02/kernel`
 
 ---
 
@@ -11,7 +11,7 @@ Patterns for fault tolerance: Circuit Breaker, Retry, Rate Limiter, Bulkhead, an
 Prevents cascading failures. Opens after N consecutive failures; automatically recovers.
 
 ```typescript
-import { CircuitBreaker } from '@acme/resilience';
+import { CircuitBreaker } from '@marcusprado02/resilience';
 
 const breaker = new CircuitBreaker({
   name: 'payment-service',
@@ -35,7 +35,7 @@ States: `CLOSED` (normal) → `OPEN` (failing fast) → `HALF-OPEN` (testing rec
 Retries on transient failures with configurable backoff.
 
 ```typescript
-import { Retry } from '@acme/resilience';
+import { Retry } from '@marcusprado02/resilience';
 
 const retry = new Retry({
   maxAttempts: 3,
@@ -56,7 +56,7 @@ const result = await retry.execute(() => httpClient.get('/orders'));
 Limits requests per time window. Useful in HTTP middleware.
 
 ```typescript
-import { RateLimiter } from '@acme/resilience';
+import { RateLimiter } from '@marcusprado02/resilience';
 
 const limiter = new RateLimiter({
   limit: 100, // 100 requests
@@ -81,7 +81,7 @@ app.use(async (req, res, next) => {
 Limits concurrent executions to prevent one slow dependency from saturating all threads.
 
 ```typescript
-import { Bulkhead } from '@acme/resilience';
+import { Bulkhead } from '@marcusprado02/resilience';
 
 const bulkhead = new Bulkhead({
   maxConcurrent: 10, // at most 10 simultaneous calls
@@ -99,7 +99,7 @@ const result = await bulkhead.execute(() => externalService.call(payload));
 Cancels an operation after a deadline.
 
 ```typescript
-import { Timeout } from '@acme/resilience';
+import { Timeout } from '@marcusprado02/resilience';
 
 const timeout = new Timeout({ timeoutMs: 5_000 });
 

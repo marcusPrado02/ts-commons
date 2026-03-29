@@ -1,5 +1,5 @@
 {
-  "name": "@acme/features",
+  "name": "@marcusprado02/features",
   "version": "0.1.0",
   "description": "Feature flags abstraction — provider port, targeting rules, percentage rollout, A/B testing, and in-memory implementation",
   "type": "module",
@@ -24,7 +24,7 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

@@ -6,8 +6,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment -- NestJS framework boundary: Clock construction */
 import type { DynamicModule } from '@nestjs/common';
 import { Global, Module } from '@nestjs/common';
-import type { Clock } from '@acme/kernel';
-import { SystemClock } from '@acme/kernel';
+import type { Clock } from '@marcusprado02/kernel';
+import { SystemClock } from '@marcusprado02/kernel';
 
 export interface CommonsCoreModuleOptions {
   /**

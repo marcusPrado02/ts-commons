@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment -- envelope metadata spread */
 /* eslint-disable @typescript-eslint/no-unsafe-argument -- envelope properties */
 /* eslint-disable @typescript-eslint/no-unsafe-call -- logger methods */
-import type { EventPublisherPort, EventEnvelope } from '@acme/messaging';
-import type { Logger } from '@acme/observability';
+import type { EventPublisherPort, EventEnvelope } from '@marcusprado02/messaging';
+import type { Logger } from '@marcusprado02/observability';
 import type { KafkaConnection } from './KafkaConnection';
 
 /**
@@ -33,7 +33,7 @@ import type { KafkaConnection } from './KafkaConnection';
 export class KafkaEventPublisher implements EventPublisherPort {
   constructor(
     private readonly connection: KafkaConnection,
-    private readonly logger: Logger
+    private readonly logger: Logger,
   ) {}
 
   /**
@@ -58,7 +58,7 @@ export class KafkaEventPublisher implements EventPublisherPort {
           'correlation-id': envelope.correlationId ?? '',
           'causation-id': envelope.causationId ?? '',
           'tenant-id': envelope.tenantId ?? '',
-          'timestamp': envelope.timestamp,
+          timestamp: envelope.timestamp,
         },
       };
 
@@ -118,7 +118,10 @@ export class KafkaEventPublisher implements EventPublisherPort {
 
     try {
       // Group messages by topic
-      const messagesByTopic = new Map<string, Array<{ key: string; value: string; headers: Record<string, string> }>>();
+      const messagesByTopic = new Map<
+        string,
+        Array<{ key: string; value: string; headers: Record<string, string> }>
+      >();
 
       for (const envelope of envelopes) {
         const topic = envelope.eventType;
@@ -136,7 +139,7 @@ export class KafkaEventPublisher implements EventPublisherPort {
             'correlation-id': envelope.correlationId ?? '',
             'causation-id': envelope.causationId ?? '',
             'tenant-id': envelope.tenantId ?? '',
-            'timestamp': envelope.timestamp,
+            timestamp: envelope.timestamp,
           },
         });
       }
@@ -157,8 +160,8 @@ export class KafkaEventPublisher implements EventPublisherPort {
         // Send to all topics in parallel
         await Promise.all(
           Array.from(messagesByTopic.entries()).map(([topic, messages]) =>
-            producer.send({ topic, messages })
-          )
+            producer.send({ topic, messages }),
+          ),
         );
       }
 

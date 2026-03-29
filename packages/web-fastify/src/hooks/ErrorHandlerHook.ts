@@ -8,11 +8,14 @@
  */
 
 import type { FastifyRequest, FastifyReply, FastifyError } from 'fastify';
-import type { Logger } from '@acme/observability';
+import type { Logger } from '@marcusprado02/observability';
 
 // Local error types for validation
 class ValidationError extends Error {
-  constructor(message: string, public errors?: Array<{ field: string; message: string }>) {
+  constructor(
+    message: string,
+    public errors?: Array<{ field: string; message: string }>,
+  ) {
     super(message);
     this.name = 'ValidationError';
   }
@@ -34,7 +37,7 @@ class DomainError extends Error {
  * @example
  * ```typescript
  * import Fastify from 'fastify';
- * import { errorHandlerHook } from '@acme/web-fastify';
+ * import { errorHandlerHook } from '@marcusprado02/web-fastify';
  *
  * const app = Fastify();
  * app.setErrorHandler(errorHandlerHook(logger));
@@ -44,15 +47,13 @@ export function errorHandlerHook(logger: Logger) {
   return async (
     error: FastifyError,
     request: FastifyRequest,
-    reply: FastifyReply
+    reply: FastifyReply,
   ): Promise<void> => {
     const correlationId = request.headers['x-correlation-id'] as string | undefined;
 
     // Map error to status code
     let statusCode =
-      typeof error.statusCode === 'number' && error.statusCode !== 0
-        ? error.statusCode
-        : 500;
+      typeof error.statusCode === 'number' && error.statusCode !== 0 ? error.statusCode : 500;
     let problemType = 'about:blank';
     let title = 'Internal Server Error';
 
@@ -78,7 +79,7 @@ export function errorHandlerHook(logger: Logger) {
         statusCode,
         error: error.message,
         stack: error.stack,
-      }
+      },
     );
 
     // Send Problem Details response

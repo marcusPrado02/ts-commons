@@ -1,18 +1,18 @@
-# @acme/eventsourcing
+# @marcusprado02/eventsourcing
 
 Event sourcing building blocks: event store, `EventSourcedAggregate`, snapshots, projections, and event replay. Implements the full CQRS + event sourcing stack.
 
 ## Installation
 
 ```bash
-pnpm add @acme/eventsourcing
+pnpm add @marcusprado02/eventsourcing
 ```
 
 ## Quick Start
 
 ```typescript
-import { EventSourcedAggregate, InMemoryEventStore } from '@acme/eventsourcing';
-import type { EventStore } from '@acme/eventsourcing';
+import { EventSourcedAggregate, InMemoryEventStore } from '@marcusprado02/eventsourcing';
+import type { EventStore } from '@marcusprado02/eventsourcing';
 
 // Define a domain event
 class OrderCreated {
@@ -50,7 +50,7 @@ const rehydrated = Order.rehydrate('order-123', events);
 ## Projections
 
 ```typescript
-import { ProjectionRunner } from '@acme/eventsourcing';
+import { ProjectionRunner } from '@marcusprado02/eventsourcing';
 
 const runner = new ProjectionRunner(store);
 runner.register('orders-read-model', {
@@ -63,7 +63,7 @@ await runner.run('orders-read-model');
 ## Snapshots
 
 ```typescript
-import { InMemorySnapshotStore } from '@acme/eventsourcing';
+import { InMemorySnapshotStore } from '@marcusprado02/eventsourcing';
 
 const snapshots = new InMemorySnapshotStore();
 await snapshots.save({ aggregateId: 'order-123', version: 100, state: order.toSnapshot() });
@@ -71,5 +71,5 @@ await snapshots.save({ aggregateId: 'order-123', version: 100, state: order.toSn
 
 ## See Also
 
-- [`@acme/outbox`](../outbox) — transactional delivery of domain events
-- [`@acme/schema-registry`](../schema-registry) — schema versioning for events
+- [`@marcusprado02/outbox`](../outbox) — transactional delivery of domain events
+- [`@marcusprado02/schema-registry`](../schema-registry) — schema versioning for events

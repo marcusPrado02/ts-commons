@@ -18,7 +18,7 @@ import { randomUUID } from 'node:crypto';
  * @example
  * ```typescript
  * import Fastify from 'fastify';
- * import { correlationHook } from '@acme/web-fastify';
+ * import { correlationHook } from '@marcusprado02/web-fastify';
  *
  * const app = Fastify();
  * app.addHook('onRequest', correlationHook());

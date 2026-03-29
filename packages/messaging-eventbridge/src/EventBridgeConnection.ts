@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call -- AWS SDK methods and logger calls */
 /* eslint-disable @typescript-eslint/no-redundant-type-constituents -- EventBridgeClient typed as any in ESLint context */
 import { EventBridgeClient, DescribeEventBusCommand } from '@aws-sdk/client-eventbridge';
-import type { Logger } from '@acme/observability';
+import type { Logger } from '@marcusprado02/observability';
 import type { EventBridgeConfig, EventBridgeHealthCheck } from './EventBridgeConfig';
 import { DEFAULT_EVENTBRIDGE_CONFIG } from './EventBridgeConfig';
 
@@ -33,7 +33,10 @@ export class EventBridgeConnection {
   private lastErrorMessage: string | undefined;
   private publishedCount = 0;
   private errorCount = 0;
-  private readonly config: Required<Omit<EventBridgeConfig, 'endpoint' | 'accessKeyId' | 'secretAccessKey' | 'sessionToken'>> & Pick<EventBridgeConfig, 'endpoint' | 'accessKeyId' | 'secretAccessKey' | 'sessionToken'>;
+  private readonly config: Required<
+    Omit<EventBridgeConfig, 'endpoint' | 'accessKeyId' | 'secretAccessKey' | 'sessionToken'>
+  > &
+    Pick<EventBridgeConfig, 'endpoint' | 'accessKeyId' | 'secretAccessKey' | 'sessionToken'>;
 
   constructor(
     config: EventBridgeConfig,
@@ -55,9 +58,7 @@ export class EventBridgeConnection {
       this.client = this.buildClient();
 
       // Verify connectivity by describing the event bus
-      await this.client.send(
-        new DescribeEventBusCommand({ Name: this.config.eventBusName }),
-      );
+      await this.client.send(new DescribeEventBusCommand({ Name: this.config.eventBusName }));
 
       this.isConnected = true;
       this.logger.info('Connected to AWS EventBridge successfully', {
@@ -128,9 +129,7 @@ export class EventBridgeConnection {
     }
 
     try {
-      await this.client.send(
-        new DescribeEventBusCommand({ Name: this.config.eventBusName }),
-      );
+      await this.client.send(new DescribeEventBusCommand({ Name: this.config.eventBusName }));
       return {
         connected: true,
         region: this.config.region,
@@ -183,10 +182,7 @@ export class EventBridgeConnection {
       clientConfig.endpoint = this.config.endpoint;
     }
 
-    if (
-      this.config.accessKeyId !== undefined &&
-      this.config.secretAccessKey !== undefined
-    ) {
+    if (this.config.accessKeyId !== undefined && this.config.secretAccessKey !== undefined) {
       clientConfig.credentials = {
         accessKeyId: this.config.accessKeyId,
         secretAccessKey: this.config.secretAccessKey,

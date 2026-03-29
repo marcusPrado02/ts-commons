@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call -- Prisma framework boundary: delegate method calls */
 /* eslint-disable @typescript-eslint/no-unsafe-argument -- Prisma framework boundary: Sort fields inferred as any through PageRequest */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access -- Prisma framework boundary: Sort.field / Sort.direction inferred as any */
-import type { Page, PageRequest, Sort } from '@acme/persistence';
+import type { Page, PageRequest, Sort } from '@marcusprado02/persistence';
 import type { PrismaMapper } from './PrismaMapper';
 import type { PrismaModelDelegate } from './PrismaRepository';
 

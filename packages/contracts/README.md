@@ -1,11 +1,11 @@
-# @acme/contracts
+# @marcusprado02/contracts
 
 Shared TypeScript utilities for inter-service contracts — OpenAPI spec builders, standard HTTP header constants, semantic versioning helpers, and API versioning support.
 
 ## Installation
 
 ```bash
-npm install @acme/contracts
+npm install @marcusprado02/contracts
 ```
 
 ## Key Exports
@@ -39,7 +39,7 @@ Fluent builders for constructing OpenAPI 3.x documents programmatically:
 ## Usage
 
 ```typescript
-import { OpenApiSpecBuilder, OperationBuilder, SchemaBuilder } from '@acme/contracts';
+import { OpenApiSpecBuilder, OperationBuilder, SchemaBuilder } from '@marcusprado02/contracts';
 
 const userSchema = new SchemaBuilder()
   .object({ id: SchemaBuilder.string(), email: SchemaBuilder.string('email') })
@@ -60,7 +60,7 @@ const spec = new OpenApiSpecBuilder({ title: 'User API', version: '1.0.0' })
 ```
 
 ```typescript
-import { ApiVersion, CORRELATION_ID_HEADER } from '@acme/contracts';
+import { ApiVersion, CORRELATION_ID_HEADER } from '@marcusprado02/contracts';
 
 // Route based on version
 const version = ApiVersion.from(req.params.version); // 'v1' | 'v2' ...
@@ -71,4 +71,4 @@ res.setHeader(CORRELATION_ID_HEADER, req.headers[CORRELATION_ID_HEADER] ?? uuid(
 
 ## Dependencies
 
-- `@acme/kernel` (workspace)
+- `@marcusprado02/kernel` (workspace)

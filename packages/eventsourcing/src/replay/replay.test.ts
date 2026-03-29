@@ -7,7 +7,7 @@
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi } from 'vitest';
-import { DomainEvent } from '@acme/kernel';
+import { DomainEvent } from '@marcusprado02/kernel';
 import { InMemoryEventStore } from '../index';
 import { EventReplayer, ReplayMonitor } from './index';
 

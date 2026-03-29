@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import type { LoggerPort } from '@acme/kernel';
+import type { LoggerPort } from '@marcusprado02/kernel';
 import type { EmailPort } from './EmailPort';
 import type { EmailAddress, EmailMessage, SendEmailResult } from './EmailTypes';
 

@@ -1,4 +1,4 @@
-# @acme/messaging-eventbridge
+# @marcusprado02/messaging-eventbridge
 
 > AWS EventBridge adapter for event-driven messaging with an SQS consumer pattern.
 
@@ -44,7 +44,7 @@ EventBridgeEventConsumer ──[poll]──→ processMessage → handlers
 ## Installation
 
 ```bash
-pnpm add @acme/messaging-eventbridge
+pnpm add @marcusprado02/messaging-eventbridge
 ```
 
 AWS SDK peer dependencies are included:
@@ -63,8 +63,8 @@ AWS SDK peer dependencies are included:
 import {
   EventBridgeConnection,
   EventBridgeEventPublisher,
-} from '@acme/messaging-eventbridge';
-import { logger } from '@acme/observability';
+} from '@marcusprado02/messaging-eventbridge';
+import { logger } from '@marcusprado02/observability';
 
 // 1. Create and connect
 const connection = new EventBridgeConnection(
@@ -99,7 +99,7 @@ await connection.close();
 ### Consume events (SQS target)
 
 ```typescript
-import { EventBridgeEventConsumer } from '@acme/messaging-eventbridge';
+import { EventBridgeEventConsumer } from '@marcusprado02/messaging-eventbridge';
 
 const consumer = new EventBridgeEventConsumer(
   {
@@ -133,32 +133,32 @@ process.on('SIGTERM', async () => {
 
 ### EventBridgeConfig
 
-| Property | Type | Default | Description |
-|---|---|---|---|
-| `region` | `string` | **required** | AWS region |
-| `source` | `string` | **required** | Event source identifier (e.g. `com.myapp.orders`) |
-| `eventBusName` | `string` | `'default'` | Event bus name or ARN |
-| `endpoint` | `string` | — | Custom endpoint URL (LocalStack) |
-| `accessKeyId` | `string` | — | AWS access key (uses credential chain if omitted) |
-| `secretAccessKey` | `string` | — | AWS secret key |
-| `sessionToken` | `string` | — | Temp session token |
-| `maxBatchSize` | `number` | `10` | Max events per `PutEvents` call (AWS max: 10) |
-| `maxRetries` | `number` | `3` | SDK retry attempts on transient errors |
+| Property          | Type     | Default      | Description                                       |
+| ----------------- | -------- | ------------ | ------------------------------------------------- |
+| `region`          | `string` | **required** | AWS region                                        |
+| `source`          | `string` | **required** | Event source identifier (e.g. `com.myapp.orders`) |
+| `eventBusName`    | `string` | `'default'`  | Event bus name or ARN                             |
+| `endpoint`        | `string` | —            | Custom endpoint URL (LocalStack)                  |
+| `accessKeyId`     | `string` | —            | AWS access key (uses credential chain if omitted) |
+| `secretAccessKey` | `string` | —            | AWS secret key                                    |
+| `sessionToken`    | `string` | —            | Temp session token                                |
+| `maxBatchSize`    | `number` | `10`         | Max events per `PutEvents` call (AWS max: 10)     |
+| `maxRetries`      | `number` | `3`          | SDK retry attempts on transient errors            |
 
 ### EventBridgeSQSConsumerConfig
 
-| Property | Type | Default | Description |
-|---|---|---|---|
-| `region` | `string` | **required** | AWS region |
-| `queueUrl` | `string` | **required** | SQS queue URL |
-| `endpoint` | `string` | — | Custom endpoint URL (LocalStack) |
-| `accessKeyId` | `string` | — | AWS access key |
-| `secretAccessKey` | `string` | — | AWS secret key |
-| `sessionToken` | `string` | — | Temp session token |
-| `maxMessages` | `number` | `10` | Messages per ReceiveMessage call |
-| `waitTimeSeconds` | `number` | `20` | Long-poll wait (0–20 seconds) |
-| `visibilityTimeout` | `number` | `30` | Seconds message is hidden after receive |
-| `pollingIntervalMs` | `number` | `1000` | Poll interval when queue is empty |
+| Property            | Type     | Default      | Description                             |
+| ------------------- | -------- | ------------ | --------------------------------------- |
+| `region`            | `string` | **required** | AWS region                              |
+| `queueUrl`          | `string` | **required** | SQS queue URL                           |
+| `endpoint`          | `string` | —            | Custom endpoint URL (LocalStack)        |
+| `accessKeyId`       | `string` | —            | AWS access key                          |
+| `secretAccessKey`   | `string` | —            | AWS secret key                          |
+| `sessionToken`      | `string` | —            | Temp session token                      |
+| `maxMessages`       | `number` | `10`         | Messages per ReceiveMessage call        |
+| `waitTimeSeconds`   | `number` | `20`         | Long-poll wait (0–20 seconds)           |
+| `visibilityTimeout` | `number` | `30`         | Seconds message is hidden after receive |
+| `pollingIntervalMs` | `number` | `1000`       | Poll interval when queue is empty       |
 
 ## Advanced Usage
 
@@ -257,19 +257,19 @@ flowchart TD
 
 ## EventBridge vs Kafka vs RabbitMQ
 
-| Feature | EventBridge | Kafka | RabbitMQ |
-|---|---|---|---|
-| Managed service | ✅ Fully managed (AWS) | ❌ Self-managed | ❌ Self-managed |
-| Ordering | ❌ No guarantee | ✅ Per partition | ✅ Per queue |
-| Retention | ❌ No replay (unless archive) | ✅ Configurable retention | ❌ TTL-based |
-| Pattern matching | ✅ Built-in rule engine | ❌ Manual | ❌ Manual |
-| Cross-account | ✅ Native support | ❌ Manual | ❌ Manual |
-| Consumer model | SQS/Lambda target | Pull (consumer groups) | Push (AMQP) |
-| Throughput | ~10k events/s (default) | Millions/s | 50k+/s |
-| Latency | ms–100ms | ms | ms |
-| Cost | Pay-per-event | Infrastructure | Infrastructure |
-| Schema registry | ✅ AWS Schema Registry | ✅ Confluent/Glue | ❌ Manual |
-| Use case | Event routing/filtering | High-throughput streaming | Enterprise messaging |
+| Feature          | EventBridge                   | Kafka                     | RabbitMQ             |
+| ---------------- | ----------------------------- | ------------------------- | -------------------- |
+| Managed service  | ✅ Fully managed (AWS)        | ❌ Self-managed           | ❌ Self-managed      |
+| Ordering         | ❌ No guarantee               | ✅ Per partition          | ✅ Per queue         |
+| Retention        | ❌ No replay (unless archive) | ✅ Configurable retention | ❌ TTL-based         |
+| Pattern matching | ✅ Built-in rule engine       | ❌ Manual                 | ❌ Manual            |
+| Cross-account    | ✅ Native support             | ❌ Manual                 | ❌ Manual            |
+| Consumer model   | SQS/Lambda target             | Pull (consumer groups)    | Push (AMQP)          |
+| Throughput       | ~10k events/s (default)       | Millions/s                | 50k+/s               |
+| Latency          | ms–100ms                      | ms                        | ms                   |
+| Cost             | Pay-per-event                 | Infrastructure            | Infrastructure       |
+| Schema registry  | ✅ AWS Schema Registry        | ✅ Confluent/Glue         | ❌ Manual            |
+| Use case         | Event routing/filtering       | High-throughput streaming | Enterprise messaging |
 
 ## Best Practices
 
@@ -319,6 +319,7 @@ consumer.subscribe('OrderCreated', {
 ### `AccessDeniedException` on connect
 
 Ensure your IAM role/user has:
+
 - `events:DescribeEventBus` for the target bus
 - `events:PutEvents` for publishing
 
@@ -330,7 +331,7 @@ Ensure your IAM role/user has:
 
 ### Duplicate event processing
 
-The consumer deduplicates by `eventId` (in-memory, up to 10 000 entries). For cross-instance deduplication, combine with `@acme/application`'s idempotency store.
+The consumer deduplicates by `eventId` (in-memory, up to 10 000 entries). For cross-instance deduplication, combine with `@marcusprado02/application`'s idempotency store.
 
 ### High memory from deduplication cache
 
@@ -341,7 +342,7 @@ The deduplication set uses an LRU eviction strategy with a cap of 10 000 entries
 Tests use Vitest with full module mocking of AWS SDK:
 
 ```bash
-pnpm --filter @acme/messaging-eventbridge test
+pnpm --filter @marcusprado02/messaging-eventbridge test
 ```
 
 For local integration tests with LocalStack:

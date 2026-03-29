@@ -1,6 +1,6 @@
 import type { AuthenticatedPrincipal } from '../authn/AuthenticatedPrincipal';
 import type { AuthError } from '../authn/AuthErrors';
-import type { Result } from '@acme/kernel';
+import type { Result } from '@marcusprado02/kernel';
 
 export interface SsoProviderConfig {
   /** OAuth2/OIDC discovery URL or explicit endpoint configuration */

@@ -9,7 +9,7 @@ import type { JwtClaims } from './JwtClaims';
  * @example
  * ```typescript
  * import jwt from 'jsonwebtoken';
- * import type { JwtVerifierLike } from '@acme/security';
+ * import type { JwtVerifierLike } from '@marcusprado02/security';
  *
  * const authenticator = new JwtAuthenticator(
  *   jwt as unknown as JwtVerifierLike,

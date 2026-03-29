@@ -1,11 +1,11 @@
-# @acme/docs
+# @marcusprado02/docs
 
-Story-driven interactive documentation for `@acme` TypeScript components. Provides a lightweight story registry and runner — similar in spirit to Storybook but framework-free — along with a component catalog and pre-built story modules for core `@acme` types.
+Story-driven interactive documentation for `@marcusprado02` TypeScript components. Provides a lightweight story registry and runner — similar in spirit to Storybook but framework-free — along with a component catalog and pre-built story modules for core `@marcusprado02` types.
 
 ## Installation
 
 ```bash
-npm install @acme/docs
+npm install @marcusprado02/docs
 ```
 
 ## Key Exports
@@ -23,7 +23,7 @@ npm install @acme/docs
 
 ### Built-in Story Modules
 
-Pre-built story sets that document and exercise core `@acme` primitives:
+Pre-built story sets that document and exercise core `@marcusprado02` primitives:
 
 | Export                                                              | Covers                                   |
 | ------------------------------------------------------------------- | ---------------------------------------- |
@@ -34,7 +34,7 @@ Pre-built story sets that document and exercise core `@acme` primitives:
 ## Usage
 
 ```typescript
-import { StoryRegistry, StoryRunner, EmailModule, ResultModule } from '@acme/docs';
+import { StoryRegistry, StoryRunner, EmailModule, ResultModule } from '@marcusprado02/docs';
 
 // Register built-in modules
 StoryRegistry.register('email', EmailModule);
@@ -50,7 +50,7 @@ console.log(`${summary.passed} passed, ${summary.failed} failed`);
 Extend with your own stories:
 
 ```typescript
-import { StoryDef, StoryModule } from '@acme/docs';
+import { StoryDef, StoryModule } from '@marcusprado02/docs';
 
 const myModule: StoryModule = {
   name: 'OrderAggregate',

@@ -1,5 +1,5 @@
 /**
- * @acme/web-express
+ * @marcusprado02/web-express
  *
  * Express.js adapter for ts-commons platform
  * Provides middleware, adapters, and utilities for integrating Express.js
@@ -9,9 +9,7 @@
  */
 
 // Middleware exports
-export {
-  correlationMiddleware,
-} from './middleware/CorrelationMiddleware.js';
+export { correlationMiddleware } from './middleware/CorrelationMiddleware.js';
 
 export {
   errorHandlerMiddleware,

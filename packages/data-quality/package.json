@@ -1,7 +1,7 @@
 {
-  "name": "@acme/data-quality",
+  "name": "@marcusprado02/data-quality",
   "version": "0.1.0",
-  "description": "Data quality framework: validation rules, profiling, anomaly detection, metrics and reports for @acme/ts-commons",
+  "description": "Data quality framework: validation rules, profiling, anomaly detection, metrics and reports for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -31,6 +31,6 @@
   ],
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   }
 }

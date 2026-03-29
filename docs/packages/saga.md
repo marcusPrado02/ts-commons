@@ -1,8 +1,8 @@
-# @acme/saga
+# @marcusprado02/saga
 
 Orchestration-based Saga with automatic compensation. Use when a business operation spans multiple services and requires rollback if any step fails.
 
-**Install:** `pnpm add @acme/saga @acme/kernel @acme/application`
+**Install:** `pnpm add @marcusprado02/saga @marcusprado02/kernel @marcusprado02/application`
 
 ---
 
@@ -20,7 +20,7 @@ If any step fails, all previously completed steps are compensated in reverse ord
 ## `SagaTransaction` — Orchestration
 
 ```typescript
-import { SagaTransaction } from '@acme/saga';
+import { SagaTransaction } from '@marcusprado02/saga';
 
 const checkoutSaga = new SagaTransaction('checkout')
   .addStep({
@@ -81,7 +81,7 @@ const checkoutSaga = new SagaTransaction<CheckoutContext>('checkout').addStep({
 For loosely coupled sagas where each service reacts to events independently:
 
 ```typescript
-import { SagaChoreography } from '@acme/saga';
+import { SagaChoreography } from '@marcusprado02/saga';
 
 const saga = new SagaChoreography('order-fulfilment');
 
@@ -105,7 +105,7 @@ saga.on('PaymentFailedEvent', async (event) => {
 ## `SagaMonitor` — Observability
 
 ```typescript
-import { SagaMonitor } from '@acme/saga';
+import { SagaMonitor } from '@marcusprado02/saga';
 
 const monitor = new SagaMonitor(metrics, logger);
 

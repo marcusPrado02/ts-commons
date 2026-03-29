@@ -1,8 +1,8 @@
-# @acme/secrets
+# @marcusprado02/secrets
 
 Secrets management following the Port/Adapter pattern. Domain code depends only on `SecretsPort`; the adapter (Env, SSM, Vault, etc.) is injected at startup.
 
-**Install:** `pnpm add @acme/secrets @acme/kernel`
+**Install:** `pnpm add @marcusprado02/secrets @marcusprado02/kernel`
 
 ---
 
@@ -27,7 +27,7 @@ import {
   AwsSsmSecretsAdapter,
   CachedSecretsAdapter,
   FallbackSecretsAdapter,
-} from '@acme/secrets';
+} from '@marcusprado02/secrets';
 
 // Development
 const devSecrets: SecretsPort = new EnvSecretsAdapter();
@@ -54,8 +54,8 @@ The domain and application layers never import adapters — they depend on `Secr
 
 ```typescript
 // application/usecases/bootstrap/LoadSecretsUseCase.ts
-import type { SecretsPort } from '@acme/secrets';
-import { ConfigServer } from '@acme/config';
+import type { SecretsPort } from '@marcusprado02/secrets';
+import { ConfigServer } from '@marcusprado02/config';
 
 export class LoadSecretsUseCase {
   constructor(
@@ -80,7 +80,7 @@ export class LoadSecretsUseCase {
 Implement `SecretsPort` to integrate with any secret store:
 
 ```typescript
-import type { SecretsPort } from '@acme/secrets';
+import type { SecretsPort } from '@marcusprado02/secrets';
 
 export class AzureKeyVaultAdapter implements SecretsPort {
   constructor(private readonly client: SecretClient) {}

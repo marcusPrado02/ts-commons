@@ -1,17 +1,17 @@
-# @acme/web-graphql
+# @marcusprado02/web-graphql
 
 GraphQL schema helpers, DataLoader factory, subscriptions, and federation utilities. Framework-agnostic — works with Apollo Server, Yoga, Mercurius, or any GraphQL runtime.
 
 ## Installation
 
 ```bash
-pnpm add @acme/web-graphql
+pnpm add @marcusprado02/web-graphql
 ```
 
 ## Quick Start
 
 ```typescript
-import { SchemaComposer, createDataLoader } from '@acme/web-graphql';
+import { SchemaComposer, createDataLoader } from '@marcusprado02/web-graphql';
 
 // Compose SDL fragments into a unified schema
 const composer = new SchemaComposer();
@@ -29,7 +29,7 @@ const userLoader = createDataLoader<string, User>(
 ## Federation
 
 ```typescript
-import { buildFederationServiceInfo } from '@acme/web-graphql';
+import { buildFederationServiceInfo } from '@marcusprado02/web-graphql';
 
 const info = buildFederationServiceInfo({
   name: 'order-service',
@@ -41,7 +41,7 @@ const info = buildFederationServiceInfo({
 ## Subscriptions
 
 ```typescript
-import type { SubscriptionHandler, SubscriptionEvent } from '@acme/web-graphql';
+import type { SubscriptionHandler, SubscriptionEvent } from '@marcusprado02/web-graphql';
 
 const orderUpdated: SubscriptionHandler = {
   subscribe: (_, { orderId }) => pubSub.asyncIterator(`ORDER_UPDATED:${orderId}`),
@@ -51,5 +51,5 @@ const orderUpdated: SubscriptionHandler = {
 
 ## See Also
 
-- [`@acme/web`](../web) — HTTP adapter base types
-- [`@acme/bff`](../bff) — Backend-for-Frontend (REST + GraphQL)
+- [`@marcusprado02/web`](../web) — HTTP adapter base types
+- [`@marcusprado02/bff`](../bff) — Backend-for-Frontend (REST + GraphQL)

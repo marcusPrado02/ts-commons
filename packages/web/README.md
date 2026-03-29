@@ -1,11 +1,11 @@
-# @acme/web
+# @marcusprado02/web
 
 Framework-agnostic web primitives — HTTP type abstractions, composable middleware, HATEOAS/HAL, JSON:API, Server-Sent Events, and Content Security Policy.
 
 ## Installation
 
 ```bash
-pnpm add @acme/web
+pnpm add @marcusprado02/web
 ```
 
 ## Exports
@@ -51,8 +51,8 @@ pnpm add @acme/web
 ### Middleware pipeline
 
 ```ts
-import { MiddlewareChain, correlationMiddleware } from '@acme/web';
-import type { HttpContext } from '@acme/web';
+import { MiddlewareChain, correlationMiddleware } from '@marcusprado02/web';
+import type { HttpContext } from '@marcusprado02/web';
 
 const chain = new MiddlewareChain().use(correlationMiddleware()).use(async (ctx, next) => {
   console.log('incoming', ctx.request.method, ctx.request.path);
@@ -66,7 +66,7 @@ await chain.execute(context);
 ### HAL hypermedia response
 
 ```ts
-import { HalResource, LinkBuilder } from '@acme/web';
+import { HalResource, LinkBuilder } from '@marcusprado02/web';
 
 const resource = new HalResource({ id: '42', name: 'Alice' }, 'https://api.acme.com/users/42')
   .addLink('users', LinkBuilder.collection('https://api.acme.com/users'))
@@ -84,7 +84,7 @@ const resource = new HalResource({ id: '42', name: 'Alice' }, 'https://api.acme.
 ### Content Security Policy header
 
 ```ts
-import { CspBuilder, NonceGenerator } from '@acme/web';
+import { CspBuilder, NonceGenerator } from '@marcusprado02/web';
 
 const nonce = NonceGenerator.generate(); // cryptographic nonce
 
@@ -102,8 +102,8 @@ res.setHeader('Content-Security-Policy', cspHeader);
 
 ## Dependencies
 
-| Package           | Role                                            |
-| ----------------- | ----------------------------------------------- |
-| `@acme/kernel`    | Core utilities and domain primitives            |
-| `@acme/errors`    | Shared error types                              |
-| `@acme/contracts` | Shared constants (e.g. `CORRELATION_ID_HEADER`) |
+| Package                    | Role                                            |
+| -------------------------- | ----------------------------------------------- |
+| `@marcusprado02/kernel`    | Core utilities and domain primitives            |
+| `@marcusprado02/errors`    | Shared error types                              |
+| `@marcusprado02/contracts` | Shared constants (e.g. `CORRELATION_ID_HEADER`) |

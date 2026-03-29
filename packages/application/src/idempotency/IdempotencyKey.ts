@@ -1,4 +1,4 @@
-import { ValueObject } from '@acme/kernel';
+import { ValueObject } from '@marcusprado02/kernel';
 
 /**
  * Idempotency key for ensuring operations are executed only once.

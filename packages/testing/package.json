@@ -1,5 +1,5 @@
 {
-  "name": "@acme/testing",
+  "name": "@marcusprado02/testing",
   "version": "0.1.0",
   "description": "Testing utilities: Builders, Fakes, Test harnesses",
   "type": "module",
@@ -24,10 +24,10 @@
     "vitest": "^2.1.9"
   },
   "dependencies": {
-    "@acme/kernel": "workspace:*",
-    "@acme/application": "workspace:*",
-    "@acme/messaging": "workspace:*",
-    "@acme/outbox": "workspace:*"
+    "@marcusprado02/kernel": "workspace:*",
+    "@marcusprado02/application": "workspace:*",
+    "@marcusprado02/messaging": "workspace:*",
+    "@marcusprado02/outbox": "workspace:*"
   },
   "keywords": [
     "testing",
@@ -39,7 +39,7 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

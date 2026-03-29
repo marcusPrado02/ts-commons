@@ -1,7 +1,7 @@
 {
-  "name": "@acme/gateway",
+  "name": "@marcusprado02/gateway",
   "version": "0.1.0",
-  "description": "API Gateway config builders and validators for Kong, AWS API Gateway and Azure APIM in @acme/ts-commons",
+  "description": "API Gateway config builders and validators for Kong, AWS API Gateway and Azure APIM in @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -32,6 +32,6 @@
   ],
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   }
 }

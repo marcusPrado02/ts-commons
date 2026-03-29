@@ -1,17 +1,17 @@
-# @acme/data-quality
+# @marcusprado02/data-quality
 
 Data quality rules, profiling, and anomaly detection. Validates records against typed rules, profiles dataset distributions, and detects outliers using statistical methods.
 
 ## Installation
 
 ```bash
-pnpm add @acme/data-quality
+pnpm add @marcusprado02/data-quality
 ```
 
 ## Quick Start
 
 ```typescript
-import { QualityValidator, DataProfiler, ZScoreAnomalyDetector } from '@acme/data-quality';
+import { QualityValidator, DataProfiler, ZScoreAnomalyDetector } from '@marcusprado02/data-quality';
 
 // Validate records
 const validator = new QualityValidator([
@@ -42,5 +42,5 @@ const anomalies = await detector.detect(records, 'amount');
 
 ## See Also
 
-- [`@acme/data-pipeline`](../data-pipeline) — ETL framework
-- [`@acme/data-warehouse`](../data-warehouse) — warehouse connectors
+- [`@marcusprado02/data-pipeline`](../data-pipeline) — ETL framework
+- [`@marcusprado02/data-warehouse`](../data-warehouse) — warehouse connectors

@@ -47,7 +47,7 @@ orders-service/
 
 ```typescript
 // src/domain/Money.ts
-import { ValueObject, Result } from '@acme/kernel';
+import { ValueObject, Result } from '@marcusprado02/kernel';
 
 export class Money extends ValueObject<{ amount: number; currency: string }> {
   static create(amount: number, currency: string): Result<Money, Error> {
@@ -73,7 +73,7 @@ export class Money extends ValueObject<{ amount: number; currency: string }> {
 
 ```typescript
 // src/domain/Order.ts
-import { AggregateRoot, Result, UUID } from '@acme/kernel';
+import { AggregateRoot, Result, UUID } from '@marcusprado02/kernel';
 import { Money } from './Money.js';
 import { OrderPlacedEvent } from './events/OrderPlacedEvent.js';
 
@@ -129,7 +129,7 @@ export class Order extends AggregateRoot<string> {
 
 ```typescript
 // src/domain/events/OrderPlacedEvent.ts
-import { DomainEvent } from '@acme/kernel';
+import { DomainEvent } from '@marcusprado02/kernel';
 import type { Money } from '../Money.js';
 
 export class OrderPlacedEvent extends DomainEvent {
@@ -147,7 +147,7 @@ export class OrderPlacedEvent extends DomainEvent {
 
 ```typescript
 // src/domain/OrderRepository.ts
-import type { RepositoryPort } from '@acme/persistence';
+import type { RepositoryPort } from '@marcusprado02/persistence';
 import type { Order } from './Order.js';
 
 export interface OrderRepository extends RepositoryPort<Order> {
@@ -164,9 +164,9 @@ export interface OrderRepository extends RepositoryPort<Order> {
 
 ```typescript
 // src/application/usecases/PlaceOrderUseCase.ts
-import { UseCase } from '@acme/application';
-import { Result } from '@acme/kernel';
-import { OutboxStorePort } from '@acme/outbox';
+import { UseCase } from '@marcusprado02/application';
+import { Result } from '@marcusprado02/kernel';
+import { OutboxStorePort } from '@marcusprado02/outbox';
 import { Order } from '../../domain/Order.js';
 import type { OrderRepository } from '../../domain/OrderRepository.js';
 
@@ -217,7 +217,7 @@ export class PlaceOrderUseCase implements UseCase<PlaceOrderInput, PlaceOrderOut
 
 ```typescript
 // src/infrastructure/persistence/PrismaOrderRepository.ts
-import { PrismaRepository } from '@acme/persistence-prisma';
+import { PrismaRepository } from '@marcusprado02/persistence-prisma';
 import type { PrismaClient } from '@prisma/client';
 import { Order } from '../../domain/Order.js';
 import type { OrderRepository } from '../../domain/OrderRepository.js';
@@ -250,21 +250,21 @@ export class PrismaOrderRepository
 // src/main.ts
 import Fastify from 'fastify';
 import { PrismaClient } from '@prisma/client';
-import { KafkaConnection, KafkaEventPublisher } from '@acme/messaging-kafka';
-import { RedisConnection } from '@acme/cache-redis';
-import { ConfigServer, ZodConfigSchema } from '@acme/config';
-import { GracefulShutdown, HealthAggregator } from '@acme/docker-utils';
-import { LoggerFactory } from '@acme/observability';
-import { OtelTracer } from '@acme/observability-otel';
-import { OutboxRelay } from '@acme/outbox';
-import { InMemoryScheduler } from '@acme/scheduler';
-import { CorrelationHook, ErrorHandlerHook } from '@acme/web-fastify';
+import { KafkaConnection, KafkaEventPublisher } from '@marcusprado02/messaging-kafka';
+import { RedisConnection } from '@marcusprado02/cache-redis';
+import { ConfigServer, ZodConfigSchema } from '@marcusprado02/config';
+import { GracefulShutdown, HealthAggregator } from '@marcusprado02/docker-utils';
+import { LoggerFactory } from '@marcusprado02/observability';
+import { OtelTracer } from '@marcusprado02/observability-otel';
+import { OutboxRelay } from '@marcusprado02/outbox';
+import { InMemoryScheduler } from '@marcusprado02/scheduler';
+import { CorrelationHook, ErrorHandlerHook } from '@marcusprado02/web-fastify';
 import { z } from 'zod';
 import { PlaceOrderUseCase } from './application/usecases/PlaceOrderUseCase.js';
 import { GetOrderUseCase } from './application/usecases/GetOrderUseCase.js';
 import { PrismaOrderRepository } from './infrastructure/persistence/PrismaOrderRepository.js';
-import { PrismaOutboxStore } from '@acme/persistence-prisma';
-import { PrismaUnitOfWork } from '@acme/persistence-prisma';
+import { PrismaOutboxStore } from '@marcusprado02/persistence-prisma';
+import { PrismaUnitOfWork } from '@marcusprado02/persistence-prisma';
 import type { PlaceOrderInput } from './application/usecases/PlaceOrderUseCase.js';
 
 // ─── 1. Configuration ──────────────────────────────────────────────────────
@@ -401,20 +401,20 @@ log.info('orders-service started', {
 
 ## Package Checklist
 
-| Concern              | Package                                            |
-| -------------------- | -------------------------------------------------- |
-| Domain model         | `@acme/kernel`                                     |
-| Use cases            | `@acme/application`                                |
-| Validation           | `@acme/validation`                                 |
-| Configuration        | `@acme/config`                                     |
-| Persistence (Prisma) | `@acme/persistence-prisma`                         |
-| Messaging (Kafka)    | `@acme/messaging-kafka`                            |
-| Outbox pattern       | `@acme/outbox`                                     |
-| Resilience           | `@acme/resilience`                                 |
-| Security             | `@acme/security`                                   |
-| Observability        | `@acme/observability` + `@acme/observability-otel` |
-| HTTP transport       | `@acme/web-fastify`                                |
-| Cache                | `@acme/cache-redis`                                |
-| Background jobs      | `@acme/scheduler`                                  |
-| Health + shutdown    | `@acme/docker-utils`                               |
-| Tests                | `@acme/testing`                                    |
+| Concern              | Package                                                              |
+| -------------------- | -------------------------------------------------------------------- |
+| Domain model         | `@marcusprado02/kernel`                                              |
+| Use cases            | `@marcusprado02/application`                                         |
+| Validation           | `@marcusprado02/validation`                                          |
+| Configuration        | `@marcusprado02/config`                                              |
+| Persistence (Prisma) | `@marcusprado02/persistence-prisma`                                  |
+| Messaging (Kafka)    | `@marcusprado02/messaging-kafka`                                     |
+| Outbox pattern       | `@marcusprado02/outbox`                                              |
+| Resilience           | `@marcusprado02/resilience`                                          |
+| Security             | `@marcusprado02/security`                                            |
+| Observability        | `@marcusprado02/observability` + `@marcusprado02/observability-otel` |
+| HTTP transport       | `@marcusprado02/web-fastify`                                         |
+| Cache                | `@marcusprado02/cache-redis`                                         |
+| Background jobs      | `@marcusprado02/scheduler`                                           |
+| Health + shutdown    | `@marcusprado02/docker-utils`                                        |
+| Tests                | `@marcusprado02/testing`                                             |

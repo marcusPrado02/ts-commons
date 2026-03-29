@@ -1,5 +1,5 @@
 {
-  "name": "@acme/messaging-kafka",
+  "name": "@marcusprado02/messaging-kafka",
   "version": "0.1.0",
   "description": "Apache Kafka adapter for event-driven messaging with consumer groups and exactly-once semantics",
   "type": "commonjs",
@@ -22,9 +22,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@acme/kernel": "workspace:*",
-    "@acme/messaging": "workspace:*",
-    "@acme/observability": "workspace:*",
+    "@marcusprado02/kernel": "workspace:*",
+    "@marcusprado02/messaging": "workspace:*",
+    "@marcusprado02/observability": "workspace:*",
     "kafkajs": "^2.2.4"
   },
   "devDependencies": {
@@ -33,7 +33,7 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

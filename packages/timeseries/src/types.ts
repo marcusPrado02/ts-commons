@@ -1,5 +1,5 @@
 /**
- * Core types for the `@acme/timeseries` package.
+ * Core types for the `@marcusprado02/timeseries` package.
  */
 
 /** Epoch milliseconds */

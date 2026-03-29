@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { Result } from '@acme/kernel';
+import { Result } from '@marcusprado02/kernel';
 import { InMemoryCommandBus, type Command, type CommandHandler } from '../src';
 
 // Test Commands
@@ -110,7 +110,7 @@ describe('InMemoryCommandBus', () => {
       const command = new CreateUserCommand('john', 'john@example.com');
 
       await expect(commandBus.dispatch(command)).rejects.toThrow(
-        'No handler registered for command: CreateUserCommand'
+        'No handler registered for command: CreateUserCommand',
       );
     });
 
@@ -121,21 +121,17 @@ describe('InMemoryCommandBus', () => {
 
       // Create
       const createResult = await commandBus.dispatch(
-        new CreateUserCommand('alice', 'alice@example.com')
+        new CreateUserCommand('alice', 'alice@example.com'),
       );
       expect(createResult.isOk()).toBe(true);
       expect(createResult.unwrap()).toBe('user-alice');
 
       // Update
-      const updateResult = await commandBus.dispatch(
-        new UpdateUserCommand('123', 'alice-updated')
-      );
+      const updateResult = await commandBus.dispatch(new UpdateUserCommand('123', 'alice-updated'));
       expect(updateResult.isOk()).toBe(true);
 
       // Delete
-      const deleteResult = await commandBus.dispatch(
-        new DeleteUserCommand('123')
-      );
+      const deleteResult = await commandBus.dispatch(new DeleteUserCommand('123'));
       expect(deleteResult.isOk()).toBe(true);
       expect(deleteResult.unwrap()).toBe(true);
     });
@@ -145,16 +141,12 @@ describe('InMemoryCommandBus', () => {
       commandBus.register(DeleteUserCommand, new DeleteUserHandler());
 
       // Update with missing ID
-      const updateResult = await commandBus.dispatch(
-        new UpdateUserCommand('', 'username')
-      );
+      const updateResult = await commandBus.dispatch(new UpdateUserCommand('', 'username'));
       expect(updateResult.isErr()).toBe(true);
       expect(updateResult.unwrapErr().message).toBe('User ID is required');
 
       // Delete protected user
-      const deleteResult = await commandBus.dispatch(
-        new DeleteUserCommand('protected')
-      );
+      const deleteResult = await commandBus.dispatch(new DeleteUserCommand('protected'));
       expect(deleteResult.isErr()).toBe(true);
       expect(deleteResult.unwrapErr().message).toBe('Cannot delete protected user');
     });
@@ -192,16 +184,14 @@ describe('InMemoryCommandBus', () => {
       class AsyncCreateHandler implements CommandHandler<CreateUserCommand, string, Error> {
         async handle(command: CreateUserCommand): Promise<Result<string, Error>> {
           // Simulate async operation
-          await new Promise(resolve => setTimeout(resolve, 10));
+          await new Promise((resolve) => setTimeout(resolve, 10));
           return Result.ok(`async-user-${command.username}`);
         }
       }
 
       commandBus.register(CreateUserCommand, new AsyncCreateHandler());
 
-      const result = await commandBus.dispatch(
-        new CreateUserCommand('async', 'async@test.com')
-      );
+      const result = await commandBus.dispatch(new CreateUserCommand('async', 'async@test.com'));
 
       expect(result.isOk()).toBe(true);
       expect(result.unwrap()).toBe('async-user-async');

@@ -8,21 +8,21 @@ Você tem agora uma **biblioteca TypeScript enterprise-grade** com **100 arquivo
 
 ## 📦 Pacotes Criados
 
-| Pacote | Descrição | Dependencies |
-|--------|-----------|--------------|
-| `@acme/kernel` | DDD core (Entity, ValueObject, DomainEvent) | **ZERO** ✅ |
-| `@acme/application` | Use Cases, CQRS, Validation | kernel |
-| `@acme/errors` | Problem Details, HTTP errors | kernel |
-| `@acme/config` | 12-factor config loader | kernel |
-| `@acme/observability` | Logging, Metrics, Tracing | kernel |
-| `@acme/resilience` | Retry, Timeout, Circuit Breaker | kernel |
-| `@acme/security` | AuthN/AuthZ, Crypto, PII | kernel |
-| `@acme/messaging` | Event envelopes, Pub/Sub | kernel |
-| `@acme/outbox` | Transactional outbox/inbox | kernel, messaging |
-| `@acme/persistence` | Repository, Pagination | kernel |
-| `@acme/contracts` | API contracts, Versioning | kernel |
-| `@acme/web` | HTTP adapters, Middlewares | kernel, errors, contracts |
-| `@acme/testing` | Test fakes, Builders | kernel, application, outbox |
+| Pacote                         | Descrição                                   | Dependencies                |
+| ------------------------------ | ------------------------------------------- | --------------------------- |
+| `@marcusprado02/kernel`        | DDD core (Entity, ValueObject, DomainEvent) | **ZERO** ✅                 |
+| `@marcusprado02/application`   | Use Cases, CQRS, Validation                 | kernel                      |
+| `@marcusprado02/errors`        | Problem Details, HTTP errors                | kernel                      |
+| `@marcusprado02/config`        | 12-factor config loader                     | kernel                      |
+| `@marcusprado02/observability` | Logging, Metrics, Tracing                   | kernel                      |
+| `@marcusprado02/resilience`    | Retry, Timeout, Circuit Breaker             | kernel                      |
+| `@marcusprado02/security`      | AuthN/AuthZ, Crypto, PII                    | kernel                      |
+| `@marcusprado02/messaging`     | Event envelopes, Pub/Sub                    | kernel                      |
+| `@marcusprado02/outbox`        | Transactional outbox/inbox                  | kernel, messaging           |
+| `@marcusprado02/persistence`   | Repository, Pagination                      | kernel                      |
+| `@marcusprado02/contracts`     | API contracts, Versioning                   | kernel                      |
+| `@marcusprado02/web`           | HTTP adapters, Middlewares                  | kernel, errors, contracts   |
+| `@marcusprado02/testing`       | Test fakes, Builders                        | kernel, application, outbox |
 
 ---
 
@@ -72,14 +72,14 @@ pnpm -r publish --access public
 
 ```bash
 # No seu microserviço
-pnpm add @acme/kernel @acme/application @acme/errors @acme/observability
+pnpm add @marcusprado02/kernel @marcusprado02/application @marcusprado02/errors @marcusprado02/observability
 ```
 
 ### Exemplo: Order Service
 
 ```typescript
 // domain/Order.ts
-import { AggregateRoot, DomainEvent, ValueObject, Result } from '@acme/kernel';
+import { AggregateRoot, DomainEvent, ValueObject, Result } from '@marcusprado02/kernel';
 
 class OrderId extends ValueObject<string> {
   static create(): OrderId {
@@ -115,8 +115,8 @@ class Order extends AggregateRoot<OrderId> {
 
 ```typescript
 // application/CreateOrderHandler.ts
-import { Command, CommandHandler } from '@acme/application';
-import { Logger } from '@acme/observability';
+import { Command, CommandHandler } from '@marcusprado02/application';
+import { Logger } from '@marcusprado02/observability';
 
 class CreateOrderCommand implements Command {
   constructor(public readonly customerId: string) {}
@@ -134,9 +134,9 @@ class CreateOrderHandler implements CommandHandler<CreateOrderCommand, string> {
     }
 
     const order = orderResult.unwrap();
-    
+
     // Save to DB, publish events, etc.
-    
+
     return Result.ok(order.id.value);
   }
 }
@@ -144,15 +144,13 @@ class CreateOrderHandler implements CommandHandler<CreateOrderCommand, string> {
 
 ```typescript
 // infrastructure/http/server.ts
-import { correlationMiddleware } from '@acme/web';
-import { HttpErrorMapper } from '@acme/errors';
+import { correlationMiddleware } from '@marcusprado02/web';
+import { HttpErrorMapper } from '@marcusprado02/errors';
 
 app.post('/orders', async (req, res) => {
   try {
     const handler = new CreateOrderHandler(logger);
-    const result = await handler.handle(
-      new CreateOrderCommand(req.body.customerId)
-    );
+    const result = await handler.handle(new CreateOrderCommand(req.body.customerId));
 
     if (result.isErr()) {
       const problem = HttpErrorMapper.toProblemDetails(result.unwrapErr());
@@ -194,26 +192,26 @@ app.post('/orders', async (req, res) => {
 ┌─────────────────────────────────────────┐
 │         Presentation Layer              │
 │    (HTTP/gRPC/GraphQL endpoints)        │
-│         [@acme/web]                     │
+│         [@marcusprado02/web]                     │
 └────────────────┬────────────────────────┘
                  │
 ┌────────────────▼────────────────────────┐
 │       Application Layer                 │
 │  (Use Cases, Commands, Queries)         │
-│   [@acme/application]                   │
+│   [@marcusprado02/application]                   │
 └────────────────┬────────────────────────┘
                  │
 ┌────────────────▼────────────────────────┐
 │         Domain Layer                    │
 │  (Entities, Aggregates, Events)         │
-│        [@acme/kernel]                   │
+│        [@marcusprado02/kernel]                   │
 │     ZERO framework dependencies         │
 └────────────────┬────────────────────────┘
                  │
 ┌────────────────▼────────────────────────┐
 │     Infrastructure Layer                │
 │  (DB, Message Broker, External APIs)    │
-│  [@acme/persistence, @acme/messaging]   │
+│  [@marcusprado02/persistence, @marcusprado02/messaging]   │
 └─────────────────────────────────────────┘
 ```
 
@@ -222,18 +220,21 @@ app.post('/orders', async (req, res) => {
 ## ✨ Próximas Melhorias Sugeridas
 
 ### Curto Prazo
+
 - [ ] Adicionar testes unitários para cada pacote
 - [ ] Configurar GitHub Actions para CI/CD
 - [ ] Adicionar exemplos de integração (Fastify, Prisma, etc.)
 - [ ] Criar CLI tool para scaffolding (`create-acme-service`)
 
 ### Médio Prazo
+
 - [ ] Implementar adapters concretos (Prisma, TypeORM, etc.)
 - [ ] Adicionar OpenTelemetry integration
 - [ ] Criar Docker examples
 - [ ] Adicionar metrics exporters (Prometheus)
 
 ### Longo Prazo
+
 - [ ] Monorepo template completo
 - [ ] Event Sourcing support
 - [ ] SAGA orchestration
@@ -250,6 +251,6 @@ Você criou uma biblioteca TypeScript de nível enterprise que pode ser usada em
 ✅ **Arquitetura limpa**  
 ✅ **Type safety**  
 ✅ **Testabilidade**  
-✅ **Manutenibilidade**  
+✅ **Manutenibilidade**
 
 **Happy coding! 🚀**

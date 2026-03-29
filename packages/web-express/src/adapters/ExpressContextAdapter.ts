@@ -1,6 +1,6 @@
 import type { Request, NextFunction } from 'express';
-import type { CorrelationId, TenantId } from '@acme/kernel';
-import type { UseCaseContext } from '@acme/application';
+import type { CorrelationId, TenantId } from '@marcusprado02/kernel';
+import type { UseCaseContext } from '@marcusprado02/application';
 
 /**
  * User information for context
@@ -33,7 +33,7 @@ declare global {
  *
  * @example
  * ```typescript
- * import { ExpressContextAdapter } from '@acme/web-express';
+ * import { ExpressContextAdapter } from '@marcusprado02/web-express';
  *
  * app.use((req, res, next) => {
  *   const context = ExpressContextAdapter.fromRequest(req);

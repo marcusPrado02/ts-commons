@@ -21,29 +21,10 @@
   "tsconfig": "./tsconfig.base.json",
   "theme": "default",
   "categorizeByGroup": true,
-  "categoryOrder": [
-    "Domain",
-    "Application",
-    "Infrastructure",
-    "Web",
-    "Testing",
-    "*"
-  ],
-  "groupOrder": [
-    "Classes",
-    "Interfaces",
-    "Type Aliases",
-    "Functions",
-    "Variables"
-  ],
+  "categoryOrder": ["Domain", "Application", "Infrastructure", "Web", "Testing", "*"],
+  "groupOrder": ["Classes", "Interfaces", "Type Aliases", "Functions", "Variables"],
   "sort": ["source-order"],
-  "exclude": [
-    "**/*.test.ts",
-    "**/*.spec.ts",
-    "**/tests/**",
-    "**/dist/**",
-    "**/node_modules/**"
-  ],
+  "exclude": ["**/*.test.ts", "**/*.spec.ts", "**/tests/**", "**/dist/**", "**/node_modules/**"],
   "excludePrivate": true,
   "excludeProtected": false,
   "excludeExternals": true,
@@ -59,7 +40,7 @@
   "titleLink": "https://github.com/marcusPrado02/ts-commons",
   "navigationLinks": {
     "GitHub": "https://github.com/marcusPrado02/ts-commons",
-    "NPM": "https://www.npmjs.com/package/@acme/ts-commons"
+    "NPM": "https://www.npmjs.com/package/@marcusprado02/ts-commons"
   },
   "sidebarLinks": {
     "Architecture Guide": "./docs/ARCHITECTURE.md",

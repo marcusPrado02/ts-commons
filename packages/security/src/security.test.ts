@@ -7,7 +7,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type -- test helper functions */
 /* eslint-disable max-lines-per-function -- test files naturally have longer functions */
 /**
- * Tests for @acme/security — AuthN / AuthZ
+ * Tests for @marcusprado02/security — AuthN / AuthZ
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AuthError, InvalidTokenError, ExpiredTokenError } from './authn/AuthErrors';
@@ -67,24 +67,33 @@ describe('JwtAuthenticator', () => {
 
   beforeEach(() => {
     verifier = buildVerifier();
-    auth     = new JwtAuthenticator(verifier, 'test-secret');
+    auth = new JwtAuthenticator(verifier, 'test-secret');
   });
 
   it('should return Result.ok with mapped principal for a valid token', async () => {
     vi.mocked(verifier.verify).mockReturnValue({
-      sub: 'user-42', roles: ['admin'], permissions: ['user:read'],
+      sub: 'user-42',
+      roles: ['admin'],
+      permissions: ['user:read'],
     } as unknown as JwtClaims);
 
     const result = await auth.authenticate('valid.jwt.token');
 
     expect(result.isOk()).toBe(true);
-    expect(result.unwrap()).toEqual({ id: 'user-42', roles: ['admin'], permissions: ['user:read'] });
+    expect(result.unwrap()).toEqual({
+      id: 'user-42',
+      roles: ['admin'],
+      permissions: ['user:read'],
+    });
     expect(verifier.verify).toHaveBeenCalledWith('valid.jwt.token', 'test-secret');
   });
 
   it('should include tenantId in principal when claim is present', async () => {
     vi.mocked(verifier.verify).mockReturnValue({
-      sub: 'user-1', tenantId: 'tenant-acme', roles: [], permissions: [],
+      sub: 'user-1',
+      tenantId: 'tenant-acme',
+      roles: [],
+      permissions: [],
     } as unknown as JwtClaims);
 
     const result = await auth.authenticate('token');
@@ -95,7 +104,7 @@ describe('JwtAuthenticator', () => {
   it('should return Result.err(ExpiredTokenError) when verify throws TokenExpiredError', async () => {
     vi.mocked(verifier.verify).mockImplementation(() => {
       const err = new Error('jwt expired');
-      err.name  = 'TokenExpiredError';
+      err.name = 'TokenExpiredError';
       throw err;
     });
 
@@ -106,7 +115,9 @@ describe('JwtAuthenticator', () => {
   });
 
   it('should return Result.err(InvalidTokenError) for any other verification failure', async () => {
-    vi.mocked(verifier.verify).mockImplementation(() => { throw new Error('invalid signature'); });
+    vi.mocked(verifier.verify).mockImplementation(() => {
+      throw new Error('invalid signature');
+    });
 
     const result = await auth.authenticate('bad.token');
 
@@ -116,7 +127,9 @@ describe('JwtAuthenticator', () => {
 
   it('should strip the Bearer prefix before calling verify', async () => {
     vi.mocked(verifier.verify).mockReturnValue({
-      sub: 'user-1', roles: [], permissions: [],
+      sub: 'user-1',
+      roles: [],
+      permissions: [],
     } as unknown as JwtClaims);
 
     await auth.authenticate('Bearer my.jwt.token');
@@ -134,7 +147,7 @@ describe('RbacPolicyEngine', () => {
 
   beforeEach(() => {
     engine = new RbacPolicyEngine({
-      admin:  ['user:read', 'user:write', 'user:delete'],
+      admin: ['user:read', 'user:write', 'user:delete'],
       viewer: ['user:read'],
     });
   });
@@ -158,10 +171,7 @@ describe('RbacPolicyEngine', () => {
   });
 
   it('should return DENY when the principal has no roles', async () => {
-    const decision = await engine.evaluate(
-      makePrincipal('u1', []),
-      Permission.create('user:read'),
-    );
+    const decision = await engine.evaluate(makePrincipal('u1', []), Permission.create('user:read'));
 
     expect(decision).toBe(PolicyDecision.DENY);
   });
@@ -177,7 +187,7 @@ describe('RbacPolicyEngine', () => {
 
   it('should return DENY when the principal role is not defined in rolePermissions', async () => {
     const decision = await engine.evaluate(
-      makePrincipal('u1', ['superadmin']),     // not in the map
+      makePrincipal('u1', ['superadmin']), // not in the map
       Permission.create('user:read'),
     );
 
@@ -205,8 +215,8 @@ describe('RbacPolicyEngine', () => {
 
 describe('ApiKeyAuthenticator', () => {
   const svcPrincipal: AuthenticatedPrincipal = {
-    id:          'svc-worker',
-    roles:       ['service'],
+    id: 'svc-worker',
+    roles: ['service'],
     permissions: ['job:run'],
   };
 

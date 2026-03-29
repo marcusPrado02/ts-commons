@@ -1,17 +1,17 @@
-# @acme/tutorials
+# @marcusprado02/tutorials
 
-Interactive, step-by-step tutorials for the `@acme/*` ecosystem. Covers DDD patterns, CQRS, event sourcing, testing strategies, and monolith migration — with validated exercises.
+Interactive, step-by-step tutorials for the `@marcusprado02/*` ecosystem. Covers DDD patterns, CQRS, event sourcing, testing strategies, and monolith migration — with validated exercises.
 
 ## Installation
 
 ```bash
-pnpm add @acme/tutorials
+pnpm add @marcusprado02/tutorials
 ```
 
 ## Quick Start
 
 ```typescript
-import { TutorialEngine, TutorialRegistry, GettingStartedTutorial } from '@acme/tutorials';
+import { TutorialEngine, TutorialRegistry, GettingStartedTutorial } from '@marcusprado02/tutorials';
 
 const registry = new TutorialRegistry();
 registry.add(new GettingStartedTutorial());
@@ -41,5 +41,5 @@ if (result.passed) await session.advance();
 
 ## See Also
 
-- [`@acme/cli`](../cli) — CLI scaffolding
-- [`@acme/codegen`](../codegen) — code generation
+- [`@marcusprado02/cli`](../cli) — CLI scaffolding
+- [`@marcusprado02/codegen`](../codegen) — code generation

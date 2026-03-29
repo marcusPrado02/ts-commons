@@ -1,5 +1,5 @@
 {
-  "name": "@acme/search",
+  "name": "@marcusprado02/search",
   "version": "0.1.0",
   "description": "Full-text search abstraction — port + adapters (In-memory, Elasticsearch, MeiliSearch, Algolia) with faceting, fuzzy search, and suggestions",
   "type": "module",
@@ -24,7 +24,7 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

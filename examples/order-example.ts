@@ -2,9 +2,9 @@
  * End-to-end DDD example: ValueObject → AggregateRoot → Mediator → Repository
  *
  * Demonstrates:
- *  - @acme/kernel      — AggregateRoot<TId>, DomainEvent (abstract class), Result
- *  - @acme/application — MediatorRequest, Mediator, RequestHandler
- *  - @acme/persistence — RepositoryPort<T, TId>, Page
+ *  - @marcusprado02/kernel      — AggregateRoot<TId>, DomainEvent (abstract class), Result
+ *  - @marcusprado02/application — MediatorRequest, Mediator, RequestHandler
+ *  - @marcusprado02/persistence — RepositoryPort<T, TId>, Page
  *
  * Run (after pnpm build):
  *   npx tsx --tsconfig examples/tsconfig.json examples/order-example.ts
@@ -12,10 +12,10 @@
 
 import { randomUUID } from 'node:crypto';
 
-import { AggregateRoot, DomainEvent, Result } from '@acme/kernel';
-import { MediatorRequest, Mediator } from '@acme/application';
-import type { RequestHandler } from '@acme/application';
-import type { RepositoryPort } from '@acme/persistence';
+import { AggregateRoot, DomainEvent, Result } from '@marcusprado02/kernel';
+import { MediatorRequest, Mediator } from '@marcusprado02/application';
+import type { RequestHandler } from '@marcusprado02/application';
+import type { RepositoryPort } from '@marcusprado02/persistence';
 
 // ─── Value Object ─────────────────────────────────────────────────────────────
 

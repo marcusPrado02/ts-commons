@@ -1,11 +1,11 @@
-# @acme/validation
+# @marcusprado02/validation
 
 Request validation utilities — Zod integration, composite validators, and plain-function validators with a unified `Result`-based API.
 
 ## Installation
 
 ```bash
-pnpm add @acme/validation
+pnpm add @marcusprado02/validation
 ```
 
 `zod` is a peer dependency and must be installed separately:
@@ -21,7 +21,7 @@ pnpm add zod
 | `ValidationError`       | class     | Error carrying one or more `ValidationIssue` objects                |
 | `ValidationIssue`       | type      | Single field-level issue (`field`, `message`, `code`, `value`)      |
 | `Validator<T>`          | interface | Abstract validator: `validate(input): Promise<ValidationResult<T>>` |
-| `ValidationResult<T>`   | type      | `Result<T, ValidationError>` from `@acme/kernel`                    |
+| `ValidationResult<T>`   | type      | `Result<T, ValidationError>` from `@marcusprado02/kernel`           |
 | `ZodValidator<T>`       | class     | Wraps a Zod schema as a `Validator`                                 |
 | `CompositeValidator<T>` | class     | Chains multiple validators; aggregates all issues                   |
 | `FunctionValidator<T>`  | class     | Wraps a plain predicate as a `Validator`                            |
@@ -32,7 +32,7 @@ pnpm add zod
 
 ```ts
 import { z } from 'zod';
-import { ZodValidator } from '@acme/validation';
+import { ZodValidator } from '@marcusprado02/validation';
 
 const schema = z.object({
   email: z.string().email(),
@@ -53,7 +53,7 @@ if (result.isErr()) {
 ### Add a business-rule check with FunctionValidator
 
 ```ts
-import { FunctionValidator } from '@acme/validation';
+import { FunctionValidator } from '@marcusprado02/validation';
 
 type CreateUserDto = { email: string; age: number };
 
@@ -73,7 +73,7 @@ const result = await disposableEmailCheck.validate(req.body);
 ### Chain validators with CompositeValidator
 
 ```ts
-import { CompositeValidator } from '@acme/validation';
+import { CompositeValidator } from '@marcusprado02/validation';
 
 // All validators run; issues from every failing validator are aggregated.
 const validator = new CompositeValidator(schemaValidator, disposableEmailCheck);
@@ -94,7 +94,7 @@ if (result.isErr()) {
 
 ## Dependencies
 
-| Package        | Role                                                        |
-| -------------- | ----------------------------------------------------------- |
-| `@acme/kernel` | Provides the `Result<T, E>` type used by `ValidationResult` |
-| `zod` (peer)   | Schema definition for `ZodValidator`                        |
+| Package                 | Role                                                        |
+| ----------------------- | ----------------------------------------------------------- |
+| `@marcusprado02/kernel` | Provides the `Result<T, E>` type used by `ValidationResult` |
+| `zod` (peer)            | Schema definition for `ZodValidator`                        |

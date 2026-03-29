@@ -1,17 +1,17 @@
-# @acme/saga
+# @marcusprado02/saga
 
 Saga pattern for distributed transactions. Supports both orchestration (central coordinator) and choreography (event-driven). Automatically runs compensation steps on failure.
 
 ## Installation
 
 ```bash
-pnpm add @acme/saga
+pnpm add @marcusprado02/saga
 ```
 
 ## Orchestration (Sequential)
 
 ```typescript
-import { Saga, InMemorySagaStore } from '@acme/saga';
+import { Saga, InMemorySagaStore } from '@marcusprado02/saga';
 
 const store = new InMemorySagaStore();
 const saga = new Saga('create-order', store);
@@ -37,7 +37,7 @@ const result = await saga.run();
 ## Transactions with Retry
 
 ```typescript
-import { SagaTransaction } from '@acme/saga';
+import { SagaTransaction } from '@marcusprado02/saga';
 
 const tx = new SagaTransaction(saga, {
   retryAttempts: 3,
@@ -50,7 +50,7 @@ const result = await tx.execute();
 ## Choreography (Event-Driven)
 
 ```typescript
-import { SagaChoreography } from '@acme/saga';
+import { SagaChoreography } from '@marcusprado02/saga';
 
 const choreography = new SagaChoreography(eventBus);
 choreography.on('order.created', async (event) => {
@@ -66,5 +66,5 @@ choreography.on('payment.failed', async (event) => {
 
 ## See Also
 
-- [`@acme/process-manager`](../process-manager) — state machine processes
-- [`@acme/outbox`](../outbox) — transactional outbox for saga events
+- [`@marcusprado02/process-manager`](../process-manager) — state machine processes
+- [`@marcusprado02/outbox`](../outbox) — transactional outbox for saga events

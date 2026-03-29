@@ -1,11 +1,11 @@
-# @acme/messaging
+# @marcusprado02/messaging
 
 **Event Messaging** - Event envelopes, publisher/subscriber interfaces, and pub/sub routing patterns.
 
 ## Installation
 
 ```
-pnpm add @acme/messaging
+pnpm add @marcusprado02/messaging
 ```
 
 ## Key Exports
@@ -27,7 +27,7 @@ pnpm add @acme/messaging
 ### Publishing events with TopicRouter
 
 ```typescript
-import { TopicRouter, EventEnvelope, EventName } from '@acme/messaging';
+import { TopicRouter, EventEnvelope, EventName } from '@marcusprado02/messaging';
 
 const router = new TopicRouter();
 
@@ -49,7 +49,7 @@ await router.route(envelope);
 ### Fan-out to all subscribers
 
 ```typescript
-import { FanOutBroker, EventEnvelope } from '@acme/messaging';
+import { FanOutBroker, EventEnvelope } from '@marcusprado02/messaging';
 
 const broker = new FanOutBroker();
 
@@ -67,7 +67,7 @@ await broker.publish(envelope); // both handlers receive the event
 ### Request/reply over events
 
 ```typescript
-import { RequestReplyBroker, EventEnvelope } from '@acme/messaging';
+import { RequestReplyBroker, EventEnvelope } from '@marcusprado02/messaging';
 
 const broker = new RequestReplyBroker();
 
@@ -89,4 +89,4 @@ console.log(reply.payload.user);
 
 ## Dependencies
 
-- `@acme/kernel` - domain primitives and identity types
+- `@marcusprado02/kernel` - domain primitives and identity types

@@ -1,17 +1,17 @@
-# @acme/hotreload
+# @marcusprado02/hotreload
 
 Hot-reload orchestration for development: watches source files, triggers incremental TypeScript compilation, and refreshes tests automatically on change.
 
 ## Installation
 
 ```bash
-pnpm add -D @acme/hotreload
+pnpm add -D @marcusprado02/hotreload
 ```
 
 ## Quick Start
 
 ```typescript
-import { HotReloadOrchestrator } from '@acme/hotreload';
+import { HotReloadOrchestrator } from '@marcusprado02/hotreload';
 
 const orchestrator = new HotReloadOrchestrator({
   watchPaths: ['./src'],
@@ -46,5 +46,5 @@ orchestrator.on('tests:refreshed', (result) => {
 
 ## See Also
 
-- [`@acme/features`](../features) — feature flags with hot-reload support
-- [`@acme/config`](../config) — configuration hot-reload
+- [`@marcusprado02/features`](../features) — feature flags with hot-reload support
+- [`@marcusprado02/config`](../config) — configuration hot-reload

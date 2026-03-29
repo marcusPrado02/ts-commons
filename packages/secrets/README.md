@@ -1,4 +1,4 @@
-# @acme/secrets
+# @marcusprado02/secrets
 
 Secrets management port and adapters for Clean Architecture — read, write, rotate,
 and cache secrets from any backend without coupling your domain to a specific provider.
@@ -40,7 +40,7 @@ Infrastructure Layer
 ## Installation
 
 ```bash
-pnpm add @acme/secrets
+pnpm add @marcusprado02/secrets
 # For AWS SSM adapter:
 pnpm add @aws-sdk/client-ssm
 ```
@@ -54,7 +54,7 @@ pnpm add @aws-sdk/client-ssm
 ### 1. Environment secrets (dev / test)
 
 ```typescript
-import { EnvSecretsAdapter } from '@acme/secrets';
+import { EnvSecretsAdapter } from '@marcusprado02/secrets';
 
 const secrets = new EnvSecretsAdapter();
 
@@ -76,13 +76,13 @@ await secrets.delete('OLD_FLAG');
 
 ```typescript
 import { SSMClient } from '@aws-sdk/client-ssm';
-import { AwsSsmSecretsAdapter } from '@acme/secrets';
-import type { AwsSsmClientLike } from '@acme/secrets';
+import { AwsSsmSecretsAdapter } from '@marcusprado02/secrets';
+import type { AwsSsmClientLike } from '@marcusprado02/secrets';
 
-const client  = new SSMClient({ region: 'us-east-1' });
+const client = new SSMClient({ region: 'us-east-1' });
 const secrets = new AwsSsmSecretsAdapter(
   client as unknown as AwsSsmClientLike,
-  '/myapp/prod',          // optional key prefix
+  '/myapp/prod', // optional key prefix
 );
 
 await secrets.set('DB_PASSWORD', 's3cr3t!');
@@ -93,10 +93,10 @@ const result = await secrets.get('DB_PASSWORD');
 ### 3. Caching with TTL
 
 ```typescript
-import { CachedSecretsAdapter, AwsSsmSecretsAdapter } from '@acme/secrets';
-import { Duration } from '@acme/kernel';
+import { CachedSecretsAdapter, AwsSsmSecretsAdapter } from '@marcusprado02/secrets';
+import { Duration } from '@marcusprado02/kernel';
 
-const ssm    = new AwsSsmSecretsAdapter(ssmClient as unknown as AwsSsmClientLike, '/prod');
+const ssm = new AwsSsmSecretsAdapter(ssmClient as unknown as AwsSsmClientLike, '/prod');
 const cached = new CachedSecretsAdapter(ssm, Duration.ofMinutes(5));
 
 // First call: fetches from SSM
@@ -111,11 +111,15 @@ await cached.set('API_KEY', 'new-tok');
 ### 4. Fallback chain (migration / multi-region)
 
 ```typescript
-import { FallbackSecretsAdapter, EnvSecretsAdapter, AwsSsmSecretsAdapter } from '@acme/secrets';
+import {
+  FallbackSecretsAdapter,
+  EnvSecretsAdapter,
+  AwsSsmSecretsAdapter,
+} from '@marcusprado02/secrets';
 
 const secrets = new FallbackSecretsAdapter([
   new AwsSsmSecretsAdapter(ssmClient as unknown as AwsSsmClientLike, '/prod'),
-  new EnvSecretsAdapter(),   // local override when SSM key is absent
+  new EnvSecretsAdapter(), // local override when SSM key is absent
 ]);
 
 // get() tries SSM first, falls through to env if not found
@@ -130,25 +134,25 @@ await secrets.set('FEATURE_FLAG', 'true');
 ## NestJS Integration
 
 ```typescript
-import { Module }          from '@nestjs/common';
-import { SSMClient }       from '@aws-sdk/client-ssm';
+import { Module } from '@nestjs/common';
+import { SSMClient } from '@aws-sdk/client-ssm';
 import {
   AwsSsmSecretsAdapter,
   CachedSecretsAdapter,
   FallbackSecretsAdapter,
   EnvSecretsAdapter,
-} from '@acme/secrets';
-import type { AwsSsmClientLike, SecretsPort } from '@acme/secrets';
-import { Duration } from '@acme/kernel';
+} from '@marcusprado02/secrets';
+import type { AwsSsmClientLike, SecretsPort } from '@marcusprado02/secrets';
+import { Duration } from '@marcusprado02/kernel';
 
 @Module({
   providers: [
     {
-      provide:    'SECRETS',
+      provide: 'SECRETS',
       useFactory: (): SecretsPort => {
         const ssm = new SSMClient({ region: process.env.AWS_REGION ?? 'us-east-1' });
-        const ssmAdapter    = new AwsSsmSecretsAdapter(ssm as unknown as AwsSsmClientLike, '/myapp');
-        const fallback      = new FallbackSecretsAdapter([ssmAdapter, new EnvSecretsAdapter()]);
+        const ssmAdapter = new AwsSsmSecretsAdapter(ssm as unknown as AwsSsmClientLike, '/myapp');
+        const fallback = new FallbackSecretsAdapter([ssmAdapter, new EnvSecretsAdapter()]);
         return new CachedSecretsAdapter(fallback, Duration.ofMinutes(5));
       },
     },
@@ -166,21 +170,21 @@ export class SecretsModule {}
 
 ```typescript
 interface SecretsPort {
-  get(key: string): Promise<Option<string>>;    // Option.some on hit, Option.none on miss
+  get(key: string): Promise<Option<string>>; // Option.some on hit, Option.none on miss
   set(key: string, value: string): Promise<void>;
   delete(key: string): Promise<void>;
-  rotate(key: string): Promise<void>;           // throws SecretsRotationNotSupportedError when unsupported
+  rotate(key: string): Promise<void>; // throws SecretsRotationNotSupportedError when unsupported
 }
 ```
 
 ### `EnvSecretsAdapter`
 
-| Method | Behaviour |
-|--------|-----------|
-| `get(key)` | `Option.fromNullable(process.env[key])` |
-| `set(key, value)` | `process.env[key] = value` |
-| `delete(key)` | `delete process.env[key]` |
-| `rotate(key)` | Throws `SecretsRotationNotSupportedError` |
+| Method            | Behaviour                                 |
+| ----------------- | ----------------------------------------- |
+| `get(key)`        | `Option.fromNullable(process.env[key])`   |
+| `set(key, value)` | `process.env[key] = value`                |
+| `delete(key)`     | `delete process.env[key]`                 |
+| `rotate(key)`     | Throws `SecretsRotationNotSupportedError` |
 
 ### `CachedSecretsAdapter`
 
@@ -207,12 +211,12 @@ new FallbackSecretsAdapter(adapters: readonly SecretsPort[])
 new AwsSsmSecretsAdapter(client: AwsSsmClientLike, prefix?: string)
 ```
 
-| Method | SSM operation |
-|--------|---------------|
-| `get(key)` | `GetParameter` with `WithDecryption: true`; `ParameterNotFound` → `Option.none` |
-| `set(key, value)` | `PutParameter` with `Type: 'SecureString'`, `Overwrite: true` |
-| `delete(key)` | `DeleteParameter` |
-| `rotate(key)` | Throws `SecretsRotationNotSupportedError` |
+| Method            | SSM operation                                                                   |
+| ----------------- | ------------------------------------------------------------------------------- |
+| `get(key)`        | `GetParameter` with `WithDecryption: true`; `ParameterNotFound` → `Option.none` |
+| `set(key, value)` | `PutParameter` with `Type: 'SecureString'`, `Overwrite: true`                   |
+| `delete(key)`     | `DeleteParameter`                                                               |
+| `rotate(key)`     | Throws `SecretsRotationNotSupportedError`                                       |
 
 ### `AwsSsmClientLike` (structural interface)
 
@@ -228,7 +232,7 @@ interface AwsSsmClientLike {
 
 ```typescript
 class SecretsRotationNotSupportedError extends Error {
-  constructor(adapterName: string)
+  constructor(adapterName: string);
   // err.name === 'SecretsRotationNotSupportedError'
 }
 ```
@@ -259,32 +263,32 @@ packages/secrets/
 ## Testing
 
 ```bash
-pnpm --filter @acme/secrets test
+pnpm --filter @marcusprado02/secrets test
 ```
 
 All 19 tests are pure unit tests using `vi.fn()` mocks — no AWS credentials or network required.
 
-| Suite | Tests |
-|-------|-------|
-| EnvSecretsAdapter | 5 |
-| CachedSecretsAdapter | 5 |
-| FallbackSecretsAdapter | 5 |
-| AwsSsmSecretsAdapter | 4 |
-| **Total** | **19** |
+| Suite                  | Tests  |
+| ---------------------- | ------ |
+| EnvSecretsAdapter      | 5      |
+| CachedSecretsAdapter   | 5      |
+| FallbackSecretsAdapter | 5      |
+| AwsSsmSecretsAdapter   | 4      |
+| **Total**              | **19** |
 
 ---
 
 ## Design Notes
 
-- **`Option<string>`**: consistent with `@acme/kernel` semantics — callers must explicitly handle the missing case
-- **Structural `AwsSsmClientLike`**: decouples the library from `@aws-sdk/client-ssm`; same pattern as `RedisClientLike` in `@acme/cache-redis`
+- **`Option<string>`**: consistent with `@marcusprado02/kernel` semantics — callers must explicitly handle the missing case
+- **Structural `AwsSsmClientLike`**: decouples the library from `@aws-sdk/client-ssm`; same pattern as `RedisClientLike` in `@marcusprado02/cache-redis`
 - **`CachedSecretsAdapter` is a decorator**: compose with any adapter — no inheritance, no tight coupling
 - **`FallbackSecretsAdapter` writes to ALL**: on `set`/`delete`, all adapters stay in sync to prevent stale reads on the next `get` traversal
 
 ## Related Packages
 
-| Package | Purpose |
-|---------|---------|
-| `@acme/kernel` | `Option<T>`, `Duration` |
-| `@acme/cache-redis` | Redis cache (complementary caching layer) |
-| `@acme/security` | AuthN/AuthZ primitives |
+| Package                      | Purpose                                   |
+| ---------------------------- | ----------------------------------------- |
+| `@marcusprado02/kernel`      | `Option<T>`, `Duration`                   |
+| `@marcusprado02/cache-redis` | Redis cache (complementary caching layer) |
+| `@marcusprado02/security`    | AuthN/AuthZ primitives                    |

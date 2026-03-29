@@ -1,18 +1,18 @@
-# @acme/schema-registry
+# @marcusprado02/schema-registry
 
 Schema registry port and adapters for event schema management. Registers, versions, and validates schemas with compatibility checks (BACKWARD, FORWARD, FULL). Adapters for Confluent Schema Registry and AWS Glue.
 
 ## Installation
 
 ```bash
-pnpm add @acme/schema-registry
+pnpm add @marcusprado02/schema-registry
 ```
 
 ## Quick Start
 
 ```typescript
-import { SchemaRegistry } from '@acme/schema-registry';
-import type { Schema } from '@acme/schema-registry';
+import { SchemaRegistry } from '@marcusprado02/schema-registry';
+import type { Schema } from '@marcusprado02/schema-registry';
 
 const registry = new SchemaRegistry(confluentAdapter);
 
@@ -48,5 +48,5 @@ await registry.setCompatibility('order-created', 'BACKWARD');
 
 ## See Also
 
-- [`@acme/messaging-kafka`](../messaging-kafka) — Kafka with schema validation
-- [`@acme/eventsourcing`](../eventsourcing) — event sourcing with typed events
+- [`@marcusprado02/messaging-kafka`](../messaging-kafka) — Kafka with schema validation
+- [`@marcusprado02/eventsourcing`](../eventsourcing) — event sourcing with typed events

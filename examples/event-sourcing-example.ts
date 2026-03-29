@@ -2,8 +2,8 @@
  * Event Sourcing example: EventSourcedAggregate + EventStore + Projection
  *
  * Demonstrates:
- *  - @acme/eventsourcing — EventSourcedAggregate, InMemoryEventStore, ProjectionRunner
- *  - @acme/kernel        — DomainEvent (abstract class)
+ *  - @marcusprado02/eventsourcing — EventSourcedAggregate, InMemoryEventStore, ProjectionRunner
+ *  - @marcusprado02/kernel        — DomainEvent (abstract class)
  *
  * Pattern:
  *  1. Domain events are the source of truth (append-only log)
@@ -15,14 +15,14 @@
  *   npx tsx --tsconfig examples/tsconfig.json examples/event-sourcing-example.ts
  */
 
-import { DomainEvent } from '@acme/kernel';
+import { DomainEvent } from '@marcusprado02/kernel';
 import {
   EventSourcedAggregate,
   InMemoryEventStore,
   ProjectionRunner,
   ConcurrencyError,
-} from '@acme/eventsourcing';
-import type { Projection } from '@acme/eventsourcing';
+} from '@marcusprado02/eventsourcing';
+import type { Projection } from '@marcusprado02/eventsourcing';
 
 // ─── Domain events ────────────────────────────────────────────────────────────
 // DomainEvent is an abstract class — extend it (do not implement as interface).

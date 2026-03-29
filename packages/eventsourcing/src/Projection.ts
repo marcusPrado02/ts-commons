@@ -1,4 +1,4 @@
-import type { DomainEvent } from '@acme/kernel';
+import type { DomainEvent } from '@marcusprado02/kernel';
 
 /**
  * A read-model projection that builds a `TState` view from domain events.

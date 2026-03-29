@@ -5,8 +5,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment -- NestJS framework boundary: validator function may return any */
 import type { PipeTransform, ArgumentMetadata } from '@nestjs/common';
 import { Injectable, BadRequestException } from '@nestjs/common';
-import type { Result } from '@acme/kernel';
-import { ValidationError } from '@acme/application';
+import type { Result } from '@marcusprado02/kernel';
+import { ValidationError } from '@marcusprado02/application';
 
 /**
  * Validator function type

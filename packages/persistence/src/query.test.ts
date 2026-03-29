@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/require-await -- test factory functions intentionally omit await */
 /* eslint-disable @typescript-eslint/no-unsafe-call -- Vitest mock call patterns */
 /**
- * Tests for @acme/persistence — query optimization (Item 49)
+ * Tests for @marcusprado02/persistence — query optimization (Item 49)
  */
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { DataLoader } from './query/DataLoader';

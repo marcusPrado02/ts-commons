@@ -1,4 +1,4 @@
-# @acme/messaging-kafka
+# @marcusprado02/messaging-kafka
 
 Apache Kafka adapter for event-driven messaging with consumer groups and exactly-once semantics.
 
@@ -17,7 +17,7 @@ Apache Kafka adapter for event-driven messaging with consumer groups and exactly
 ## Installation
 
 ```bash
-pnpm add @acme/messaging-kafka
+pnpm add @marcusprado02/messaging-kafka
 ```
 
 ## Quick Start
@@ -25,13 +25,16 @@ pnpm add @acme/messaging-kafka
 ### 1. Publishing Events
 
 ```typescript
-import { KafkaConnection, KafkaEventPublisher } from '@acme/messaging-kafka';
+import { KafkaConnection, KafkaEventPublisher } from '@marcusprado02/messaging-kafka';
 
 // Create connection
-const connection = new KafkaConnection({
-  brokers: ['localhost:9092'],
-  clientId: 'order-service',
-}, logger);
+const connection = new KafkaConnection(
+  {
+    brokers: ['localhost:9092'],
+    clientId: 'order-service',
+  },
+  logger,
+);
 
 await connection.connect();
 
@@ -48,21 +51,24 @@ await publisher.publish({
   payload: {
     orderId: '789',
     customerId: '456',
-    total: 99.99
-  }
+    total: 99.99,
+  },
 });
 ```
 
 ### 2. Consuming Events
 
 ```typescript
-import { KafkaConnection, KafkaEventConsumer } from '@acme/messaging-kafka';
+import { KafkaConnection, KafkaEventConsumer } from '@marcusprado02/messaging-kafka';
 
 // Create connection
-const connection = new KafkaConnection({
-  brokers: ['localhost:9092'],
-  clientId: 'notification-service',
-}, logger);
+const connection = new KafkaConnection(
+  {
+    brokers: ['localhost:9092'],
+    clientId: 'notification-service',
+  },
+  logger,
+);
 
 await connection.connect();
 
@@ -77,7 +83,7 @@ consumer.subscribe('OrderCreated', {
   handle: async (envelope) => {
     console.log('Order created:', envelope.payload);
     // Process event...
-  }
+  },
 });
 
 // Start consuming
@@ -93,12 +99,15 @@ process.on('SIGTERM', async () => {
 ### 3. Transactional Publishing (Exactly-Once)
 
 ```typescript
-const connection = new KafkaConnection({
-  brokers: ['localhost:9092'],
-  clientId: 'payment-service',
-  transactional: true,
-  transactionalId: 'payment-service-tx-1', // Required for transactions
-}, logger);
+const connection = new KafkaConnection(
+  {
+    brokers: ['localhost:9092'],
+    clientId: 'payment-service',
+    transactional: true,
+    transactionalId: 'payment-service-tx-1', // Required for transactions
+  },
+  logger,
+);
 
 await connection.connect();
 
@@ -110,7 +119,7 @@ await publisher.publish({
   eventType: 'PaymentProcessed',
   eventVersion: '1.0',
   timestamp: new Date().toISOString(),
-  payload: { amount: 100.00 }
+  payload: { amount: 100.0 },
 });
 ```
 
@@ -118,36 +127,36 @@ await publisher.publish({
 
 ### KafkaConfig
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `brokers` | `string[]` | **Required** | List of Kafka broker URLs |
-| `clientId` | `string` | `'acme-kafka-client'` | Client ID for the connection |
-| `connectionTimeout` | `number` | `30000` | Connection timeout in milliseconds |
-| `requestTimeout` | `number` | `30000` | Request timeout in milliseconds |
-| `idempotent` | `boolean` | `true` | Enable idempotent producer |
-| `maxInFlightRequests` | `number` | `5` | Max in-flight requests per connection |
-| `transactional` | `boolean` | `false` | Enable transactional producer |
-| `transactionalId` | `string` | `undefined` | Transaction ID (required if transactional=true) |
+| Property              | Type       | Default               | Description                                     |
+| --------------------- | ---------- | --------------------- | ----------------------------------------------- |
+| `brokers`             | `string[]` | **Required**          | List of Kafka broker URLs                       |
+| `clientId`            | `string`   | `'acme-kafka-client'` | Client ID for the connection                    |
+| `connectionTimeout`   | `number`   | `30000`               | Connection timeout in milliseconds              |
+| `requestTimeout`      | `number`   | `30000`               | Request timeout in milliseconds                 |
+| `idempotent`          | `boolean`  | `true`                | Enable idempotent producer                      |
+| `maxInFlightRequests` | `number`   | `5`                   | Max in-flight requests per connection           |
+| `transactional`       | `boolean`  | `false`               | Enable transactional producer                   |
+| `transactionalId`     | `string`   | `undefined`           | Transaction ID (required if transactional=true) |
 
 ### KafkaConsumerOptions
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `groupId` | `string` | **Required** | Consumer group ID |
-| `topics` | `string[]` | **Required** | Topics to subscribe to |
-| `fromBeginning` | `boolean` | `false` | Start consuming from beginning |
-| `autoCommit` | `boolean` | `false` | Auto-commit offsets (manual by default) |
-| `sessionTimeout` | `number` | `30000` | Session timeout in milliseconds |
-| `heartbeatInterval` | `number` | `3000` | Heartbeat interval in milliseconds |
-| `maxBytesPerPartition` | `number` | `1048576` | Max bytes per partition (1MB) |
+| Property               | Type       | Default      | Description                             |
+| ---------------------- | ---------- | ------------ | --------------------------------------- |
+| `groupId`              | `string`   | **Required** | Consumer group ID                       |
+| `topics`               | `string[]` | **Required** | Topics to subscribe to                  |
+| `fromBeginning`        | `boolean`  | `false`      | Start consuming from beginning          |
+| `autoCommit`           | `boolean`  | `false`      | Auto-commit offsets (manual by default) |
+| `sessionTimeout`       | `number`   | `30000`      | Session timeout in milliseconds         |
+| `heartbeatInterval`    | `number`   | `3000`       | Heartbeat interval in milliseconds      |
+| `maxBytesPerPartition` | `number`   | `1048576`    | Max bytes per partition (1MB)           |
 
 ### KafkaProducerOptions
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `compression` | `'gzip' \| 'snappy' \| 'lz4' \| 'zstd' \| 'none'` | `'gzip'` | Compression algorithm |
-| `acks` | `-1 \| 0 \| 1` | `-1` | Required acknowledgments (-1 = all replicas) |
-| `timeout` | `number` | `30000` | Request timeout in milliseconds |
+| Property      | Type                                              | Default  | Description                                  |
+| ------------- | ------------------------------------------------- | -------- | -------------------------------------------- |
+| `compression` | `'gzip' \| 'snappy' \| 'lz4' \| 'zstd' \| 'none'` | `'gzip'` | Compression algorithm                        |
+| `acks`        | `-1 \| 0 \| 1`                                    | `-1`     | Required acknowledgments (-1 = all replicas) |
+| `timeout`     | `number`                                          | `30000`  | Request timeout in milliseconds              |
 
 ## Advanced Usage
 
@@ -160,15 +169,15 @@ const events = [
     eventType: 'UserCreated',
     eventVersion: '1.0',
     timestamp: new Date().toISOString(),
-    payload: { userId: '123' }
+    payload: { userId: '123' },
   },
   {
     eventId: '2',
     eventType: 'UserUpdated',
     eventVersion: '1.0',
     timestamp: new Date().toISOString(),
-    payload: { userId: '123', email: 'new@example.com' }
-  }
+    payload: { userId: '123', email: 'new@example.com' },
+  },
 ];
 
 await publisher.publishBatch(events);
@@ -201,13 +210,13 @@ consumer.subscribe('OrderCreated', {
     try {
       // Process message
       await processOrder(envelope.payload);
-      
+
       // Offset is automatically committed after successful processing
     } catch (error) {
       // On error, offset is NOT committed - message will be redelivered
       throw error;
     }
-  }
+  },
 });
 ```
 
@@ -238,20 +247,20 @@ graph TB
         Publisher[KafkaEventPublisher]
         Consumer[KafkaEventConsumer]
     end
-    
+
     subgraph "Connection Layer"
         Connection[KafkaConnection]
         Producer[Kafka Producer]
         KConsumer[Kafka Consumer]
         Admin[Admin Client]
     end
-    
+
     subgraph "Kafka Cluster"
         Broker1[Broker 1]
         Broker2[Broker 2]
         Broker3[Broker 3]
     end
-    
+
     Publisher --> Connection
     Consumer --> Connection
     Connection --> Producer
@@ -270,28 +279,28 @@ graph TB
 
 This adapter follows Clean Architecture principles:
 
-1. **Dependency Inversion**: Implements `EventPublisherPort` and `EventConsumer` interfaces from `@acme/messaging`
+1. **Dependency Inversion**: Implements `EventPublisherPort` and `EventConsumer` interfaces from `@marcusprado02/messaging`
 2. **Framework Independence**: Application layer is decoupled from Kafka specifics
 3. **Testability**: Easy to mock and test without real Kafka
 4. **Business Logic Isolation**: Domain logic stays in domain layer
 
 ## Comparison: Kafka vs RabbitMQ
 
-| Feature | Kafka | RabbitMQ |
-|---------|-------|----------|
-| **Message Model** | Log-based (append-only) | Queue-based |
-| **Ordering** | ✅ Per-partition ordering | ❌ No global ordering |
-| **Persistence** | ✅ Durable by default | ⚠️ Optional |
-| **Throughput** | 🚀 Very high (millions/sec) | ⚠️ Moderate (thousands/sec) |
-| **Latency** | ⚠️ Higher (milliseconds) | ✅ Lower (microseconds) |
-| **Consumer Pattern** | Pull-based | Push-based |
-| **Replay** | ✅ Full replay support | ❌ No replay |
-| **Message Retention** | ✅ Time/size-based | ❌ Deleted on consumption |
-| **Consumer Groups** | ✅ Built-in | ❌ Manual implementation |
-| **Exactly-Once** | ✅ Transactional | ❌ Not supported |
-| **Dead Letter Queue** | ⚠️ Manual setup | ✅ Built-in |
-| **Use Case** | Event streaming, analytics | Task queues, RPC |
-| **Best For** | High-volume event sourcing | Low-latency request/reply |
+| Feature               | Kafka                       | RabbitMQ                    |
+| --------------------- | --------------------------- | --------------------------- |
+| **Message Model**     | Log-based (append-only)     | Queue-based                 |
+| **Ordering**          | ✅ Per-partition ordering   | ❌ No global ordering       |
+| **Persistence**       | ✅ Durable by default       | ⚠️ Optional                 |
+| **Throughput**        | 🚀 Very high (millions/sec) | ⚠️ Moderate (thousands/sec) |
+| **Latency**           | ⚠️ Higher (milliseconds)    | ✅ Lower (microseconds)     |
+| **Consumer Pattern**  | Pull-based                  | Push-based                  |
+| **Replay**            | ✅ Full replay support      | ❌ No replay                |
+| **Message Retention** | ✅ Time/size-based          | ❌ Deleted on consumption   |
+| **Consumer Groups**   | ✅ Built-in                 | ❌ Manual implementation    |
+| **Exactly-Once**      | ✅ Transactional            | ❌ Not supported            |
+| **Dead Letter Queue** | ⚠️ Manual setup             | ✅ Built-in                 |
+| **Use Case**          | Event streaming, analytics  | Task queues, RPC            |
+| **Best For**          | High-volume event sourcing  | Low-latency request/reply   |
 
 ## Best Practices
 
@@ -351,7 +360,7 @@ console.log('Group state:', groups[0].state);
 
 ```typescript
 import { describe, it, expect, vi } from 'vitest';
-import { KafkaEventPublisher } from '@acme/messaging-kafka';
+import { KafkaEventPublisher } from '@marcusprado02/messaging-kafka';
 
 describe('KafkaEventPublisher', () => {
   it('should publish event', async () => {

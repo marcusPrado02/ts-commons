@@ -1,5 +1,5 @@
 {
-  "name": "@acme/observability",
+  "name": "@marcusprado02/observability",
   "version": "0.1.0",
   "description": "Observability: Logging, Metrics, Tracing (OpenTelemetry primitives)",
   "type": "module",
@@ -19,7 +19,7 @@
     "lint": "eslint src --ext .ts"
   },
   "dependencies": {
-    "@acme/kernel": "workspace:*"
+    "@marcusprado02/kernel": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
@@ -29,7 +29,7 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

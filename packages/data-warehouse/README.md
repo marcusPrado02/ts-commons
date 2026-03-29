@@ -1,18 +1,18 @@
-# @acme/data-warehouse
+# @marcusprado02/data-warehouse
 
 Cloud data warehouse connectors for Snowflake, BigQuery, and Amazon Redshift. Provides a unified `WarehouseConnector` interface for query execution, data sync, and schema evolution.
 
 ## Installation
 
 ```bash
-pnpm add @acme/data-warehouse
+pnpm add @marcusprado02/data-warehouse
 ```
 
 ## Quick Start
 
 ```typescript
-import { SnowflakeConnector, DataSyncManager } from '@acme/data-warehouse';
-import type { SnowflakeConfig } from '@acme/data-warehouse';
+import { SnowflakeConnector, DataSyncManager } from '@marcusprado02/data-warehouse';
+import type { SnowflakeConfig } from '@marcusprado02/data-warehouse';
 
 const config: SnowflakeConfig = {
   account: 'myorg.snowflakecomputing.com',
@@ -38,7 +38,7 @@ const results = await connector.query('SELECT * FROM orders WHERE created_at > C
 ## Data Sync
 
 ```typescript
-import { DataSyncManager } from '@acme/data-warehouse';
+import { DataSyncManager } from '@marcusprado02/data-warehouse';
 
 const sync = new DataSyncManager(connector);
 const result = await sync.sync(sourceRecords, 'orders_staging', {
@@ -50,7 +50,7 @@ const result = await sync.sync(sourceRecords, 'orders_staging', {
 ## Schema Evolution
 
 ```typescript
-import { SchemaEvolutionManager } from '@acme/data-warehouse';
+import { SchemaEvolutionManager } from '@marcusprado02/data-warehouse';
 
 const evolution = new SchemaEvolutionManager(connector);
 const changes = await evolution.diff(currentSchema, newSchema);
@@ -59,5 +59,5 @@ await evolution.apply(changes, { dryRun: false });
 
 ## See Also
 
-- [`@acme/data-pipeline`](../data-pipeline) — ETL framework
-- [`@acme/data-quality`](../data-quality) — validation and profiling
+- [`@marcusprado02/data-pipeline`](../data-pipeline) — ETL framework
+- [`@marcusprado02/data-quality`](../data-quality) — validation and profiling

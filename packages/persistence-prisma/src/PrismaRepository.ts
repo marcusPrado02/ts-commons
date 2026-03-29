@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment -- Prisma framework boundary: delegate methods return any */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access -- Prisma framework boundary: record properties */
 /* eslint-disable @typescript-eslint/no-unsafe-call -- Prisma framework boundary: delegate method calls */
-import type { RepositoryPort } from '@acme/persistence';
+import type { RepositoryPort } from '@marcusprado02/persistence';
 import type { PrismaMapper } from './PrismaMapper';
 
 /**
@@ -35,13 +35,9 @@ export interface PrismaModelDelegate {
     update: Record<string, unknown>;
   }): Promise<Record<string, unknown>>;
 
-  delete(args: {
-    where: Record<string, unknown>;
-  }): Promise<Record<string, unknown>>;
+  delete(args: { where: Record<string, unknown> }): Promise<Record<string, unknown>>;
 
-  count(args?: {
-    where?: Record<string, unknown>;
-  }): Promise<number>;
+  count(args?: { where?: Record<string, unknown> }): Promise<number>;
 }
 
 /**
@@ -67,9 +63,7 @@ export interface PrismaModelDelegate {
  * }
  * ```
  */
-export abstract class PrismaRepository<TDomain, TId>
-  implements RepositoryPort<TDomain, TId>
-{
+export abstract class PrismaRepository<TDomain, TId> implements RepositoryPort<TDomain, TId> {
   constructor(
     protected readonly model: PrismaModelDelegate,
     protected readonly mapper: PrismaMapper<TDomain>,

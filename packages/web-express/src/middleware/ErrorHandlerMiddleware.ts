@@ -8,7 +8,7 @@
  */
 
 import type { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
-import type { Logger } from '@acme/observability';
+import type { Logger } from '@marcusprado02/observability';
 
 /**
  * Error codes for different error types
@@ -35,7 +35,7 @@ const ERROR_STATUS_MAP: Record<string, number> = {
  * @example
  * ```typescript
  * import express from 'express';
- * import { errorHandlerMiddleware } from '@acme/web-express';
+ * import { errorHandlerMiddleware } from '@marcusprado02/web-express';
  *
  * const app = express();
  * // Register as last middleware
@@ -124,7 +124,7 @@ function determineStatusCode(error: Error): number {
  * @example
  * ```typescript
  * import express from 'express';
- * import { registerErrorHandler } from '@acme/web-express';
+ * import { registerErrorHandler } from '@marcusprado02/web-express';
  *
  * const app = express();
  * // ... other middleware and routes

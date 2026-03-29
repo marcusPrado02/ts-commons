@@ -8,8 +8,8 @@ import type { ModuleStats, SizeBudget, BudgetViolation, BundleReport } from './B
  * ```typescript
  * const checker = new BundleSizeChecker();
  *
- * checker.addBudget({ name: '@acme/kernel', maxBytes: 20_000 });
- * checker.register({ name: '@acme/kernel', sizeBytes: 18_500, treeshakeable: true });
+ * checker.addBudget({ name: '@marcusprado02/kernel', maxBytes: 20_000 });
+ * checker.register({ name: '@marcusprado02/kernel', sizeBytes: 18_500, treeshakeable: true });
  *
  * const violations = checker.checkBudgets();
  * if (violations.length > 0) {

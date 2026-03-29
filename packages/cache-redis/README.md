@@ -1,4 +1,4 @@
-# @acme/cache-redis
+# @marcusprado02/cache-redis
 
 Redis cache adapter for Clean Architecture — provides typed classes for caching,
 distributed locking, pub/sub messaging, and connection health checks.
@@ -24,7 +24,7 @@ no `ioredis` import is required inside this library.
 
 ```
 Domain / Application Layer
-  └── (uses Option<T>, Duration from @acme/kernel)
+  └── (uses Option<T>, Duration from @marcusprado02/kernel)
 
 Infrastructure Layer
   └── RedisCache          — cache-aside reads / writes
@@ -42,7 +42,7 @@ Infrastructure Layer
 ## Installation
 
 ```bash
-pnpm add @acme/cache-redis ioredis
+pnpm add @marcusprado02/cache-redis ioredis
 ```
 
 `ioredis` is a **peer dependency** — install the version your project already uses (≥ 5.0.0).
@@ -55,8 +55,8 @@ pnpm add @acme/cache-redis ioredis
 
 ```typescript
 import Redis from 'ioredis';
-import { RedisCache } from '@acme/cache-redis';
-import { Duration } from '@acme/kernel';
+import { RedisCache } from '@marcusprado02/cache-redis';
+import { Duration } from '@marcusprado02/kernel';
 
 const client = new Redis();
 const cache = new RedisCache(client as unknown as RedisClientLike);
@@ -72,14 +72,14 @@ await cache.set<User>('user:1', { id: 1, name: 'Alice' }, Duration.ofMinutes(5))
 const hit = await cache.get<User>('user:1');
 hit.match({
   some: (user) => console.log(user.name), // Alice
-  none: ()     => console.log('not found'),
+  none: () => console.log('not found'),
 });
 
 // Write without TTL (no expiry)
 await cache.set('config:theme', 'dark');
 
 // Utility
-await cache.has('user:1');         // true
+await cache.has('user:1'); // true
 await cache.delete('user:1');
 const keys = await cache.keys('user:*');
 ```
@@ -87,7 +87,7 @@ const keys = await cache.keys('user:*');
 ### 2. Distributed Lock
 
 ```typescript
-import { RedisLock, RedisLockError } from '@acme/cache-redis';
+import { RedisLock, RedisLockError } from '@marcusprado02/cache-redis';
 
 const lock = new RedisLock(client as unknown as RedisClientLike);
 
@@ -103,9 +103,13 @@ if (acquired) {
 
 // Convenience wrapper (auto-releases)
 try {
-  const result = await lock.withLock('invoice:generate', async () => {
-    return await generateInvoice();
-  }, 15_000); // custom TTL ms
+  const result = await lock.withLock(
+    'invoice:generate',
+    async () => {
+      return await generateInvoice();
+    },
+    15_000,
+  ); // custom TTL ms
 } catch (err) {
   if (err instanceof RedisLockError) {
     console.error('Lock unavailable:', err.message);
@@ -120,10 +124,10 @@ one for subscriptions.
 
 ```typescript
 import Redis from 'ioredis';
-import { RedisPubSub } from '@acme/cache-redis';
-import type { RedisClientLike, RedisPubSubClientLike } from '@acme/cache-redis';
+import { RedisPubSub } from '@marcusprado02/cache-redis';
+import type { RedisClientLike, RedisPubSubClientLike } from '@marcusprado02/cache-redis';
 
-const publisher  = new Redis() as unknown as RedisClientLike;
+const publisher = new Redis() as unknown as RedisClientLike;
 const subscriber = new Redis() as unknown as RedisPubSubClientLike;
 
 const pubSub = new RedisPubSub(publisher, subscriber);
@@ -147,7 +151,7 @@ await pubSub.unsubscribe('user-events');
 ### 4. Connection Health Check
 
 ```typescript
-import { RedisConnection } from '@acme/cache-redis';
+import { RedisConnection } from '@marcusprado02/cache-redis';
 
 const connection = new RedisConnection(client as unknown as RedisClientLike);
 
@@ -167,10 +171,10 @@ await connection.quit(); // graceful shutdown
 ## NestJS Integration
 
 ```typescript
-import { Module }          from '@nestjs/common';
-import Redis               from 'ioredis';
-import { RedisCache, RedisConnection } from '@acme/cache-redis';
-import type { RedisClientLike }        from '@acme/cache-redis';
+import { Module } from '@nestjs/common';
+import Redis from 'ioredis';
+import { RedisCache, RedisConnection } from '@marcusprado02/cache-redis';
+import type { RedisClientLike } from '@marcusprado02/cache-redis';
 
 @Module({
   providers: [
@@ -181,14 +185,12 @@ import type { RedisClientLike }        from '@acme/cache-redis';
     {
       provide: RedisCache,
       inject: ['REDIS_CLIENT'],
-      useFactory: (client: Redis) =>
-        new RedisCache(client as unknown as RedisClientLike),
+      useFactory: (client: Redis) => new RedisCache(client as unknown as RedisClientLike),
     },
     {
       provide: RedisConnection,
       inject: ['REDIS_CLIENT'],
-      useFactory: (client: Redis) =>
-        new RedisConnection(client as unknown as RedisClientLike),
+      useFactory: (client: Redis) => new RedisConnection(client as unknown as RedisClientLike),
     },
   ],
   exports: [RedisCache, RedisConnection],
@@ -202,48 +204,48 @@ export class RedisCacheModule {}
 
 ### `RedisCache`
 
-| Method | Signature | Description |
-|--------|-----------|-------------|
-| `get<T>` | `(key: string) → Promise<Option<T>>` | `Option.some(value)` on hit, `Option.none()` on miss |
+| Method   | Signature                                      | Description                                                 |
+| -------- | ---------------------------------------------- | ----------------------------------------------------------- |
+| `get<T>` | `(key: string) → Promise<Option<T>>`           | `Option.some(value)` on hit, `Option.none()` on miss        |
 | `set<T>` | `(key, value, ttl?: Duration) → Promise<void>` | Serializes to JSON; uses `PX` (ms precision) when TTL given |
-| `delete` | `(key: string) → Promise<void>` | Removes key |
-| `has` | `(key: string) → Promise<boolean>` | `EXISTS key > 0` |
-| `keys` | `(pattern: string) → Promise<string[]>` | Pattern match (e.g. `user:*`) |
+| `delete` | `(key: string) → Promise<void>`                | Removes key                                                 |
+| `has`    | `(key: string) → Promise<boolean>`             | `EXISTS key > 0`                                            |
+| `keys`   | `(pattern: string) → Promise<string[]>`        | Pattern match (e.g. `user:*`)                               |
 
 ### `RedisLock`
 
-| Method | Signature | Description |
-|--------|-----------|-------------|
-| `acquire` | `(lockKey, lockValue, ttlMs?) → Promise<boolean>` | `SET NX PX` — `true` if acquired |
-| `release` | `(lockKey: string) → Promise<void>` | `DEL key` |
-| `withLock<T>` | `(lockKey, work, ttlMs?) → Promise<T>` | Acquires, runs work, auto-releases; throws `RedisLockError` on failure |
+| Method        | Signature                                         | Description                                                            |
+| ------------- | ------------------------------------------------- | ---------------------------------------------------------------------- |
+| `acquire`     | `(lockKey, lockValue, ttlMs?) → Promise<boolean>` | `SET NX PX` — `true` if acquired                                       |
+| `release`     | `(lockKey: string) → Promise<void>`               | `DEL key`                                                              |
+| `withLock<T>` | `(lockKey, work, ttlMs?) → Promise<T>`            | Acquires, runs work, auto-releases; throws `RedisLockError` on failure |
 
 Default TTL: **30 000 ms** (30 seconds).
 
 ### `RedisPubSub`
 
-| Method | Signature | Description |
-|--------|-----------|-------------|
-| `subscribe` | `(channel, handler) → Promise<void>` | Issues `SUBSCRIBE` on first handler |
-| `unsubscribe` | `(channel, handler?) → Promise<void>` | Removes handler; issues `UNSUBSCRIBE` when last |
-| `publish` | `(channel, message) → Promise<number>` | Delegates to publisher; returns subscriber count |
-| `handlerCount` | `(channel: string) → number` | Testing helper |
+| Method         | Signature                              | Description                                      |
+| -------------- | -------------------------------------- | ------------------------------------------------ |
+| `subscribe`    | `(channel, handler) → Promise<void>`   | Issues `SUBSCRIBE` on first handler              |
+| `unsubscribe`  | `(channel, handler?) → Promise<void>`  | Removes handler; issues `UNSUBSCRIBE` when last  |
+| `publish`      | `(channel, message) → Promise<number>` | Delegates to publisher; returns subscriber count |
+| `handlerCount` | `(channel: string) → number`           | Testing helper                                   |
 
 ### `RedisConnection`
 
-| Method | Signature | Description |
-|--------|-----------|-------------|
+| Method        | Signature                        | Description                |
+| ------------- | -------------------------------- | -------------------------- |
 | `healthCheck` | `() → Promise<RedisHealthCheck>` | PING + latency measurement |
-| `quit` | `() → Promise<void>` | Graceful disconnect |
-| `getClient` | `() → RedisClientLike` | Exposes underlying client |
+| `quit`        | `() → Promise<void>`             | Graceful disconnect        |
+| `getClient`   | `() → RedisClientLike`           | Exposes underlying client  |
 
 ### Type `RedisHealthCheck`
 
 ```typescript
 interface RedisHealthCheck {
-  readonly status:     'ok' | 'error';
-  readonly latencyMs:  number;
-  readonly message?:   string;   // present on error
+  readonly status: 'ok' | 'error';
+  readonly latencyMs: number;
+  readonly message?: string; // present on error
 }
 ```
 
@@ -297,18 +299,18 @@ packages/cache-redis/
 ## Testing
 
 ```bash
-pnpm --filter @acme/cache-redis test
+pnpm --filter @marcusprado02/cache-redis test
 ```
 
 All 19 tests are pure unit tests using `vi.fn()` mocks — no Redis server required.
 
-| Suite | Tests |
-|-------|-------|
-| RedisCache | 7 |
-| RedisLock | 4 |
-| RedisPubSub | 4 |
-| RedisConnection | 4 |
-| **Total** | **19** |
+| Suite           | Tests  |
+| --------------- | ------ |
+| RedisCache      | 7      |
+| RedisLock       | 4      |
+| RedisPubSub     | 4      |
+| RedisConnection | 4      |
+| **Total**       | **19** |
 
 ---
 
@@ -321,10 +323,10 @@ All 19 tests are pure unit tests using `vi.fn()` mocks — no Redis server requi
 
 ## Related Packages
 
-| Package | Purpose |
-|---------|---------|
-| `@acme/kernel` | `Option<T>`, `Duration`, `Result<T,E>` |
-| `@acme/persistence-prisma` | Prisma ORM adapter |
-| `@acme/persistence-mongodb` | MongoDB native driver adapter |
-| `@acme/messaging-kafka` | Kafka messaging adapter |
-| `@acme/messaging-rabbitmq` | RabbitMQ messaging adapter |
+| Package                              | Purpose                                |
+| ------------------------------------ | -------------------------------------- |
+| `@marcusprado02/kernel`              | `Option<T>`, `Duration`, `Result<T,E>` |
+| `@marcusprado02/persistence-prisma`  | Prisma ORM adapter                     |
+| `@marcusprado02/persistence-mongodb` | MongoDB native driver adapter          |
+| `@marcusprado02/messaging-kafka`     | Kafka messaging adapter                |
+| `@marcusprado02/messaging-rabbitmq`  | RabbitMQ messaging adapter             |

@@ -13,8 +13,8 @@
    by the caller's generic parameter <T>. Option/Duration type inference is
    correct at compile time but unresolvable by the ESLint TS plugin due to the
    TypeScript version mismatch (5.9.x vs plugin-supported <5.4). */
-import { Option } from '@acme/kernel';
-import type { Duration } from '@acme/kernel';
+import { Option } from '@marcusprado02/kernel';
+import type { Duration } from '@marcusprado02/kernel';
 import type { RedisClientLike } from './RedisClientLike';
 
 /**

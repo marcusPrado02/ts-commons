@@ -42,6 +42,14 @@ module.exports = {
   },
   overrides: [
     {
+      // application/tsconfig.json excludes tests (rootDir: ./src needed for correct dist output).
+      // Use a dedicated tsconfig.test.json that includes both src and tests (noEmit only).
+      files: ['packages/application/tests/**/*.ts'],
+      parserOptions: {
+        project: ['./packages/application/tsconfig.test.json'],
+      },
+    },
+    {
       files: ['**/*.test.ts', '**/*.spec.ts'],
       rules: {
         'max-lines-per-function': 'off',

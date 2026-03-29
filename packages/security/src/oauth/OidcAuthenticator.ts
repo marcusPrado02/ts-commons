@@ -1,4 +1,4 @@
-import { Result } from '@acme/kernel';
+import { Result } from '@marcusprado02/kernel';
 import type { AuthenticatorPort } from '../authn/AuthenticatorPort';
 import type { AuthenticatedPrincipal } from '../authn/AuthenticatedPrincipal';
 import { AuthError, InvalidTokenError } from '../authn/AuthErrors';

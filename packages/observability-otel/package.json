@@ -1,5 +1,5 @@
 {
-  "name": "@acme/observability-otel",
+  "name": "@marcusprado02/observability-otel",
   "version": "0.1.0",
   "description": "OpenTelemetry tracing and metrics adapters — structural typing, no SDK peer dependency required",
   "type": "module",
@@ -43,7 +43,7 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",
