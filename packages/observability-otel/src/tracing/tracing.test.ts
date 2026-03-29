@@ -121,9 +121,9 @@ describe('AdvancedTracer - spans and analysis', () => {
     );
     const deps = tracer.getServiceDependencies();
     expect(deps.length).toBe(1);
-    expect(deps[0].from).toBe('api');
-    expect(deps[0].to).toBe('db');
-    expect(deps[0].callCount).toBe(2);
+    expect(deps[0]?.from).toBe('api');
+    expect(deps[0]?.to).toBe('db');
+    expect(deps[0]?.callCount).toBe(2);
   });
 
   it('getCriticalPath sorts by duration descending', () => {
@@ -131,8 +131,8 @@ describe('AdvancedTracer - spans and analysis', () => {
     tracer.recordSpan(makeSpan({ spanId: 's1', durationMs: 10 }));
     tracer.recordSpan(makeSpan({ spanId: 's2', durationMs: 90 }));
     const path = tracer.getCriticalPath('trace-001');
-    expect(path[0].spanId).toBe('s2');
-    expect(path[0].durationMs).toBe(90);
+    expect(path[0]?.spanId).toBe('s2');
+    expect(path[0]?.durationMs).toBe(90);
   });
 
   it('trace-based alert fires on condition match', () => {
