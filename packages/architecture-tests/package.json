@@ -18,7 +18,8 @@
     "test": "cd ../.. && npx vitest run --config packages/architecture-tests/vitest.architecture.config.ts",
     "test:watch": "vitest",
     "test:architecture": "vitest run --config vitest.architecture.config.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts"
   },
   "keywords": [
     "architecture",
