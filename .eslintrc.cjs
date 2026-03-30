@@ -43,29 +43,14 @@ module.exports = {
   overrides: [
     {
       // All packages use rootDir: ./src so test files are excluded from tsconfig.json.
-      // Disable type-aware linting for all test files — the rules below cover what matters.
+      // plugin:@typescript-eslint/disable-type-checked turns off every type-aware rule
+      // from recommended-type-checked so project: null doesn't cause errors.
       files: ['packages/*/tests/**/*.ts', '**/*.test.ts', '**/*.spec.ts'],
+      extends: ['plugin:@typescript-eslint/disable-type-checked'],
       parserOptions: {
         project: null,
       },
       rules: {
-        // Type-aware rules that require a tsconfig program — disabled since project: null
-        '@typescript-eslint/no-floating-promises': 'off',
-        '@typescript-eslint/await-thenable': 'off',
-        '@typescript-eslint/no-unsafe-assignment': 'off',
-        '@typescript-eslint/no-unsafe-member-access': 'off',
-        '@typescript-eslint/no-unsafe-call': 'off',
-        '@typescript-eslint/no-unsafe-return': 'off',
-        '@typescript-eslint/no-unsafe-argument': 'off',
-        '@typescript-eslint/require-await': 'off',
-        '@typescript-eslint/unbound-method': 'off',
-        '@typescript-eslint/strict-boolean-expressions': 'off',
-        '@typescript-eslint/prefer-readonly': 'off',
-        '@typescript-eslint/prefer-nullish-coalescing': 'off',
-        '@typescript-eslint/prefer-optional-chain': 'off',
-        '@typescript-eslint/no-unnecessary-condition': 'off',
-        '@typescript-eslint/switch-exhaustiveness-check': 'off',
-        // Relaxed rules for tests
         'max-lines-per-function': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
         'complexity': ['warn', { max: 15 }],
