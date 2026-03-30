@@ -2,12 +2,19 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "composite": true
+    "composite": true,
+    "rootDir": "./src"
   },
-  "include": ["src/**/*", "vitest.config.ts"],
+  "include": ["src/**/*"],
   "references": [
-    { "path": "../kernel" },
-    { "path": "../errors" },
-    { "path": "../contracts" }
+    {
+      "path": "../kernel"
+    },
+    {
+      "path": "../errors"
+    },
+    {
+      "path": "../contracts"
+    }
   ]
 }

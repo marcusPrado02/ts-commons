@@ -2,9 +2,17 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "composite": true
+    "composite": true,
+    "rootDir": "./src"
   },
-  "include": ["src/**/*", "vitest.config.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"],
-  "references": [{ "path": "../kernel" }, { "path": "../messaging" }]
+  "references": [
+    {
+      "path": "../kernel"
+    },
+    {
+      "path": "../messaging"
+    }
+  ]
 }
