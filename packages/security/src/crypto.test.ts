@@ -52,9 +52,9 @@ describe('AesGcmCipher', () => {
 
   it('decrypt throws when the auth tag has been tampered', () => {
     const result = cipher.encrypt(MESSAGE, KEY);
-    // Flip the first byte of the tag (XOR with 0xff → different hex)
-    const tamperedTag = 'ff' + result.tag.slice(2);
-    const tampered = { ...result, tag: tamperedTag };
+    // XOR every byte with 0x01 — always changes the tag regardless of its value
+    const tagBytes = Buffer.from(result.tag, 'hex').map((b) => b ^ 0x01);
+    const tampered = { ...result, tag: Buffer.from(tagBytes).toString('hex') };
 
     expect(() => cipher.decrypt(tampered, KEY)).toThrow();
   });
