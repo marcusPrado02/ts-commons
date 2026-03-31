@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/contracts",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "API Contracts: OpenAPI/AsyncAPI helpers, versioning",
   "type": "module",
   "main": "./dist/index.js",

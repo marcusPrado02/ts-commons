@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/saga",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Saga pattern (orchestration + choreography), compensation, state persistence and monitoring for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",

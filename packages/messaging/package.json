@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/messaging",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Messaging: Event envelopes, Publisher/Subscriber interfaces",
   "type": "module",
   "main": "./dist/index.js",

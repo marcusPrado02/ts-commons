@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/messaging-rabbitmq",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "RabbitMQ adapter with publisher/consumer, DLQ, retry mechanism, and connection pooling",
   "type": "module",
   "main": "./dist/index.js",

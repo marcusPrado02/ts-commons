@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/gateway",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "API Gateway config builders and validators for Kong, AWS API Gateway and Azure APIM in @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/security",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Security: AuthN/AuthZ, Crypto, PII, Audit",
   "type": "module",
   "main": "./dist/index.js",

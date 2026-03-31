@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/helm",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Helm chart values builder, validator and CLI command generator for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",

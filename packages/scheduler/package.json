@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/scheduler",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Scheduling and background jobs abstraction — Job port, InMemory scheduler, cron parser, interval runner, concurrency control, and retry strategies",
   "type": "module",
   "main": "./dist/index.js",

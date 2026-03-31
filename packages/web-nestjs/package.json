@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/web-nestjs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "NestJS adapter for TypeScript Commons Platform - Deep integration with modules, decorators, interceptors, guards and pipes",
   "type": "module",
   "main": "./dist/index.js",

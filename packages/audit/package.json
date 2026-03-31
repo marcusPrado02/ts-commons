@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/audit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Audit logging — audit trail, decorator wrappers, query API, in-memory storage, and compliance reports",
   "type": "module",
   "main": "./dist/index.js",

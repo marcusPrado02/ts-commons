@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/acl",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Anti-corruption layer: translation layer, legacy system facades, protocol translation and data format conversion for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",

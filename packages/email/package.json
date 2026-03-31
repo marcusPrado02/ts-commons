@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/email",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Email sending abstraction — port + adapters (In-memory, Logging, SMTP, SendGrid, Mailgun, AWS SES)",
   "type": "module",
   "main": "./dist/index.js",
