@@ -47,8 +47,7 @@ export class ValidationPipe<T> implements PipeTransform<unknown, T> {
         throw new BadRequestException({
           statusCode: 400,
           message: error.message,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          errors: error instanceof ValidationError ? (error as ValidationError).errors : undefined,
+          errors: error instanceof ValidationError ? error.errors : undefined,
         });
       },
     });
