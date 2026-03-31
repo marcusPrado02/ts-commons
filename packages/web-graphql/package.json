@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/web-graphql",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "GraphQL support — schema-first, typed resolver adapters, DataLoader, subscriptions, federation utilities, and Problem Details error formatting",
   "type": "module",
   "main": "./dist/index.js",

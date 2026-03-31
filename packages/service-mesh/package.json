@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/service-mesh",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Service mesh config builders and validators for Istio and Linkerd in @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",

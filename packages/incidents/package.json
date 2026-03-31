@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/incidents",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Incident management: workflows, PagerDuty/Opsgenie integration, post-mortems, runbook automation",
   "type": "module",
   "main": "./dist/index.js",

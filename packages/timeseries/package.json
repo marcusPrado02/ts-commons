@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/timeseries",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Time series data: InfluxDB/TimescaleDB adapters, time bucketing, aggregations, downsampling and retention policies for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",

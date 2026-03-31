@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CLI tool for scaffolding, code generation and project automation",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/tutorials",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Interactive step-by-step tutorials for DDD, CQRS, Event Sourcing, testing and migration patterns using @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",

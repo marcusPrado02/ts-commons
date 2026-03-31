@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/features",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Feature flags abstraction — provider port, targeting rules, percentage rollout, A/B testing, and in-memory implementation",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/config",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "12-factor config loader with schema validation",
   "type": "module",
   "main": "./dist/index.js",

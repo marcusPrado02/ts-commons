@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/data-warehouse",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Data warehouse integration: Snowflake, BigQuery, Redshift, sync strategies and schema evolution for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",

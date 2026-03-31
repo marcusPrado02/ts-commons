@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/bff",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Backend for Frontend (BFF) pattern: aggregation strategies, response shaping, REST and GraphQL BFF implementations for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",

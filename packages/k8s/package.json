@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/k8s",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Kubernetes manifest builders and validators for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",

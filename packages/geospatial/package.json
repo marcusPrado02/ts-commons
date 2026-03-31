@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/geospatial",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Geospatial data: PostGIS integration, coordinate systems, distance calculations, geofencing, spatial queries and GeoJSON support for @marcusprado02/ts-commons",
   "type": "module",
   "main": "./dist/index.js",

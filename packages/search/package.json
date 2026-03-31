@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/search",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Full-text search abstraction — port + adapters (In-memory, Elasticsearch, MeiliSearch, Algolia) with faceting, fuzzy search, and suggestions",
   "type": "module",
   "main": "./dist/index.js",

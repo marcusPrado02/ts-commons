@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/validation",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Request validation: Zod integration, composite validators, custom validators",
   "type": "module",
   "main": "./dist/index.js",

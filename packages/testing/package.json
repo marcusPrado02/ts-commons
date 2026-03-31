@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/testing",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Testing utilities: Builders, Fakes, Test harnesses",
   "type": "module",
   "main": "./dist/index.js",

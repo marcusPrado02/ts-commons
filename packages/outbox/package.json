@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/outbox",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Transactional Outbox/Inbox + Idempotency",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@marcusprado02/docker-utils",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Docker utilities for containerised Node.js services — graceful shutdown, health checks and container context",
   "type": "module",
   "main": "./dist/index.js",
