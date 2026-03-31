@@ -23,10 +23,10 @@ export class InMemoryIdempotencyStore<T> implements IdempotencyStorePort<T> {
    * Expired entries are evicted before checking.
    */
   tryAcquire(key: IdempotencyKey, ttlMs: number): Promise<boolean> {
-    this.evictExpired();
     const k = key.value;
+    const existing = this.store.get(k);
 
-    if (this.store.has(k)) {
+    if (existing !== undefined && Date.now() <= existing.expiresAt) {
       return Promise.resolve(false);
     }
 
@@ -93,14 +93,5 @@ export class InMemoryIdempotencyStore<T> implements IdempotencyStorePort<T> {
   /** Returns the current number of tracked entries (including locked ones). */
   size(): number {
     return this.store.size;
-  }
-
-  private evictExpired(): void {
-    const now = Date.now();
-    for (const [k, entry] of this.store) {
-      if (now > entry.expiresAt) {
-        this.store.delete(k);
-      }
-    }
   }
 }
