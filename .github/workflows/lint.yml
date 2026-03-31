@@ -29,9 +29,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build packages
+        run: pnpm build
+
       - name: Run ESLint
-        # NODE_OPTIONS prevents V8 heap exhaustion across 66 type-checked packages.
-        # pnpm lint uses the root eslint config which covers all packages.
         run: pnpm lint
         env:
           NODE_OPTIONS: --max-old-space-size=4096
@@ -71,6 +72,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
 
       - name: Run ESLint with auto-fix
         run: pnpm lint:fix
