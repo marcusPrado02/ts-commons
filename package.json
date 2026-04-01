@@ -59,7 +59,7 @@
     "conventional-changelog-conventionalcommits": "^7.0.2",
     "czg": "^1.9.4",
     "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-prettier": "^10.1.8",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.4",
