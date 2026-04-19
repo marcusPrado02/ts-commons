@@ -27,7 +27,7 @@
   "devDependencies": {
     "@types/amqplib": "^0.10.5",
     "@types/node": "^20.11.0",
-    "vitest": "^2.1.9"
+    "vitest": "^4.0.18"
   },
   "publishConfig": {
     "access": "public",

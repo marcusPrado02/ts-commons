@@ -16,7 +16,7 @@
     "lint": "eslint src"
   },
   "devDependencies": {
-    "vitest": "2.1.9"
+    "vitest": "^4.0.18"
   },
   "publishConfig": {
     "access": "public",
