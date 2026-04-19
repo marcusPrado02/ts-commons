@@ -54,6 +54,7 @@ jobs:
           name: coverage-reports
           path: |
             packages/*/coverage/
+            extras/*/coverage/
             coverage/
           retention-days: 7
 
