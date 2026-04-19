@@ -40,7 +40,7 @@
     "@marcusprado02/resilience": "workspace:*",
     "@marcusprado02/outbox": "workspace:*",
     "@nestjs/common": "^10.3.3",
-    "@nestjs/core": "^10.3.3",
+    "@nestjs/core": "^11.1.19",
     "reflect-metadata": "^0.2.1",
     "rxjs": "^7.8.2"
   },
