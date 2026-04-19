@@ -115,7 +115,7 @@ importers:
         specifier: '*'
         version: 4.21.0
 
-  packages/acl:
+  extras/acl:
     devDependencies:
       '@types/node':
         specifier: ^20.11.0
@@ -124,7 +124,208 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
-  packages/analytics:
+  extras/analytics:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/bff:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/cdc:
+    devDependencies:
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.1
+      vitest:
+        specifier: 2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/chaos:
+    devDependencies:
+      vitest:
+        specifier: 2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/cli:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/codegen:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/data-pipeline:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/data-quality:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/data-warehouse:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/docker-utils:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/docs:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/features:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/gateway:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/geospatial:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/helm:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/hotreload:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/incidents:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/k8s:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/service-mesh:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/synthetic:
+    devDependencies:
+      vitest:
+        specifier: 2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/terraform:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/timeseries:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/tutorials:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.33
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
+
+  extras/vscode-extension:
     devDependencies:
       '@types/node':
         specifier: ^20.11.0
@@ -210,15 +411,6 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
-  packages/bff:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
   packages/cache-redis:
     dependencies:
       '@marcusprado02/kernel':
@@ -227,39 +419,6 @@ importers:
       ioredis:
         specifier: '>=5.0.0'
         version: 5.9.3
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/cdc:
-    devDependencies:
-      eslint:
-        specifier: ^8.57.0
-        version: 8.57.1
-      vitest:
-        specifier: 2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/chaos:
-    devDependencies:
-      vitest:
-        specifier: 2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/cli:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/codegen:
     devDependencies:
       '@types/node':
         specifier: ^20.11.0
@@ -297,55 +456,10 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@22.19.11)(@vitest/ui@4.0.18)(tsx@4.21.0)
 
-  packages/data-pipeline:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/data-quality:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/data-warehouse:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
   packages/discovery:
     devDependencies:
       vitest:
         specifier: 2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/docker-utils:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/docs:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
   packages/email:
@@ -380,69 +494,6 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@22.19.11)(@vitest/ui@4.0.18)(tsx@4.21.0)
 
-  packages/features:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/gateway:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/geospatial:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/helm:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/hotreload:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/incidents:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/k8s:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
   packages/kernel: {}
 
   packages/messaging:
@@ -453,6 +504,12 @@ importers:
 
   packages/messaging-eventbridge:
     dependencies:
+      '@aws-sdk/client-eventbridge':
+        specifier: ^3.700.0
+        version: 3.993.0
+      '@aws-sdk/client-sqs':
+        specifier: ^3.700.0
+        version: 3.993.0
       '@marcusprado02/kernel':
         specifier: workspace:*
         version: link:../kernel
@@ -462,12 +519,6 @@ importers:
       '@marcusprado02/observability':
         specifier: workspace:*
         version: link:../observability
-      '@aws-sdk/client-eventbridge':
-        specifier: ^3.700.0
-        version: 3.993.0
-      '@aws-sdk/client-sqs':
-        specifier: ^3.700.0
-        version: 3.993.0
     devDependencies:
       '@types/node':
         specifier: ^20.11.5
@@ -725,15 +776,6 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
-  packages/service-mesh:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
   packages/storage:
     devDependencies:
       '@types/node':
@@ -744,21 +786,6 @@ importers:
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
   packages/streams:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/synthetic:
-    devDependencies:
-      vitest:
-        specifier: 2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/terraform:
     devDependencies:
       '@types/node':
         specifier: ^20.11.0
@@ -789,24 +816,6 @@ importers:
         specifier: ^2.1.9
         version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
-  packages/timeseries:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
-  packages/tutorials:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
-
   packages/validation:
     dependencies:
       '@marcusprado02/kernel':
@@ -822,15 +831,6 @@ importers:
       vitest:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@22.19.11)(@vitest/ui@4.0.18)(tsx@4.21.0)
-
-  packages/vscode-extension:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.11.0
-        version: 20.19.33
-      vitest:
-        specifier: ^2.1.9
-        version: 2.1.9(@types/node@20.19.33)(@vitest/ui@4.0.18)
 
   packages/web:
     dependencies:
