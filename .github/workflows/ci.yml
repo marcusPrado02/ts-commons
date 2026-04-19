@@ -58,6 +58,14 @@ jobs:
             coverage/
           retention-days: 7
 
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '20.x'
+        with:
+          directory: packages
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+
       - name: Collect workspace info
         if: matrix.os == 'ubuntu-latest' && matrix.node-version == '20.x'
         run: |
