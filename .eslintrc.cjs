@@ -6,7 +6,7 @@ module.exports = {
     sourceType: 'module',
     project: true,
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'deprecation'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
@@ -38,7 +38,8 @@ module.exports = {
     'no-console': 'warn',
     'complexity': ['error', { max: 10 }],
     'max-depth': ['error', { max: 4 }],
-    'max-lines-per-function': ['warn', { max: 50 }]
+    'max-lines-per-function': ['warn', { max: 50 }],
+    'deprecation/deprecation': 'error'
   },
   overrides: [
     {
